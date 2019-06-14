@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<klayout-macro>
+ <description/>
+ <version/>
+ <category/>
+ <prolog/>
+ <epilog/>
+ <doc/>
+ <autorun>false</autorun>
+ <autorun-early>false</autorun-early>
+ <shortcut/>
+ <show-in-menu>false</show-in-menu>
+ <group-name/>
+ <menu-path/>
+ <interpreter>ruby</interpreter>
+ <dsl-interpreter-name/>
+ <text>
+# サンプルPCell
+#
+# このサンプルPCellは円を描く単一のPCellで "MyLib"と呼ばれるライブラリを実装しています。
+# それはPCellのための基本的な実装技術とどのように円半径のためのハンドルを実装するために 
+# 「ガイド図形」機能を使うべきかをデモします。
+# 
+# 注意：コードを変更した後は、新しい実装をインストールするためにマクロを再実行する必要があります。
+# KLayoutの実行時にPCellをインストールするために、マクロは "auto run"にも設定され
+# ています。
+
+module MyLib
+
+  include RBA
+
+  # クラスの定義をすべて削除します（変更が適用された後にこのコード
+  # を再実行するときに役立ちます）。 
+  MyLib.constants.member?(:Circle) &amp;&amp; remove_const(:Circle)
+  MyLib.constants.member?(:MyLib) &amp;&amp; remove_const(:MyLib)
+  
+  # 円のPCell宣言
+  class Circle &lt; PCellDeclarationHelper
+  
+    include RBA
+
+    def initialize
+
+      # 重要：スーパークラスを初期化する
+      super
+
+      # パラメータを定義する
+      param(:l, TypeLayer, "Layer", :default =&gt; LayerInfo::new(1, 0))
+      param(:s, TypeShape, "", :default =&gt; DPoint::new(0, 0))
+      param(:r, TypeDouble, "Radius", :default =&gt; 0.1)
+      param(:n, TypeInt, "Number of points", :default =&gt; 64)     
+      # この隠しパラメータは、半径が変更されたのか "s"ハンドルが移動されたのかを
+      # 判定するために使用されます。
+      param(:ru, TypeDouble, "Radius", :default =&gt; 0.0, :hidden =&gt; true)
+
+    end
+  
+    def display_text_impl
+      # セルの説明文を提供する
+      "Circle(L=#{l.to_s},R=#{'%.3f' % r.to_f})"
+    end
+    
+    def coerce_parameters_impl
+    
+      # coerce_parameters_implを使用して、ハンドルまたは数値パラメータが
+      # （有効半径ruと比較して）変更されたかどうかを判断し、ruを有効半径に設定します。
+      # どちらが変わっていないかに応じて、数値または図形も更新します。
+      rs = nil
+      if s.is_a?(DPoint) 
+        # compute distance in micron
+        rs = s.distance(DPoint::new(0, 0))
+      end 
+      if rs &amp;&amp; (r-ru).abs &lt; 1e-6
+        set_ru rs
+        set_r rs 
+      else
+        set_ru r 
+        set_s DPoint::new(-r, 0)
+      end
+      
+      # nは4以上でなければなりません
+      n &gt; 4 || (set_n 4)
+       
+    end
+    
+    def can_create_from_shape_impl
+      # Implement the "Create PCell from shape" protocol: we can use any shape which 
+      # has a finite bounding box
+      #「図形からPCellを作成」するプロトコルを実装します。有限のバウンディングボックスを持つ
+      # 任意の形状を使用できます。
+      shape.is_box? || shape.is_polygon? || shape.is_path?
+    end
+    
+    def parameters_from_shape_impl
+      # 「Create PCell from shape(図形からPCellを作成)」プロトコルを実装します。
+　    # シェイプのバウンディングボックスの幅とレイヤーからrとlを設定します。
+      set_r shape.bbox.width * layout.dbu / 2
+      set_l layout.get_info(layer)
+    end
+    
+    def transformation_from_shape_impl
+      # I「Create PCell from shape（形状からPCellを作成）」プロトコルを実装します。
+      # 変形を決定するために、図形のバウンディングボックスの中心を使用します。
+      Trans.new(shape.bbox.center)
+    end
+    
+    def produce_impl
+    
+      # これが実装の主要部分です。レイアウトを作成します。
+
+      # fetch the parameters
+      ru_dbu = ru / layout.dbu
+      
+      # パラメータを取得します
+      pts = []
+      da = Math::PI * 2 / n
+      n.times do |i|
+        pts.push(Point.from_dpoint(DPoint.new(ru_dbu * Math::cos(i * da), ru_dbu * Math::sin(i * da))))
+      end
+      
+      # 図形を作成します
+      cell.shapes(l_layer).insert(Polygon.new(pts))
+      
+    end
+  
+  end
+  
+  # PCellを配置するライブラリ 
+  class MyLib &lt; Library
+  
+    def initialize  
+    
+      # 説明を設定
+      self.description = "My First Library"
+      
+      # PCell宣言を作成する
+      layout.register_pcell("Circle", Circle::new)
+      # それはより多くのPCellを置くための場所でしょう...
+      
+      # "MyLib"という名前で登録します。
+      # その名前のライブラリがすでに存在していた場合は、その時点で置き換えられます。
+      register("MyLib")
+      
+    end
+  
+  end
+  
+  # ライブラリをインスタンス化して登録する
+  MyLib::new
+  
+end</text>
+</klayout-macro>

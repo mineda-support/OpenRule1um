@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <klayout-macro>
  <description>The New Macro</description>
+ <version/>
+ <category/>
  <prolog/>
  <epilog/>
+ <doc/>
  <autorun>false</autorun>
  <autorun-early>true</autorun-early>
  <shortcut/>
