@@ -33,11 +33,20 @@
 
 # add a shape
   cell.shapes(layer_index).insert(Box::new(0, 0, 2000, 2000))
+  
+  lib = Library::library_by_name('OpenRule1um')
+  # layout.add_lib_cell(library, layout.cell_by_name('OpenRule1um.Via'))
+  cell_index = lib.layout.cell_by_name('Via') 
+  proxy_index = layout.add_lib_cell(lib, cell_index)
+ # via = CellInstArray.new(proxy_index, Trans.new(-100/layout.dbu, 0/layout.dbu))
+  via = CellInstArray.new(proxy_index, Trans.new((-1.500/layout.dbu).to_i,(-0.500/layout.dbu).to_i))
+  inst = cell.insert(via)
 
 # select the top cell in the view, set up the view's layer list and
 # fit the viewport to the extensions of our layout
   layout_view.select_cell(cell.cell_index, 0)
   layout_view.add_missing_layers
+  layout_view.max_hier
   layout_view.zoom_fit
 
   # Enter your Ruby code here ..
