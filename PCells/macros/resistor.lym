@@ -39,12 +39,13 @@
       # this hidden parameter is used to determine whether the radius has changed
       # or the "s" handle has been moved
       param(:ru, TypeDouble, "Length", :default =&gt; 0.0, :hidden =&gt; true)
+      param(:rval, TypeDouble, "Resistor value", :default =&gt; 0, :hidden=&gt; true)
 
     end
   
     def display_text_impl
       # Provide a descriptive text for the cell
-      "Resistor\n(L=#{l.to_s}um,W=#{w.to_s}um)"
+      "Resistor\r\n(L=#{l.to_s}um,W=#{w.to_s}um,R=#{rval})"
     end
     
     def coerce_parameters_impl
@@ -53,6 +54,8 @@
       # numeric parameter has changed (by comparing against the effective 
       # radius ru) and set ru to the effective radius. We also update the 
       # numerical value or the shape, depending on which on has not changed.
+      sheet_resistance = 300
+      set_rval(sheet_resistance * l / w)
 =begin
       rs = nil
       if s.is_a?(DPoint) 
