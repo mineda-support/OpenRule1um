@@ -36,16 +36,15 @@
       # declare the parameters
       param(:l, TypeDouble, "Resistor length", :default =&gt; 10.0.um)
       param(:w, TypeDouble, "Resistor width", :default =&gt; 1.0.um)
-      # this hidden parameter is used to determine whether the radius has changed
-      # or the "s" handle has been moved
-      param(:ru, TypeDouble, "Length", :default =&gt; 0.0, :hidden =&gt; true)
+      param(:n, TypeInt, "Number of maximum foldings", :default =&gt; 0)
+
       param(:rval, TypeDouble, "Resistor value", :default =&gt; 0, :hidden=&gt; true)
 
     end
   
     def display_text_impl
       # Provide a descriptive text for the cell
-      "Resistor\r\n(L=#{l.to_s}um,W=#{w.to_s}um,R=#{rval})"
+      "Resistor\r\n(L=#{l.to_s}um,W=#{w.to_s}um,n=#{n.to_s}, R=#{rval})"
     end
     
     def coerce_parameters_impl
@@ -99,24 +98,62 @@
     
       rw = (w/layout.dbu).to_i
       rl = (l/layout.dbu).to_i
-      s = 2.0.um
+      s = 2.0.um # via size (fixed)
       vs = (s/layout.dbu).to_i
-
-# create HPOL layer
-      layer_index = layout.insert_layer(LayerInfo::new(6, 0))
-      points = [Point::new(vs/2, vs), Point::new(vs/2, vs+rl)]
-      cell.shapes(layer_index).insert(Path::new(points, rw, vs, vs))
- 
+      space = 5.0.um # space between HPOL
+      sp = (space/layout.dbu).to_i
+      grid = 1.0.um
+      
+      sl = ((l.to_i/(n+1))/layout.dbu).to_i
+      if sl*(n+1) == rl
+        r = 0
+ #     elsif sl*(n+1) &lt; rl
+ #       r = rl - sl*(n+1)
+      else
+        sl = sl + (grid/layout.dbu).to_i
+        r = rl - sl*n
+        set_n n - 1 if r &lt;= 0
+      end
+      puts "rl = #{rl}, n+1 = #{n+1}, sl = #{sl}, r = #{r}"
+      
+      hpol_index = layout.insert_layer(LayerInfo::new(6, 0))
+      ml1_index = layout.insert_layer(LayerInfo::new(8, 0))
       via_index = library_cell('Via', 'OpenRule1um', layout)
       pcont_index = library_cell('pcont', 'OpenRule1um', layout)
-      [[vs/2, vs/2], [vs/2, rl+vs+vs/2]].each{|x, y|
-        via = instantiate via_index, x, y, cell
-        inst = cell.insert(via)
-        pcont = instantiate pcont_index, x, y, cell
-        inst = cell.insert(pcont)
-      }
-    end
+      prev_x = nil
+      for i in 0..n
+        offset = vs/2 + (sp+(w/layout.dbu).to_i)*i
+        r = sl
+        if rl - sl*(i+1) &lt; 0
+          r = rl - sl*i
+        end
+        puts "offset=#{offset}, r=#{r} for i=#{i}"
 
+        if i % 2 == 0
+          points = [Point::new(offset, vs), Point::new(offset, vs+r)]
+          cell.shapes(hpol_index).insert(Path::new(points, rw, vs, vs))
+          [[offset, vs/2], [offset, r+vs+vs/2]].each{|x, y|
+            insert_via_pcont via_index, pcont_index, x, y, cell
+          }
+          if prev_x
+            points = [Point::new(offset, vs/2), Point::new(prev_x, vs/2)]
+            cell.shapes(ml1_index).insert(Path::new(points, vs, vs/2, vs/2))
+          end  
+        else
+           points = [Point::new(offset, vs+(sl-r)), Point::new(offset, vs+sl)]
+          cell.shapes(hpol_index).insert(Path::new(points, rw, vs, vs))
+          [[offset, vs/2+(sl-r)], [offset, sl+vs+vs/2]].each{|x, y|
+            insert_via_pcont via_index, pcont_index, x, y, cell
+          }
+          if prev_x
+            points = [Point::new(offset, sl+vs+vs/2), Point::new(prev_x, sl+vs+vs/2)]
+            cell.shapes(ml1_index).insert(Path::new(points, vs, vs/2, vs/2))
+          end
+        end         
+        prev_x = offset  
+      end
+    end
+    
     def library_cell name, libname, layout
       if cell = layout.cell(name)
         return cell.cell_index
@@ -126,10 +163,17 @@
         proxy_index = layout.add_lib_cell(lib, cell_index)
       end
     end
+    
+    def insert_via_pcont via_index, pcont_index, x, y, cell
+      via = instantiate via_index, x, y, cell
+      inst = cell.insert(via)
+      pcont = instantiate pcont_index, x, y, cell
+      inst = cell.insert(pcont)
+    end
+   
     def instantiate index, x, y, cell
       CellInstArray.new(index, Trans.new(x, y))
     end
-
   end
     # PCellを配置するライブラリ 
   class MyLib &lt; Library
