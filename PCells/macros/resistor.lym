@@ -20,10 +20,71 @@
 
   # Remove any definition of our classes (this helps when 
   # reexecuting this code after a change has been applied)
-  MyLib.constants.member?(:Resistor) &amp;&amp; remove_const(:Resistor)
-  MyLib.constants.member?(:MyLib) &amp;&amp; remove_const(:MyLib)
+  # MyLib.constants.member?(:Resistor) &amp;&amp; remove_const(:Resistor)
+  MyLib.constants.member?(:R_poly) &amp;&amp; remove_const(:R_poly)
+  MyLib.constants.member?(:HR_poly) &amp;&amp; remove_const(:HR_poly)
+  MyLib.constants.member?(:PCells) &amp;&amp; remove_const(:PCells)
   
   # The PCell declaration for the OpenRule1um resistor 
+  class R_poly &lt; Resistor
+    include RBA
+    def initialize
+      super
+      param(:l, TypeDouble, "Resistor length", :default =&gt; 10.0.um)
+      param(:w, TypeDouble, "Resistor width", :default =&gt; 1.0.um)
+      param(:n, TypeInt, "Number of maximum stripes", :default =&gt; 1)
+
+      param(:rval, TypeDouble, "Resistor value", :default =&gt; 0, :hidden=&gt; true)
+    end
+    def display_text_impl
+      "R_poly\r\n(L=#{l.to_s}um,W=#{w.to_s}um,n=#{n.to_s}, R=#{rval})"
+    end       
+    def coerce_parameters_impl
+      if n == 1
+        l &lt; 20.0 &amp;&amp; set_l(20.0)
+        l &gt; 80.0 &amp;&amp; set_l(80.0) 
+      else      
+        l/n &lt; 20.0 &amp;&amp; set_n(n-1)
+        l/n &gt; 80.0 &amp;&amp; set_n(n+1)
+      end
+      sheet_resistance = 20
+      set_rval(sheet_resistance * l / w)
+    end
+    def produce_impl
+      produce_impl_core layer=5
+    end
+  end
+  class HR_poly &lt; Resistor
+    include RBA
+    def initialize
+      super
+      param(:l, TypeDouble, "Resistor length", :default =&gt; 10.0.um)
+      param(:w, TypeDouble, "Resistor width", :default =&gt; 2.0.um)
+      param(:n, TypeInt, "Number of maximum stripes", :default =&gt; 1)
+
+      param(:rval, TypeDouble, "Resistor value", :default =&gt; 0, :hidden=&gt; true)
+    end 
+    def display_text_impl
+      "HR_poly\r\n(L=#{l.to_s}um,W=#{w.to_s}um,n=#{n.to_s}, R=#{rval})"
+    end   
+    def coerce_parameters_impl
+      puts "check l =  #{l}, w = #{w}, n = #{n}"
+      if n == 1
+        l &lt; 20.0 &amp;&amp; (set_l 20.0)
+        l &gt; 80.0 &amp;&amp; (set_l 80.0) 
+      else      
+        l/n &lt; 20.0 &amp;&amp; (set_n n-1)
+        l/n &gt; 80.0 &amp;&amp; (set_n n+1)
+      end
+      w &lt; 2.0 &amp;&amp; (set_w 2.0)
+      sheet_resistance = 7000
+      set_rval(sheet_resistance * l / w)
+     end 
+    def produce_impl
+      produce_impl_core layer=6
+    end
+  end
+  
   class Resistor &lt; PCellDeclarationHelper
   
     include RBA
@@ -32,14 +93,14 @@
 
       # Important: initialize the super class
       super
-
+=begin
       # declare the parameters
       param(:l, TypeDouble, "Resistor length", :default =&gt; 10.0.um)
       param(:w, TypeDouble, "Resistor width", :default =&gt; 1.0.um)
-      param(:n, TypeInt, "Number of maximum foldings", :default =&gt; 0)
+      param(:n, TypeInt, "Number of maximum stripes", :default =&gt; 1)
 
       param(:rval, TypeDouble, "Resistor value", :default =&gt; 0, :hidden=&gt; true)
-
+=end
     end
   
     def display_text_impl
@@ -53,7 +114,7 @@
       # numeric parameter has changed (by comparing against the effective 
       # radius ru) and set ru to the effective radius. We also update the 
       # numerical value or the shape, depending on which on has not changed.
-      sheet_resistance = 300
+      sheet_resistance = 7000
       set_rval(sheet_resistance * l / w)
 =begin
       rs = nil
@@ -95,7 +156,10 @@
     end
     
     def produce_impl
+      produce_impl_core layer=6
+    end
     
+    def produce_impl_core layer=6
       rw = (w/layout.dbu).to_i
       rl = (l/layout.dbu).to_i
       s = 2.0.um # via size (fixed)
@@ -104,24 +168,22 @@
       sp = (space/layout.dbu).to_i
       grid = 1.0.um
       
-      sl = ((l.to_i/(n+1))/layout.dbu).to_i
-      if sl*(n+1) == rl
+      sl = ((l.to_i/n)/layout.dbu).to_i
+      if sl*n == rl
         r = 0
- #     elsif sl*(n+1) &lt; rl
- #       r = rl - sl*(n+1)
       else
         sl = sl + (grid/layout.dbu).to_i
-        r = rl - sl*n
+        r = rl - sl*(n-1)
         set_n n - 1 if r &lt;= 0
       end
-      puts "rl = #{rl}, n+1 = #{n+1}, sl = #{sl}, r = #{r}"
+      puts "rl = #{rl}, n = #{n}, sl = #{sl}, r = #{r}"
       
-      hpol_index = layout.insert_layer(LayerInfo::new(6, 0))
+      hpol_index = layout.insert_layer(LayerInfo::new(layer, 0))
       ml1_index = layout.insert_layer(LayerInfo::new(8, 0))
       via_index = library_cell('Via', 'OpenRule1um', layout)
       pcont_index = library_cell('pcont', 'OpenRule1um', layout)
       prev_x = nil
-      for i in 0..n
+      for i in 0..n-1
         offset = vs/2 + (sp+(w/layout.dbu).to_i)*i
         r = sl
         if rl - sl*(i+1) &lt; 0
@@ -130,9 +192,9 @@
         puts "offset=#{offset}, r=#{r} for i=#{i}"
 
         if i % 2 == 0
-          points = [Point::new(offset, vs), Point::new(offset, vs+r)]
+          points = [Point::new(offset, vs), Point::new(offset, vs/2+r)]
           cell.shapes(hpol_index).insert(Path::new(points, rw, vs, vs))
-          [[offset, vs/2], [offset, r+vs+vs/2]].each{|x, y|
+          [[offset, vs/2], [offset, r+vs]].each{|x, y|
             insert_via_pcont via_index, pcont_index, x, y, rw, vs, cell
           }
           if prev_x
@@ -140,13 +202,13 @@
             cell.shapes(ml1_index).insert(Path::new(points, vs, vs/2, vs/2))
           end  
         else
-           points = [Point::new(offset, vs+(sl-r)), Point::new(offset, vs+sl)]
+          points = [Point::new(offset, vs+(sl-r)), Point::new(offset, vs/2+sl)]
           cell.shapes(hpol_index).insert(Path::new(points, rw, vs, vs))
-          [[offset, vs/2+(sl-r)], [offset, sl+vs+vs/2]].each{|x, y|
+          [[offset, vs/2+(sl-r)], [offset, sl+vs]].each{|x, y|
             insert_via_pcont via_index, pcont_index, x, y, rw, vs, cell
           }
           if prev_x
-            points = [Point::new(offset, sl+vs+vs/2), Point::new(prev_x, sl+vs+vs/2)]
+            points = [Point::new(offset, sl+vs), Point::new(prev_x, sl+vs)]
             cell.shapes(ml1_index).insert(Path::new(points, vs, vs/2, vs/2))
           end
         end         
@@ -192,7 +254,9 @@
       self.description = "OpenRule1um"
       
       # PCell宣言を作成する
-      layout.register_pcell("Resistor", Resistor::new)
+      # layout.register_pcell("Resistor", Resistor::new)
+      layout.register_pcell("R_poly", R_poly::new)
+      layout.register_pcell("HR_poly", HR_poly::new)
       # それはより多くのPCellを置くための場所でしょう...
       
       # "MyLib"という名前で登録します。
