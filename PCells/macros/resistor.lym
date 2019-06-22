@@ -100,7 +100,7 @@
       rl = (l/layout.dbu).to_i
       s = 2.0.um # via size (fixed)
       vs = (s/layout.dbu).to_i
-      space = 5.0.um # space between HPOL
+      space = 2.0.um # space between HPOL
       sp = (space/layout.dbu).to_i
       grid = 1.0.um
       
@@ -133,7 +133,7 @@
           points = [Point::new(offset, vs), Point::new(offset, vs+r)]
           cell.shapes(hpol_index).insert(Path::new(points, rw, vs, vs))
           [[offset, vs/2], [offset, r+vs+vs/2]].each{|x, y|
-            insert_via_pcont via_index, pcont_index, x, y, cell
+            insert_via_pcont via_index, pcont_index, x, y, rw, vs, cell
           }
           if prev_x
             points = [Point::new(offset, vs/2), Point::new(prev_x, vs/2)]
@@ -143,7 +143,7 @@
            points = [Point::new(offset, vs+(sl-r)), Point::new(offset, vs+sl)]
           cell.shapes(hpol_index).insert(Path::new(points, rw, vs, vs))
           [[offset, vs/2+(sl-r)], [offset, sl+vs+vs/2]].each{|x, y|
-            insert_via_pcont via_index, pcont_index, x, y, cell
+            insert_via_pcont via_index, pcont_index, x, y, rw, vs, cell
           }
           if prev_x
             points = [Point::new(offset, sl+vs+vs/2), Point::new(prev_x, sl+vs+vs/2)]
@@ -164,11 +164,19 @@
       end
     end
     
-    def insert_via_pcont via_index, pcont_index, x, y, cell
-      via = instantiate via_index, x, y, cell
-      inst = cell.insert(via)
-      pcont = instantiate pcont_index, x, y, cell
-      inst = cell.insert(pcont)
+    def insert_via_pcont via_index, pcont_index, x, y, rw, vs, cell
+      nv = (rw/vs).to_i
+      if nv*vs != rw
+        nv = nv + 1
+      end
+      offset = x - (vs*nv - vs)/2
+      for i in 0..nv-1
+        x = offset + i*vs
+        via = instantiate via_index, x, y, cell
+        inst = cell.insert(via)
+        pcont = instantiate pcont_index, x, y, cell
+        inst = cell.insert(pcont)
+      end
     end
    
     def instantiate index, x, y, cell
@@ -181,7 +189,7 @@
     def initialize  
     
       # 説明を設定
-      self.description = "OpenRule1um Library"
+      self.description = "OpenRule1um"
       
       # PCell宣言を作成する
       layout.register_pcell("Resistor", Resistor::new)
@@ -189,7 +197,7 @@
       
       # "MyLib"という名前で登録します。
       # その名前のライブラリがすでに存在していた場合は、その時点で置き換えられます。
-      register("MyLib")
+      register("PCells")
       
     end
   
