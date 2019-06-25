@@ -167,6 +167,8 @@
       space = 2.0.um # space between HPOL
       sp = (space/layout.dbu).to_i
       grid = 1.0.um
+      metal1width = 1.0.um
+      m1w = (metal1width/layout.dbu).to_i
       
       sl = ((l.to_i/n)/layout.dbu).to_i
       if sl*n == rl
@@ -179,7 +181,7 @@
       puts "rl = #{rl}, n = #{n}, sl = #{sl}, r = #{r}"
       
       hpol_index = layout.insert_layer(LayerInfo::new(layer, 0))
-      ml1_index = layout.insert_layer(LayerInfo::new(8, 0))
+      m1_index = layout.insert_layer(LayerInfo::new(8, 0))
       via_index = library_cell('Via', 'OpenRule1um', layout)
       pcont_index = library_cell('pcont', 'OpenRule1um', layout)
       prev_x = nil
@@ -199,7 +201,7 @@
           }
           if prev_x
             points = [Point::new(offset, vs/2), Point::new(prev_x, vs/2)]
-            cell.shapes(ml1_index).insert(Path::new(points, vs, vs/2, vs/2))
+            cell.shapes(m1_index).insert(Path::new(points, m1w, m1w/2, m1w/2))
           end  
         else
           points = [Point::new(offset, vs+(sl-r)), Point::new(offset, vs/2+sl)]
@@ -209,7 +211,7 @@
           }
           if prev_x
             points = [Point::new(offset, sl+vs), Point::new(prev_x, sl+vs)]
-            cell.shapes(ml1_index).insert(Path::new(points, vs, vs/2, vs/2))
+            cell.shapes(m1_index).insert(Path::new(points, m1w, m1w/2, m1w/2))
           end
         end         
         prev_x = offset  
