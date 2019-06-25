@@ -79,7 +79,7 @@ puts 'Check GAP'
 r_nwl_s = nwl.space(4.um); r_nwl_s.output("NWL space &lt; 4.0")
 
 #geomSpace(NWL_dp, 5, "NWL(diff.pot) space &lt; 5.0")
-r_nwl_dp_s = nwl_dp.space(5.um); r_nwl_dp_s.output("NWL space &lt; 5.0")
+r_nwl_dp_s = nwl_dp.space(5.um); r_nwl_dp_s.output("NWL(diff.pot) space &lt; 5.0")
 # geomSpace(Parea, 0.5, "Parea space &lt; 0.5")
 r_parea_s = parea.space(0.5.um); r_parea_s.output("Parea space &lt; 0.5")
 # geomSpace(Narea, 0.5, "Narea space &lt; 0.5")
@@ -190,7 +190,8 @@ geomArea(DM_dcn_MOS, 0, 0, "dcn-MOS overlap")
 
 puts "Check Stacked Con/Via"
 # geomArea(geomAnd(DM_pcn, DM_via1), 4, 4, "pcont-via1 non-stack") =&gt;
-dm_pcn_ns = (dm_pcn &amp; dm_via1).without_area(4); dm_pcn_ns.output("pcont-via1 non-stack")
+#dm_pcn_ns = (dm_pcn &amp; dm_via1).without_area(4); dm_pcn_ns.output("pcont-via1 non-stack")
+dm_pcn_ns = dm_pcn.not_in(dm_via1); dm_pcn_ns.output("pcont-via1 non-stack")
 =begin
 geomArea(geomAnd(DM_dcn, DM_via1), 4, 4, "dcont-via1 non-stack")
 geomArea(geomAnd(DM_via1, DM_via2), 4, 4, "via1-via2 non-stack")
@@ -212,7 +213,7 @@ geomWidth(HIPOL, 2.0, "Poly in HPOL width &lt; 2.0")
 ## ToDo: check HIPOL length (20-80um) (181127:akita11)
 
 puts "Check Enclose"
-geomEnclose(NWL, Pdiff, 2, "Pdiff enclosure in NWL &lt; 2.0")
+# geomEnclose(NWL, Pdiff, 2, "Pdiff enclosure in NWL &lt; 2.0")
 nwl_e = nwl.enclosing(pdiff, 2); nwl_e.output("Pdiff enclosure in NWL &lt; 2.0")
 =begin
 geomArea(geomAnd(PSUB, DM_nscn), 0, 0, "nsubcon outside NWL") # not shown in rule v110
@@ -221,7 +222,7 @@ geomEnclose(Narea, DIFF, 0.5, "DIFF enclosure in Narea &lt; 0.5")
 geomEnclose(HPOL, HIPOL, 5.0, "POL enclosure in HPOL &lt; 5.0")
 =end
 puts "Check MOS gate extension"
-geomExtension(POL, DIFF, 1, "POL gate extension &lt; 1.0")
+# geomExtension(POL, DIFF, 1, "POL gate extension &lt; 1.0")
 pol_edges        = pol.edges
 pol_gate_edges   = pol_edges.interacting(diff)
 other_pol_edges  = pol_edges.not_interacting(diff)
@@ -230,15 +231,24 @@ ope_cd = other_pol_edges.separation(diff.edges, 1, projection).first_edges
 r_pol_x2 = ope_cd.interacting(pol_gate_edges); r_pol_x2.output("POL gate extension &lt; 1.0")
 
 puts "Check stand-alone Cont/Via"
-DMcnt1 = geomOr(DM_dcn, DM_pcn)
-DMcnt2 = geomOr(DMcnt1, DM_nscn)
-DMcnt = geomOr(DMcnt2, DM_pscn)
-SAcnt = geomAnd(CNT, geomNot(DMcnt))
-geomArea(SAcnt, 0, 0, "Stand alone Cont")
-SAvia1 = geomAnd(VIA1, geomNot(DM_via1))
-geomArea(SAvia1, 0, 0, "Stand alone VIA1")
-SAvia2 = geomAnd(VIA2, geomNot(DM_via2))
-geomArea(SAvia2, 0, 0, "Stand alone VIA2")
+# DMcnt1 = geomOr(DM_dcn, DM_pcn) =&gt;
+dm_cnt1 = dm_dcn | dm_pcn
+# DMcnt2 = geomOr(DMcnt1, DM_nscn) =&gt;
+dm_cnt2 = dm_cnt1 | dm_nscn
+# DMcnt = geomOr(DMcnt2, DM_pscn) =&gt;
+dm_cnt = dm_cnt2 | dm_pscn
+# SAcnt = geomAnd(CNT, geomNot(DMcnt)) =&gt;
+sa_cnt =  cnt.outside(dm_cnt)
+# geomArea(SAcnt, 0, 0, "Stand alone Cont") =&gt;
+sa_cnt.output("Stand alone Cont")
+# SAvia1 = geomAnd(VIA1, geomNot(DM_via1)) =&gt;
+sa_via1 = via1.outside(dm_via1)
+# geomArea(SAvia1, 0, 0, "Stand alone VIA1")
+sa_via1.output("Stand alone VIA1")
+# SAvia2 = geomAnd(VIA2, geomNot(DM_via2)) 
+sa_via2 = via2.outside(dm_via2)
+# geomArea(SAvia2, 0, 0, "Stand alone VIA2")
+sa_via2.output("Stand alone VIA2")
 =begin
 # Exit DRC package, freeing memory
 geomEnd()
