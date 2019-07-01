@@ -124,6 +124,7 @@
       
       hpol_index = layout.insert_layer(LayerInfo::new(layer, 0))
       m1_index = layout.insert_layer(LayerInfo::new(8, 0))
+      res_index = layout.insert_layer(LayerInfo::new(15, 0))
       via_index = library_cell('Via', 'OpenRule1um', layout)
       pcont_index = library_cell('pcont', 'OpenRule1um', layout)
       prev_x = nil
@@ -138,6 +139,7 @@
         if i % 2 == 0
           points = [Point::new(offset, vs), Point::new(offset, vs/2+r)]
           cell.shapes(hpol_index).insert(Path::new(points, rw, vs, vs))
+          cell.shapes(res_index).insert(Path::new(points, rw+1000, vs/4, vs/4))
           [[offset, vs/2], [offset, r+vs]].each{|x, y|
             insert_via_pcont via_index, pcont_index, x, y, rw, vs, cell
           }
@@ -148,6 +150,7 @@
         else
           points = [Point::new(offset, vs+(sl-r)), Point::new(offset, vs/2+sl)]
           cell.shapes(hpol_index).insert(Path::new(points, rw, vs, vs))
+          cell.shapes(res_index).insert(Path::new(points, rw+1000, vs/4, vs/4))
           [[offset, vs/2+(sl-r)], [offset, sl+vs]].each{|x, y|
             insert_via_pcont via_index, pcont_index, x, y, rw, vs, cell
           }
