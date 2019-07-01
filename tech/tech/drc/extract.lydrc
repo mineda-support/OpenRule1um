@@ -52,8 +52,11 @@ bulk        = make_layer
 
 # Computed layers
 
-pol_not_res  = pol - hpol
-pol_in_res   = pol &amp; hpol
+pol_not_res  = pol - res
+pol_in_res   = pol &amp; res
+
+hpol_not_res  = hpol - res
+hpol_in_res   = hpol &amp; res
 
 diff_in_nwl = diff &amp; nwl
 pdiff       = diff_in_nwl - narea
@@ -130,7 +133,7 @@ class CustomResistorExtraction &lt; RBA::GenericDeviceExtractor
         d = Math.sqrt(p * p - a)
         l = p + d
         w = p - d
-        
+      puts "l=#{l} w=#{w} p=#{p} a=#{a} d=#{d}"  
         if w &gt; 1e-3
         
           device = create_device
@@ -173,11 +176,15 @@ end
   
 
 
-# Resistor
+# Poly Resistor
 
-# Assumes a sheet rho of 150 Ohm/Square
-res_ex = CustomResistorExtraction::new("RES", 150.0)
-extract_devices(res_ex, { "C" =&gt; pol_not_res, "R" =&gt; pol_in_res, "M" =&gt; hpol })
+# Assumes a sheet rho of 20 Ohm/Square fro R-poly resistor
+res_ex = CustomResistorExtraction::new("RES", 20.0)
+extract_devices(res_ex, { "C" =&gt; pol_not_res, "R" =&gt; pol_in_res, "M" =&gt; res })
+
+# sheet roho of 7000 for HR-poly resistor
+res_ex = CustomResistorExtraction::new("HRES", 7000.0)
+extract_devices(res_ex, { "C" =&gt; hpol_not_res, "R" =&gt; hpol_in_res, "M" =&gt; res })
 
 # PMOS transistor device extraction
 
@@ -233,5 +240,6 @@ netlist.purge
 netlist.purge_nets
 path = RBA::CellView::active.filename.sub(/\.[^\.]*$/, "_ext_simplified.cir")
 netlist.write(path, writer, "VDIV netlist after simplification")
+puts "#{path} created"
 </text>
 </klayout-macro>
