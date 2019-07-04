@@ -177,7 +177,6 @@ end
 
 
 # Poly Resistor
-
 # Assumes a sheet rho of 20 Ohm/Square fro R-poly resistor
 res_ex = CustomResistorExtraction::new("RES", 20.0)
 extract_devices(res_ex, { "C" =&gt; pol_not_res, "R" =&gt; pol_in_res, "M" =&gt; res })
@@ -241,6 +240,5 @@ netlist.purge_nets
 path = RBA::CellView::active.filename.sub(/\.[^\.]*$/, "_ext_simplified.cir")
 netlist.write(path, writer, "VDIV netlist after simplification")
 puts "#{path} created"
-
 </text>
 </klayout-macro>
