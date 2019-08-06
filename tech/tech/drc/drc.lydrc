@@ -257,7 +257,8 @@ dm_pcn_ns = dm_pcn.not_in(dm_via1); dm_pcn_ns.output("pcont-via1 non-stack")
 # geomArea(geomAnd(DM_dcn, DM_via1), 4, 4, "dcont-via1 non-stack") =&gt;
 dm_dcn_ns = dm_dcn.not_in(dm_via1); dm_dcn_ns.output("dcont-via1 non-stack")
 # geomArea(geomAnd(DM_via1, DM_via2), 4, 4, "via1-via2 non-stack") =&gt;
-dm_via1_ns = dm_via1.not_in(dm_via2); dm_via1_ns.output("via1-via2 non-stack")
+#dm_via1_ns = dm_via1.not_in(dm_via2); dm_via1_ns.output("via1-via2 non-stack")
+dm_via2_ns = dm_via2.not_in(dm_via1); dm_via2_ns.output("via1-via2 non-stack")
 
 puts 'Check Width'
 # geomWidth(NWL,  4, "NWL width &lt; 4.0") =&gt;
