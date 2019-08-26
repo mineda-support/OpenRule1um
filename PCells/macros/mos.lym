@@ -95,7 +95,7 @@
       create_path(pol_index, offset, vs+u1, offset, vs+u1+gl, gw, vs/2, vs/2)
       cell.shapes(diff_index).insert(Box::new(0, vs+u1, 2*vs+gw, vs+u1+gl))
       [vs/2, vs+gw+vs/2].each{|offset|
-        create_path(m1_index, offset, vs+u1, offset, vs+u1+gl, u1, 0, 0)
+        create_path(m1_index, offset, vs+u1, offset, vs+u1+gl, vs, 0, 0)
         create_dcont(dcont_index, offset, vs+u1, offset, vs+u1+gl, vs)
       }    
       x = y = vs/2
@@ -105,7 +105,7 @@
         m1: m1_index, via: via_index,
         dcont: dcont_index, pcont: pcont_index,
         nsubcont: nsubcont_index, psubcont: psubcont_index}
-      yield cell, indices, 0, 0, vs*2+gw, (vs+u1)*2+gl, vs, u1, gw
+      yield indices, 0, 0, vs*2+gw, (vs+u1)*2+gl, vs, u1, gw
     end
     
     def create_path index, x1, y1, x2, y2, w, be, ee
@@ -115,7 +115,7 @@
     
     def create_dcont index, x1, y1, x2, y2, vs
       (y1+vs/2..y2-vs/2).step(vs){|y|
-        insert_cell index, x1, y, cell
+        insert_cell index, x1, y
       }
     end
     def library_cell name, libname, layout
@@ -128,12 +128,12 @@
       end
     end
     
-    def insert_cell via_index, x, y, cell
-      via = instantiate via_index, x, y, cell
+    def insert_cell via_index, x, y
+      via = instantiate via_index, x, y
       inst = cell.insert(via)
     end
    
-    def instantiate index, x, y, cell
+    def instantiate index, x, y
       CellInstArray.new(index, Trans.new(x, y))
     end
   end
@@ -152,14 +152,14 @@
     end 
     
     def produce_impl
-      produce_impl_core {|cell, indices, x1, y1, x2, y2, vs, u1, gw|
-        insert_cell indices[:via], x1+vs/2, y1+vs/2, cell
+      produce_impl_core {|indices, x1, y1, x2, y2, vs, u1, gw|
+        insert_cell indices[:via], x1+vs/2, y1+vs/2
         create_path indices[:m1], x1+vs/2, y1, x1+vs/2, y1+vs+u1, u1, 0, 0
-        insert_cell indices[:psubcont], x2-vs/2, y1+vs/2, cell
-        insert_cell indices[:pcont], x1+vs/2, y2-vs/2, cell
-        insert_cell indices[:via], x1+vs/2, y2-vs/2, cell
+        insert_cell indices[:psubcont], x2-vs/2, y1+vs/2
+        insert_cell indices[:pcont], x1+vs/2, y2-vs/2
+        insert_cell indices[:via], x1+vs/2, y2-vs/2
         create_path indices[:pol], x1+vs+gw/2, y2-vs, x1+vs+gw/2, y2, gw, 0, 0
-        insert_cell indices[:via], x2-vs/2, y2-vs/2, cell
+        insert_cell indices[:via], x2-vs/2, y2-vs/2
         create_path indices[:m1], x2-vs/2, y2-vs-u1, x2-vs/2, y2-vs/2, u1, 0, 0
  
         cell.shapes(indices[:narea]).insert(Box::new(x1-u1/2, y1+vs+u1/2, x2+u1/2, y2-vs-u1/2))
@@ -181,15 +181,15 @@
     end  
  
     def produce_impl
-     produce_impl_core {|cell, indices, x1, y1, x2, y2, vs, u1, gw|
-        insert_cell indices[:pcont], x1+vs/2, y1+vs/2, cell
-        insert_cell indices[:via], x1+vs/2, y1+vs/2, cell
+     produce_impl_core {|indices, x1, y1, x2, y2, vs, u1, gw|
+        insert_cell indices[:pcont], x1+vs/2, y1+vs/2
+        insert_cell indices[:via], x1+vs/2, y1+vs/2
         create_path indices[:pol], x1+vs+gw/2, y1, x1+vs+gw/2, y1+vs, gw, 0, 0
-        insert_cell indices[:via], x2-vs/2, y1+vs/2, cell
+        insert_cell indices[:via], x2-vs/2, y1+vs/2
         create_path indices[:m1], x2-vs/2, y1, x2-vs/2, y1+vs+u1, u1, 0, 0
-        insert_cell indices[:via], x1+vs/2, y2-vs/2, cell
+        insert_cell indices[:via], x1+vs/2, y2-vs/2
         create_path indices[:m1], x1+vs/2, y2-vs-u1, x1+vs/2, y2, u1, 0, 0
-        insert_cell indices[:nsubcont], x2-vs/2, y2-vs/2, cell
+        insert_cell indices[:nsubcont], x2-vs/2, y2-vs/2
         
         cell.shapes(indices[:parea]).insert(Box::new(x1-u1/2, y1+vs+u1/2, x2+u1/2, y2-vs-u1/2))
         cell.shapes(indices[:nwl]).insert(Box::new(x1-u1, y1+vs, x2+u1+u1/2, y2+u1+u1/2))  
