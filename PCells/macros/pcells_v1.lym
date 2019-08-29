@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <klayout-macro>
- <description>Resistor PCell</description>
+ <description>The New Macro</description>
  <version/>
  <category/>
  <prolog/>
@@ -21,12 +21,183 @@
   # Remove any definition of our classes (this helps when 
   # reexecuting this code after a change has been applied)
   # MyLib.constants.member?(:Resistor) &amp;&amp; remove_const(:Resistor)
+  MyLib.constants.member?(:Nch) &amp;&amp; remove_const(:Nch)
+  MyLib.constants.member?(:Pch) &amp;&amp; remove_const(:Pch)
   MyLib.constants.member?(:R_poly) &amp;&amp; remove_const(:R_poly)
   MyLib.constants.member?(:HR_poly) &amp;&amp; remove_const(:HR_poly)
   MyLib.constants.member?(:PCells) &amp;&amp; remove_const(:PCells)
   
   # The PCell declaration for the OpenRule1um resistor 
   
+    class MOS &lt; PCellDeclarationHelper
+  
+    include RBA
+
+    def initialize
+
+      # Important: initialize the super class
+      super
+    end
+  
+    def display_text_impl
+      # Provide a descriptive text for the cell
+      "L=#{l.to_s}um,W=#{w.to_s}um"
+    end
+    
+    def coerce_parameters_impl
+    
+      # We employ coerce_parameters_impl to decide whether the handle or the 
+      # numeric parameter has changed (by comparing against the effective 
+      # radius ru) and set ru to the effective radius. We also update the 
+      # numerical value or the shape, depending on which on has not changed.
+    end
+    
+    # default implementation
+    def can_create_from_shape_impl
+      false
+    end
+    
+    def parameters_from_shape_impl
+    end
+    
+    def transformation_from_shape_impl
+      # I「Create PCell from shape（形状からPCellを作成）」プロトコルを実装します。
+      # 変形を決定するために、図形のバウンディングボックスの中心を使用します。
+      Trans.new(shape.bbox.center)
+    end
+    
+    def coerce_parameters_impl
+      set_ltot(l*n)
+    end
+    
+    def produce_impl_core
+      gw = (w/layout.dbu).to_i
+      gl = (l/layout.dbu).to_i
+      s = 2.0.um # via size (fixed)
+      vs = (s/layout.dbu).to_i
+
+      grid = 1.0.um
+      u1 = (grid/layout.dbu).to_i
+      metal1width = 1.0.um
+      m1w = (metal1width/layout.dbu).to_i
+      
+      nwl_index = layout.insert_layer(LayerInfo::new(1, 0))
+      diff_index = layout.insert_layer(LayerInfo::new(3, 0))
+      pol_index = layout.insert_layer(LayerInfo::new(5, 0))
+      m1_index = layout.insert_layer(LayerInfo::new(8, 0))
+      parea_index = layout.insert_layer(LayerInfo::new(18, 0))
+      narea_index = layout.insert_layer(LayerInfo::new(19, 0))
+      via_index = library_cell('Via', 'OpenRule1um', layout)
+      dcont_index = library_cell('dcont', 'OpenRule1um', layout)
+      pcont_index = library_cell('pcont', 'OpenRule1um', layout)
+      nsubcont_index = library_cell('nsubcont', 'OpenRule1um', layout)
+      psubcont_index = library_cell('psubcont', 'OpenRule1um', layout) 
+      offset = vs + gw/2          
+      create_path(pol_index, offset, vs+u1, offset, vs+u1+gl, gw, vs/2, vs/2)
+      cell.shapes(diff_index).insert(Box::new(0, vs+u1, 2*vs+gw, vs+u1+gl))
+      [vs/2, vs+gw+vs/2].each{|offset|
+        create_path(m1_index, offset, vs+u1, offset, vs+u1+gl, vs, 0, 0)
+        create_dcont(dcont_index, offset, vs+u1, offset, vs+u1+gl, vs)
+      }    
+      x = y = vs/2
+      # insert_cell via_index, x, y, cell
+      indices = {pol: pol_index, diff: diff_index, nwl: nwl_index,
+        parea: parea_index, narea: narea_index,
+        m1: m1_index, via: via_index,
+        dcont: dcont_index, pcont: pcont_index,
+        nsubcont: nsubcont_index, psubcont: psubcont_index}
+      yield indices, 0, 0, vs*2+gw, (vs+u1)*2+gl, vs, u1, gw
+    end
+    
+    def create_path index, x1, y1, x2, y2, w, be, ee
+      points = [Point::new(x1, y1), Point::new(x2, y2)]
+      cell.shapes(index).insert(Path::new(points, w, be, ee))
+    end
+    
+    def create_dcont index, x1, y1, x2, y2, vs
+      (y1+vs/2..y2-vs/2).step(vs){|y|
+        insert_cell index, x1, y
+      }
+    end
+    def library_cell name, libname, layout
+      if cell = layout.cell(name)
+        return cell.cell_index
+      else
+        lib = Library::library_by_name libname
+        cell_index = lib.layout.cell_by_name(name)
+        proxy_index = layout.add_lib_cell(lib, cell_index)
+      end
+    end
+    
+    def insert_cell via_index, x, y
+      via = instantiate via_index, x, y
+      inst = cell.insert(via)
+    end
+   
+    def instantiate index, x, y
+      CellInstArray.new(index, Trans.new(x, y))
+    end
+  end
+
+  class Nch &lt; MOS
+    include RBA
+    def initialize
+      super
+      param(:l, TypeDouble, "Nch l", :default =&gt; 10.0.um)
+      param(:w, TypeDouble, "Nch w", :default =&gt; 1.0.um)
+      param(:n, TypeInt, "Number of fingers", :default =&gt; 1)
+      param(:ltot, TypeDouble, "Total length", :default =&gt; 0, :hidden=&gt; true)
+    end
+    def display_text_impl
+      "Nch\r\n(L=#{l.to_s}um,W=#{w.to_s}um,n=#{n.to_s}, Total L=#{ltot})"
+    end 
+    
+    def produce_impl
+      produce_impl_core {|indices, x1, y1, x2, y2, vs, u1, gw|
+        insert_cell indices[:via], x1+vs/2, y1+vs/2
+        create_path indices[:m1], x1+vs/2, y1, x1+vs/2, y1+vs+u1, u1, 0, 0
+        insert_cell indices[:psubcont], x2-vs/2, y1+vs/2
+        insert_cell indices[:pcont], x1+vs/2, y2-vs/2
+        insert_cell indices[:via], x1+vs/2, y2-vs/2
+        create_path indices[:pol], x1+vs+gw/2, y2-vs, x1+vs+gw/2, y2, gw, 0, 0
+        insert_cell indices[:via], x2-vs/2, y2-vs/2
+        create_path indices[:m1], x2-vs/2, y2-vs-u1, x2-vs/2, y2-vs/2, u1, 0, 0
+ 
+        cell.shapes(indices[:narea]).insert(Box::new(x1-u1/2, y1+vs+u1/2, x2+u1/2, y2-vs-u1/2))
+       }
+    end
+  end
+  class Pch &lt; MOS
+    include RBA
+    def initialize
+      super
+      param(:l, TypeDouble, "Pch l", :default =&gt; 10.0.um)
+      param(:w, TypeDouble, "Pch w", :default =&gt; 1.0.um)
+      param(:n, TypeInt, "Number of fingers", :default =&gt; 1)
+      param(:ltot, TypeDouble, "Total length", :default =&gt; 0, :hidden=&gt; true)
+    end 
+    
+    def display_text_impl
+      "Pch\r\n(L=#{l.to_s}um,W=#{w.to_s}um,n=#{n.to_s}, Total L=#{ltot})"
+    end  
+ 
+    def produce_impl
+     produce_impl_core {|indices, x1, y1, x2, y2, vs, u1, gw|
+        insert_cell indices[:pcont], x1+vs/2, y1+vs/2
+        insert_cell indices[:via], x1+vs/2, y1+vs/2
+        create_path indices[:pol], x1+vs+gw/2, y1, x1+vs+gw/2, y1+vs, gw, 0, 0
+        insert_cell indices[:via], x2-vs/2, y1+vs/2
+        create_path indices[:m1], x2-vs/2, y1, x2-vs/2, y1+vs+u1, u1, 0, 0
+        insert_cell indices[:via], x1+vs/2, y2-vs/2
+        create_path indices[:m1], x1+vs/2, y2-vs-u1, x1+vs/2, y2, u1, 0, 0
+        insert_cell indices[:nsubcont], x2-vs/2, y2-vs/2
+        
+        cell.shapes(indices[:parea]).insert(Box::new(x1-u1/2, y1+vs+u1/2, x2+u1/2, y2-vs-u1/2))
+        cell.shapes(indices[:nwl]).insert(Box::new(x1-u1, y1+vs, x2+u1+u1/2, y2+u1+u1/2))  
+      }
+    end
+  end    # PCellを配置するライブラリ 
+
   class Resistor &lt; PCellDeclarationHelper
   
     include RBA
@@ -261,6 +432,8 @@
       
       # PCell宣言を作成する
       # layout.register_pcell("Resistor", Resistor::new)
+      layout.register_pcell("Nch", Nch::new)
+      layout.register_pcell("Pch", Pch::new)
       layout.register_pcell("R_poly", R_poly::new)
       layout.register_pcell("HR_poly", HR_poly::new)
       # それはより多くのPCellを置くための場所でしょう...
