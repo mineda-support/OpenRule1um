@@ -227,6 +227,7 @@ netlist = l2n_data.netlist
 
 writer = RBA::NetlistSpiceWriter::new
 path = RBA::CellView::active.filename.sub(/\.[^\.]*$/, "_ext.cir")
+puts "path=#{path}"
 netlist.write(path, writer, "VDIV netlist before simplification")
 
 # Netlist simplification 

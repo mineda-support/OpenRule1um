@@ -157,6 +157,7 @@
         insert_cell indices[:via], x1+vs/2, y1+vs/2
         create_path indices[:m1], x1+vs/2, y1, x1+vs/2, y1+vs+u1, u1, 0, 0
         insert_cell indices[:psubcont], x2-vs/2, y1+vs/2
+        insert_cell indices[:via], x2-vs/2, y1+vs/2
         insert_cell indices[:pcont], x1+vs/2, y2-vs/2
         insert_cell indices[:via], x1+vs/2, y2-vs/2
         create_path indices[:pol], x1+vs+gl/2, y2-vs, x1+vs+gl/2, y2, gl, 0, 0
@@ -310,7 +311,7 @@
         if i % 2 == 0
           points = [Point::new(offset, vs), Point::new(offset, vs/2+r)]
           cell.shapes(hpol_index).insert(Path::new(points, rw, vs, vs))
-          cell.shapes(res_index).insert(Path::new(points, rw+1000, vs/4, vs/4))
+          cell.shapes(res_index).insert(Path::new(points, rw, vs/4, vs/4))
           [[offset, vs/2], [offset, r+vs]].each{|x, y|
             insert_via_pcont via_index, pcont_index, x, y, rw, vs, cell
           }
@@ -321,7 +322,7 @@
         else
           points = [Point::new(offset, vs+(sl-r)), Point::new(offset, vs/2+sl)]
           cell.shapes(hpol_index).insert(Path::new(points, rw, vs, vs))
-          cell.shapes(res_index).insert(Path::new(points, rw+1000, vs/4, vs/4))
+          cell.shapes(res_index).insert(Path::new(points, rw, vs/4, vs/4))
           [[offset, vs/2+(sl-r)], [offset, sl+vs]].each{|x, y|
             insert_via_pcont via_index, pcont_index, x, y, rw, vs, cell
           }
