@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<klayout-macro>
+ <description/>
+ <version/>
+ <category/>
+ <prolog/>
+ <epilog/>
+ <doc/>
+ <autorun>false</autorun>
+ <autorun-early>false</autorun-early>
+ <shortcut/>
+ <show-in-menu>false</show-in-menu>
+ <group-name/>
+ <menu-path/>
+ <interpreter>ruby</interpreter>
+ <dsl-interpreter-name/>
+ <text>module MyMacro
+
+  include RBA
+
+  netlist = '/home/seijirom/ALBDATA/3968/ring_tb.net'
+  reference = 'reference.cir'
+  
+  raise "#{netlist} does not exist!" unless File.exist? netlist
+  desc = ''
+  File.open(reference, 'w'){|f|
+    File.read(netlist).each_line{|l|
+      l.gsub! '@', '$'
+      if l =~ /^ *\.inc/ || l =~/^ *[vV]/
+        l.sub! /^/, '*'
+      end
+      desc &lt;&lt; l
+    }
+    f.puts desc
+  }
+  puts "#{reference} created under #{Dir.pwd}"
+end</text>
+</klayout-macro>
