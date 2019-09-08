@@ -101,11 +101,14 @@ connect(via1,     ml2)
 connect_global(ptie, "SUBSTRATE")
 connect_global(bulk, "SUBSTRATE")
 
+netlist.make_top_level_pins
 netlist.purge
 
 schematic "reference.cir"
 target_netlist("output.cir", write_spice, "Created by KLayout")
-same_circuits 'inv1', 'INV1OR1'
+same_device_classes 'PMOS', 'PCH'
+same_device_classes 'NMOS', 'NCH'
+same_circuits 'inv1', 'INV1$OR1_STDCELLS_V1'
 same_circuits 'ring2', 'RING'
 compare</text>
 </klayout-macro>
