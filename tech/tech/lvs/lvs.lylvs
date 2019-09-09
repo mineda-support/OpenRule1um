@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <klayout-macro>
- <description/>
+ <description>lvs: for MOS transistors only (OpenRule1um std cells supported)</description>
  <version/>
  <category>lvs</category>
  <prolog/>
@@ -9,7 +9,7 @@
  <autorun>false</autorun>
  <autorun-early>false</autorun-early>
  <shortcut/>
- <show-in-menu>true</show-in-menu>
+ <show-in-menu>false</show-in-menu>
  <group-name>lvs_scripts</group-name>
  <menu-path>tools_menu.lvs.end</menu-path>
  <interpreter>dsl</interpreter>
@@ -101,14 +101,15 @@ connect(via1,     ml2)
 connect_global(ptie, "SUBSTRATE")
 connect_global(bulk, "SUBSTRATE")
 
-netlist.make_top_level_pins
+#netlist.make_top_level_pins
 netlist.purge
 
 schematic "reference.cir"
 target_netlist("output.cir", write_spice, "Created by KLayout")
+load "set_same_circuits.rb"
+set_same_circuits()
 same_device_classes 'PMOS', 'PCH'
 same_device_classes 'NMOS', 'NCH'
-same_circuits 'inv1', 'INV1$OR1_STDCELLS_V1'
-same_circuits 'ring2', 'RING'
+same_circuits 'ring', 'RING'
 compare</text>
 </klayout-macro>

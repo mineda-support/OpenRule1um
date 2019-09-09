@@ -1,4 +1,20 @@
-        
+<?xml version="1.0" encoding="utf-8"?>
+<klayout-macro>
+ <description>lefdef2gds: convert lef/def layout to gds using OpenRule1um std cells</description>
+ <version/>
+ <category/>
+ <prolog/>
+ <epilog/>
+ <doc/>
+ <autorun>false</autorun>
+ <autorun-early>false</autorun-early>
+ <shortcut/>
+ <show-in-menu>true</show-in-menu>
+ <group-name/>
+ <menu-path/>
+ <interpreter>ruby</interpreter>
+ <dsl-interpreter-name/>
+ <text>        
 # Enter your Ruby code here
 module MyMacro
  
@@ -59,4 +75,5 @@ module MyMacro
     end
   }
   lv.remove_unused_layers
-end
+end</text>
+</klayout-macro>

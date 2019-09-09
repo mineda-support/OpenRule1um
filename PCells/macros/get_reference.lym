@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <klayout-macro>
- <description/>
+ <description>get_reference: create 'reference.cir' from LTspice netlist and set same_circuits definitions</description>
  <version/>
  <category/>
  <prolog/>
@@ -18,15 +18,18 @@
 
   include RBA
 
-  netlist = '/home/seijirom/ALBDATA/3968/ring_tb.net'
+  netlist = 'c:/Users/seijirom/AppData/Roaming/ALB/3971/ring_tb.net'
   reference = 'reference.cir'
   
   raise "#{netlist} does not exist!" unless File.exist? netlist
   desc = ''
+  cells = []
   File.open(reference, 'w'){|f|
     File.read(netlist).each_line{|l|
-      l.gsub! '@', '$'
-      if l =~ /^ *\.inc/ || l =~/^ *[vV]/
+      if l=~ /(\S+)@or1_stdcells_v1/
+        cells &lt;&lt; $1 unless cells.include? $1
+        l.sub! '@', '$'
+      elsif l =~ /^ *\.inc/ || l =~/^ *[vV]/
         l.sub! /^/, '*'
       end
       desc &lt;&lt; l
@@ -34,5 +37,21 @@
     f.puts desc
   }
   puts "#{reference} created under #{Dir.pwd}"
+  
+  if cells.size &gt; 0
+    or1_cells = %[an21 an31 an41 buf1 buf2 buf4 buf8 cinv clkbuf1 clkbuf2 clkinv1 clkinv2 dff1 exnr exor
+                     inv1 inv1 ~inv2 inv4 inv8 na21 na212 na222 na31 na41 nr21 nr212 nr222 nr31 or21 or31
+                     rff1 sdff1 sff1 srff1 ssff1]
+    File.open('set_same_circuits.rb', 'w'){|f|
+      f.puts 'def set_same_circuits'
+      cells.each{|c|
+        if or1_cells.include? c
+          f.puts "  same_circuits '#{c}', '#{c.upcase}$OR1_STDCELLS_V1'"
+        end
+      }
+      f.puts 'end'
+    }
+    puts 'set_same_circuits.rb created for ' + cells.inspect
+  end
 end</text>
 </klayout-macro>
