@@ -164,7 +164,7 @@
         insert_cell indices[:via], x2-vs/2, y2-vs/2
         create_path indices[:m1], x2-vs/2, y2-vs-u1, x2-vs/2, y2-vs/2, u1, 0, 0
  
-        cell.shapes(indices[:narea]).insert(Box::new(x1-u1/2, y1+vs+u1/2, x2+u1/2, y2-vs-u1/2))
+        cell.shapes(indices[:narea]).insert(Box::new(x1-u1/2-u1/4, y1+vs+u1/2, x2+u1/2+u1/4, y2-vs-u1/2))
        }
     end
   end
