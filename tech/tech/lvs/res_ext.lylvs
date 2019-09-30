@@ -14,7 +14,7 @@
  <menu-path>tools_menu.lvs.end</menu-path>
  <interpreter>dsl</interpreter>
  <dsl-interpreter-name>lvs-dsl-xml</dsl-interpreter-name>
- <text>#deep
+ <text>deep
 report_lvs
 
 # Drawing layers
@@ -82,6 +82,10 @@ lv_ngate = ngate
 # Device extraction                           
 # resistance extraction
 
+model_name = "D"
+pplus = (diff_in_nwl &amp; parea )  - (pgate + psd)
+extract_devices(diode(model_name), { "P" =&gt; pplus, "N" =&gt; nwl , 'tA' =&gt; cnt,  'tC' =&gt; cnt})
+
 sheet_rho = 20.0
 model_name = "RES"
 extract_devices(resistor(model_name, sheet_rho), {"R" =&gt;  pol_in_res, "C" =&gt; pol_not_res  })# &amp; pol &amp; via1 &amp; ml1})
@@ -123,17 +127,31 @@ schematic "reference.cir"
 
 # Netlist normalization
 #netlist.simplify
-
+netlist.purge
 # Hierarchy alignment (flatten out unmatched cells)
-netlist.combine_devices
-#schematic.combine_devices
-align
-target_netlist("output.cir", write_spice, "Created by KLayout")
 
-same_circuits 'bgr_simple', 'BGR_SIMPLE'
+#schematic.combine_devices
+#align
+target_netlist("output.cir", write_spice, "Created by KLayout")
+netlist.make_top_level_pins
+netlist.flatten_circuit 'HR_poly'
+netlist.flatten_circuit 'R_poly$3'
+#netlist.combine_devices
+#schematic.combine_devices
+
+#same_circuits 'bgr_top', 'BGR9'
+same_circuits 'pmos_dc_teg', '.TOP'
+
 same_device_classes 'NMOS', 'NCH'
 same_device_classes 'PMOS', 'PCH'
-same_device_classes 'HRES', 'RES'
+#schematic.flatten_circuit 'nch1*'
+netlist.flatten_circuit 'Nch*'
+#schematic.flatten_circuit 'pch1*'
+netlist.flatten_circuit 'Pch*'
+
+netlist.combine_devices
+schematic.combine_devices
+
 # Netlist vs. netlist
 compare
 

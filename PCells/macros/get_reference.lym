@@ -18,7 +18,7 @@
 
   include RBA
 
-  netlist = 'c:/Users/seijirom/AppData/Roaming/ALB/3971/ring_tb.net'
+  netlist = 'C:\Users\seijirom\AppData\Roaming/ALB/4394/pmos_dc.net'
   reference = 'reference.cir'
   
   raise "#{netlist} does not exist!" unless File.exist? netlist

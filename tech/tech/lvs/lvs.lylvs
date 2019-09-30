@@ -106,10 +106,42 @@ netlist.purge
 
 schematic "reference.cir"
 target_netlist("output.cir", write_spice, "Created by KLayout")
-load "set_same_circuits.rb"
-set_same_circuits()
+#load "set_same_circuits.rb"
+#set_same_circuits()
+#same_circuits 'inv2', 'INV2$OR1_STDCELLS_V1'
+#same_circuits 'inv8', 'INV8$OR1_STDCELLS_V1'
 same_device_classes 'PMOS', 'PCH'
 same_device_classes 'NMOS', 'NCH'
-same_circuits 'ring', 'RING'
+#netlist.combine_devices
+netlist.flatten_circuit 'nmos_sw2'
+netlist.flatten_circuit 'nmos_sw4'
+netlist.flatten_circuit 'x1_7'
+netlist.flatten_circuit 'x2_7'
+netlist.flatten_circuit 'x4_7'
+#=begin
+schematic.flatten_circuit 'RING15_X1'
+netlist.flatten_circuit 'ring15_x1'
+schematic.flatten_circuit 'RING15_X2'
+netlist.flatten_circuit 'ring15_x2'
+schematic.flatten_circuit 'RING15_X4'
+netlist.flatten_circuit 'ring15_x4'
+schematic.flatten_circuit 'RING16'
+netlist.flatten_circuit 'ring16'
+schematic.flatten_circuit '64DIV'
+netlist.flatten_circuit '64div'
+#=end
+
+schematic.flatten_circuit 'MYINV_STOPPER*'
+#same_circuits 'inv1', 'INV1$OR1_STDCELLS_V1'
+#same_circuits 'inv4', 'INV4$OR1_STDCELLS_V1'
+#netlist.flatten_circuit 'inv1'
+#schematic.flatten_circuit 'INV1$OR1_STDCELLS_V1'
+schematic.flatten_circuit 'UNIT_SW'
+schematic.flatten_circuit 'UNIT'
+netlist.flatten_circuit 'unit'
+netlist.flatten_circuit 'er2_sw'
+schematic.flatten_circuit 'ER2_SW'
+netlist.flatten_circuit 'dff1'
+equivalent_pins 'SELOR', 'A', 'B', 'C', 'D'
 compare</text>
 </klayout-macro>
