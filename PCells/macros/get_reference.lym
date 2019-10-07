@@ -20,7 +20,7 @@
   
   cell = Application.instance.main_window.current_view.active_cellview.cell
 
-  netlist = 'C:\Users\seijirom\AppData\Roaming/ALB/4453/bgr_simple_tb.net'
+  netlist = 'C:\Users\seijirom\AppData\Roaming/ALB/4473/test_rings.net'
   reference = 'reference.cir'
   
   raise "#{netlist} does not exist!" unless File.exist? netlist
@@ -34,6 +34,8 @@
     if l=~ /(\S+)@or1_stdcells_v1/
       cells &lt;&lt; $1 unless cells.include? $1
       l.sub! '@', '$'
+    elsif l =~ /[@%-]/
+      l.tr! "@%-", "$$_"
     elsif l =~ /^ *\.inc/
       l.sub! /^/, '*'
     elsif l =~ /^[mM]\S+ *\S+ *\S+ *\S+ *\S+ *(\S+)/
@@ -80,13 +82,19 @@
                      inv1 inv1 ~inv2 inv4 inv8 na21 na212 na222 na31 na41 nr21 nr212 nr222 nr31 or21 or31
                      rff1 sdff1 sff1 srff1 ssff1]
 
-    File.open('lvs/set_same_circuits.rb', 'w'){|f|
-      f.puts 'def set_same_circuits'
+    File.open('lvs/lvs_settings.rb', 'w'){|f|
+      f.puts 'def lvs_settings'
+      f.puts "  same_circuits '#{cell.name}', '#{circuit_top ? circuit_top.upcase : '.TOP'}'"
       cells.each{|c|
         if or1_cells.include? c
           f.puts "  same_circuits '#{c}', '#{c.upcase}$OR1_STDCELLS_V1'"
         end
       }
+      f.puts "  align"
+      f.puts "  same_device_classes 'NMOS', 'NCH'"
+      f.puts "  same_device_classes 'PMOS', 'PCH'"
+      f.puts "  netlist.flatten_circuit 'Nch*'"
+      f.puts "  netlist.flatten_circuit 'Pch*'"
       f.puts 'end'
     }
     puts 'lvs/set_same_circuits.rb created for ' + cells.inspect
