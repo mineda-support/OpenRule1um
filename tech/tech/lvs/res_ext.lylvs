@@ -88,10 +88,15 @@ extract_devices(diode(model_name), { "P" =&gt; pplus, "N" =&gt; nwl , 'tA' =&gt;
 
 sheet_rho = 20.0
 model_name = "RES"
-extract_devices(resistor(model_name, sheet_rho), {"R" =&gt;  pol_in_res, "C" =&gt; pol_not_res  })# &amp; pol &amp; via1 &amp; ml1})
+bbox = (res | cnt).extents
+cap_layer = bbox - res
+extract_devices(resistor(model_name, sheet_rho), {"R" =&gt;  pol_in_res, "C" =&gt; cap_layer,
+                                                                'tA' =&gt; pol_not_res, 'tB'=&gt;pol_not_res  })# &amp; pol &amp; via1 &amp; ml1})
 sheet_rho = 7000.0
 model_name = "HRES"
-extract_devices(resistor(model_name, sheet_rho), {"R" =&gt;  hpol_in_res, "C" =&gt; hpol_not_res  })# &amp; pol &amp; via1 &amp; ml1})
+bbox = (res | cnt).extents
+cap_layer = bbox - res
+extract_devices(resistor(model_name, sheet_rho), {"R" =&gt;  hpol_in_res, "C" =&gt;cap_layer,  'tA' =&gt; hpol_not_res, 'tB'=&gt;hpol_not_res  })
 
 # PMOS transistor device extraction
 extract_devices(mos4("PMOS"), { "SD" =&gt; psd, "G" =&gt; lv_pgate, "W" =&gt; nwl, 
@@ -133,27 +138,18 @@ netlist.purge
 #schematic.combine_devices
 #align
 target_netlist("output.cir", write_spice, "Created by KLayout")
-netlist.make_top_level_pins
-netlist.flatten_circuit 'HR_poly'
-netlist.flatten_circuit 'R_poly$3'
-#netlist.combine_devices
-#schematic.combine_devices
-
-#same_circuits 'bgr_top', 'BGR9'
-same_circuits 'pmos_dc_teg', '.TOP'
-
-same_device_classes 'NMOS', 'NCH'
-same_device_classes 'PMOS', 'PCH'
-#schematic.flatten_circuit 'nch1*'
-netlist.flatten_circuit 'Nch*'
-#schematic.flatten_circuit 'pch1*'
-netlist.flatten_circuit 'Pch*'
-
-netlist.combine_devices
-schematic.combine_devices
-
+if File.exist? 'lvs/res_ext_settings.rb'
+  load 'lvs/res_ext_settings.rb'
+  res_ext_settings
+end
 # Netlist vs. netlist
 compare
+if /mswin32|mingw/ =~ RUBY_PLATFORM
+  system 'WSL cd lvs; ln -s ../output.cir output.cir.txt'
+else
+  slink = 'lvs/output.cir.txt'
+  File.symlink 'output.cir', slink unless File.exist? slink
+end
 
 </text>
 </klayout-macro>

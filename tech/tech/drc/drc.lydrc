@@ -154,6 +154,7 @@ r_mos_dm_dcn_s = mos.separation(dm_dcn.not_interacting(mos), 0.5.um); r_mos_dm_d
 r_diff_dm_pcn_s = diff.separation(dm_pcn.not_interacting(diff), 1.0.um); r_diff_dm_pcn_s.output("Diff-pcont space &lt; 1.5")
 # geomSpace(POL, DM_pcn, 0.5, "POL-pcont space &lt; 0.5") =&gt;
 r_pol_dm_pcn_s = pol.separation(dm_pcn.not_interacting(pol), 0.5.um); r_pol_dm_pcn_s.output("POL-pcont space &lt; 0.5")
+#r_pol_dm_pcn_s = pol.separation(pol, 0.5.um); r_pol_dm_pcn_s.output("POL-pcont space &lt; 0.5")
 # geomSpace(ML1, 1, "ML1 space &lt; 1.0") =&gt;
 r_ml1_s = ml1.space(1.um); r_ml1_s.output("ML1 space &lt; 1.0")
 # geomSpace(ML2, 1, "ML2 space &lt; 1.0") =&gt;
@@ -255,7 +256,7 @@ puts 'Check Stacked Con/Via'
 # geomArea(geomAnd(DM_pcn, DM_via1), 4, 4, "pcont-via1 non-stack") =&gt;
 dm_pcn_ns = dm_pcn.not_in(dm_via1); dm_pcn_ns.output("pcont-via1 non-stack")
 # geomArea(geomAnd(DM_dcn, DM_via1), 4, 4, "dcont-via1 non-stack") =&gt;
-dm_dcn_ns = dm_dcn.not_in(dm_via1); dm_dcn_ns.output("dcont-via1 non-stack")
+dm_dcn_ns = dm_dcn &amp; dm_via1 &amp; dm_dcn.not_in(dm_via1); dm_dcn_ns.output("dcont-via1 non-stack")
 # geomArea(geomAnd(DM_via1, DM_via2), 4, 4, "via1-via2 non-stack") =&gt;
 #dm_via1_ns = dm_via1.not_in(dm_via2); dm_via1_ns.output("via1-via2 non-stack")
 dm_via2_ns = dm_via2.not_in(dm_via1); dm_via2_ns.output("via1-via2 non-stack")
@@ -284,9 +285,10 @@ hipol_w = hipol.width(2.0); hipol_w.output("Poly in HPOL width &lt; 2.0")
 
 ### ToDo: check HIPOL length (20-80um) (181127:akita11)
 
-puts 'Check Enclose'
+puts('Check Enclose')
 # geomEnclose(NWL, Pdiff, 2, "Pdiff enclosure in NWL &lt; 2.0") =&gt;
-nwl_e = nwl.enclosing(pdiff, 2); nwl_e.output("Pdiff enclosure in NWL &lt; 2.0")
+nwl_e = nwl.enclosing(pdiff, 2.0); nwl_e.output("Pdiff enclosure in NWL &lt; 2.0")
+puts nwl_e
 ##### geomArea(geomAnd(PSUB, DM_nscn), 0, 0, "nsubcon outside NWL") # not shown in rule v110
 # geomEnclose(Parea, DIFF, 0.5, "DIFF enclosure in Parea &lt; 0.5") =&gt;
 parea_e = parea.enclosing(diff, 0.5); parea_e.output("DIFF enclosure in Parea &lt; 0.5")

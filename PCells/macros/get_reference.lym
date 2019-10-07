@@ -17,32 +17,70 @@
  <text>module MyMacro
 
   include RBA
+  
+  cell = Application.instance.main_window.current_view.active_cellview.cell
 
-  netlist = 'C:\Users\seijirom\AppData\Roaming/ALB/4394/pmos_dc.net'
+  netlist = 'C:\Users\seijirom\AppData\Roaming/ALB/4453/bgr_simple_tb.net'
   reference = 'reference.cir'
   
   raise "#{netlist} does not exist!" unless File.exist? netlist
   desc = ''
   cells = []
-  File.open(reference, 'w'){|f|
-    File.read(netlist).each_line{|l|
-      if l=~ /(\S+)@or1_stdcells_v1/
-        cells &lt;&lt; $1 unless cells.include? $1
-        l.sub! '@', '$'
-      elsif l =~ /^ *\.inc/ || l =~/^ *[vV]/
-        l.sub! /^/, '*'
+  circuit_top = nil
+  device_class = {}
+  c = File.open(File.join('lvs', File.basename(netlist))+'.txt', 'w')
+  File.read(netlist).each_line{|l|
+    c.puts l
+    if l=~ /(\S+)@or1_stdcells_v1/
+      cells &lt;&lt; $1 unless cells.include? $1
+      l.sub! '@', '$'
+    elsif l =~ /^ *\.inc/
+      l.sub! /^/, '*'
+    elsif l =~ /^[mM]\S+ *\S+ *\S+ *\S+ *\S+ *(\S+)/
+      device_class['NMOS'] = $1if $1.include? 'n'
+      device_class['PMOS'] = $1if $1.include? 'p'
+      if  l=~/^([mM]\S)+ *\S+ *\S+ *\S+ *\S+ *\S+ .*([wW] *= *(\S+)[uU])(.*)[mM] *= *(\S+)/
+        name=$1
+        target=$2
+        w=$3.to_f
+        m=$5.to_i
+        others = $4.upcase
+        if others =~/ ([AP][SD] *=\S+)/ 
+          param = $1
+          l.sub! target, "w=#{w*m}u"
+          puts "Caution for #{name}: #{target} replaced with w=#{w*m}u because m=#{m} and includes #{param}"
+        end
       end
-      desc &lt;&lt; l
-    }
-    f.puts desc
+    elsif circuit_top.nil? &amp;&amp; l=~/^\.subckt *(\S+)/
+      circuit_top = $1
+      puts "circuit_top: #{circuit_top}"
+      new_desc = []
+      desc.each_line{|l|
+        l.sub! /^/, '*' unless l=~/^\*/
+        new_desc &lt;&lt; l
+      }
+      desc = new_desc
+    end
+    desc &lt;&lt; l.upcase
   }
+  c.close
+  File.open(reference, 'w'){|f| f.puts desc}
+  slink = File.join('lvs', reference+'.txt')
+  if /mswin32|mingw/ =~ RUBY_PLATFORM
+    system 'WSL cd lvs; ln -s ../reference.cir reference.cir.txt'
+  else
+    File.symlink reference, slink unless File.exist? slink
+  end
+
   puts "#{reference} created under #{Dir.pwd}"
-  
+  File.mkdir 'lvs' unless File.directory? 'lvs'
+  ['macros', 'pymacros', 'python', 'ruby', 'drc'].each{|f| Dir.rmdir f if File.directory? f}
   if cells.size &gt; 0
     or1_cells = %[an21 an31 an41 buf1 buf2 buf4 buf8 cinv clkbuf1 clkbuf2 clkinv1 clkinv2 dff1 exnr exor
                      inv1 inv1 ~inv2 inv4 inv8 na21 na212 na222 na31 na41 nr21 nr212 nr222 nr31 or21 or31
                      rff1 sdff1 sff1 srff1 ssff1]
-    File.open('set_same_circuits.rb', 'w'){|f|
+
+    File.open('lvs/set_same_circuits.rb', 'w'){|f|
       f.puts 'def set_same_circuits'
       cells.each{|c|
         if or1_cells.include? c
@@ -51,7 +89,26 @@
       }
       f.puts 'end'
     }
-    puts 'set_same_circuits.rb created for ' + cells.inspect
+    puts 'lvs/set_same_circuits.rb created for ' + cells.inspect
+  end
+  unless File.exist? 'lvs/res_ext_settings.rb'
+    File.open('lvs/res_ext_settings.rb', 'w'){|f|
+      f.puts 'def res_ext_settings'
+      f.puts "  same_circuits '#{cell.name}', '#{circuit_top ? circuit_top.upcase : '.TOP'}'"
+      f.puts "  align"
+      device_class.each_pair{|p, q|
+        f.puts "  same_device_classes '#{p}', '#{q.upcase}'"
+      }
+      f.puts "  same_device_classes 'HRES', 'RES'"
+      f.puts "  same_device_classes 'RES', 'RES'"
+      f.puts "  netlist.flatten_circuit 'Nch*'"
+      f.puts "  netlist.flatten_circuit 'Pch*'"
+      f.puts "  netlist.flatten_circuit 'R_poly*'"
+      f.puts "  netlist.flatten_circuit 'HR_poly*'"
+      f.puts "  netlist.combine_devices"
+      f.puts "  schematic.combine_devices"
+      f.puts 'end'
+    }
   end
 end</text>
 </klayout-macro>
