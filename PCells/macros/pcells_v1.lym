@@ -14,7 +14,8 @@
  <menu-path/>
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
- <text> module MyLib
+ <text> # OpenRule1um PCells v1.1 Oct. 8, 2019 copy left by S. Moriyama (Anagix Corporation)
+ module MyLib
 
   include RBA
 
@@ -93,7 +94,7 @@
       nsubcont_index = library_cell('nsubcont', 'OpenRule1um', layout)
       psubcont_index = library_cell('psubcont', 'OpenRule1um', layout) 
       offset = vs + gl/2          
-      create_path(pol_index, offset, vs+u1, offset, vs+u1+gw, gl, vs/2-u1/5, vs/2-u1/5)
+      create_path(pol_index, offset, vs+u1, offset, vs+u1+gw, gl, vs/2, vs/2)
       create_box diff_index, 0, vs+u1, 2*vs+gl, vs+u1+gw
       [vs/2, vs+gl+vs/2].each{|offset|
         create_path(m1_index, offset, vs+u1, offset, vs+u1+gw, vs, 0, 0)
@@ -164,8 +165,7 @@
         insert_cell indices[:via], x2-vs/2+u1/5, y1+vs/2
         insert_cell indices[:pcont], x1+vs/2 +u1/10, y2-vs/2
         insert_cell indices[:via], x1+vs/2 +u1/10, y2-vs/2
-        create_box indices[:pol], x1 +u1/10, y2-vs, x1+vs +u1/10, y2
-        create_path indices[:pol], x1+vs+gl/2, y2-vs, x1+vs+gl/2, y2, gl, u1/5, 0
+        create_box indices[:pol], x1 +u1/10, y2-vs, x1+vs+gl, y2
         insert_cell indices[:via], x2-vs/2  +u1/10, y2-vs/2
         create_path indices[:m1], x2-vs/2, y2-vs-u1, x2-vs/2, y2-vs/2, u1, 0, 0
  
@@ -191,13 +191,13 @@
      produce_impl_core {|indices, x1, y1, x2, y2, vs, u1, gl|
         insert_cell indices[:pcont], x1+vs/2  +u1/10, y1+vs/2
         insert_cell indices[:via], x1+vs/2  +u1/10, y1+vs/2
-        create_path indices[:pol], x1+vs+gl/2, y1, x1+vs+gl/2, y1+vs, gl, 0, u1/5
+        create_box indices[:pol], x1+vs+u1/10, y1, x1+vs+gl, y1+vs
         insert_cell indices[:via], x2-vs/2  +u1/10, y1+vs/2
         create_path indices[:m1], x2-vs/2, y1, x2-vs/2, y1+vs+u1, u1, 0, 0
         insert_cell indices[:via], x1+vs/2, y2-vs/2
         create_path indices[:m1], x1+vs/2, y2-vs-u1, x1+vs/2, y2, u1, 0, 0
-        insert_cell indices[:nsubcont], x2-vs/2+u1/5, y2-vs/2
-        insert_cell indices[:via], x2-vs/2+u1/5, y2-vs/2
+        insert_cell indices[:nsubcont], x2-vs/2+u1/2, y2-vs/2
+        insert_cell indices[:via], x2-vs/2+u1/2, y2-vs/2
         
         create_box indices[:parea], x1-u1/2, y1+vs+u1/2, x2+u1/2, y2-vs-u1/2
         create_box indices[:nwl], x1-2*u1, y1+vs-u1, x2+2*u1, y2+u1+u1/2

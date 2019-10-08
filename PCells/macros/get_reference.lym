@@ -14,7 +14,8 @@
  <menu-path/>
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
- <text>module MyMacro
+ <text># OpenRule1um lvs preprocessor v1.0 Oct. 8, 2019 copy left by S. Moriyama (Anagix Corporation)
+module MyMacro
 
   include RBA
   

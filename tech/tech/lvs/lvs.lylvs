@@ -14,7 +14,8 @@
  <menu-path>tools_menu.lvs.end</menu-path>
  <interpreter>dsl</interpreter>
  <dsl-interpreter-name>lvs-dsl-xml</dsl-interpreter-name>
- <text>deep
+ <text># OpenRule1um lvs rule v1.0 Oct. 8, 2019 copy left by S. Moriyama (Anagix Corporation)
+deep
 report_lvs
 
 # Drawing layers
