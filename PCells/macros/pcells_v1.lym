@@ -14,7 +14,7 @@
  <menu-path/>
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
- <text> # OpenRule1um PCells v1.3 Oct. 11, 2019 copy left by S. Moriyama (Anagix Corporation)
+ <text> # OpenRule1um PCells v1.4 Oct. 11, 2019 copy left by S. Moriyama (Anagix Corporation)
  module MyLib
 
   include RBA
@@ -276,10 +276,10 @@
     end
     
     def produce_impl
-      produce_impl_core layer=6
+      produce_impl_core layer=nil
     end
     
-    def produce_impl_core layer=6
+    def produce_impl_core hpol_layer=nil
       rw = (w/layout.dbu).to_i
       rl = (l/layout.dbu).to_i
       s = 2.0.um # via size (fixed)
@@ -300,7 +300,7 @@
       end
       puts "rl = #{rl}, n = #{n}, sl = #{sl}, r = #{r}"
       
-      hpol_index = layout.insert_layer(LayerInfo::new(layer, 0))
+      pol_index = layout.insert_layer(LayerInfo::new(5, 0))
       m1_index = layout.insert_layer(LayerInfo::new(8, 0))
       res_index = layout.insert_layer(LayerInfo::new(15, 0))
       via_index = library_cell('Via', 'OpenRule1um', layout)
@@ -316,7 +316,7 @@
 
         if i % 2 == 0
           points = [Point::new(offset, vs), Point::new(offset, vs/2+r)]
-          cell.shapes(hpol_index).insert(Path::new(points, rw, vs, vs))
+          cell.shapes(pol_index).insert(Path::new(points, rw, vs, vs))
           cell.shapes(res_index).insert(Path::new(points, rw, vs/4, vs/4))
           [[offset, vs/2], [offset, r+vs]].each{|x, y|
             insert_via_pcont via_index, pcont_index, x, y, rw, vs, cell
@@ -327,7 +327,7 @@
           end  
         else
           points = [Point::new(offset, vs+(sl-r)), Point::new(offset, vs/2+sl)]
-          cell.shapes(hpol_index).insert(Path::new(points, rw, vs, vs))
+          cell.shapes(pol_index).insert(Path::new(points, rw, vs, vs))
           cell.shapes(res_index).insert(Path::new(points, rw, vs/4, vs/4))
           [[offset, vs/2+(sl-r)], [offset, sl+vs]].each{|x, y|
             insert_via_pcont via_index, pcont_index, x, y, rw, vs, cell
@@ -338,6 +338,11 @@
           end
         end         
         prev_x = offset  
+      end
+      if hpol_layer
+        hpol_index =  layout.insert_layer(LayerInfo::new(hpol_layer, 0))
+        u5 = (5.0.um/layout.dbu).to_i
+        cell.shapes(hpol_index).insert(Box.new(vs/2-rw/2 -u5, -u5, prev_x+rw/2 + u5, sl+u5+vs+vs/2))
       end
     end
     
@@ -396,7 +401,7 @@
       set_rval(sheet_resistance * l / w)
     end
     def produce_impl
-      produce_impl_core layer=5
+      produce_impl_core layer=nil
     end
   end
   class HR_poly &lt; Resistor
@@ -427,6 +432,7 @@
      end 
     def produce_impl
       produce_impl_core layer=6
+      
     end
   end    # PCellを配置するライブラリ 
 
