@@ -9,19 +9,20 @@
  <autorun>false</autorun>
  <autorun-early>false</autorun-early>
  <shortcut/>
- <show-in-menu>false</show-in-menu>
+ <show-in-menu>true</show-in-menu>
  <group-name/>
  <menu-path/>
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
- <text># OpenRule1um lvs preprocessor v1.0 Oct. 8, 2019 copy left by S. Moriyama (Anagix Corporation)
+ <text># OpenRule1um lvs preprocessor v1.1 Oct. 14, 2019 copy left by S. Moriyama (Anagix Corporation)
+require 'fileutils'
 module MyMacro
 
   include RBA
   
   cell = Application.instance.main_window.current_view.active_cellview.cell
 
-  netlist = 'C:\Users\seijirom\AppData\Roaming/ALB/4473/test_rings.net'
+  netlist = '/home/seijirom/ALBDATA/4481/using.net'
   reference = 'reference.cir'
   
   raise "#{netlist} does not exist!" unless File.exist? netlist
@@ -72,12 +73,12 @@ module MyMacro
   if /mswin32|mingw/ =~ RUBY_PLATFORM
     system 'WSL cd lvs; ln -s ../reference.cir reference.cir.txt'
   else
-    File.symlink reference, slink unless File.exist? slink
+    File.symlink File.join('..', reference), slink unless File.exist? slink
   end
 
   puts "#{reference} created under #{Dir.pwd}"
   File.mkdir 'lvs' unless File.directory? 'lvs'
-  ['macros', 'pymacros', 'python', 'ruby', 'drc'].each{|f| Dir.rmdir f if File.directory? f}
+  ['macros', 'pymacros', 'python', 'ruby', 'drc'].each{|f| FileUtils.rm_rf f if File.directory? f}
   if cells.size &gt; 0
     or1_cells = %[an21 an31 an41 buf1 buf2 buf4 buf8 cinv clkbuf1 clkbuf2 clkinv1 clkinv2 dff1 exnr exor
                      inv1 inv1 ~inv2 inv4 inv8 na21 na212 na222 na31 na41 nr21 nr212 nr222 nr31 or21 or31

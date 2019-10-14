@@ -195,6 +195,7 @@ r_dm_dcn_s = dm_dcn.space(1.0.um); r_dm_dcn_s.output("dcont space &lt; 1.0")
 r_hipol_s = hipol.space(2.0.um); r_hipol_s.output("Poly in HPOL space &lt; 2.0")
 # geomSpace(POL, HIPOL, 1.0, "Poly outside HPOL space &lt; 1.0") =&gt;
 r_pol_hipol_s = pol.separation(hipol.not_interacting(pol), 1.0.um); r_pol_hipol_s.output("Poly outside HPOL space &lt; 1.0")
+r_hpol_mos_s = hpol.separation(mos, 3.0.um); r_hpol_mos_s.output("HPOL MOS gate space &lt; 3.0")
 
 puts 'Check Overlap'
 =begin

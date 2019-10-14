@@ -14,7 +14,7 @@
  <menu-path/>
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
- <text> # OpenRule1um PCells v1.4 Oct. 11, 2019 copy left by S. Moriyama (Anagix Corporation)
+ <text> # OpenRule1um PCells v1.5 Oct. 12, 2019 copy left by S. Moriyama (Anagix Corporation)
  module MyLib
 
   include RBA
@@ -115,6 +115,11 @@
       cell.shapes(index).insert(Path::new(points, w, be, ee))
     end
     
+    def create_path2 index, x1, y1, x2, y2, x3, y3, w, be, ee
+      points = [Point::new(x1, y1), Point::new(x2, y2), Point::new(x3, y3)]
+      cell.shapes(index).insert(Path::new(points, w, be, ee))
+    end
+    
     def create_box index, x1, y1, x2, y2
        cell.shapes(index).insert(Box::new(x1, y1, x2, y2))
     end
@@ -163,13 +168,14 @@
         create_path indices[:m1], x1+vs/2, y1+vs/2, x1+vs/2, y1+vs+u1, u1, 0, 0
         insert_cell indices[:psubcont], x2-vs/2+u1/2, y1+vs/2
         insert_cell indices[:via], x2-vs/2+u1/2, y1+vs/2
-        insert_cell indices[:pcont], x1+vs/2 +u1/10, y2-vs/2
-        insert_cell indices[:via], x1+vs/2 +u1/10, y2-vs/2
-        create_box indices[:pol], x1 +u1/10, y2-vs, x1+vs+gl, y2
-        insert_cell indices[:via], x2-vs/2+u1/10, y2-vs/2
+        insert_cell indices[:pcont], x1+vs/2 +3*u1/10, y2-vs/2
+        insert_cell indices[:via], x1+vs/2 +3*u1/10, y2-vs/2
+        #create_box indices[:pol], x1 +u1/10, y2-vs, x1+vs+gl, y2
+        create_path2 indices[:pol], x1+vs/2, y2-vs/2, x1+vs+gl/2, y2-vs/2, x1+vs+gl/2, y2-vs,u1, 0, 0
+        insert_cell indices[:via], x2-vs/2+3*u1/10, y2-vs/2
         create_path indices[:m1], x2-vs/2, y2-vs-u1, x2-vs/2, y2-vs/2, u1, 0, 0
  
-        create_box indices[:narea], x1-u1/2-u1/4, y1+vs+u1/2, x2+u1/2+u1/4, y2-vs-u1/2
+        create_box indices[:narea], x1-u1, y1+vs+u1/2, x2+u1, y2-vs-u1/2
        }
     end
   end
@@ -189,10 +195,11 @@
  
     def produce_impl
      produce_impl_core {|indices, x1, y1, x2, y2, vs, u1, gl|
-        insert_cell indices[:pcont], x1+vs/2  +u1/10, y1+vs/2
-        insert_cell indices[:via], x1+vs/2  +u1/10, y1+vs/2
-        create_box indices[:pol], x1+vs+u1/10, y1, x1+vs+gl, y1+vs
-        insert_cell indices[:via], x2-vs/2  +u1/10, y1+vs/2
+        insert_cell indices[:pcont], x1+vs/2  +3*u1/10, y1+vs/2
+        insert_cell indices[:via], x1+vs/2  +3*u1/10, y1+vs/2
+        # create_box indices[:pol], x1+vs+u1/10, y1, x1+vs+gl, y1+vs
+        create_path2 indices[:pol], x1+vs/2, y1+vs/2, x1+vs+gl/2, y1+vs/2, x1+vs+gl/2, y1+vs, u1, 0, 0
+        insert_cell indices[:via], x2-vs/2  +3*u1/10, y1+vs/2
         create_path indices[:m1], x2-vs/2, y1+vs/2, x2-vs/2, y1+vs+u1, u1, 0, 0
         insert_cell indices[:via], x1+vs/2, y2-vs/2
         create_path indices[:m1], x1+vs/2, y2-vs-u1, x1+vs/2, y2-vs/2, u1, 0, 0
@@ -299,9 +306,13 @@
         set_n n - 1 if r &lt;= 0
       end
       puts "rl = #{rl}, n = #{n}, sl = #{sl}, r = #{r}"
-      
+      #nv = (rw/vs).to_i
+      #juts = rw - nv*vs
+      #juts = ((nv+1)*vs-rw) if juts != 0
+      juts = 0
       pol_index = layout.insert_layer(LayerInfo::new(5, 0))
       m1_index = layout.insert_layer(LayerInfo::new(8, 0))
+      m2_index = layout.insert_layer(LayerInfo::new(10, 0))
       res_index = layout.insert_layer(LayerInfo::new(15, 0))
       via_index = library_cell('Via', 'OpenRule1um', layout)
       pcont_index = library_cell('pcont', 'OpenRule1um', layout)
@@ -319,7 +330,9 @@
           cell.shapes(pol_index).insert(Path::new(points, rw, vs, vs))
           cell.shapes(res_index).insert(Path::new(points, rw, vs/4, vs/4))
           [[offset, vs/2], [offset, r+vs]].each{|x, y|
-            insert_via_pcont via_index, pcont_index, x, y, rw, vs, cell
+            insert_via_pcont via_index, pcont_index, x-juts/2, y, rw, vs
+            cell.shapes(m1_index).insert(Box::new(x-rw/2, y-vs/2, x+rw/2, y+vs/2))
+            cell.shapes(m2_index).insert(Box::new(x-rw/2, y-vs/2, x+rw/2, y+vs/2))
           }
           if prev_x
             points = [Point::new(offset, vs/2), Point::new(prev_x, vs/2)]
@@ -330,19 +343,22 @@
           cell.shapes(pol_index).insert(Path::new(points, rw, vs, vs))
           cell.shapes(res_index).insert(Path::new(points, rw, vs/4, vs/4))
           [[offset, vs/2+(sl-r)], [offset, sl+vs]].each{|x, y|
-            insert_via_pcont via_index, pcont_index, x, y, rw, vs, cell
+            insert_via_pcont via_index, pcont_index, x+juts/2, y, rw, vs
+            cell.shapes(m1_index).insert(Box::new(x-rw/2, y-vs/2, x+rw/2, y+vs/2))
+            cell.shapes(m2_index).insert(Box::new(x-rw/2, y-vs/2, x+rw/2, y+vs/2))
           }
           if prev_x
             points = [Point::new(offset, sl+vs), Point::new(prev_x, sl+vs)]
             cell.shapes(m1_index).insert(Path::new(points, m1w, m1w/2, m1w/2))
           end
-        end         
+        end
         prev_x = offset  
       end
       if hpol_layer
         hpol_index =  layout.insert_layer(LayerInfo::new(hpol_layer, 0))
         u5 = (5.0.um/layout.dbu).to_i
-        cell.shapes(hpol_index).insert(Box.new(vs/2-rw/2 -u5, -u5, prev_x+rw/2 + u5, sl+u5+vs+vs/2))
+        cell.shapes(hpol_index).insert(Box.new(vs/2-rw/2 -u5 -juts, -u5, prev_x+rw/2 + u5 +juts, sl+u5+vs+vs/2))
+        puts "u5=#{u5}, juts=#{juts}"
       end
     end
     
@@ -356,11 +372,11 @@
       end
     end
     
-    def insert_via_pcont via_index, pcont_index, x, y, rw, vs, cell
+    def insert_via_pcont via_index, pcont_index, x, y, rw, vs
       nv = (rw/vs).to_i
-      if nv*vs != rw
-        nv = nv + 1
-      end
+      #if nv*vs != rw
+      #  nv = nv + 1
+      #end
       offset = x - (vs*nv - vs)/2
       for i in 0..nv-1
         x = offset + i*vs
