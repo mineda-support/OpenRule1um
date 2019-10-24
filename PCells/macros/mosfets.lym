@@ -258,8 +258,11 @@
             top = x
           else
             # second s/d and via
-            
-            insert_cell indices[:via], x  +3*u1/10, y1+vs/2
+            if i == 1
+              insert_cell indices[:via], x +3*u1/10, y1+vs/2
+            else
+              insert_cell indices[:via], x, y1+vs/2
+            end
             create_path indices[:m1], x, y1+vs/2, x, y1+vs+u1, u1, 0, 0
             if bottom
               create_path indices[:m1], bottom, y1+vs/2, x, y1+vs/2, u1, 0, 0
@@ -280,9 +283,9 @@
         
         create_box indices[:parea], x1-u1/2, y1+vs+u1/2, offset-gl +u1/2, y2-vs-u1/2
         if n % 2 == 0
-          create_box indices[:nwl], x1-2*u1, y1-vs-u1/2, offset-gl +u1, y2-vs+u1
+          create_box indices[:nwl], x1-vs, y1-u1, offset-gl +2*u1, y2
         else
-          create_box indices[:nwl], x1-2*u1, y1+vs-u1/2, offset-gl +u1, y2+u1
+          create_box indices[:nwl], x1-vs, y1, offset-gl +2*u1, y2+u1
         end
       }
     end
