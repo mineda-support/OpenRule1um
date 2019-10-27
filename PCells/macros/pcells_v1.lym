@@ -14,7 +14,7 @@
  <menu-path/>
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
- <text> # OpenRule1um PCells v1.5 Oct. 12, 2019 copy left by S. Moriyama (Anagix Corporation)
+ <text> # OpenRule1um PCells v1.7 Oct. 27, 2019 copy left by S. Moriyama (Anagix Corporation)
  module MyLib
 
   include RBA
@@ -93,13 +93,17 @@
       pcont_index = library_cell('pcont', 'OpenRule1um', layout)
       nsubcont_index = library_cell('nsubcont', 'OpenRule1um', layout)
       psubcont_index = library_cell('psubcont', 'OpenRule1um', layout) 
-      offset = vs + gl/2          
-      create_path(pol_index, offset, vs+u1, offset, vs+u1+gw, gl, vs/2, vs/2)
-      create_box diff_index, 0, vs+u1, 2*vs+gl, vs+u1+gw
-      [vs/2, vs+gl+vs/2].each{|offset|
-        create_path(m1_index, offset, vs+u1, offset, vs+u1+gw, vs, 0, 0)
-        create_dcont(dcont_index, offset, vs+u1, offset, vs+u1+gw, vs)
+      offset = 0
+      (n+1).times{|i|
+        x = vs/2 + offset
+        create_path(m1_index, x, vs+u1, x, vs+u1+gw, vs, 0, 0)
+        create_dcont(dcont_index, x, vs+u1, x, vs+u1+gw, vs)  
+        x = x + vs/2 + gl/2
+        create_path(pol_index, x, vs+u1, x, vs+u1+gw, gl, vs/2, vs/2) if i &lt; n
+        offset = offset + vs + gl   
       }    
+      create_box diff_index, 0, vs+u1, offset -gl, vs+u1+gw
+            
       x = y = vs/2
       # insert_cell via_index, x, y, cell
       indices = {pol: pol_index, diff: diff_index, nwl: nwl_index,
@@ -162,21 +166,54 @@
       "Nch\r\n(L=#{l.to_s}um,W=#{w.to_s}um,n=#{n.to_s}, Total L=#{ltot})"
     end 
     
-    def produce_impl
+    def produce_impl # NMOS
       produce_impl_core {|indices, x1, y1, x2, y2, vs, u1, gl|
-        insert_cell indices[:via], x1+vs/2, y1+vs/2
-        create_path indices[:m1], x1+vs/2, y1+vs/2, x1+vs/2, y1+vs+u1, u1, 0, 0
-        insert_cell indices[:psubcont], x2-vs/2+u1/2, y1+vs/2
-        insert_cell indices[:via], x2-vs/2+u1/2, y1+vs/2
+        # create pcont
         insert_cell indices[:pcont], x1+vs/2 +3*u1/10, y2-vs/2
         insert_cell indices[:via], x1+vs/2 +3*u1/10, y2-vs/2
-        #create_box indices[:pol], x1 +u1/10, y2-vs, x1+vs+gl, y2
-        create_path2 indices[:pol], x1+vs/2, y2-vs/2, x1+vs+gl/2, y2-vs/2, x1+vs+gl/2, y2-vs,u1, 0, 0
-        insert_cell indices[:via], x2-vs/2+3*u1/10, y2-vs/2
-        create_path indices[:m1], x2-vs/2, y2-vs-u1, x2-vs/2, y2-vs/2, u1, 0, 0
- 
-        create_box indices[:narea], x1-u1, y1+vs+u1/2, x2+u1, y2-vs-u1/2
-       }
+        create_path2 indices[:pol], x1+vs/2, y2-vs/2, x1+vs+u1/2, y2-vs/2, x1+vs+u1/2, y2-vs,u1, 0, 0
+        offset = 0
+        top = nil
+        bottom = nil
+        prev_pol = nil
+         (n+1).times{|i|
+          x = offset + vs/2
+          y = y2+u1-vs-u1/2
+          create_path indices[:pol], prev_pol-vs/2-gl, y , x-vs/2, y, u1, 0, 0 if prev_pol
+          prev_pol = x if i &gt;= 1
+          if i % 2 == 0
+            # first s/d and via
+            insert_cell indices[:via], x, y1+vs/2
+            create_path indices[:m1], x, y1+vs/2, x, y1+vs+2*u1, u1, 0, 0
+            if top
+              create_path indices[:m1], top, y1+vs/2, x, y1+vs/2, u1, 0, 0
+            end
+            top = x
+          else
+            # second s/d and via
+            if n == 1
+              insert_cell indices[:via], x+3*u1/10, y2-vs/2
+            else
+              insert_cell indices[:via], x+3*u1/10, y2+u1-vs/2
+            end
+            create_path indices[:m1], x, y2-vs-u1, x, y2+u1-vs/2, u1, 0, 0
+            if bottom
+              create_path indices[:m1], bottom, y2+u1-vs/2, x, y2+u1-vs/2, u1, 0, 0
+            end
+            bottom = x
+          end
+          offset = offset + vs + gl
+        }
+        # psubcont and via
+        if n % 2 == 0
+          y = y2-vs/2
+        else
+          y = y1+vs/2
+        end
+        insert_cell indices[:psubcont], offset -vs/2-gl+u1/2, y
+        insert_cell indices[:via], offset-vs/2-gl+u1/2, y 
+        create_box indices[:narea], x1-u1, y1+vs+u1/2, offset-gl+u1, y2-vs-u1/2
+      }
     end
   end
   class Pch &lt; MOS
@@ -193,21 +230,63 @@
       "Pch\r\n(L=#{l.to_s}um,W=#{w.to_s}um,n=#{n.to_s}, Total L=#{ltot})"
     end  
  
-    def produce_impl
+    def produce_impl # PMOS
      produce_impl_core {|indices, x1, y1, x2, y2, vs, u1, gl|
+        # create pcont
         insert_cell indices[:pcont], x1+vs/2  +3*u1/10, y1+vs/2
         insert_cell indices[:via], x1+vs/2  +3*u1/10, y1+vs/2
-        # create_box indices[:pol], x1+vs+u1/10, y1, x1+vs+gl, y1+vs
-        create_path2 indices[:pol], x1+vs/2, y1+vs/2, x1+vs+gl/2, y1+vs/2, x1+vs+gl/2, y1+vs, u1, 0, 0
-        insert_cell indices[:via], x2-vs/2  +3*u1/10, y1+vs/2
-        create_path indices[:m1], x2-vs/2, y1+vs/2, x2-vs/2, y1+vs+u1, u1, 0, 0
-        insert_cell indices[:via], x1+vs/2, y2-vs/2
-        create_path indices[:m1], x1+vs/2, y2-vs-u1, x1+vs/2, y2-vs/2, u1, 0, 0
-        insert_cell indices[:nsubcont], x2-vs/2+u1/2, y2-vs/2
-        insert_cell indices[:via], x2-vs/2+u1/2, y2-vs/2
+        create_path2 indices[:pol], x1+vs/2, y1+vs/2, x1+vs+u1/2, y1+vs/2, x1+vs+u1/2, y1+vs, u1, 0, 0
+        offset = 0
+        top = nil
+        bottom = nil
+        prev_pol = nil
+        (n+1).times{|i|
+          x = offset + vs/2
+          create_path indices[:pol], prev_pol-vs/2-gl, y1+u1/2+vs/2, x-vs/2, y1+u1/2+vs/2, u1, 0, 0 if prev_pol
+          prev_pol = x  if i &gt;=1   
+          if i % 2 == 0
+            # first s/d and via
+            insert_cell indices[:via], x, y2-vs/2
+            create_path indices[:m1], x, y2-vs-u1, x, y2-vs/2, u1, 0, 0
+            if top
+              create_path indices[:m1], top, y2-vs/2, x, y2-vs/2, u1, 0, 0
+            end
+            top = x
+          else
+            # second s/d and via
+            if i == 1
+              if n == 1
+                insert_cell indices[:via], x +3*u1/10, y1+vs/2
+              else
+                insert_cell indices[:via], x +3*u1/10, y1-u1+vs/2
+              end
+            else
+              insert_cell indices[:via], x, y1-u1+vs/2
+            end
+            create_path indices[:m1], x, y1-u1+vs/2, x, y1+vs+u1, u1, 0, 0
+            if bottom
+              create_path indices[:m1], bottom, y1-u1+vs/2, x, y1 -u1+vs/2, u1, 0, 0
+            end
+            bottom = x
+          end
+          offset = offset + vs + gl
+        }
+        # nsubcont and via
+        if n % 2 == 0
+          y = y1 + vs/2
+        else
+          y = y2 - vs/2
+        end
+        x = offset - vs/2 -gl + u1/2
+        insert_cell indices[:nsubcont], x, y
+        insert_cell indices[:via], x, y
         
-        create_box indices[:parea], x1-u1/2, y1+vs+u1/2, x2+u1/2, y2-vs-u1/2
-        create_box indices[:nwl], x1-2*u1, y1+vs-u1, x2+2*u1, y2+u1+u1/2
+        create_box indices[:parea], x1-u1/2, y1+vs+u1/2, offset-gl +u1/2, y2-vs-u1/2
+        if n % 2 == 0
+          create_box indices[:nwl], x1-vs, y1-u1, offset-gl +2*u1, y2
+        else
+          create_box indices[:nwl], x1-vs, y1, offset-gl +2*u1, y2+u1
+        end
       }
     end
   end    # PCellを配置するライブラリ 
