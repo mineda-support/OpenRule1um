@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<klayout-macro>
+ <description/>
+ <version/>
+ <category/>
+ <prolog/>
+ <epilog/>
+ <doc/>
+ <autorun>false</autorun>
+ <autorun-early>false</autorun-early>
+ <shortcut/>
+ <show-in-menu>false</show-in-menu>
+ <group-name/>
+ <menu-path/>
+ <interpreter>ruby</interpreter>
+ <dsl-interpreter-name/>
+ <text>include RBA
+def library_cell name, libname, layout
+  if cell = layout.cell(name)
+    return cell.cell_index
+  else
+    lib = Library::library_by_name libname
+    cell_index = lib.layout.cell_by_name(name)
+    proxy_index = layout.add_lib_cell(lib, cell_index)
+  end
+end
+def instantiate index, x, y
+  CellInstArray.new(index, Trans.new(x, y))
+end
+def each_element file
+  sym=x=y=rot=name=l=w=m=nil
+  File.read(file).each_line{|l|
+    l.chomp!
+    if l =~ /SYMBOL (\S+) (\S+) (\S+) (\S+)/
+      sym = $1
+      x = $2
+      y = $3
+      rot=$4
+    elsif l =~ /SYMATTR InstName (\S+)/
+      name = $1
+    elsif l =~ /SYMATTR SpiceLine l=(\S+)u w=(\S+)u .* m=(\S+)/ ||
+          l =~ /SYMATTR SpiceLine l=(\S+)u w=(\S+)u/
+      l=$1
+      w=$2
+      m=$3
+      yield sym, name, l, w, m ? m : 1, x, y, rot
+    end
+  }
+end
+
+module MyMacro
+ 
+  include RBA
+
+  app = Application.instance
+  mw = app.main_window
+  unless lv = mw.current_view
+    raise "Shape Statistics: No view selected"
+  end
+  cell = lv.active_cellview.cell
+  layout = cell.layout
+  
+  nch_index = library_cell('Nch', 'PCells', layout)
+  pch_index = library_cell('Pch', 'PCells', layout)
+=begin
+  nch = instantiate nch_index, x=0, y=0
+  inst = cell.insert(nch)
+  inst.change_pcell_parameter 'l', 2
+  inst.change_pcell_parameter 'w', 6
+  inst.change_pcell_parameter 'n', 4
+  inst.transform Trans.new(90, true, 10,20)
+  puts 'hello'
+=end
+  each_element('/home/seijirom/Dropbox/work/LRmasterSlice/コンパレータ/COMP_NLF.asc'){|sym, name, l, w, m, x, y, rot|
+    puts "#{name}: l=#{l} w=#{w} m=#{m ? m : 1} @ (#{x}, #{y}), #{rot}"
+    case sym
+    when 'NMOS@OR1LIB'
+      index = nch_index
+    when 'PMOS@OR1LIB'
+      index = pch_index
+    end
+    mos = instantiate index, 0, 0
+    inst = cell.insert(mos)
+    inst.change_pcell_parameter 'l', l.to_f
+    inst.change_pcell_parameter 'w', w.to_f
+    inst.change_pcell_parameter 'n', m.to_i
+    case rot
+    when 'R0'
+      inst.transform Trans.new(0, false, x.to_i*100, -(y.to_i*200))
+    when 'R90'
+      inst.transform Trans.new(90, false, x.to_i*100, -(y.to_i*200))
+    when 'R180'
+      inst.transform Trans.new(180, false, x.to_i*100, -(y.to_i*200))
+    when 'R270'
+      inst.transform Trans.new(270, false, x.to_i*100, -(y.to_i*200))
+    when 'M0'
+     inst.transform Trans.new(0, true, x.to_i*100, -(y.to_i*200))
+    when 'M90'
+      inst.transform Trans.new(90, true, x.to_i*100, -(y.to_i*200))
+    when 'M180'
+    inst.transform Trans.new(180, true, x.to_i*100, -(y.to_i*200))
+   when 'M270'
+    inst.transform Trans.new(270, true, x.to_i*100, -(y.to_i*200))
+   end
+  }
+end
+</text>
+</klayout-macro>
