@@ -34,8 +34,8 @@ def each_element file
     l.chomp!
     if l =~ /SYMBOL (\S+) (\S+) (\S+) (\S+)/
       sym = $1
-      x = $2
-      y = $3
+      x = $2.to_i
+      y = $3.to_i
       rot=$4
     elsif l =~ /SYMATTR InstName (\S+)/
       name = $1
@@ -101,23 +101,25 @@ module MyMacro
       mos = instantiate index, 0, 0
       inst = cell.insert(mos)
       inst.set_property 'name', name
+      xpos = x/500.to_i*500*100
+      ypos = (ymax - y)/500.to_i*500*200
       case rot
       when 'R0'
-        inst.transform Trans.new(Trans::R0, x.to_i*100, (ymax - y.to_i)*200)
+        inst.transform Trans.new(Trans::R0, xpos, ypos)
       when 'R90'
-        inst.transform Trans.new(Trans::R90, x.to_i*100, (ymax - y.to_i)*200)
+        inst.transform Trans.new(Trans::R90, xpos, ypos)
       when 'R180'
-        inst.transform Trans.new(Trans::R180, x.to_i*100, (ymax - y.to_i)*200)
+        inst.transform Trans.new(Trans::R180, xpos, ypos)
       when 'R270'
-        inst.transform Trans.new(Trans::R270, x.to_i*100,  (ymax - y.to_i)*200)
+        inst.transform Trans.new(Trans::R270, xpos, ypos)
       when 'M0'
-       inst.transform Trans.new(Trans::M90, x.to_i*100, (ymax - y.to_i)*200)
+       inst.transform Trans.new(Trans::M90, xpos, ypos)
       when 'M90'
-       inst.transform Trans.new(Trans::M135, x.to_i*100, (ymax - y.to_i)*200)
+       inst.transform Trans.new(Trans::M135, xpos, ypos)
       when 'M180'
-       inst.transform Trans.new(Trans::M0, x.to_i*100, (ymax - y.to_i)*200)
+       inst.transform Trans.new(Trans::M0, xpos, ypos)
       when 'M270'
-       inst.transform Trans.new(Trans::M45, x.to_i*100, (ymax - y.to_i)*200)
+       inst.transform Trans.new(Trans::M45, xpos, ypos)
      end
     else
       inst = instance
