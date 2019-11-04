@@ -14,7 +14,7 @@
  <menu-path/>
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
- <text> # OpenRule1um PCells v1.7 Oct. 27, 2019 copy left by S. Moriyama (Anagix Corporation)
+ <text> # OpenRule1um PCells v1.8 Nov. 3, 2019 copy left by S. Moriyama (Anagix Corporation)
  module MyLib
 
   include RBA
@@ -26,9 +26,10 @@
   MyLib.constants.member?(:Pch) &amp;&amp; remove_const(:Pch)
   MyLib.constants.member?(:R_poly) &amp;&amp; remove_const(:R_poly)
   MyLib.constants.member?(:HR_poly) &amp;&amp; remove_const(:HR_poly)
+  MyLib.constants.member?(:Capacitor) &amp;&amp; remove_const(:Capacitor)
   MyLib.constants.member?(:PCells) &amp;&amp; remove_const(:PCells)
   
-  # The PCell declaration for the OpenRule1um resistor 
+  # The PCell declaration for the OpenRule1um MOSFET
   
     class MOS &lt; PCellDeclarationHelper
   
@@ -133,6 +134,7 @@
         insert_cell index, x1, y
       }
     end
+    
     def library_cell name, libname, layout
       if cell = layout.cell(name)
         return cell.cell_index
@@ -530,6 +532,120 @@
       
     end
   end    # PCellを配置するライブラリ 
+  
+  class Capacitor &lt; PCellDeclarationHelper
+  
+    include RBA
+
+    def initialize
+
+      # Important: initialize the super class
+      super
+      param(:l, TypeDouble, "Capacitor length", :default =&gt; 100.0.um)
+      param(:w, TypeDouble, "Capacitor width", :default =&gt; 100.0.um)
+
+      param(:cval, TypeDouble, "Capacitor value", :default =&gt; 0, :hidden=&gt; true)
+    end
+  
+    def display_text_impl
+      # Provide a descriptive text for the cell
+      "Capacitor\r\n(L=#{l.to_s}um,W=#{w.to_s}um,C=#{cval})"
+    end
+    
+    def coerce_parameters_impl
+    
+      # We employ coerce_parameters_impl to decide whether the handle or the 
+      # numeric parameter has changed (by comparing against the effective 
+      # radius ru) and set ru to the effective radius. We also update the 
+      # numerical value or the shape, depending on which on has not changed.
+      area_cap = 2.6e-15
+      set_cval(area_cap * l * w)
+    end
+    
+    # default implementation
+    def can_create_from_shape_impl
+      false
+    end
+    
+    def transformation_from_shape_impl
+      # I「Create PCell from shape（形状からPCellを作成）」プロトコルを実装します。
+      # 変形を決定するために、図形のバウンディングボックスの中心を使用します。
+      Trans.new(shape.bbox.center)
+    end
+    
+    def produce_impl
+      produce_impl_core layer=nil
+    end
+    
+    def produce_impl_core hpol_layer=nil
+      cw = (w/layout.dbu).to_i
+      cl = (l/layout.dbu).to_i
+
+      grid = 1.0.um
+      u1 = (grid/layout.dbu).to_i
+      s = 2.0.um # via size (fixed)
+      vs = (s/layout.dbu).to_i
+      
+      nwl_index = layout.insert_layer(LayerInfo::new(1, 0))
+      diff_index = layout.insert_layer(LayerInfo::new(3, 0))     
+      pol_index = layout.insert_layer(LayerInfo::new(5, 0))
+      m1_index = layout.insert_layer(LayerInfo::new(8, 0))
+      m2_index = layout.insert_layer(LayerInfo::new(10, 0))
+      cap_index = layout.insert_layer(LayerInfo::new(16, 0))
+      parea_index = layout.insert_layer(LayerInfo::new(18, 0))
+      via_index = library_cell('Via', 'OpenRule1um', layout)
+      pcont_index = library_cell('pcont', 'OpenRule1um', layout)
+      dcont_index = library_cell('dcont', 'OpenRule1um', layout)
+      nsubcont_index = library_cell('nsubcont', 'OpenRule1um', layout)
+      create_box pol_index, 0, 0, u1+vs+u1 + cw, cl
+      create_box diff_index, u1+vs+u1, -u1, u1+vs+u1+ cw+u1, cl+u1+vs+u1
+      create_box parea_index, u1+vs, -2*u1, u1+vs+u1+ cw+2*u1, cl+u1+vs+2*u1
+      create_box nwl_index, -4*u1, -4*u1,  u1+vs+u1+cw + 4*u1, cl + 2*vs +4*u1
+      create_box cap_index, -4*u1, -4*u1,  u1+vs+u1+cw + 4*u1, cl + 2*vs +4*u1
+      create_contacts_vertically pcont_index, u1+vs/2, 0, u1+vs/2, cl, vs
+      create_contacts_horizontally dcont_index, u1+vs+u1,  cl + u1+vs/2, u1+vs+u1+ cw, cl + u1+vs/2, vs
+      insert_cell nsubcont_index, 0, cl+2*u1+vs
+
+#          points = [Point::new(offset, vs), Point::new(offset, vs/2+r)]
+#          cell.shapes(pol_index).insert(Path::new(points, rw, vs, vs))
+#          cell.shapes(res_index).insert(Path::new(points, rw, vs/4, vs/4))
+    end
+    
+    def create_contacts_horizontally index, x1, y1, x2, y2, vs
+      (x1+vs/2..x2-vs/2).step(vs){|x|
+         insert_cell index, x, y1
+      }
+    end
+    
+    def create_contacts_vertically index, x1, y1, x2, y2, vs
+      (y1+vs/2..y2-vs/2).step(vs){|y|
+        insert_cell index, x1, y
+      }
+    end
+           
+    def create_box index, x1, y1, x2, y2
+       cell.shapes(index).insert(Box::new(x1, y1, x2, y2))
+    end
+    
+    def library_cell name, libname, layout
+      if cell = layout.cell(name)
+        return cell.cell_index
+      else
+        lib = Library::library_by_name libname
+        cell_index = lib.layout.cell_by_name(name)
+        proxy_index = layout.add_lib_cell(lib, cell_index)
+      end
+    end
+     
+    def insert_cell via_index, x, y
+      via = instantiate via_index, x, y
+      inst = cell.insert(via)
+    end
+   
+    def instantiate index, x, y
+      CellInstArray.new(index, Trans.new(x, y))
+    end
+  end
 
   class MyLib &lt; Library
   
@@ -544,6 +660,7 @@
       layout.register_pcell("Pch", Pch::new)
       layout.register_pcell("R_poly", R_poly::new)
       layout.register_pcell("HR_poly", HR_poly::new)
+      layout.register_pcell("Capacitor", Capacitor::new)
       # それはより多くのPCellを置くための場所でしょう...
       
       # "MyLib"という名前で登録します。
@@ -551,7 +668,6 @@
       register("PCells")
       
     end
-  
   end
   
   # ライブラリをインスタンス化して登録する
