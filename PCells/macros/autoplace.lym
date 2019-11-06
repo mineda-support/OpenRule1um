@@ -82,7 +82,7 @@ module MyMacro
   inst.transform Trans.new(Trans::R270, 100,200)
   puts 'hello'
 =end
-  each_element('/home/seijirom/Dropbox/work/LRmasterSlice/コンパレータ/COMP_NLF.asc'){|sym, name, l, w, m, x, y, rot, xmax, ymax|
+  each_element('C:/Users/seijirom/Dropbox/work/LRmasterSlice/コンパレータ/COMP_NLF.asc'){|sym, name, l, w, m, x, y, rot, xmax, ymax|
     instance = nil
     cell.each_inst{|inst|
       if inst.property('name') == name
