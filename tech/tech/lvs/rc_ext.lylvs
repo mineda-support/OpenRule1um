@@ -162,7 +162,7 @@ if /mswin32|mingw/ =~ RUBY_PLATFORM
   system 'WSL cd lvs; ln -s ../output.cir output.cir.txt'
 else
   slink = 'lvs/output.cir.txt'
-  File.symlink 'output.cir', slink unless File.exist? slink
+  File.symlink 'output.cir', slink unless File.directory?('lvs')&amp;&amp;File.exist?(slink)
 end
 
 </text>
