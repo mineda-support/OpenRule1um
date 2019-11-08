@@ -14,7 +14,7 @@
  <menu-path/>
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
- <text> # OpenRule1um PCells v1.8 Nov. 3, 2019 copy left by S. Moriyama (Anagix Corporation)
+ <text> # OpenRule1um PCells v1.81 Nov. 8, 2019 copy left by S. Moriyama (Anagix Corporation)
  module MyLib
 
   include RBA
@@ -574,10 +574,6 @@
     end
     
     def produce_impl
-      produce_impl_core layer=nil
-    end
-    
-    def produce_impl_core hpol_layer=nil
       cw = (w/layout.dbu).to_i
       cl = (l/layout.dbu).to_i
 
@@ -646,6 +642,43 @@
       CellInstArray.new(index, Trans.new(x, y))
     end
   end
+  
+  class CPIP &lt; Capacitor
+    def display_text_impl
+      # Provide a descriptive text for the cell
+      "PIP Capacitor\r\n(L=#{l.to_s}um,W=#{w.to_s}um,C=#{cval})"
+    end
+    
+    def coerce_parameters_impl
+      area_cap = 1.72e-15
+      set_cval(area_cap * l * w)
+    end
+    
+    def produce_impl
+      cw = (w/layout.dbu).to_i
+      cl = (l/layout.dbu).to_i
+
+      grid = 1.0.um
+      u1 = (grid/layout.dbu).to_i
+      s = 2.0.um # via size (fixed)
+      vs = (s/layout.dbu).to_i
+      
+      pol_index = layout.insert_layer(LayerInfo::new(5, 0))
+      cap_index = layout.insert_layer(LayerInfo::new(16, 0))
+      via_index = library_cell('Via', 'OpenRule1um', layout)
+      pcont_index = library_cell('pcont', 'OpenRule1um', layout)
+      create_box pol_index, 0, 0, u1+vs+u1 + cw, cl
+      create_box cap_index, u1+vs+u1, -u1, u1+vs+u1+ cw+u1, cl+u1+vs+u1
+      create_contacts_vertically pcont_index, u1+vs/2, 0, u1+vs/2, cl, vs
+      create_contacts_vertically via_index, u1+vs/2, 0, u1+vs/2, cl, vs
+      create_contacts_horizontally pcont_index, u1+vs+u1,  cl + u1+vs/2, u1+vs+u1+ cw, cl + u1+vs/2, vs
+      create_contacts_horizontally via_index, u1+vs+u1,  cl + u1+vs/2, u1+vs+u1+ cw, cl + u1+vs/2, vs
+
+#          points = [Point::new(offset, vs), Point::new(offset, vs/2+r)]
+#          cell.shapes(pol_index).insert(Path::new(points, rw, vs, vs))
+#          cell.shapes(res_index).insert(Path::new(points, rw, vs/4, vs/4))
+    end
+  end  
 
   class MyLib &lt; Library
   
@@ -661,6 +694,7 @@
       layout.register_pcell("R_poly", R_poly::new)
       layout.register_pcell("HR_poly", HR_poly::new)
       layout.register_pcell("Capacitor", Capacitor::new)
+      layout.register_pcell("CPIP", CPIP::new)
       # それはより多くのPCellを置くための場所でしょう...
       
       # "MyLib"という名前で登録します。

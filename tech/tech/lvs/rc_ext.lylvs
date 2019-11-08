@@ -58,16 +58,15 @@ hpol_not_res  = hpol - res
 hpol_in_res   = hpol &amp; res
 
 cnt_in_cap = cnt &amp; cap
-pol_in_cap = pol &amp; cap
-pol_not_cap = pol - cap
-diff_in_cap = diff &amp; cap
-diff_not_cap = diff - cap
+pol_overlapping_cap = pol.overlapping(cap) - pol.inside(cap)
 
-#diff_in_nwl = diff &amp; nwl
-diff_in_nwl = diff_not_cap &amp; nwl
+#diff_in_cap = diff &amp; cap
+#diff_not_cap = diff - cap
+
+diff_in_nwl = diff &amp; nwl
 pdiff       = diff_in_nwl - narea
 #pdiff       = diff_in_nwl &amp; parea
-pgate       = pdiff &amp; pol_not_res &amp; diff_not_cap &amp; pol_not_cap
+pgate       = pdiff &amp; pol_not_res
 psd         = pdiff - pgate
 ntie        = diff_in_nwl &amp; narea
 # hv_pgate    = pgate &amp; thickox
@@ -76,11 +75,10 @@ lv_pgate = pgate
 # hv_psd      = psd &amp; thickox
 # lv_psd      = psd - thickox
 
-#diff_outside_nwl = diff - nwl
-diff_outside_nwl = diff_not_cap  - nwl
+diff_outside_nwl = diff - nwl
 ndiff      = diff_outside_nwl - parea
 #ndiff      = diff_outside_nwl &amp; narea
-ngate      = ndiff &amp; pol_not_res &amp; diff_not_cap &amp; pol_not_cap
+ngate      = ndiff &amp; pol_not_res 
 nsd        = ndiff - ngate
 ptie       = diff_outside_nwl &amp; dm_pscn #&amp; parea
 # hv_ngate   = ngate &amp; thickox
@@ -91,9 +89,9 @@ lv_ngate = ngate
 
 # Device extraction  
 # Capacitor extraction
-area_cap = 2.6e-15
+area_cap = 1.72e-15
 model_name = 'CAP'
-extract_devices(capacitor(model_name, area_cap), {'P1'=&gt;pol_in_cap, 'P2'=&gt; cap,  'tA' =&gt; cnt_in_cap, 'tB'=&gt; cnt_in_cap, 'tW'=&gt;cnt_in_cap})                         
+extract_devices(capacitor(model_name, area_cap), {'P1'=&gt;pol_overlapping_cap, 'P2'=&gt; cap }) #,  'tA' =&gt; cnt, 'tB'=&gt; cnt})                         
 # resistance extraction
 
 model_name = "D"
@@ -124,10 +122,11 @@ extract_devices(mos4("NMOS"), { "SD" =&gt; nsd, "G" =&gt; lv_ngate, "W" =&gt; bu
 # Inter-layer
 connect(psd,     cnt)
 connect(nsd,     cnt)
-#connect(pol,    cnt)
+connect(pol,    cnt)
 connect(pol_not_res, cnt)
 connect(hpol_not_res, cnt)
-connect(cnt_in_cap, cnt)
+connect(pol_overlapping_cap, cnt)
+connect(cap, cnt)
 
 connect(cnt, ntie)
 connect(nwl,   ntie)
@@ -162,7 +161,7 @@ if /mswin32|mingw/ =~ RUBY_PLATFORM
   system 'WSL cd lvs; ln -s ../output.cir output.cir.txt'
 else
   slink = 'lvs/output.cir.txt'
-  File.symlink 'output.cir', slink unless File.directory?('lvs')&amp;&amp;File.exist?(slink)
+  File.symlink 'output.cir', slink if (File.directory?('lvs')&amp;&amp;!File.exist?(slink))
 end
 
 </text>

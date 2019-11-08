@@ -22,7 +22,7 @@ module MyMacro
   
   cell = Application.instance.main_window.current_view.active_cellview.cell
 
-  netlist = '/home/seijirom/ALBDATA/4481/using.net'
+  netlist = '/home/seijirom/Dropbox/work/LRmasterSlice/comparator/COMP_NLF.net'
   reference = 'reference.cir'
   
   raise "#{netlist} does not exist!" unless File.exist? netlist
