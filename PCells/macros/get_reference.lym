@@ -19,19 +19,25 @@ require 'fileutils'
 module MyMacro
 
   include RBA
-  
-  cell = Application.instance.main_window.current_view.active_cellview.cell
 
-  netlist = '/home/seijirom/Dropbox/work/LRmasterSlice/comparator/COMP_NLF.net'
-  reference = 'reference.cir'
-  
+  app = Application.instance
+  mw = app.main_window
+  cv = mw.current_view.active_cellview
+  raise 'Please save the layout first' if cv.nil? || cv.filename.nil? || cv.filename == ''
+  cell = cv.cell
+  netlist = QFileDialog::getOpenFileName(mw, 'Netlist file', ENV['HOME'], 'netlist(*.net *.cir)')
+  # netlist = '/home/seijirom/Dropbox/work/LRmasterSlice/comparator/COMP_NLF.net'
   raise "#{netlist} does not exist!" unless File.exist? netlist
+  Dir.chdir File.dirname(cv.filename)
+  reference = 'reference.cir'
   desc = ''
   cells = []
   circuit_top = nil
   device_class = {}
-  c = File.open(File.join('lvs', File.basename(netlist))+'.txt', 'w')
-  File.read(netlist).each_line{|l|
+  Dir.mkdir 'lvs' unless File.directory? 'lvs'
+  c = File.open(File.join('lvs', File.basename(netlist))+'.txt', 'w:UTF-8')
+  File.open(netlist, 'r:Windows-1252').read.encode('UTF-8', invalid: :replace).each_line{|l|
+    l.gsub! 00.chr, ''
     c.puts l
     if l=~ /(\S+)@or1_stdcells_v1/
       cells &lt;&lt; $1 unless cells.include? $1
@@ -68,7 +74,7 @@ module MyMacro
     desc &lt;&lt; l.upcase
   }
   c.close
-  File.open(reference, 'w'){|f| f.puts desc}
+  File.open(reference, 'w:UTF-8'){|f| f.puts desc}
   slink = File.join('lvs', reference+'.txt')
   if /mswin32|mingw/ =~ RUBY_PLATFORM
     system 'WSL cd lvs; ln -s ../reference.cir reference.cir.txt'

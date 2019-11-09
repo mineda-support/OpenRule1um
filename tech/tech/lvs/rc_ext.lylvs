@@ -91,7 +91,7 @@ lv_ngate = ngate
 # Capacitor extraction
 area_cap = 1.72e-15
 model_name = 'CAP'
-extract_devices(capacitor(model_name, area_cap), {'P1'=&gt;pol_overlapping_cap, 'P2'=&gt; cap }) #,  'tA' =&gt; cnt, 'tB'=&gt; cnt})                         
+extract_devices(capacitor(model_name, area_cap), {'P1'=&gt;pol_overlapping_cap, 'P2'=&gt; cap})                         
 # resistance extraction
 
 model_name = "D"
@@ -157,12 +157,11 @@ if File.exist? 'lvs/res_ext_settings.rb'
 end
 # Netlist vs. netlist
 compare if File.exist? 'reference.cir'
+slink = 'lvs/output.cir.txt'
 if /mswin32|mingw/ =~ RUBY_PLATFORM
   system 'WSL cd lvs; ln -s ../output.cir output.cir.txt'
 else
-  slink = 'lvs/output.cir.txt'
-  File.symlink 'output.cir', slink if (File.directory?('lvs')&amp;&amp;!File.exist?(slink))
+  File.symlink '../output.cir', slink if (File.directory?('lvs') &amp;&amp; !File.symlink?(slink))
 end
-
 </text>
 </klayout-macro>
