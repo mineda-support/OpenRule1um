@@ -27,7 +27,7 @@ module MyMacro
   cell = cv.cell
   netlist = QFileDialog::getOpenFileName(mw, 'Netlist file', ENV['HOME'], 'netlist(*.net *.cir)')
   # netlist = '/home/seijirom/Dropbox/work/LRmasterSlice/comparator/COMP_NLF.net'
-  raise "#{netlist} does not exist!" unless File.exist? netlist
+  # raise "#{netlist} does not exist!" unless File.exist? netlist
   Dir.chdir File.dirname(cv.filename)
   reference = 'reference.cir'
   desc = ''

@@ -20,8 +20,10 @@ def library_cell name, libname, layout
     return cell.cell_index
   else
     lib = Library::library_by_name libname
-    cell_index = lib.layout.cell_by_name(name)
-    proxy_index = layout.add_lib_cell(lib, cell_index)
+    #cell_index = lib.layout.cell_by_name(name)
+    #proxy_index = layout.add_lib_cell(lib, cell_index)
+    pcell_id = lib.layout.pcell_id(name)
+    proxy_index = layout.add_pcell_variant(lib, pcell_id, {'l'=&gt;1,'w'=&gt;1,'m'=&gt;1})
   end
 end
 def instantiate index, x, y
@@ -61,6 +63,9 @@ module MyMacro
   unless lv = mw.current_view
     raise "Shape Statistics: No view selected"
   end
+  asc_file = QFileDialog::getOpenFileName(mw, 'Schematic file', ENV['HOME'], 'asc file(*.asc)')
+  raise 'Cancelled' if asc_file.nil? || asc_file == ''
+  # netlist = '/home/seijirom/Dropbox/work/LRmasterSlice/comparator/COMP_NLF.net'
   cell = lv.active_cellview.cell
   layout = cell.layout
   
@@ -82,7 +87,7 @@ module MyMacro
   inst.transform Trans.new(Trans::R270, 100,200)
   puts 'hello'
 =end
-  each_element('C:/Users/seijirom/Dropbox/work/LRmasterSlice/コンパレータ/COMP_NLF.asc'){|sym, name, l, w, m, x, y, rot, xmax, ymax|
+  each_element(asc_file){|sym, name, l, w, m, x, y, rot, xmax, ymax|
     instance = nil
     cell.each_inst{|inst|
       if inst.property('name') == name
