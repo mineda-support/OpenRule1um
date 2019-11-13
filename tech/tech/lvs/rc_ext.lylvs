@@ -139,7 +139,12 @@ connect(via1,     ml2)
 connect_global(ptie, "SUBSTRATE")
 connect_global(bulk, "SUBSTRATE")
 
-schematic "reference.cir" if File.exist? "reference.cir"
+ext_name = File.extname source.path
+target = File.basename(source.path).sub(ext_name, '')
+reference = "#{target}_reference.cir"
+output = "#{target}_output.cir"
+
+schematic reference if File.exist? reference
 # -------------------------------------------------------------------
 # Netlist and compare
 
@@ -150,18 +155,18 @@ netlist.purge
 
 #schematic.combine_devices
 #align
-target_netlist("output.cir", write_spice, "Created by KLayout")
-if File.exist? 'lvs/res_ext_settings.rb'
-  load 'lvs/res_ext_settings.rb'
+target_netlist(output, write_spice, "Created by KLayout")
+if File.exist? "lvs/#{target}_rc_ext_settings.rb"
+  load "lvs/#{target}_rc_ext_settings.rb"
   res_ext_settings
 end
 # Netlist vs. netlist
-compare if File.exist? 'reference.cir'
-slink = 'lvs/output.cir.txt'
+compare if File.exist? reference
+slink = "lvs/#{output}.txt"
 if /mswin32|mingw/ =~ RUBY_PLATFORM
-  system 'WSL cd lvs; ln -s ../output.cir output.cir.txt'
+  system "WSL cd lvs; ln -s ../#{output}.txt"
 else
-  File.symlink '../output.cir', slink if (File.directory?('lvs') &amp;&amp; !File.symlink?(slink))
+  File.symlink "../#{output}", slink if (File.directory?('lvs') &amp;&amp; !File.symlink?(slink))
 end
 </text>
 </klayout-macro>
