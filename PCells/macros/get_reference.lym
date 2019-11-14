@@ -14,7 +14,7 @@
  <menu-path/>
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
- <text># OpenRule1um lvs preprocessor v1.1 Oct. 14, 2019 copy left by S. Moriyama (Anagix Corporation)
+ <text># OpenRule1um lvs preprocessor v1.2 Nov. 14, 2019 copy left by S. Moriyama (Anagix Corporation)
 require 'fileutils'
 module MyMacro
 
@@ -114,7 +114,7 @@ module MyMacro
   end
   unless File.exist? "lvs/#{target}_rc_ext_settings.rb"
     File.open("lvs/#{target}_rc_ext_settings.rb", 'w'){|f|
-      f.puts 'def res_ext_settings'
+      f.puts 'def rc_ext_settings'
       f.puts "  same_circuits '#{cell.name}', '#{circuit_top ? circuit_top.upcase : '.TOP'}'"
       f.puts "  align"
       device_class.each_pair{|p, q|
