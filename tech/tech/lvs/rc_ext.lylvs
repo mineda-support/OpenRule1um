@@ -142,6 +142,15 @@ connect_global(bulk, "SUBSTRATE")
 ext_name = File.extname source.path
 target = File.basename(source.path).sub(ext_name, '')
 reference = "#{target}_reference.cir"
+
+if File.exist? target+'.yaml'
+  require 'yaml'
+  ref = YAML.load File.read(target+'.yaml')
+  schematic = ref['schematic']
+  if File.mtime(reference) &lt; File.mtime(schematic) 
+    raise "schematic file '#{schematic}' is modified!\nPlease update netlist and run get_reference again!"
+  end
+  end
 output = "#{target}_output.cir"
 
 schematic reference if File.exist? reference
@@ -163,6 +172,7 @@ end
 # Netlist vs. netlist
 compare if File.exist? reference
 slink = "lvs/#{output}.txt"
+File.delete slink if File.exist?(slink)
 if /mswin32|mingw/ =~ RUBY_PLATFORM
   system "WSL cd lvs; ln -s ../#{output}.txt"
 else

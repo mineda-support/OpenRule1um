@@ -16,6 +16,7 @@
  <dsl-interpreter-name/>
  <text># OpenRule1um lvs preprocessor v1.2 Nov. 14, 2019 copy left by S. Moriyama (Anagix Corporation)
 require 'fileutils'
+require 'yaml'
 module MyMacro
 
   include RBA
@@ -33,6 +34,8 @@ module MyMacro
   ext_name = File.extname cv.filename
   target = File.basename(cv.filename).sub(ext_name, '')
   reference = "#{target}_reference.cir"
+  ref={'target' =&gt; target, 'reference'=&gt; reference, 'netlist'=&gt; netlist, 'schematic' =&gt; netlist.sub('.net', '.asc')}
+  File.open(target+'.yaml', 'w'){|f| f.puts ref.to_yaml}
   desc = ''
   cells = []
   circuit_top = nil
