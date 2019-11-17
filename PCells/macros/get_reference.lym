@@ -9,12 +9,12 @@
  <autorun>false</autorun>
  <autorun-early>false</autorun-early>
  <shortcut/>
- <show-in-menu>false</show-in-menu>
+ <show-in-menu>true</show-in-menu>
  <group-name/>
  <menu-path/>
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
- <text># OpenRule1um lvs preprocessor v1.2 Nov. 14, 2019 copy left by S. Moriyama (Anagix Corporation)
+ <text># OpenRule1um lvs preprocessor v1.21 Nov. 16, 2019 copy left by S. Moriyama (Anagix Corporation)
 require 'fileutils'
 require 'yaml'
 module MyMacro
