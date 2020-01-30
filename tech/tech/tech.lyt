@@ -4,7 +4,7 @@
  <description/>
  <dbu>0.001</dbu>
  <base-path/>
- <original-base-path>C:\Users\seijirom\KLayout\salt\OpenRule1um\tech\tech</original-base-path>
+ <original-base-path>/home/seijirom/.klayout/salt/OpenRule1um/tech/tech</original-base-path>
  <layer-properties_file>OpenRule1um.lyp</layer-properties_file>
  <add-other-layers>true</add-other-layers>
  <reader-options>
@@ -19,27 +19,6 @@
    <enable-properties>true</enable-properties>
    <enable-text-objects>true</enable-text-objects>
   </common>
-  <dxf>
-   <dbu>0.001</dbu>
-   <unit>1</unit>
-   <text-scaling>100</text-scaling>
-   <circle-points>100</circle-points>
-   <circle-accuracy>0</circle-accuracy>
-   <contour-accuracy>0</contour-accuracy>
-   <polyline-mode>0</polyline-mode>
-   <render-texts-as-polygons>false</render-texts-as-polygons>
-   <keep-other-cells>false</keep-other-cells>
-   <keep-layer-names>false</keep-layer-names>
-   <create-other-layers>true</create-other-layers>
-   <layer-map>layer_map()</layer-map>
-  </dxf>
-  <cif>
-   <wire-mode>0</wire-mode>
-   <dbu>0.001</dbu>
-   <layer-map>layer_map()</layer-map>
-   <create-other-layers>true</create-other-layers>
-   <keep-layer-names>false</keep-layer-names>
-  </cif>
   <lefdef>
    <read-all-layers>true</read-all-layers>
    <layer-map>layer_map()</layer-map>
@@ -73,21 +52,27 @@
    <routing-suffix/>
    <routing-datatype>0</routing-datatype>
   </lefdef>
-  <mebes>
-   <invert>false</invert>
-   <subresolution>true</subresolution>
-   <produce-boundary>true</produce-boundary>
-   <num-stripes-per-cell>64</num-stripes-per-cell>
-   <num-shapes-per-cell>0</num-shapes-per-cell>
-   <data-layer>1</data-layer>
-   <data-datatype>0</data-datatype>
-   <data-name>DATA</data-name>
-   <boundary-layer>0</boundary-layer>
-   <boundary-datatype>0</boundary-datatype>
-   <boundary-name>BORDER</boundary-name>
+  <dxf>
+   <dbu>0.001</dbu>
+   <unit>1</unit>
+   <text-scaling>100</text-scaling>
+   <circle-points>100</circle-points>
+   <circle-accuracy>0</circle-accuracy>
+   <contour-accuracy>0</contour-accuracy>
+   <polyline-mode>0</polyline-mode>
+   <render-texts-as-polygons>false</render-texts-as-polygons>
+   <keep-other-cells>false</keep-other-cells>
+   <keep-layer-names>false</keep-layer-names>
+   <create-other-layers>true</create-other-layers>
+   <layer-map>layer_map()</layer-map>
+  </dxf>
+  <cif>
+   <wire-mode>0</wire-mode>
+   <dbu>0.001</dbu>
    <layer-map>layer_map()</layer-map>
    <create-other-layers>true</create-other-layers>
-  </mebes>
+   <keep-layer-names>false</keep-layer-names>
+  </cif>
  </reader-options>
  <writer-options>
   <gds2>

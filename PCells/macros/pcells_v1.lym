@@ -685,7 +685,7 @@
     def initialize  
     
       # 説明を設定
-      self.description = "OpenRule1um"
+      self.description = "OpenRule1um PCells"
       
       # PCell宣言を作成する
       # layout.register_pcell("Resistor", Resistor::new)
