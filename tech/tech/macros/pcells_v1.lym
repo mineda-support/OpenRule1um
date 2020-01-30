@@ -15,19 +15,19 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text> # OpenRule1um PCells v1.81 Nov. 8, 2019 copy left by S. Moriyama (Anagix Corporation)
- module MyLib
+ module OpenRule1um
 
   include RBA
 
   # Remove any definition of our classes (this helps when 
   # reexecuting this code after a change has been applied)
-  # MyLib.constants.member?(:Resistor) &amp;&amp; remove_const(:Resistor)
-  MyLib.constants.member?(:Nch) &amp;&amp; remove_const(:Nch)
-  MyLib.constants.member?(:Pch) &amp;&amp; remove_const(:Pch)
-  MyLib.constants.member?(:R_poly) &amp;&amp; remove_const(:R_poly)
-  MyLib.constants.member?(:HR_poly) &amp;&amp; remove_const(:HR_poly)
-  MyLib.constants.member?(:Capacitor) &amp;&amp; remove_const(:Capacitor)
-  MyLib.constants.member?(:PCells) &amp;&amp; remove_const(:PCells)
+  # OpenRule1um.constants.member?(:Resistor) &amp;&amp; remove_const(:Resistor)
+  OpenRule1um.constants.member?(:Nch) &amp;&amp; remove_const(:Nch)
+  OpenRule1um.constants.member?(:Pch) &amp;&amp; remove_const(:Pch)
+  OpenRule1um.constants.member?(:R_poly) &amp;&amp; remove_const(:R_poly)
+  OpenRule1um.constants.member?(:HR_poly) &amp;&amp; remove_const(:HR_poly)
+  OpenRule1um.constants.member?(:Capacitor) &amp;&amp; remove_const(:Capacitor)
+  OpenRule1um.constants.member?(:PCells) &amp;&amp; remove_const(:PCells)
   
   # The PCell declaration for the OpenRule1um MOSFET
   
@@ -680,7 +680,7 @@
     end
   end  
 
-  class MyLib &lt; Library
+  class OpenRule1um &lt; Library
   
     def initialize  
     
@@ -697,7 +697,7 @@
       layout.register_pcell("CPIP", CPIP::new)
       # それはより多くのPCellを置くための場所でしょう...
       
-      # "MyLib"という名前で登録します。
+      # "OpenRule1um"という名前で登録します。
       # その名前のライブラリがすでに存在していた場合は、その時点で置き換えられます。
       register("PCells")
       
@@ -705,7 +705,7 @@
   end
   
   # ライブラリをインスタンス化して登録する
-  MyLib::new
+  OpenRule1um::new
   
 end
 
