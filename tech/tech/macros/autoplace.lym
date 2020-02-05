@@ -41,7 +41,7 @@ def each_element file
       rot=$4
     elsif l =~ /SYMATTR InstName (\S+)/
       name = $1
-    elsif l =~ /SYMATTR (SpiceLine|Value2) l=(\S+)u w=(\S+)u .* m=(\S+)/ ||
+    elsif l =~ /SYMATTR (SpiceLine|Value2) l=(\S+)u w=(\S+)u *.* m=(\S+)/ ||
           l =~ /SYMATTR (SpiceLine|Value2) l=(\S+)u w=(\S+)u/
       l=$2
       w=$3
