@@ -33,7 +33,6 @@
     puts "(#{old_x}, #{old_y}) =&gt; (#{x}, #{y})"
   }
     
-
 end
 </text>
 </klayout-macro>

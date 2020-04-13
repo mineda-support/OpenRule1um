@@ -14,7 +14,7 @@
  <menu-path/>
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
- <text> # OpenRule1um PCells v1.81 Nov. 8, 2019 copy left by S. Moriyama (Anagix Corporation)
+ <text> # OpenRule1um PCells v1.82 Feb. 11, 2020 copy left by S. Moriyama (Anagix Corporation)
  module OpenRule1um
 
   include RBA
@@ -69,7 +69,7 @@
     end
     
     def coerce_parameters_impl
-      set_ltot(l*n)
+      set_wtot(w*n)
     end
     
     def produce_impl_core
@@ -162,10 +162,10 @@
       param(:w, TypeDouble, "Nch w", :default =&gt; 10.0.um)
       param(:l, TypeDouble, "Nch l", :default =&gt; 1.0.um)
       param(:n, TypeInt, "Number of fingers", :default =&gt; 1)
-      param(:ltot, TypeDouble, "Total length", :default =&gt; 0, :hidden=&gt; true)
+      param(:wtot, TypeDouble, "Total width", :default =&gt; 0, :hidden=&gt; true)
     end
     def display_text_impl
-      "Nch\r\n(L=#{l.to_s}um,W=#{w.to_s}um,n=#{n.to_s}, Total L=#{ltot})"
+      "Nch\r\n(L=#{l.to_s}um,W=#{w.to_s}um,n=#{n.to_s}, Total W=#{wtot})"
     end 
     
     def produce_impl # NMOS
@@ -225,11 +225,11 @@
       param(:w, TypeDouble, "Pch w", :default =&gt; 10.0.um)
       param(:l, TypeDouble, "Pch l", :default =&gt; 1.0.um)
       param(:n, TypeInt, "Number of fingers", :default =&gt; 1)
-      param(:ltot, TypeDouble, "Total length", :default =&gt; 0, :hidden=&gt; true)
+      param(:wtot, TypeDouble, "Total width", :default =&gt; 0, :hidden=&gt; true)
     end 
     
     def display_text_impl
-      "Pch\r\n(L=#{l.to_s}um,W=#{w.to_s}um,n=#{n.to_s}, Total L=#{ltot})"
+      "Pch\r\n(L=#{l.to_s}um,W=#{w.to_s}um,n=#{n.to_s}, Total W=#{wtot})"
     end  
  
     def produce_impl # PMOS
