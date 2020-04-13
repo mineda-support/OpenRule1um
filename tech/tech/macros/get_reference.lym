@@ -14,7 +14,7 @@
  <menu-path/>
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
- <text># OpenRule1um lvs preprocessor v1.21 Nov. 16, 2019 copy left by S. Moriyama (Anagix Corporation)
+ <text># OpenRule1um lvs preprocessor v1.3 Apr. 13, 2020 copy left by S. Moriyama (Anagix Corporation)
 require 'fileutils'
 require 'yaml'
 module MyMacro
@@ -62,12 +62,13 @@ module MyMacro
         w=$4.to_f
         m=$6.to_i
         others = $5.upcase
-        if others =~/ ([AP][SD] *=\S+)/ 
-          param = $1
-         #l.sub! w_value, "w=#{w*m}u"
-         l = "#{upto_l_value}w=#{w*m}u m=#{m}"
-          puts "Caution for #{name}: #{w_value} replaced with w=#{w*m}u because m=#{m} and includes #{param}"
-        end
+        #if others =~/ ([AP][SD] *=\S+)/ 
+         # param = $1
+         # l.sub! w_value, "w=#{w*m}u"
+         l = "#{upto_l_value}w=#{w*m}u m=1"
+          # puts "Caution for #{name}: #{w_value} replaced with w=#{w*m}u because m=#{m} and includes #{param}"
+         puts "Caution for #{name}: #{w_value} replaced with w=#{w*m}u"
+        # end
       end
     elsif circuit_top.nil? &amp;&amp; l=~/^\.subckt *(\S+)/
       circuit_top = $1
