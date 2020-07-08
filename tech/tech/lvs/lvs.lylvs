@@ -14,9 +14,26 @@
  <menu-path>tools_menu.lvs.end</menu-path>
  <interpreter>dsl</interpreter>
  <dsl-interpreter-name>lvs-dsl-xml</dsl-interpreter-name>
- <text># OpenRule1um lvs rule v1.1 June 13, 2020 copy left by S. Moriyama (Anagix Corporation)
+ <text># OpenRule1um lvs rule v1.21 June 29, 2020 copy left by S. Moriyama (Anagix Corporation)
+# merged:  v1.10 June 11, 2020, modified by akita11 (akita@ifdl.jp)
+
+# Read LVS scripts in the User Manual in "Layout vs. Schematic (LVS)"
+
+# Try this sample script with this layout:
+#   https://github.com/KLayout/klayout/tree/master/samples/lvs/ringo.gds
+# and this schematic:
+#   https://github.com/KLayout/klayout/tree/master/samples/lvs/schematic.cir
+
+# Tip: you can also use:
+#   schematic(source.path.sub(/\.(oas|gds)/, ".cir"))
+# to derive the schematic name from the layout file's name 
+# by substituting .oas or .gsd with .cir.
+
+# Enable hierarchical mode
 deep
+# Enable hierarchical mode
 report_lvs
+
 
 # Drawing layers
 
@@ -47,42 +64,31 @@ dm_via1 = input(105, 0)
 dm_via2 = input(106, 0)
 
 # Special layer for bulk terminals
-
 bulk        = polygon_layer
 
 # Computed layers
-
 diff_in_nwl = diff &amp; nwl
 #pdiff       = diff_in_nwl - narea
 pdiff       = diff_in_nwl &amp; parea
 pgate       = pdiff &amp; pol
 psd         = pdiff - pgate
 ntie        = diff_in_nwl &amp; narea
-# hv_pgate    = pgate &amp; thickox
-# lv_pgate    = pgate - hv_pgate
 lv_pgate = pgate
-# hv_psd      = psd &amp; thickox
-# lv_psd      = psd - thickox
 
 diff_outside_nwl = diff - nwl
-#ndiff      = diff_outside_nwl - parea
 ndiff      = diff_outside_nwl &amp; narea
 ngate      = ndiff &amp; pol
 nsd        = ndiff - ngate
 ptie       = diff_outside_nwl &amp; dm_pscn #&amp; parea
-# hv_ngate   = ngate &amp; thickox
-# lv_ngate   = ngate - hv_ngate
 lv_ngate = ngate
-# hv_nsd     = nsd &amp; thickox
-# lv_nsd     = nsd - thickox
 
 # Device extraction
 # PMOS transistor device extraction
-extract_devices(mos4("PMOS"), { "SD" =&gt; psd, "G" =&gt; lv_pgate, "W" =&gt; nwl, 
+extract_devices(mos4("pch"), { "SD" =&gt; psd, "G" =&gt; lv_pgate, "W" =&gt; nwl, 
                                 "tS" =&gt; psd, "tD" =&gt; psd, "tG" =&gt; pol, "tW" =&gt; nwl })
 
 # NMOS transistor device extraction
-extract_devices(mos4("NMOS"), { "SD" =&gt; nsd, "G" =&gt; lv_ngate, "W" =&gt; bulk, 
+extract_devices(mos4("nch"), { "SD" =&gt; nsd, "G" =&gt; lv_ngate, "W" =&gt; bulk, 
                                 "tS" =&gt; nsd, "tD" =&gt; nsd, "tG" =&gt; pol, "tW" =&gt; bulk })
 
 # Define connectivity for netlist extraction
@@ -97,8 +103,8 @@ connect(cnt, ptie)
 connect(cnt, ml1)
 connect(ml1,  via1)
 connect(via1,     ml2)
-connect(ml2, via2)
-connect(via2, ml3)
+connect(ml2,  via2)
+connect(via2,     ml3)
 
 # Global connections
 connect_global(ptie, "SUBSTRATE")
@@ -106,6 +112,8 @@ connect_global(bulk, "SUBSTRATE")
 
 #netlist.make_top_level_pins
 netlist.purge
+# Netlist normalization
+netlist.simplify
 
 sdir = File.dirname source.path
 ext_name = File.extname source.path
@@ -115,22 +123,21 @@ output = File.join sdir, "#{target}_output.cir"
 lvs_work = File.join(sdir, 'lvs_work')
 Dir.mkdir lvs_work unless File.directory? lvs_work
 
-if File.exist? target+'.yaml'
+if File.exist? File.join(sdir, target+'.yaml')
   require 'yaml'
-  ref = YAML.load File.read(target+'.yaml')
-  if File.exist?(ref['schematic']) &amp;&amp; (File.mtime(ref['netlist']) &lt; File.mtime(ref['schematic']))
-    raise "netlist file '#{ref['netlist']}' is outdated!\nPlease update netlist and run get_reference again!"
-  end
-  if File.exist?(reference) &amp;&amp; (File.mtime(reference) &lt; File.mtime(ref['netlist']))
-    raise "Please run get_reference because netlist file '#{ref['netlist']}'is modified"
+  ref = YAML.load File.read(File.join sdir, target+'.yaml')
+  if File.exist? ref['netlist']
+    if File.exist?(ref['schematic']) &amp;&amp; (File.mtime(ref['netlist']) &lt; File.mtime(ref['schematic']))
+      raise "netlist file '#{ref['netlist']}' is outdated!\nPlease update netlist and run get_reference again!"
+    end
+    if File.exist?(reference) &amp;&amp; (File.mtime(reference) &lt; File.mtime(ref['netlist']))
+      raise "Please run get_reference because netlist file '#{ref['netlist']}'is modified"
+    end
   end
 end
 
 # -------------------------------------------------------------------
 # Netlist and compare
-
-netlist.purge
-# Hierarchy alignment (flatten out unmatched cells)
 
 target_netlist(output, write_spice, "Created by KLayout")
 
@@ -140,14 +147,16 @@ if File.exist? reference
     load "#{lvs_work}/#{target}_lvs_settings.rb"
     lvs_settings
   end
+# Hierarchy alignment (flatten out unmatched cells)
+  align
 # Netlist vs. netlist
   compare
   slink = "#{lvs_work}/#{File.basename output}.txt"
   File.delete slink if File.exist?(slink)
   if /mswin32|mingw/ =~ RUBY_PLATFORM
-    # system "WSL cd #{lvs_work}; ln -s ../#{File.basename output}.txt"
+    File.link output, slink
   else
-    File.symlink "../#{File.basename output}", slink if (File.directory?(lvs_work) &amp;&amp; !File.symlink?(slink))
+    File.symlink "../#{File.basename output}", slink
   end
 end
 </text>
