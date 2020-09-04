@@ -70,7 +70,7 @@ module MyMacro
   desc = ''
   cells = []
   circuit_top = nil
-  device_class = {}
+  lass = {}
   lines = expand_file netlist, ''
   params = get_params lines
   Dir.mkdir 'lvs_work' unless File.directory? 'lvs_work'
@@ -78,12 +78,11 @@ module MyMacro
   
   lines.each_line{|l|
     l.gsub! 00.chr, ''
+    l.tr! "@%-", "$$_" if l =~ /[@%-]/
     c.puts l
     if l=~ /(\S+)@or1_stdcells_v1/
       cells &lt;&lt; $1 unless cells.include? $1
       l.sub! '@', '$'
-    elsif l =~ /[@%-]/
-      l.tr! "@%-", "$$_"
     elsif l =~ /^ *\.inc/
       l.sub! /^/, '*'
     elsif l=~/^(([mM]\S+) *\S+ *\S+ *\S+ *\S+ *(\S+)) *(.*)/
@@ -91,8 +90,8 @@ module MyMacro
       name=$2
       others = ($4 &amp;&amp; $4.upcase)
       model = $3
-      device_class['NMOS'] = model if model &amp;&amp; model.upcase =~ /NCH|NMOS/
-      device_class['PMOS'] = model if model &amp;&amp; model.upcase =~ /PCH|PMOS/
+      body.sub!(model, 'NMOS') if model &amp;&amp; model.upcase =~ /NCH|NMOS/
+      body.sub!(model, 'PMOS') if model &amp;&amp; model.upcase =~ /PCH|PMOS/
       p = {}
       others &amp;&amp; others.split.each{|equation|
         equation =~ /(\S+) *= *(\S+)/
@@ -106,23 +105,10 @@ module MyMacro
           p['M'] = '1'
         end
       end   
-      others = p.map{|a| "#{a[0]}=#{a[1]}"}.join ' '
-      l = "#{body} #{others}\n"
-      if  l=~/^(([mM]\S)+ *\S+ *\S+ *\S+ *\S+ *\S+ .*)([wW] *= *(\S+)[uU])(.*)[mM] *= *(\S+)/
-        name=$2
-        upto_l_value = $1
-        w_value=$3
-        w=$4.to_f
-        m=$6.to_i
-        others = $5.upcase
-        #if others =~/ ([AP][SD] *=\S+)/ 
-         # param = $1
-         # l.sub! w_value, "w=#{w*m}u"
-         l = "#{upto_l_value}w=#{w*m}u m=1"
-          # puts "Caution for #{name}: #{w_value} replaced with w=#{w*m}u because m=#{m} and includes #{param}"
-         puts "Caution for #{name}: #{w_value} replaced with w=#{w*m}u"
-        # end
-      end
+      # others = p.map{|a| "#{a[0]}=#{a[1]}"}.join ' '
+      others = "l=#{p['L']} w=#{p['W']}" # supress other parameters like as, ps, ad and pd
+      # l = "#{body} #{others}\n"
+      l = "#{body} #{others}\n" # supress others like 'as= xxx ps=xxx'
     elsif l=~/^\.subckt *(\S+)/
       if $1 == cell.name
         circuit_top = $1 
@@ -168,8 +154,8 @@ module MyMacro
         }
       end
       #f.puts "  align"
-      #f.puts "  same_device_classes 'NMOS', 'NCH'"
-      #f.puts "  same_device_classes 'PMOS', 'PCH'"
+      #f.puts "  same_lasses 'NMOS', 'NCH'"
+      #f.puts "  same_lasses 'PMOS', 'PCH'"
       f.puts "  netlist.flatten_circuit 'Nch*'"
       f.puts "  netlist.flatten_circuit 'Pch*'"
       f.puts 'end'
@@ -181,11 +167,11 @@ module MyMacro
       f.puts 'def rc_ext_settings'
       f.puts "  same_circuits '#{cell.name}', '#{circuit_top ? circuit_top.upcase : '.TOP'}'"
       f.puts "  align"
-      device_class.each_pair{|p, q|
-        f.puts "  same_device_classes '#{p}', '#{q.upcase}'" if q
+      lass.each_pair{|p, q|
+        f.puts "  same_lasses '#{p}', '#{q.upcase}'" if q
       }
-      f.puts "  same_device_classes 'HRES', 'RES'"
-      f.puts "  same_device_classes 'RES', 'RES'"
+      f.puts "  same_lasses 'HRES', 'RES'"
+      f.puts "  same_lasses 'RES', 'RES'"
       f.puts "  netlist.flatten_circuit 'Nch*'"
       f.puts "  netlist.flatten_circuit 'Pch*'"
       f.puts "  netlist.flatten_circuit 'R_poly*'"
