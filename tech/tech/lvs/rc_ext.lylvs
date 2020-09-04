@@ -14,7 +14,7 @@
  <menu-path>tools_menu.lvs.end</menu-path>
  <interpreter>dsl</interpreter>
  <dsl-interpreter-name>lvs-dsl-xml</dsl-interpreter-name>
- <text># OpenRule1um lvs rule for Analog v1.21 July 8, 2020 copy left by S. Moriyama (Anagix Corporation)
+ <text># OpenRule1um lvs rule for Analog v1.22 Sep. 4th, 2020 copy left by S. Moriyama (Anagix Corporation)
 deep
 report_lvs
 
@@ -51,14 +51,16 @@ dm_via2 = input(106, 0)
 bulk        = polygon_layer
 
 # Computed layers
-pol_not_res  = pol - res
-pol_in_res   = pol &amp; res
+pol_in_hpol = pol &amp; hpol
+pol_not_hpol = pol - hpol
+pol_not_res  = pol_not_hpol - res
+pol_in_res   = pol_not_hpol &amp; res
 
-hpol_not_res  = hpol - res
-hpol_in_res   = hpol &amp; res
+hpol_not_res  = pol_in_hpol - res
+hpol_in_res   = pol_in_hpol &amp; res
 
 cnt_in_cap = cnt &amp; cap
-pol_overlapping_cap = pol.overlapping(cap) - pol.inside(cap)
+pol_overlapping_cap = pol_not_res.overlapping(cap) - pol_not_res.inside(cap)
 
 #diff_in_cap = diff &amp; cap
 #diff_not_cap = diff - cap
@@ -122,7 +124,7 @@ extract_devices(mos4("NMOS"), { "SD" =&gt; nsd, "G" =&gt; lv_ngate, "W" =&gt; bu
 # Inter-layer
 connect(psd,     cnt)
 connect(nsd,     cnt)
-connect(pol,    cnt)
+# connect(pol,    cnt)
 connect(pol_not_res, cnt)
 connect(hpol_not_res, cnt)
 connect(pol_overlapping_cap, cnt)
