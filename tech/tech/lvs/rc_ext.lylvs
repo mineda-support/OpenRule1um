@@ -14,7 +14,7 @@
  <menu-path>tools_menu.lvs.end</menu-path>
  <interpreter>dsl</interpreter>
  <dsl-interpreter-name>lvs-dsl-xml</dsl-interpreter-name>
- <text># OpenRule1um lvs rule for Analog v1.23 Sep. 4th, 2020 copy left by S. Moriyama (Anagix Corporation)
+ <text># OpenRule1um lvs rule for Analog v1.24 Sep. 6th, 2020 copy left by S. Moriyama (Anagix Corporation)
 # note for Capacitor extraction
 #   works only for Diffusion - Poly capacitance
 #   experimental PIP capacitor works if CAP layer is used for 2nd Poly layer (do not use with Diff cap)
@@ -106,8 +106,8 @@ extract_devices(capacitor(model_name, area_cap), {'P1'=&gt;diff_overlapping_cap,
 # resistance extraction
 
 model_name = "D"
-pplus = (diff_in_nwl &amp; parea )  - (pgate + psd)
-extract_devices(diode(model_name), { "P" =&gt; pplus, "N" =&gt; nwl , 'tA' =&gt; cnt,  'tC' =&gt; cnt})
+pplus = pdiff - pdiff.interacting(pgate)
+extract_devices(diode(model_name), { "P" =&gt; pplus, "N" =&gt; nwl })
 
 sheet_rho = 20.0
 model_name = "RES"
@@ -139,6 +139,7 @@ connect(hpol_not_res, cnt)
 connect(pol_overlapping_cap, cnt)
 connect(diff_overlapping_cap, cnt)
 connect(cap, cnt)
+connect(pplus, cnt)
 
 connect(cnt, ntie)
 connect(nwl,   ntie)
@@ -204,7 +205,7 @@ if File.exist? reference
 # Netlist vs. netlist
   compare
   slink = "#{lvs_work}/#{File.basename output}.txt"
-  File.delete slink if File.exist?(slink)
+  File.delete slink if File.exist?(slink) || File.symlink?(slink)
   if /mswin32|mingw/ =~ RUBY_PLATFORM
     File.link output, slink
   else
