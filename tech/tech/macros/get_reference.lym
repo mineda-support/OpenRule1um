@@ -14,7 +14,8 @@
  <menu-path/>
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
- <text># OpenRule1um lvs preprocessor v1.52 Sep. 4th, 2020 copy left by S. Moriyama (Anagix Corporation)
+ <text># OpenRule1um lvs preprocessor v1.53 Sep. 4th, 2020 copy left by S. Moriyama (Anagix Corporation)
+# Note: setting tolerance in get_reference is valid after KLayout 0.26.4
 require 'fileutils'
 require 'yaml'
 def get_params lines
@@ -154,8 +155,8 @@ module MyMacro
         }
       end
       #f.puts "  align"
-      #f.puts "  same_lasses 'NMOS', 'NCH'"
-      #f.puts "  same_lasses 'PMOS', 'PCH'"
+      #f.puts "  same_device_classes 'NMOS', 'NCH'"
+      #f.puts "  same_device_classes 'PMOS', 'PCH'"
       f.puts "  netlist.flatten_circuit 'Nch*'"
       f.puts "  netlist.flatten_circuit 'Pch*'"
       f.puts 'end'
@@ -168,10 +169,13 @@ module MyMacro
       f.puts "  same_circuits '#{cell.name}', '#{circuit_top ? circuit_top.upcase : '.TOP'}'"
       f.puts "  align"
       lass.each_pair{|p, q|
-        f.puts "  same_lasses '#{p}', '#{q.upcase}'" if q
+        f.puts "  same_device_classes '#{p}', '#{q.upcase}'" if q
       }
-      f.puts "  same_lasses 'HRES', 'RES'"
-      f.puts "  same_lasses 'RES', 'RES'"
+      f.puts "  same_device_classes 'HRES', 'RES'"
+      f.puts "  same_device_classes 'RES', 'RES'"
+      f.puts "  tolerance 'HRES', 'R', relative: 0.03"
+      f.puts "  tolerance 'RES', 'R', relative: 0.03"
+      f.puts "  tolerance 'CAP', 'C', relative: 0.03"
       f.puts "  netlist.flatten_circuit 'Nch*'"
       f.puts "  netlist.flatten_circuit 'Pch*'"
       f.puts "  netlist.flatten_circuit 'R_poly*'"
