@@ -14,7 +14,7 @@
  <menu-path/>
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
- <text># OpenRule1um lvs preprocessor v1.53 Sep. 4th, 2020 copy left by S. Moriyama (Anagix Corporation)
+ <text># OpenRule1um lvs preprocessor v1.55 Sep. 12, 2020 copy left by S. Moriyama (Anagix Corporation)
 # Note: setting tolerance in get_reference is valid after KLayout 0.26.4
 require 'fileutils'
 require 'yaml'
@@ -34,7 +34,8 @@ def get_params lines
 end
 
 def expand_file file, lines
-  File.open(file, 'r:Windows-1252').read.encode('UTF-8', invalid: :replace).each_line{|l|
+  # File.open(file, 'r:Windows-1252').read.encode('UTF-8', invalid: :replace).each_line{|l|
+  File.open(file, 'r:Windows-1252').read.encode('UTF-8').gsub(181.chr(Encoding::UTF_8), 'u').each_line{|l|
     puts "file: #{file}"
     if l.chop =~ /.inc\S* +(\S+)/
       include_file = $1
