@@ -14,7 +14,7 @@
  <menu-path/>
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
- <text># OpenRule1um lvs preprocessor v1.55 Sep. 12, 2020 copy left by S. Moriyama (Anagix Corporation)
+ <text># OpenRule1um lvs preprocessor v1.6 Jan. 12, 2021 copy left by S. Moriyama (Anagix Corporation)
 # Note: setting tolerance in get_reference is valid after KLayout 0.26.4
 require 'fileutils'
 require 'yaml'
@@ -36,7 +36,6 @@ end
 def expand_file file, lines
   # File.open(file, 'r:Windows-1252').read.encode('UTF-8', invalid: :replace).each_line{|l|
   File.open(file, 'r:Windows-1252').read.encode('UTF-8').gsub(181.chr(Encoding::UTF_8), 'u').each_line{|l|
-    puts "file: #{file}"
     if l.chop =~ /.inc\S* +(\S+)/
       include_file = $1
       lines &lt;&lt; '*' + l
@@ -47,6 +46,8 @@ def expand_file file, lines
       lines &lt;&lt; l
     end
   }
+  # puts "*** #{file}:"
+  # puts lines
   lines
 end
 
@@ -74,13 +75,16 @@ module MyMacro
   circuit_top = nil
   lass = {}
   lines = expand_file netlist, ''
+  puts lines
   params = get_params lines
+  # puts "***params: #{params.inspect}"
   Dir.mkdir 'lvs_work' unless File.directory? 'lvs_work'
   c = File.open(File.join('lvs_work', File.basename(netlist))+'.txt', 'w:UTF-8')
-  
+  # puts "*** input ***"
   lines.each_line{|l|
     l.gsub! 00.chr, ''
     l.tr! "@%-", "$$_" if l =~ /[@%-]/
+    # puts l
     c.puts l
     if l=~ /(\S+)@or1_stdcells_v1/
       cells &lt;&lt; $1 unless cells.include? $1
@@ -96,8 +100,12 @@ module MyMacro
       body.sub!(model, 'PMOS') if model &amp;&amp; model.upcase =~ /PCH|PMOS/
       p = {}
       others &amp;&amp; others.split.each{|equation|
-        equation =~ /(\S+) *= *(\S+)/
-        p[$1] = params[$2] || $2
+        if equation =~ /(\S+) *= *{(\S+)}/
+          ov = $2
+          p[$1] = params[ov.upcase] || ov
+        elsif equation =~ /(\S+) *= *(\S+)/
+          p[$1] = params[$2] || $2
+        end
       }
       if p['M'] &amp;&amp; p['M'] &gt; "1"
         if p['W'] =~ /([^U]+) *(U*)/
@@ -124,10 +132,18 @@ module MyMacro
         }
         desc = new_desc
       end
+    else
+      if l =~ /{(\S+)}/
+        ov = $1
+        rv = params[ov.upcase] || ov  #  calculation for ov like (6u*20u) should be implemented
+        l.sub! "{#{ov}}", rv
+      end
     end
     desc &lt;&lt; l.upcase
   }
   c.close
+  # puts "***reference***"
+  # puts desc
   File.open(reference, 'w:UTF-8'){|f| f.puts desc}
   slink = File.join('lvs_work', reference+'.txt')
   File.delete slink if File.exist?(slink)
