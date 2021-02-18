@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <salt-grain>
- <name>OpenRule1um/StdCells</name>
+ <name>OpenRule1um/Basic</name>
  <token/>
  <hidden>false</hidden>
  <version>1.0</version>
  <api-version/>
  <title>Static Library</title>
- <doc>Standard Cells for OpenRule1um process</doc>
+ <doc>Basic Cells for OpenRule1um process</doc>
  <doc-url>https://github.com/MakeLSI/OpenRule1um</doc-url>
  <url/>
  <license>GPLv3</license>
