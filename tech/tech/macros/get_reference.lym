@@ -14,7 +14,7 @@
  <menu-path/>
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
- <text># OpenRule1um lvs preprocessor v1.6 Jan. 12, 2021 copy left by S. Moriyama (Anagix Corporation)
+ <text># OpenRule1um lvs preprocessor v1.7 Feb. 18, 2021 copy left by S. Moriyama (Anagix Corporation)
 # Note: setting tolerance in get_reference is valid after KLayout 0.26.4
 require 'fileutils'
 require 'yaml'
@@ -23,7 +23,7 @@ def get_params lines
   lines.each_line{|l|
     l.gsub! 00.chr, ''
     if l.upcase =~/\.PARAM\S* (\S+.*$)/
-      params = $1
+      params = $1.gsub(/ *= */, '=')
       params.split.each{|equation|
         equation =~ /(\S+) *= *(\S+)/
         p[$1] = $2
@@ -73,11 +73,11 @@ module MyMacro
   desc = ''
   cells = []
   circuit_top = nil
-  lass = {}
+  device_class = {}
   lines = expand_file netlist, ''
-  puts lines
+puts lines
   params = get_params lines
-  # puts "***params: #{params.inspect}"
+puts "***params: #{params.inspect}"
   Dir.mkdir 'lvs_work' unless File.directory? 'lvs_work'
   c = File.open(File.join('lvs_work', File.basename(netlist))+'.txt', 'w:UTF-8')
   # puts "*** input ***"
@@ -185,7 +185,7 @@ module MyMacro
       f.puts 'def rc_ext_settings'
       f.puts "  same_circuits '#{cell.name}', '#{circuit_top ? circuit_top.upcase : '.TOP'}'"
       f.puts "  align"
-      lass.each_pair{|p, q|
+      device_class.each_pair{|p, q|
         f.puts "  same_device_classes '#{p}', '#{q.upcase}'" if q
       }
       f.puts "  same_device_classes 'HRES', 'RES'"
