@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <klayout-macro>
- <description>get_reference: create 'reference.cir' from LTspice netlist and set same_circuits definitions</description>
+ <description>get_reference: create 'reference.cir' from LTspice/EEschema netlist and set same_circuits definitions</description>
  <version/>
  <category/>
  <prolog/>
