@@ -14,7 +14,7 @@
  <menu-path/>
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
- <text># OpenRule1um lvs preprocessor v1.7 Feb. 18, 2021 copy left by S. Moriyama (Anagix Corporation)
+ <text># OpenRule1um lvs preprocessor v1.8 Feb. 18, 2021 copy left by S. Moriyama (Anagix Corporation)
 # Note: setting tolerance in get_reference is valid after KLayout 0.26.4
 require 'fileutils'
 require 'yaml'
@@ -139,12 +139,17 @@ puts "***params: #{params.inspect}"
         l.sub! "{#{ov}}", rv
       end
     end
+    break if l.upcase.strip == '.END'
     desc &lt;&lt; l.upcase
   }
   c.close
   # puts "***reference***"
   # puts desc
-  File.open(reference, 'w:UTF-8'){|f| f.puts desc}
+  File.open(reference, 'w:UTF-8'){|f| 
+    f.puts desc
+    f.puts '.GLOBAL 0'
+    f.puts '.END'
+  }
   slink = File.join('lvs_work', reference+'.txt')
   File.delete slink if File.exist?(slink)
   if /mswin32|mingw/ =~ RUBY_PLATFORM
