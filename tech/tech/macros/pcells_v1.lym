@@ -14,7 +14,7 @@
  <menu-path/>
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
- <text> # OpenRule1um PCells v1.92 Feb. 18th, 2020 copy left by S. Moriyama (Anagix Corporation)
+ <text> # OpenRule1um PCells v1.93 Aug. 8, 2021 copy left by S. Moriyama (Anagix Corporation)
  # note for experimental PIP capacitor: works if CAP layer is used for 2nd Poly layer (do not use with Diff cap)
  module OpenRule1um
 
@@ -213,10 +213,10 @@
         else
           y = y1+vs/2
         end
-        x = offset -vs/2-gl+u1/2
-        insert_cell indices[:psubcont], x, y
+        x = offset -vs/2-gl  # +u1/2
+        insert_cell indices[:psubcont], x, y - u1/2
         d = vs/2 + u1/2
-        insert_cell indices[:via], offset-vs/2-gl+u1/2, y 
+        insert_cell indices[:via], x, y - u1/2
         create_box indices[:narea], x1-u1, y1+vs+u1/2, offset-gl+u1, y2-vs-u1/2
       }
     end
