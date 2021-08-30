@@ -14,7 +14,7 @@
  <menu-path/>
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
- <text># OpenRule1um lvs preprocessor v1.8 Feb. 18, 2021 copy left by S. Moriyama (Anagix Corporation)
+ <text># OpenRule1um lvs preprocessor v1.81 Aug. 29, 2021 copy left by S. Moriyama (Anagix Corporation)
 # Note: setting tolerance in get_reference is valid after KLayout 0.26.4
 require 'fileutils'
 require 'yaml'
@@ -58,6 +58,7 @@ module MyMacro
   app = Application.instance
   mw = app.main_window
   cv = mw.current_view.active_cellview
+  raise "You are running OpenRule1um version of 'get_reference' against #{cv.technology} layout" unless cv.technology == 'OpenRule1um'
   raise 'Please save the layout first' if cv.nil? || cv.filename.nil? || cv.filename == ''
   cell = cv.cell
   netlist = QFileDialog::getOpenFileName(mw, 'Netlist file', ENV['HOME'], 'netlist(*.net *.cir *.sp *.spc)')
