@@ -14,7 +14,7 @@
  <menu-path/>
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
- <text># OpenRule1um lvs preprocessor v1.81 Aug. 29, 2021 copy left by S. Moriyama (Anagix Corporation)
+ <text># OpenRule1um lvs preprocessor v1.82 Sep. 1st, 2021 copy left by S. Moriyama (Anagix Corporation)
 # Note: setting tolerance in get_reference is valid after KLayout 0.26.4
 require 'fileutils'
 require 'yaml'
@@ -90,7 +90,7 @@ puts "***params: #{params.inspect}"
     if l=~ /(\S+)@or1_stdcells_v1/
       cells &lt;&lt; $1 unless cells.include? $1
       l.sub! '@', '$'
-    elsif l =~ /^ *\.inc/
+    elsif l =~ /^ *\.inc/ || l =~ /^ *[vV]/
       l.sub! /^/, '*'
     elsif l=~/^(([mM]\S+) *\S+ *\S+ *\S+ *\S+ *(\S+)) *(.*)/
       body = $1
@@ -180,6 +180,7 @@ puts "***params: #{params.inspect}"
       #f.puts "  align"
       #f.puts "  same_device_classes 'NMOS', 'NCH'"
       #f.puts "  same_device_classes 'PMOS', 'PCH'"
+      f.puts "  netlist.make_top_level_pins"
       f.puts "  netlist.flatten_circuit 'Nch*'"
       f.puts "  netlist.flatten_circuit 'Pch*'"
       f.puts 'end'
@@ -199,6 +200,7 @@ puts "***params: #{params.inspect}"
       f.puts "  tolerance 'HRES', 'R', relative: 0.03"
       f.puts "  tolerance 'RES', 'R', relative: 0.03"
       f.puts "  tolerance 'CAP', 'C', relative: 0.03"
+      f.puts "  netlist.make_top_level_pins"
       f.puts "  netlist.flatten_circuit 'Nch*'"
       f.puts "  netlist.flatten_circuit 'Pch*'"
       f.puts "  netlist.flatten_circuit 'R_poly*'"
