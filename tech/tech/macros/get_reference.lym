@@ -90,7 +90,7 @@ puts "***params: #{params.inspect}"
     if l=~ /(\S+)@or1_stdcells_v1/
       cells &lt;&lt; $1 unless cells.include? $1
       l.sub! '@', '$'
-    elsif l =~ /^ *\.inc/ || l =~ /^ *[vV]/
+    elsif l =~ /^ *\.inc/ || l =~ /^ *([iI]|[vV])/
       l.sub! /^/, '*'
     elsif l=~/^(([mM]\S+) *\S+ *\S+ *\S+ *\S+ *(\S+)) *(.*)/
       body = $1
