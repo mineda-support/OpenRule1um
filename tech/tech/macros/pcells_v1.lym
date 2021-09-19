@@ -14,7 +14,7 @@
  <menu-path>macros_menu.my_group&gt;end("OpenRule1um_Macros").end</menu-path>
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
- <text> # OpenRule1um PCells  v1.962 Sep. 18, 2021 copy left by S. Moriyama (Anagix Corporation)
+ <text> # OpenRule1um PCells  v1.964 Sep. 19, 2021 copy left by S. Moriyama (Anagix Corporation)
  # note for experimental PIP capacitor: works if CAP layer is used for 2nd Poly layer (do not use with Diff cap)
  module OpenRule1um
 
@@ -173,10 +173,16 @@
     def produce_impl # NMOS
       produce_impl_core {|indices, x1, y1, x2, y2, vs, u1, gl|
         # create ncont
-        wm_offset = wide_metal ? vs/2 : 0
-        insert_cell indices[:pcont], x1+vs/2, y2-vs/2
-        insert_cell indices[:via], x1+vs/2, y2-vs/2
-        create_path2 indices[:pol], x1+vs/2, y2-vs/2, x1+vs+u1/2, y2-vs/2, x1+vs+u1/2, y2-vs,u1, 0, 0
+        wm_offset = wide_metal ? u1 : 0
+        x = x1+vs/2
+        y = y2-vs/2
+        if wide_metal
+          x = x - u1
+          y = y + u1/2
+        end 
+        insert_cell indices[:pcont], x, y
+        insert_cell indices[:via], x, y
+        create_path2 indices[:pol], x, y, x1+vs+u1/2, y, x1+vs+u1/2, y2-vs,u1, 0, 0
         offset = 0
         top = nil
         bottom = nil
@@ -188,16 +194,17 @@
           prev_pol = x if i &gt;= 1
           if i % 2 == 0
             # first s/d and via
-            insert_cell indices[:via], x, y1+vs/2 - wm_offset
-            create_path indices[:m1], x, y1+vs/2 - wm_offset, x, y1+vs+2*u1, u1, 0, 0
-            if top &amp;&amp; wide_metal == false
-              create_path indices[:m1], top, y1+vs/2, x, y1+vs/2, u1, 0, 0
+            y = y1+vs/2 - wm_offset
+            insert_cell indices[:via], x, y
+            create_path indices[:m1], x, y, x, y1+vs+2*u1, u1, 0, 0
+            if top
+              create_path indices[:m1], top, y, x, y, u1, 0, 0
             end
             top = x
           else
             # second s/d and via
             if n == 1
-              insert_cell indices[:via], x, y2-vs/2
+              insert_cell indices[:via], x, y2-vs/2 + (wide_metal ? u1/2 : 0)
             else
               insert_cell indices[:via], x, y2+u1-vs/2
             end
@@ -214,13 +221,13 @@
         x = offset - vs/2 - gl # + u1/2        
         if n % 2 == 0
           y = y2 - vs/2 + u1/2
-          y = y + u1/2 if wide_metal # v1.962: fix for v1.961
+          # y = y + u1/2 if wide_metal
           x = x + u1/2
         else
-          y = y1 + vs/2 - u1/2 -wm_offset
+          y = y1 + vs/2 - u1/2
+          y = y - u1/2 if wide_metal
         end
         insert_cell indices[:psubcont], x, y 
-        d = vs/2 + u1/2
         insert_cell indices[:via], x, y
         create_box indices[:narea], x1-u1, y1+vs+u1/2, offset-gl+u1, y2-vs-u1/2
       }
@@ -245,9 +252,15 @@
      produce_impl_core {|indices, x1, y1, x2, y2, vs, u1, gl|
         # create pcont
         wm_offset = wide_metal ? vs/2 : 0
-        insert_cell indices[:pcont], x1+vs/2, y1+vs/2
-        insert_cell indices[:via], x1+vs/2, y1+vs/2
-        create_path2 indices[:pol], x1+vs/2, y1+vs/2, x1+vs+u1/2, y1+vs/2, x1+vs+u1/2, y1+vs, u1, 0, 0
+        x = x1 + vs/2
+        y = y1 + vs/2
+        if wide_metal
+          x = x - u1
+          y = y - u1/2
+        end 
+        insert_cell indices[:pcont], x, y
+        insert_cell indices[:via], x, y
+        create_path2 indices[:pol], x, y, x1+vs+u1/2, y, x1+vs+u1/2, y1+vs, u1, 0, 0
         offset = 0
         top = nil
         bottom = nil
@@ -260,15 +273,16 @@
             # first s/d and via
             insert_cell indices[:via], x, y2-vs/2 + wm_offset
             create_path indices[:m1], x, y2-vs-u1, x, y2-vs/2 + wm_offset, u1, 0, 0
-            if top &amp;&amp; wide_metal == false
-              create_path indices[:m1], top, y2-vs/2, x, y2-vs/2, u1, 0, 0
+            if top
+              y = y2-vs/2 + wm_offset
+              create_path indices[:m1], top, y, x, y, u1, 0, 0
             end
             top = x
           else
             # second s/d and via
             if i == 1
               if n == 1
-                insert_cell indices[:via], x, y1+vs/2
+                insert_cell indices[:via], x, y1+vs/2 - (wide_metal ? u1/2 : 0)
               else
                 insert_cell indices[:via], x, y1-u1+vs/2
               end
@@ -285,19 +299,20 @@
         }
         # nsubcont and via
         if n % 2 == 0
-          y = y1 + vs/2 - u1/2
+          y = y1 + vs/2 - u1/2  - (wide_metal ? u1 : 0) # v1.963
         else
           y = y2 - vs/2 + u1/2 + wm_offset
         end
         x = offset - vs/2 - gl + u1
+        y = y + u1/2 if wide_metal
         insert_cell indices[:nsubcont], x, y
         insert_cell indices[:via], x, y
         
         create_box indices[:parea], x1-u1/2, y1+vs+u1/2, offset-gl +u1/2, y2-vs-u1/2
         if n % 2 == 0
-          create_box indices[:nwl], x1-vs, y1-u1, offset-gl +2*u1, y2
+          create_box indices[:nwl], x1-vs, y1-u1-u1/2, offset-gl +2*u1, y2
         else
-          create_box indices[:nwl], x1-vs, y1, offset-gl +2*u1, y2+u1
+          create_box indices[:nwl], x1-vs, y1, offset-gl +2*u1, y2+u1+u1/2
         end
       }
     end
