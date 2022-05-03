@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="utf-8"?>
+<klayout-macro>
+ <description/>
+ <version/>
+ <category/>
+ <prolog/>
+ <epilog/>
+ <doc/>
+ <autorun>false</autorun>
+ <autorun-early>false</autorun-early>
+ <shortcut/>
+ <show-in-menu>false</show-in-menu>
+ <group-name/>
+ <menu-path/>
+ <interpreter>ruby</interpreter>
+ <dsl-interpreter-name/>
+ <text># coding: utf-8
+# OpenRule1um_v2 PCells v2.0 May 3rd, 2022 copy left by S. Moriyama (Anagix Corporation)
+#   based on OpenRule1um v1.97 Sep. 20, 2021 copy left by S. Moriyama (Anagix Corporation)
+
+module OpenRule1um_v2
+  include MinedaPCell
+
+  # Remove any definition of our classes (this helps when 
+  # reexecuting this code after a change has been applied)
+  # OpenRule1um_v2.constants.member?(:Resistor) &amp;&amp; remove_const(:Resistor)
+  OpenRule1um_v2.constants.member?(:Nch) &amp;&amp; remove_const(:Nch)
+  OpenRule1um_v2.constants.member?(:Pch) &amp;&amp; remove_const(:Pch)
+  OpenRule1um_v2.constants.member?(:R_poly) &amp;&amp; remove_const(:R_poly)
+  OpenRule1um_v2.constants.member?(:R_ndiff) &amp;&amp; remove_const(:R_ndiff)
+  OpenRule1um_v2.constants.member?(:R_pdiff) &amp;&amp; remove_const(:R_pdiff)
+  OpenRule1um_v2.constants.member?(:Poly_cap) &amp;&amp; remove_const(:Poly_cap)
+  OpenRule1um_v2.constants.member?(:Pdiff_cap) &amp;&amp; remove_const(:Pdiff_cap)
+  OpenRule1um_v2.constants.member?(:PCells) &amp;&amp; remove_const(:PCells)
+  
+  # The PCell declaration for the OpenRule1um_v2 MOSFET
+  
+  class Nch &lt; MinedaNch
+    include RBA
+    def initialize
+      super
+      param(:w, TypeDouble, "Nch w", :default =&gt; 10.0.um)
+      param(:l, TypeDouble, "Nch l", :default =&gt; 1.0.um)
+      # param(:n, TypeInt, "Number of fingers", :default =&gt; 1)
+      param(:dg, TypeDouble, "Dumbbell gap", :default =&gt; 0.0.um, :hidden =&gt; true)
+      param(:with_pcont, TypeBoolean, "Use polysilicon contact", :default =&gt; true)
+      param(:with_via, TypeBoolean, "Put Via over contacts", :default =&gt; true, :hidden =&gt; false)
+      param(:with_sdcont, TypeBoolean, "Use source/drain contact", :default =&gt; true)   
+      param(:with_psubcont, TypeBoolean, "Use psub contact", :default =&gt; true, :hidden =&gt; false)
+      param(:use_pwell, TypeBoolean, "Use pwell", :default =&gt; true, :hidden =&gt; true)  
+      param(:wide_metal, TypeBoolean, "Wide metal entry?", :default =&gt; false)
+      param(:wtot, TypeDouble, "Total width", :default =&gt; 0, :hidden=&gt; true)
+    end
+
+    def produce_impl # NMOS
+      nwl_index = layout.insert_layer(LayerInfo::new(1, 0))
+      diff_index = layout.insert_layer(LayerInfo::new(3, 0))
+      pol_index = layout.insert_layer(LayerInfo::new(5, 0))
+      m1_index = layout.insert_layer(LayerInfo::new(8, 0))
+      parea_index = layout.insert_layer(LayerInfo::new(18, 0))
+      narea_index = layout.insert_layer(LayerInfo::new(19, 0))
+      via_index = library_cell('Via', 'OpenRule1um_Basic', layout)
+      dcont_index = library_cell('dcont', 'OpenRule1um_Basic', layout)
+      pcont_index = library_cell('pcont', 'OpenRule1um_Basic', layout)
+      # nsubcont_index = library_cell('nsubcont', 'OpenRule1um_Basic', layout)
+      psubcont_index = library_cell('psubcont', 'OpenRule1um_Basic', layout) 
+      indices = {pol: pol_index, diff: diff_index, nwl: nwl_index,
+        parea: parea_index, narea: narea_index, m1: m1_index, via: via_index,
+        dcont: dcont_index, pcont: pcont_index, psubcont: psubcont_index}
+      s = 2.0.um # via size (fixed)
+      vs = (s/layout.dbu).to_i
+      grid = 1.0.um
+      u1 = (grid/layout.dbu).to_i
+     # metal1width = 1.0.um
+     # m1w = (metal1width/layout.dbu).to_i    
+      super indices, vs, u1, {xshift: 0, yshift:0, 
+                              pol_width: u1, gate_ext: vs/2, pcont_dy: 0,
+                              psubcont_dx: 0, psubcont_dy: u1/2, narea_bw: u1/2}
+    end
+  end
+
+  class Pch &lt; MinedaPch
+    include RBA
+    def initialize
+      super
+      param(:w, TypeDouble, "Pch w", :default =&gt; 10.0.um)
+      param(:l, TypeDouble, "Pch l", :default =&gt; 1.0.um)
+      param(:dg, TypeDouble, "Dumbbell gap", :default =&gt; 0.0.um, :hidden =&gt; true)
+      param(:with_pcont, TypeBoolean, "Use polysilicon contact", :default =&gt; true)
+      param(:with_via, TypeBoolean, "Put Via over contacts", :default =&gt; true, :hidden =&gt; false)
+      param(:with_sdcont, TypeBoolean, "Use source/drain contact", :default =&gt; true)
+      param(:with_nsubcont, TypeBoolean, "Use nsub contact", :default =&gt; true, :hidden =&gt; false)
+      param(:use_nwell, TypeBoolean, "Use nwell", :default =&gt; true, :hidden =&gt; false) 
+      param(:wide_metal, TypeBoolean, "Wide metal entry?", :default =&gt; false)
+      param(:wtot, TypeDouble, "Total width", :default =&gt; 0, :hidden=&gt; true)
+    end 
+    
+    def produce_impl # PMOS
+      nwl_index = layout.insert_layer(LayerInfo::new(1, 0))
+      diff_index = layout.insert_layer(LayerInfo::new(3, 0))
+      pol_index = layout.insert_layer(LayerInfo::new(5, 0))
+      m1_index = layout.insert_layer(LayerInfo::new(8, 0))
+      parea_index = layout.insert_layer(LayerInfo::new(18, 0))
+      narea_index = layout.insert_layer(LayerInfo::new(19, 0))
+      via_index = library_cell('Via', 'OpenRule1um_Basic', layout)
+      dcont_index = library_cell('dcont', 'OpenRule1um_Basic', layout)
+      pcont_index = library_cell('pcont', 'OpenRule1um_Basic', layout)
+      nsubcont_index = library_cell('nsubcont', 'OpenRule1um_Basic', layout)
+      # psubcont_index = library_cell('psubcont', 'OpenRule1um_Basic', layout) 
+
+      indices = {pol: pol_index, diff: diff_index, nwl: nwl_index,
+        parea: parea_index, narea: narea_index, m1: m1_index, via: via_index,
+        dcont: dcont_index, pcont: pcont_index, nsubcont: nsubcont_index}
+      s = 2.0.um # via size (fixed)
+      vs = (s/layout.dbu).to_i
+      grid = 1.0.um
+      u1 = (grid/layout.dbu).to_i
+     # metal1width = 1.0.um
+     # m1w = (metal1width/layout.dbu).to_i    
+      super indices, vs, u1, {xshift: 0, yshift:0, 
+                              pol_width: u1, gate_ext: vs/2, pcont_dy: 0,
+                              nsubcont_dy: u1/2, parea_bw: u1/2}
+    end    
+  end
+
+  class R_soi &lt; MinedaResistor
+    include MinedaPCell
+    def initialize
+      super
+      param(:l, TypeDouble, "Resistor length", :default =&gt; 10.0.um)
+      param(:w, TypeDouble, "Resistor width", :default =&gt; 2.0.um)
+      param(:n, TypeInt, "Number of maximum stripes", :default =&gt; 1)
+      param(:s, TypeDouble, "Space between stripes", :default =&gt; 1.0.um)
+      param(:m, TypeDouble, "Maximum stripe length", :default =&gt; 50.0.um)
+      param(:ho, TypeBoolean, "Headers outside?", :default =&gt; false)
+      param(:rval, TypeDouble, "Resistor value", :default =&gt; 0, :hidden=&gt; true)
+    end
+    def display_text_impl
+      if n &gt; 1
+        "R_soi\r\n(L=#{l.round(3)}um,W=#{w.round(3)}um,n=#{n.to_s},s=#{s}um =&gt; R=#{rval.round(3)})"
+      else
+        "R_soi\r\n(L=#{l.rount(3)}um,W=#{w.to_s}um,n=#{n.round(3)} =&gt; R=#{rval})"
+      end
+    end
+    def produce_impl(indices = {}, head = :narea)
+      indices[:diff] = layout.insert_layer(LayerInfo::new(20, 0))
+      # cnt_index = layout.insert_layer(LayerInfo::new(21,0))
+      indices[:dcont] = library_cell('dcont', 'PTS06_Basic', layout)
+      indices[:pcont] = library_cell('pcont', 'PTS06_Basic', layout)
+      indices[:m1] = layout.insert_layer(LayerInfo::new(6, 0))
+      indices[:m2] = layout.insert_layer(LayerInfo::new(10, 0))
+      indices[:res] = layout.insert_layer(LayerInfo::new(64, 0))
+      # via_index = layout.insert_layer(LayerInfo::new(25, 0))
+      indices[:via] = library_cell('Via', 'PTS06_Basic', layout)
+      indices[:parea] = layout.insert_layer(LayerInfo::new(31, 0))
+      indices[:narea] = layout.insert_layer(LayerInfo::new(30, 0))
+      indices[:nwl] = layout.insert_layer(LayerInfo::new(11, 0))
+      s = 2.0.um # via size (fixed)
+      vs = (s/layout.dbu).to_i
+      grid = 1.0.um
+      u1 = (grid/layout.dbu).to_i
+      rectangle, rw_ho = super indices, ho ? 1:0 , vs, u1
+      x1, y1, x2, y2 = rectangle
+      # create_box indices[head], x1-u1/2, y1-u1/2-rw_ho, x1 + vs + u1/2,  y1 + rw_ho + vs + u1/2
+      # create_box indices[head], x2 - vs - u1/2, y2 - vs -u1/2 , x2+u1/2, y2+u1/2
+      [indices, rectangle, u1, rw_ho]
+    end
+    def coerce_parameters_impl
+      sheet_resistance = 250e6
+      set_rval(sheet_resistance * l / w)
+    end    
+  end
+
+  class R_ndiff &lt; R_soi
+    include RBA
+    
+    def display_text_impl
+      if n &gt; 1
+        "R_ndiff\r\n(L=#{l.round(3)}um,W=#{w.round(3)}um,n=#{n.to_s},s=#{s}um =&gt; R=#{rval.round(3)})"
+      else
+        "R_ndiff\r\n(L=#{l.round(3)}um,W=#{w.round(3)}um,n=#{n.to_s} =&gt; R=#{rval})"
+      end
+    end
+    def produce_impl
+      indices, rectangle, u1, rw_ho = super
+      x1, y1, x2, y2 = rectangle
+      create_box indices[:narea], x1-u1/2, y1-u1/2-rw_ho, x2+u1/2, y2+u1/2
+    end
+    def coerce_parameters_impl
+      sheet_resistance = 40
+      set_rval(sheet_resistance * l / w)
+    end
+  end
+
+  class R_pdiff &lt; R_soi
+    include RBA
+    def initialize
+      super
+      param(:use_nwell, TypeBoolean, "Use Nwell", :default =&gt; true)
+    end
+    def display_text_impl
+      if n &gt; 1
+        "R_pdiff\r\n(L=#{l.round(3)}um,W=#{w.round(3)}um,n=#{n.to_s},s=#{s}um =&gt; R=#{rval.round(3)})"
+      else
+        "R_pdiff\r\n(L=#{l.round(3)}um,W=#{w.round(3)}um,n=#{n.to_s} =&gt; R=#{rval})"
+      end
+    end
+    def produce_impl
+      indices, rectangle, u1, rw_ho = super
+      x1, y1, x2, y2 = rectangle     
+      create_box indices[:parea], x1-u1/2, y1-u1/2-rw_ho, x2+u1/2, y2+u1/2
+      create_box indices[:nwl], x1-u1*2, y1-u1*2-rw_ho, x2+u1*2, y2+u1*2 if use_nwell
+    end
+    def coerce_parameters_impl
+      sheet_resistance = 90
+      set_rval(sheet_resistance * l / w)
+    end
+  end
+  
+  class Resistor &lt; MinedaResistor
+  
+    include RBA
+
+    def display_text_impl
+      # Provide a descriptive text for the cell
+      "Resistor\r\n(L=#{l.to_s}um,W=#{w.to_s}um,n=#{n.to_s}, R=#{rval})"
+    end
+    
+    def produce_impl
+      produce_impl_core layer=nil
+    end
+    
+    def produce_impl_core hpol_layer=nil
+      rw = (w/layout.dbu).to_i
+      rl = (l/layout.dbu).to_i
+      s = 2.0.um # via size (fixed)
+      vs = (s/layout.dbu).to_i
+      space = 2.0.um # space between HPOL
+      sp = (space/layout.dbu).to_i
+      grid = 1.0.um
+      metal1width = 1.0.um
+      m1w = (metal1width/layout.dbu).to_i
+      
+      sl = ((l.to_i/n)/layout.dbu).to_i
+      if sl*n == rl
+        r = 0
+      else
+        sl = sl + (grid/layout.dbu).to_i
+        r = rl - sl*(n-1)
+        set_n n - 1 if r &lt;= 0
+      end
+      puts "rl = #{rl}, n = #{n}, sl = #{sl}, r = #{r}"
+      #nv = (rw/vs).to_i
+      #juts = rw - nv*vs
+      #juts = ((nv+1)*vs-rw) if juts != 0
+      juts = 0
+      pol_index = layout.insert_layer(LayerInfo::new(5, 0))
+      m1_index = layout.insert_layer(LayerInfo::new(8, 0))
+      m2_index = layout.insert_layer(LayerInfo::new(10, 0))
+      res_index = layout.insert_layer(LayerInfo::new(15, 0))
+      via_index = library_cell('Via', 'OpenRule1um_Basic', layout)
+      pcont_index = library_cell('pcont', 'OpenRule1um_Basic', layout)
+      prev_x = nil
+      for i in 0..n-1
+        offset = vs/2 + (sp+(w/layout.dbu).to_i)*i
+        r = sl
+        if rl - sl*(i+1) &lt; 0
+          r = rl - sl*i
+        end
+        puts "offset=#{offset}, r=#{r} for i=#{i}"
+
+        if i % 2 == 0
+          points = [Point::new(offset, vs), Point::new(offset, vs/2+r)]
+          cell.shapes(pol_index).insert(Path::new(points, rw, vs, vs))
+          cell.shapes(res_index).insert(Path::new(points, rw, vs/4, vs/4))
+          [[offset, vs/2], [offset, r+vs]].each{|x, y|
+            insert_via_pcont via_index, pcont_index, x-juts/2, y, rw, vs
+            cell.shapes(m1_index).insert(Box::new(x-rw/2, y-vs/2, x+rw/2, y+vs/2))
+            cell.shapes(m2_index).insert(Box::new(x-rw/2, y-vs/2, x+rw/2, y+vs/2))
+          }
+          if prev_x
+            points = [Point::new(offset, vs/2), Point::new(prev_x, vs/2)]
+            cell.shapes(m1_index).insert(Path::new(points, m1w, m1w/2, m1w/2))
+          end  
+        else
+          points = [Point::new(offset, vs+(sl-r)), Point::new(offset, vs/2+sl)]
+          cell.shapes(pol_index).insert(Path::new(points, rw, vs, vs))
+          cell.shapes(res_index).insert(Path::new(points, rw, vs/4, vs/4))
+          [[offset, vs/2+(sl-r)], [offset, sl+vs]].each{|x, y|
+            insert_via_pcont via_index, pcont_index, x+juts/2, y, rw, vs
+            cell.shapes(m1_index).insert(Box::new(x-rw/2, y-vs/2, x+rw/2, y+vs/2))
+            cell.shapes(m2_index).insert(Box::new(x-rw/2, y-vs/2, x+rw/2, y+vs/2))
+          }
+          if prev_x
+            points = [Point::new(offset, sl+vs), Point::new(prev_x, sl+vs)]
+            cell.shapes(m1_index).insert(Path::new(points, m1w, m1w/2, m1w/2))
+          end
+        end
+        prev_x = offset  
+      end
+      if hpol_layer
+        hpol_index =  layout.insert_layer(LayerInfo::new(hpol_layer, 0))
+        u5 = (5.0.um/layout.dbu).to_i
+        cell.shapes(hpol_index).insert(Box.new(vs/2-rw/2 -u5 -juts, -u5, prev_x+rw/2 + u5 +juts, sl+u5+vs+vs/2))
+        puts "u5=#{u5}, juts=#{juts}"
+      end
+    end
+    
+    def library_cell name, libname, layout
+      if cell = layout.cell(name)
+        return cell.cell_index
+      else
+        lib = Library::library_by_name libname
+        cell_index = lib.layout.cell_by_name(name)
+        proxy_index = layout.add_lib_cell(lib, cell_index)
+      end
+    end
+    
+    def insert_via_pcont via_index, pcont_index, x, y, rw, vs
+      nv = (rw/vs).to_i
+      #if nv*vs != rw
+      #  nv = nv + 1
+      #end
+      x = x - rw/2 + vs/2
+      for i in 0..nv-1
+        x = x + rw - vs*nv if i == nv-1
+        via = instantiate via_index, x, y, cell
+        inst = cell.insert(via)
+        pcont = instantiate pcont_index, x, y, cell
+        inst = cell.insert(pcont)
+        x = x + vs
+      end
+    end
+   
+    def instantiate index, x, y, cell
+      CellInstArray.new(index, Trans.new(x, y))
+    end
+  end
+
+  class R_poly &lt; Resistor
+    include RBA
+    def initialize
+      super
+      param(:l, TypeDouble, "Resistor length", :default =&gt; 10.0.um)
+      param(:w, TypeDouble, "Resistor width", :default =&gt; 2.0.um)
+      param(:n, TypeInt, "Number of maximum stripes", :default =&gt; 1)
+
+      param(:rval, TypeDouble, "Resistor value", :default =&gt; 0, :hidden=&gt; true)
+    end
+    def display_text_impl
+      "R_poly\r\n(L=#{l.round(3)}um,W=#{w.round(3)}um,n=#{n.to_s}, R=#{rval})"
+    end       
+    def coerce_parameters_impl
+      if n == 1
+        l &lt; 20.0 &amp;&amp; set_l(20.0)
+        l &gt; 80.0 &amp;&amp; set_l(80.0) 
+      else      
+        l/n &lt; 20.0 &amp;&amp; set_n(n-1)
+        l/n &gt; 80.0 &amp;&amp; set_n(n+1)
+      end
+      w &lt; 2.0 &amp;&amp; (set_w 2.0)
+      sheet_resistance = 20
+      set_rval(sheet_resistance * l / w)
+    end
+    def produce_impl
+      produce_impl_core layer=nil
+    end
+  end
+  class HR_poly &lt; Resistor
+    include RBA
+    def initialize
+      super
+      param(:l, TypeDouble, "Resistor length", :default =&gt; 10.0.um)
+      param(:w, TypeDouble, "Resistor width", :default =&gt; 2.0.um)
+      param(:n, TypeInt, "Number of maximum stripes", :default =&gt; 1)
+
+      param(:rval, TypeDouble, "Resistor value", :default =&gt; 0, :hidden=&gt; true)
+    end 
+    def display_text_impl
+      "HR_poly\r\n(L=#{l.round(3)}um,W=#{w.round(3)}um,n=#{n.to_s}, R=#{rval})"
+    end   
+    def coerce_parameters_impl
+      puts "check l =  #{l}, w = #{w}, n = #{n}"
+      if n == 1
+        l &lt; 23.0 &amp;&amp; (set_l 23.0)
+        l &gt; 83.0 &amp;&amp; (set_l 83.0) 
+      else      
+        l/n &lt; 23.0 &amp;&amp; (set_n n-1)
+        l/n &gt; 83.0 &amp;&amp; (set_n n+1)
+      end
+      w &lt; 2.0 &amp;&amp; (set_w 2.0)
+      sheet_resistance = 4000
+      set_rval(sheet_resistance * l / w)
+     end 
+    def produce_impl
+      produce_impl_core layer=6
+      
+    end
+  end
+  
+  class Poly_cap &lt; MinedaPoly_cap
+      def initialize
+      # Important: initialize the super class
+      super
+      param(:l, TypeDouble, "Capacitor length", :default =&gt; 10.0.um)
+      param(:w, TypeDouble, "Capacitor width", :default =&gt; 10.0.um)
+      param(:cval, TypeDouble, "Capacitor value", :default =&gt; 0, :hidden=&gt; true)
+    end
+    
+    def display_text_impl
+      # Provide a descriptive text for the cell
+      "Poly Capacitor\r\n(L=#{l.round(3)}um,W=#{w.round(3)}um,C=#{cval.round(3)})"
+    end
+    
+    def coerce_parameters_impl
+      area_cap = 0.028e-15 
+      set_cval(area_cap * l * w)
+    end
+    
+    def produce_impl
+      grid = 1.0.um
+      u1 = (grid/layout.dbu).to_i
+      s = 2.0.um # via size (fixed)
+      vs = (s/layout.dbu).to_i
+      pol_index = layout.insert_layer(LayerInfo::new(5, 0))
+      m1_index = layout.insert_layer(LayerInfo::new(8, 0))
+      # m2_index = layout.insert_layer(LayerInfo::new(10, 0))
+      cap_index = layout.insert_layer(LayerInfo::new(16, 0))
+      via_index = library_cell('Via', 'OpenRule1um_Basic', layout)
+      dcont_index = library_cell('dcont', 'OpenRule1um_Basic', layout)
+      indices = {m1: m1_index,  cap: cap_index, # m2 : m2_index, 
+                 via: via_index, pol: pol_index, dcont: dcont_index}
+      super indices, vs, u1
+    end
+  end
+
+  class Diff_cap &lt; MinedaDiff_cap
+    def initialize
+      # Important: initialize the super class
+      super
+      param(:l, TypeDouble, "Capacitor length", :default =&gt; 10.0.um)
+      param(:w, TypeDouble, "Capacitor width", :default =&gt; 10.0.um)
+      param(:cval, TypeDouble, "Capacitor value", :default =&gt; 0, :hidden=&gt; true)
+    end
+
+    def produce_impl area_index=nil, well_index=nil
+      grid = 1.0.um
+      u1 = (grid/layout.dbu).to_i
+      u2 = u1 + u1
+      s = 2.0.um # via size (fixed)
+      vs = (s/layout.dbu).to_i
+      diff_index = layout.insert_layer(LayerInfo::new(3, 0))     
+      pol_index = layout.insert_layer(LayerInfo::new(5, 0))
+      m1_index = layout.insert_layer(LayerInfo::new(8, 0))
+      m2_index = layout.insert_layer(LayerInfo::new(10, 0))
+      cap_index = layout.insert_layer(LayerInfo::new(16, 0))
+      dcont_index = library_cell('dcont', 'OpenRule1um_Basic', layout)
+      via_index = library_cell('Via', 'OpenRule1um_Basic', layout)
+      indices = {diff: diff_index, pol: pol_index, m1: m1_index, m2: m2_index, 
+                cap: cap_index, via: via_index, dcont: dcont_index}
+      super indices, vs, u1, area_index, well_index
+    end
+  end
+  
+  class Pdiff_cap &lt; Diff_cap
+
+    def coerce_parameters_impl
+      area_cap = 2.6e-15
+      set_cval(area_cap * l * w)
+    end
+
+    def produce_impl
+      parea_index = layout.insert_layer(LayerInfo::new(18, 0))
+      nwl_index = layout.insert_layer(LayerInfo::new(1, 0))
+      super parea_index, nwl_index 
+    end
+  end
+
+  class OpenRule1um_v2 &lt; Library
+  
+    def initialize  
+    
+      # 説明を設定
+      self.description = "OpenRule1um_v2 PCells"
+      
+      # PCell宣言を作成する
+      # layout.register_pcell("Resistor", Resistor::new)
+      layout.register_pcell("Nch", Nch::new)
+      layout.register_pcell("Pch", Pch::new)
+      layout.register_pcell("R_poly", R_poly::new)
+      layout.register_pcell("HR_poly", HR_poly::new)
+      # layout.register_pcell("R_soi", R_soi::new)
+      layout.register_pcell("R_ndiff", R_ndiff::new)
+      layout.register_pcell("R_pdiff", R_pdiff::new)
+      layout.register_pcell("Poly_cap", Poly_cap::new)
+      # layout.register_pcell("Ndiff_cap", Ndiff_cap::new)
+      layout.register_pcell("Pdiff_cap", Pdiff_cap::new)      
+      
+      # "OpenRule1um_v2"という名前で登録します。
+      # その名前のライブラリがすでに存在していた場合は、その時点で置き換えられます。
+      register("PCells")
+      
+    end
+  end
+  
+  # ライブラリをインスタンス化して登録する
+  OpenRule1um_v2::new
+  
+end
+
+
+</text>
+</klayout-macro>
