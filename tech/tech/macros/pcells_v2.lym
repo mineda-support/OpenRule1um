@@ -476,7 +476,7 @@ module OpenRule1um_v2
     end
   end
 
-  class OpenRule1um_v2 &lt; Library
+  class OpenRule1um &lt; Library
   
     def initialize  
     
@@ -504,7 +504,7 @@ module OpenRule1um_v2
   end
   
   # ライブラリをインスタンス化して登録する
-  OpenRule1um_v2::new
+  OpenRule1um::new
   
 end
 

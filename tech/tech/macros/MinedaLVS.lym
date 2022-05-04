@@ -1,25 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
 <klayout-macro>
- <description/>
+ <description>Common macro library for LVS preprocessor </description>
  <version/>
  <category/>
  <prolog/>
  <epilog/>
  <doc/>
- <autorun>false</autorun>
+ <autorun>true</autorun>
  <autorun-early>false</autorun-early>
  <shortcut/>
- <show-in-menu>false</show-in-menu>
+ <show-in-menu>true</show-in-menu>
  <group-name/>
  <menu-path/>
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
- <text>module MyMacro
- 
+ <text># Mineda LVS preprocessor v0.1 Oct. April 29th copy right by S. Moriyama (Anagix Corporation)
+
+class MinedaLVS
   include RBA
+  require 'fileutils'
+  require 'yaml'
+  def get_params netlist
+    p = {}
+    File.open(netlist, 'r:Windows-1252').read.encode('UTF-8', invalid: :replace).each_line{|l|
+      l.gsub! 00.chr, ''
+      if l.upcase =~/\.PARAM\S* (\S+.*$)/
+        params = $1
+        params.split.each{|equation|
+          equation =~ /(\S+) *= *(\S+)/
+          p[$1] = $2
+        }
+      end
+    }
+    p
+  end
 
-  # Enter your Ruby code here ..
+  def lvs_go target_technology
+    app = Application.instance
+    mw = app.main_window
+    cv = mw.current_view.active_cellview
+    raise "You are running #{target_technology} version of 'get_reference' against #{cv.technology} layout" unless cv.technology == target_technology
+    raise 'Please save the layout first' if cv.nil? || cv.filename.nil? || cv.filename == ''
+    cell = cv.cell
+    netlist = QFileDialog::getOpenFileName(mw, 'Netlist file', File.dirname(cv.filename), 'netlist(*.net *.cir *.spc *.sp)')
+    if netlist &amp;&amp; netlist.strip != ''
+      netlist = netlist.force_encoding('UTF-8')
+      # netlist = '/home/seijirom/Dropbox/work/LRmasterSlice/comparator/COMP_NLF.net'
+      # raise "#{netlist} does not exist!" unless File.exist? netlist
+      Dir.chdir File.dirname(cv.filename).force_encoding('UTF-8')
+      ext_name = File.extname cv.filename
+      target = File.basename(cv.filename).sub(ext_name, '')
+      reference = "#{target}_reference.cir"
+      ref={'target' =&gt; target, 'reference'=&gt; reference, 'netlist'=&gt; netlist, 'schematic' =&gt; netlist.sub('.net', '.asc')}
+      File.open(target+'.yaml', 'w'){|f| f.puts ref.to_yaml}
+      desc = ''
+      cells = []
+      circuit_top = nil
+      device_class = {}
+      Dir.mkdir 'lvs_work' unless File.directory? 'lvs_work'
 
+      params = get_params netlist
+      Dir.mkdir 'lvs_work' unless File.directory? 'lvs_work'
+      c = File.open(File.join('lvs_work', File.basename(netlist))+'.txt', 'w:UTF-8')
+      File.open(netlist, 'r:Windows-1252').read.encode('UTF-8', invalid: :replace).each_line{|l|
+        l.gsub! 00.chr, ''
+        l.tr! "@%-", "$$_"
+        c.puts l
+        if l=~ /(\S+)@or1_stdcells_v1/
+          cells &lt;&lt; $1 unless cells.include? $1
+          l.sub! '@', '$'
+        elsif l =~ /^ *\.inc/ || l =~ /^ *([iI]|[vV])/
+          l.sub! /^/, '*'
+        elsif l=~/^(([mM]\S+) *\S+ *\S+ *\S+ *\S+ *(\S+)) *(.*)/
+          body = $1
+          name=$2
+          others = ($4 &amp;&amp; $4.upcase)
+          model = $3
+          device_class['NMOS'] = model if model &amp;&amp; model.upcase =~ /NCH|NMOS/
+          device_class['PMOS'] = model if model &amp;&amp; model.upcase =~ /PCH|PMOS/
+          p = {}
+          others &amp;&amp; others.split.each{|equation|
+           if equation =~ /(\S+) *= *{(\S+)}/
+              ov = $2
+              p[$1] = params[ov.upcase] || ov
+            elsif equation =~ /(\S+) *= *(\S+)/
+              p[$1] = params[$2] || $2
+            end
+          }
+          if p['M'] &amp;&amp; p['M'] &gt; "1"
+            if p['W'] =~ /([^U]+) *(U*)/
+              new_w  = "#{$1.to_i * p['M'].to_i}#{$2}"
+              puts "Caution for #{name}: w=#{p['W']} replaced with w=#{new_w} because m=#{p['M']}"
+              p['W'] = new_w
+              p['M'] = '1'
+            end
+          end   
+          others = p.map{|a| "#{a[0]}=#{a[1]}"}.join ' '
+          l = "#{body} #{others}\n"
+        elsif circuit_top.nil? &amp;&amp; l=~/^\.subckt *(\S+)/
+          circuit_top = $1
+          puts "circuit_top: #{circuit_top}"
+          new_desc = ''
+          desc.each_line{|l|
+            l.sub! /^/, '*' unless l=~/^\*/
+            new_desc &lt;&lt; l
+          }
+          desc = new_desc
+        else
+          if l =~ /{(\S+)}/
+            ov = $1
+            rv = params[ov.upcase] || ov  #  calculation for ov like (6u*20u) should be implemented
+            l.sub! "{#{ov}}", rv
+          end
+        end
+        break if l.upcase.strip == '.END'
+        desc &lt;&lt; l.upcase
+      }
+      c.close
+      File.open(reference, 'w:UTF-8'){|f| 
+        f.puts desc
+        f.puts '.GLOBAL 0'
+        f.puts '.END'
+      }
+      slink = File.join('lvs_work', reference+'.txt')
+      File.delete slink if File.exist?(slink) 
+      if /mswin32|mingw/ =~ RUBY_PLATFORM
+        File.link reference, slink
+      else
+        File.symlink "../#{File.basename reference}", slink
+      end
+
+      puts "#{reference} created under #{Dir.pwd}"
+      File.mkdir 'lvs_work' unless File.directory? 'lvs_work'
+      ['macros', 'pymacros', 'python', 'ruby', 'drc'].each{|f| FileUtils.rm_rf f if File.directory? f}
+      if cells.size &gt; 0
+        or1_cells = %[an21 an31 an41 buf1 buf2 buf4 buf8 cinv clkbuf1 clkbuf2 clkinv1 clkinv2 dff1 exnr exor
+                     inv1 inv1 ~inv2 inv4 inv8 na21 na212 na222 na31 na41 nr21 nr212 nr222 nr31 or21 or31
+                     rff1 sdff1 sff1 srff1 ssff1]
+
+        File.open('lvs_work/lvs_settings.rb', 'w'){|f|
+          f.puts 'def lvs_settings'
+          f.puts "  same_circuits '#{cell.name}', '#{circuit_top ? circuit_top.upcase : '.TOP'}'"
+          cells.each{|c|
+            if or1_cells.include? c
+              f.puts "  same_circuits '#{c}', '#{c.upcase}$OR1_STDCELLS_V1'"
+            end
+          }
+          f.puts "  align"
+          f.puts "  same_device_classes 'NMOS', 'NCH'"
+          f.puts "  same_device_classes 'PMOS', 'PCH'"
+          f.puts "  netlist.flatten_circuit 'Nch*'"
+          f.puts "  netlist.flatten_circuit 'Pch*'"
+          f.puts 'end'
+        }
+      end
+      unless File.exist? "lvs_work/#{target}_rc_ext_settings.rb"
+        File.open("lvs_work/#{target}_rc_ext_settings.rb", 'w'){|f|
+          f.puts 'def rc_ext_settings'
+          f.puts "  same_circuits '#{cell.name}', '#{circuit_top ? circuit_top.upcase : '.TOP'}'"
+          f.puts "  align"
+          device_class.each_pair{|p, q|
+            f.puts "  same_device_classes '#{p}', '#{q.upcase}'" if q
+          }
+          f.puts "  same_device_classes 'NRES', 'RES'"
+          f.puts "  same_device_classes 'PRES', 'RES'"
+          f.puts "  same_device_classes 'R-SOI', 'RES'"
+          f.puts "  tolerance 'NRES', 'R', relative: 0.03"
+          f.puts "  tolerance 'PRES', 'R', relative: 0.1"
+          f.puts "  tolerance 'R-SOI', 'R', relative: 0.03"
+          f.puts "  same_device_classes 'MIMCAP', 'CAP'"
+          f.puts "  same_device_classes 'PDIFFCAP', 'CAP'"
+          f.puts "  same_device_classes 'NDIFFCAP', 'CAP'"
+          f.puts "  same_device_classes 'TiNCAP', 'CAP'"
+          f.puts "  tolerance 'MIMCAP', 'C', relative: 0.03"
+          f.puts "  tolerance 'PDIFFCAP', 'C', relative: 0.03"
+          f.puts "  tolerance 'NDIFFCAP', 'C', relative: 0.03"
+          f.puts "  tolerance 'TiNCAP', 'C', relative: 0.03"
+          f.puts "  same_device_classes 'D', 'PDIO'"
+          f.puts "  same_device_classes 'D', 'NDIO'"
+          f.puts "  same_device_classes 'D', 'D'"
+          f.puts "  netlist.make_top_level_pins"
+          f.puts "  netlist.combine_devices"
+          f.puts "  schematic.combine_devices"
+          f.puts 'end'
+        }
+      end
+    end
+  end
 end
 </text>
 </klayout-macro>
