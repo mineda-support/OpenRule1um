@@ -15,7 +15,7 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.41 May 4th, 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.42 May 12th, 2022 copy right S. Moriyama (Anagix Corporation)
 # 
 module MinedaPCell
   version = '0.41'
@@ -112,8 +112,14 @@ module MinedaPCell
         create_path(indices[:li1], x, vs-yshift+u1, x, vs-yshift+u1-u1cut+[gw, vs].max, u1, 0, 0) if indices[:li1]
         create_dcont(indices[:dcont], x, vs-yshift+u1, x, vs-yshift+u1+[gw, vs].max, vs)  
         x = x + vs/2 + gl/2 + dgl
-        gate_ext = params[:gate_ext] || vs/2 + u1/8
-        create_path(indices[:pol], x, vs-yshift+u1, x, vs-yshift+u1+[gw, vs].max, gl, gate_ext, gate_ext) if i &lt; n
+        if i &lt; n
+          gate_ext = params[:gate_ext] || vs/2 + u1/8
+          create_path(indices[:pol], x, vs-yshift+u1, x, vs-yshift+u1+[gw, vs].max, gl, gate_ext, gate_ext) 
+          if indices[:gate_impl]
+            gim = params[:gate_impl_margin] || vs/2
+            create_path(indices[:gate_impl], x, vs-yshift+u1, x, vs-yshift+u1+[gw, vs].max, gl+gim*2, gate_ext+gim, gate_ext+gim) 
+          end
+        end
         offset = offset + vs + gl + 2*dgl
       }
       if gw &gt; vs
@@ -193,7 +199,7 @@ module MinedaPCell
             else
               insert_cell indices[:via], x, y2+u1-vs/2 if with_via &amp;&amp; with_sdcont
             end
-            create_path indices[:m1], x, y2-vs-2*u1 - wm_offset, x, y2-vs/2, u1, 0, 0 if with_sdcont || n != 1
+            create_path indices[:m1], x, y2-vs-2*u1 - wm_offset, x, y2+u1-vs/2, u1, 0, 0 if with_sdcont || n != 1
             if bottom
               y = y2+u1-vs/2
               create_path indices[:m1], bottom, y, x, y, u1, u1/2, u1/2
@@ -222,7 +228,9 @@ module MinedaPCell
         create_box indices[:narea], x1-narea_bw, y1+vs+u1-narea_bw, offset-gl+narea_bw, y2-vs-u1+narea_bw
         if indices[:nex]
           delta = u1*5
-          create_box indices[:nex], x1-delta, y1+vs-u1/2-delta-u1, offset-gl+delta, y2-vs+u1/2+delta+u1 
+          create_box indices[:nex], x1-delta, y1+vs-u1/2-delta-u1, offset-gl+delta, y2-vs+u1/2+delta+u1
+          delta = delta + delta
+          create_box indices[:ar], x1-delta, y1+vs-u1/2-delta-u1, offset-gl+delta, y2-vs+u1/2+delta+u1 if indices[:ar]
         end
          if indices[:pwl] &amp;&amp; use_pwell
            if one = params[:pwl_bw] #        one = u1*6.25
@@ -291,7 +299,7 @@ module MinedaPCell
             else
               insert_cell indices[:via], x, y1-u1+vs/2 if with_via &amp;&amp; with_sdcont
             end
-            create_path indices[:m1], x, y1+vs/2, x, y1+vs+2*u1, u1, 0, 0 if with_sdcont || n != 1
+            create_path indices[:m1], x, y1-u1+vs/2, x, y1+vs+2*u1, u1, 0, 0 if with_sdcont || n != 1
             if bottom
               create_path indices[:m1], bottom, y1-u1+vs/2, x, y1 -u1+vs/2, u1, u1/2, u1/2
             end
@@ -318,7 +326,8 @@ module MinedaPCell
         create_box indices[:parea], x1-parea_bw, y1+vs+u1-parea_bw, offset-gl+parea_bw, y2-vs-u1+parea_bw
         delta = u1*5
         create_box indices[:pex], x1-delta, y1+vs-u1/2-delta-u1, offset-gl+delta, y2-vs+u1/2+delta+u1 if indices[:pex]
-
+        delta = delta + delta
+        create_box indices[:ar], x1-delta, y1+vs-u1/2-delta-u1, offset-gl+delta, y2-vs+u1/2+delta+u1 if indices[:ar]
         if indices[:nwl] &amp;&amp; use_nwell
           if one = params[:nwl_bw] #         one = u1*6.25
             create_box indices[:nwl],  x1-delta-one, y1+vs-u1/2-delta-u1-one, [offset-gl+delta+one, x1-delta+4*one].max, 
@@ -382,7 +391,7 @@ module MinedaPCell
       end
     end
        
-    def produce_impl indices, header_outside, vs, u1
+    def produce_impl indices, header_outside, vs, u1, params={}
       res_body = indices[:pol] || indices[:diff]
       rw = (w/layout.dbu).to_i
       rrl = (l/layout.dbu).to_i
@@ -405,6 +414,7 @@ module MinedaPCell
       prev_x = nil
       xmax = ymax = -10000000
       ymin = 10000000
+      header_offset = params[:header_offset] || 0
       for i in 0..n-1
         offset = vs/2 + (sp+rw)*i
         r = sl
@@ -417,8 +427,8 @@ module MinedaPCell
           points = [Point::new(x, vs-rw_ho), Point::new(x, vs+r)]
           cell.shapes(indices[:res]).insert(Path::new(points, rw, 0, 0))    
           if i == 0 
-            points = [Point::new(x, -rw_ho), Point::new(x, vs+r)]
-            y = vs/2-rw_ho
+            points = [Point::new(x, -rw_ho + header_offset), Point::new(x, vs+r - header_offset)]
+            y = vs/2-rw_ho + header_offset
             # insert_cell indices, :via, x, y, vs, u1
             # insert_cell indices, :cnt, x, y, vs, u1
             # insert_cell indices, :diff, x, y, vs, u1
@@ -426,8 +436,8 @@ module MinedaPCell
             ymin = [ho ? y + vs/2 : y - vs/2, ymin].min
           end
           if i == n-1
-            points = [Point::new(x, (n == 1 ? -rw_ho : vs)), Point::new(x, vs+r+vs)]
-            y =  vs+r+vs/2
+            points = [Point::new(x, (n == 1 ? -rw_ho : vs) - header_offset), Point::new(x, vs+r+vs)]
+            y =  vs+r+vs/2 - header_offset
             # insert_cell indices, :via, x, y, vs, u1
             # insert_cell indices, :cnt, x, y, vs, u1
             # insert_cell indices, :diff, x, y, vs, u1
@@ -449,7 +459,7 @@ module MinedaPCell
           if i == n-1
             points = [Point::new(offset, sl-r), Point::new(offset, vs+sl)]
             x = offset
-            y = vs+sl-r-vs/2
+            y = vs+sl-r-vs/2 + header_offset
             # insert_cell indices, :via, x, y, vs, u1
             # insert_cell indices, :cnt, x, y, vs, u1
             # insert_cell indices, :diff, x, y, vs, u1
