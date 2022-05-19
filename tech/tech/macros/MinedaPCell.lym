@@ -15,7 +15,7 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.42 May 12th, 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.43 May 19th, 2022 copy right S. Moriyama (Anagix Corporation)
 # 
 module MinedaPCell
   version = '0.41'
@@ -483,9 +483,6 @@ module MinedaPCell
         puts "[xmax,ymax] = #{[xmax,ymax].inspect}"
       end 
       # puts "n=#{n}"
-      if indices[:hpol]
-        yield vs, rw, prev_x, sl
-      end
       [[[vs/2-rw/2, 0].min, [(ho||n&lt;=2) ? 0 : vs - rw, ymin].min, xmax, ymax], rw_ho]
     end
   end
@@ -543,7 +540,7 @@ module MinedaPCell
         
     def display_text_impl
       # Provide a descriptive text for the cell
-      "Diff Capacitor\r\n(L=#{l.round(3)}um,W=#{w.round(3)}um,C=#{cval.round(3)})"
+      "Diff Capacitor\r\n(L=#{l.round(3)}um,W=#{w.round(3)}um,C=#{cval.to_s})"
     end
     
     def produce_impl indices, vs, u1, area_index=nil, well_index=nil
@@ -575,7 +572,7 @@ module MinedaPCell
   
     def display_text_impl
       # Provide a descriptive text for the cell
-      "Poly Capacitor\r\n(L=#{l.round(3)}um,W=#{w.round(3)}um,C=#{cval.round(3)})"
+      "Poly Capacitor\r\n(L=#{l.round(3)}um,W=#{w.round(3)}um,C=#{cval.to_s})"
     end
     
     def produce_impl indices, vs, u1

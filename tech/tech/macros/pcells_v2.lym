@@ -393,8 +393,7 @@ module OpenRule1um_v2
       set_rval(sheet_resistance * l / w)
      end 
     def produce_impl
-      produce_impl_core layer=6
-      
+      produce_impl_core layer=6    
     end
   end
   
