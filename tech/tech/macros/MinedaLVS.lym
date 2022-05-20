@@ -17,7 +17,7 @@
  <text># Mineda LVS preprocessor v0.2 May 19th copy right by S. Moriyama (Anagix Corporation)
 
 class MinedaLVS
-  include RBA unless $0 == __FILE__
+  include RBA # unless $0 == __FILE__
   require 'fileutils'
   require 'yaml'
   def get_params netlist
@@ -216,7 +216,7 @@ class MinedaLVS
   end
 end
 
-if $0 == __FILE__
+if nil &amp;&amp; $0 == __FILE__
   settings = {
     device: {HRES: 'RES', RES: 'RES'},
     tolerance: {HRES: {R: {relative: 0.03}},
@@ -224,7 +224,7 @@ if $0 == __FILE__
                 CAP: {C: {relative: 0.03, absolute: 1e-15}}},
     flatten_circuit: ['Nch*', 'Pch*', 'R_poly*', 'HR_poly']
   }
-  MinedaLVS.new.set_settings nil, nil, {}, '/dev/stdout', settings
+  MinedaLVS.new.set_settings nil, nil, {}, '/dev/stdout', settingsend
 end
 </text>
 </klayout-macro>
