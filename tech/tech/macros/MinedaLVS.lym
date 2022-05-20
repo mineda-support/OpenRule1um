@@ -14,10 +14,10 @@
  <menu-path/>
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
- <text># Mineda LVS preprocessor v0.1 Oct. April 29th copy right by S. Moriyama (Anagix Corporation)
+ <text># Mineda LVS preprocessor v0.2 May 19th copy right by S. Moriyama (Anagix Corporation)
 
 class MinedaLVS
-  include RBA
+  include RBA unless $0 == __FILE__
   require 'fileutils'
   require 'yaml'
   def get_params netlist
@@ -35,7 +35,25 @@ class MinedaLVS
     p
   end
 
-  def lvs_go target_technology
+  def expand_file file, lines
+    # File.open(file, 'r:Windows-1252').read.encode('UTF-8', invalid: :replace).each_line{|l|
+    File.open(file, 'r:Windows-1252').read.encode('UTF-8').gsub(181.chr(Encoding::UTF_8), 'u').each_line{|l|
+      if l.chop =~ /.inc\S* +(\S+)/
+        include_file = $1
+        lines &lt;&lt; '*' + l
+        if File.exist? include_file
+          lines = expand_file(include_file, lines)
+        end
+      else
+        lines &lt;&lt; l
+      end
+    }
+    # puts "*** #{file}:"
+    # puts lines
+    lines
+  end
+
+  def lvs_go target_technology, settings = {}
     app = Application.instance
     mw = app.main_window
     cv = mw.current_view.active_cellview
@@ -57,12 +75,14 @@ class MinedaLVS
       cells = []
       circuit_top = nil
       device_class = {}
+      lines = expand_file netlist, ''
+
       Dir.mkdir 'lvs_work' unless File.directory? 'lvs_work'
 
       params = get_params netlist
       Dir.mkdir 'lvs_work' unless File.directory? 'lvs_work'
       c = File.open(File.join('lvs_work', File.basename(netlist))+'.txt', 'w:UTF-8')
-      File.open(netlist, 'r:Windows-1252').read.encode('UTF-8', invalid: :replace).each_line{|l|
+      lines.each_line{|l|
         l.gsub! 00.chr, ''
         l.tr! "@%-", "$$_"
         c.puts l
@@ -95,17 +115,22 @@ class MinedaLVS
               p['M'] = '1'
             end
           end   
-          others = p.map{|a| "#{a[0]}=#{a[1]}"}.join ' '
+          # others = p.map{|a| "#{a[0]}=#{a[1]}"}.join ' '
+          others = "l=#{p['L']} w=#{p['W']}" # supress other parameters like as, ps, ad and pd
           l = "#{body} #{others}\n"
         elsif circuit_top.nil? &amp;&amp; l=~/^\.subckt *(\S+)/
-          circuit_top = $1
-          puts "circuit_top: #{circuit_top}"
-          new_desc = ''
-          desc.each_line{|l|
-            l.sub! /^/, '*' unless l=~/^\*/
-            new_desc &lt;&lt; l
-          }
-          desc = new_desc
+          if $1 == cell.name
+            circuit_top = $1 
+            puts "circuit_top: #{circuit_top}"
+          end
+          if circuit_top.nil?
+            new_desc = ''
+            desc.each_line{|l|
+              l.sub! /^/, '*' unless l=~/^\*/
+              new_desc &lt;&lt; l
+            }
+            desc = new_desc
+          end
         else
           if l =~ /{(\S+)}/
             ov = $1
@@ -137,7 +162,6 @@ class MinedaLVS
         or1_cells = %[an21 an31 an41 buf1 buf2 buf4 buf8 cinv clkbuf1 clkbuf2 clkinv1 clkinv2 dff1 exnr exor
                      inv1 inv1 ~inv2 inv4 inv8 na21 na212 na222 na31 na41 nr21 nr212 nr222 nr31 or21 or31
                      rff1 sdff1 sff1 srff1 ssff1]
-
         File.open('lvs_work/lvs_settings.rb', 'w'){|f|
           f.puts 'def lvs_settings'
           f.puts "  same_circuits '#{cell.name}', '#{circuit_top ? circuit_top.upcase : '.TOP'}'"
@@ -146,47 +170,61 @@ class MinedaLVS
               f.puts "  same_circuits '#{c}', '#{c.upcase}$OR1_STDCELLS_V1'"
             end
           }
-          f.puts "  align"
-          f.puts "  same_device_classes 'NMOS', 'NCH'"
-          f.puts "  same_device_classes 'PMOS', 'PCH'"
+          f.puts "  netlist.make_top_level_pins"
           f.puts "  netlist.flatten_circuit 'Nch*'"
           f.puts "  netlist.flatten_circuit 'Pch*'"
           f.puts 'end'
         }
       end
-      unless File.exist? "lvs_work/#{target}_rc_ext_settings.rb"
-        File.open("lvs_work/#{target}_rc_ext_settings.rb", 'w'){|f|
-          f.puts 'def rc_ext_settings'
-          f.puts "  same_circuits '#{cell.name}', '#{circuit_top ? circuit_top.upcase : '.TOP'}'"
-          f.puts "  align"
-          device_class.each_pair{|p, q|
-            f.puts "  same_device_classes '#{p}', '#{q.upcase}'" if q
-          }
-          f.puts "  same_device_classes 'NRES', 'RES'"
-          f.puts "  same_device_classes 'PRES', 'RES'"
-          f.puts "  same_device_classes 'R-SOI', 'RES'"
-          f.puts "  tolerance 'NRES', 'R', relative: 0.03"
-          f.puts "  tolerance 'PRES', 'R', relative: 0.1"
-          f.puts "  tolerance 'R-SOI', 'R', relative: 0.03"
-          f.puts "  same_device_classes 'MIMCAP', 'CAP'"
-          f.puts "  same_device_classes 'PDIFFCAP', 'CAP'"
-          f.puts "  same_device_classes 'NDIFFCAP', 'CAP'"
-          f.puts "  same_device_classes 'TiNCAP', 'CAP'"
-          f.puts "  tolerance 'MIMCAP', 'C', relative: 0.03"
-          f.puts "  tolerance 'PDIFFCAP', 'C', relative: 0.03"
-          f.puts "  tolerance 'NDIFFCAP', 'C', relative: 0.03"
-          f.puts "  tolerance 'TiNCAP', 'C', relative: 0.03"
-          f.puts "  same_device_classes 'D', 'PDIO'"
-          f.puts "  same_device_classes 'D', 'NDIO'"
-          f.puts "  same_device_classes 'D', 'D'"
-          f.puts "  netlist.make_top_level_pins"
-          f.puts "  netlist.combine_devices"
-          f.puts "  schematic.combine_devices"
-          f.puts 'end'
-        }
+      unless File.exist? "lvs_work/#{target}_lvs_settings.rb"
+        set_settings cell.name, circuit_top, device_class, "lvs_work/#{target}_lvs_settings.rb", settings
       end
     end
   end
+
+  def set_settings cell_name, circuit_top, device_class, file, settings
+    File.open(file, 'w'){|f|
+      f.puts 'def lvs_settings'
+      f.puts "  same_circuits '#{cell_name}', '#{circuit_top ? circuit_top.upcase : '.TOP'}'" if cell_name
+      f.puts "  align"
+      settings[:device] &amp;&amp; device_class.merge!(settings[:device])
+      device_class.each_pair{|p, q|
+        f.puts "  same_device_classes '#{p}', '#{q.upcase}'" if q
+      }
+      settings[:tolerance] &amp;&amp; settings[:tolerance].each_pair{|d, spec|
+        spec.each_pair{|p, v|
+          specs = []
+          v.each_pair{|name, tol|
+            case name
+            when :relative
+              specs &lt;&lt; ':relative =&gt; ' + tol.to_s
+            when :absolute
+              specs &lt;&lt; ':absolute =&gt; ' + tol.to_s
+            end
+          }
+          f.puts "  tolerance '#{d}', '#{p}', #{specs.join(', ')}"
+        }
+      }
+      f.puts "  netlist.make_top_level_pins"
+      settings[:flatten_circuit] &amp;&amp; settings[:flatten_circuit].each{|c|
+        f.puts "  netlist.flatten_circuit '#{c}'"
+      }
+      f.puts "  netlist.combine_devices"
+      f.puts "  schematic.combine_devices"
+      f.puts 'end'
+    }
+  end
+end
+
+if $0 == __FILE__
+  settings = {
+    device: {HRES: 'RES', RES: 'RES'},
+    tolerance: {HRES: {R: {relative: 0.03}},
+                RES: {L: {relative: 0.03}, W: {relative: 0.03}},                
+                CAP: {C: {relative: 0.03, absolute: 1e-15}}},
+    flatten_circuit: ['Nch*', 'Pch*', 'R_poly*', 'HR_poly']
+  }
+  MinedaLVS.new.set_settings nil, nil, {}, '/dev/stdout', settings
 end
 </text>
 </klayout-macro>
