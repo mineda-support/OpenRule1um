@@ -15,7 +15,7 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.43 May 19th, 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.44 May 22nd, 2022 copy right S. Moriyama (Anagix Corporation)
 # 
 module MinedaPCell
   version = '0.41'
@@ -101,7 +101,11 @@ module MinedaPCell
     def produce_impl_core indices, vs, u1, params = {}
       gw = (w/layout.dbu).to_i
       gl = (l/layout.dbu).to_i
-      dgl = (dg/layout.dbu).to_i # dumbbell gap length
+      if gw &lt; vs   # dgl: dumbbell gap length
+        dgl = [(dg/layout.dbu).to_i, ((dsl/layout.dbu).to_i - gl)/2].max # dsl: minimum dumbbell shaft length
+      else 
+        dgl = [(dg/layout.dbu).to_i,  ((sdg/layout.dbu).to_i - gl)/2].max # sdg: minimum source-drain gap
+      end
       xshift = params[:xshift] || vs/2
       yshift = params[:yshift] || vs/2
       u1cut = params[:u1cut] || 0
@@ -227,7 +231,7 @@ module MinedaPCell
         narea_bw = params[:narea_bw] || u1 + u1/4
         create_box indices[:narea], x1-narea_bw, y1+vs+u1-narea_bw, offset-gl+narea_bw, y2-vs-u1+narea_bw
         if indices[:nex]
-          delta = u1*5
+          delta = params[:nex_delta] || u1*5
           create_box indices[:nex], x1-delta, y1+vs-u1/2-delta-u1, offset-gl+delta, y2-vs+u1/2+delta+u1
           delta = delta + delta
           create_box indices[:ar], x1-delta, y1+vs-u1/2-delta-u1, offset-gl+delta, y2-vs+u1/2+delta+u1 if indices[:ar]
@@ -324,7 +328,7 @@ module MinedaPCell
         end
         parea_bw = params[:parea_bw] || u1 + u1/4
         create_box indices[:parea], x1-parea_bw, y1+vs+u1-parea_bw, offset-gl+parea_bw, y2-vs-u1+parea_bw
-        delta = u1*5
+        delta = params[:pex_delta] || u1*5
         create_box indices[:pex], x1-delta, y1+vs-u1/2-delta-u1, offset-gl+delta, y2-vs+u1/2+delta+u1 if indices[:pex]
         delta = delta + delta
         create_box indices[:ar], x1-delta, y1+vs-u1/2-delta-u1, offset-gl+delta, y2-vs+u1/2+delta+u1 if indices[:ar]
