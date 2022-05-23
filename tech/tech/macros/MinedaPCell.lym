@@ -15,10 +15,10 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.44 May 22nd, 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.45 May 23rd, 2022 copy right S. Moriyama (Anagix Corporation)
 # 
 module MinedaPCell
-  version = '0.41'
+  version = '0.45'
 
   include RBA
 
@@ -101,7 +101,8 @@ module MinedaPCell
     def produce_impl_core indices, vs, u1, params = {}
       gw = (w/layout.dbu).to_i
       gl = (l/layout.dbu).to_i
-      if gw &lt; vs   # dgl: dumbbell gap length
+      vo = params[:vs_overhead] || 0
+      if gw &lt; vs - vo  # dgl: dumbbell gap length
         dgl = [(dg/layout.dbu).to_i, ((dsl/layout.dbu).to_i - gl)/2].max # dsl: minimum dumbbell shaft length
       else 
         dgl = [(dg/layout.dbu).to_i,  ((sdg/layout.dbu).to_i - gl)/2].max # sdg: minimum source-drain gap
