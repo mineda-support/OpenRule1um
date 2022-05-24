@@ -15,10 +15,10 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.46 May 24th, 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.462 May 24th, 2022 copy right S. Moriyama (Anagix Corporation)
 # 
 module MinedaPCell
-  version = '0.46'
+  version = '0.462'
 
   include RBA
 
@@ -150,7 +150,7 @@ module MinedaPCell
     include RBA
     
     def display_text_impl
-      "Nch\r\n(L=#{l.round(3)}um,W=#{w.round(3)}um,n=#{n.to_s}, Total W=#{wtot.round(3)}um)"
+      "Nch\r\n(L=#{l.round(3)}um,W=#{w.round(3)}um,n=#{n.to_s},Total W=#{wtot.round(3)}um)"
     end 
        
     def produce_impl indices, vs, u1, params = {} # NMOS
@@ -252,7 +252,7 @@ module MinedaPCell
     include RBA
     
     def display_text_impl
-      "Pch\r\n(L=#{l.round(3)}um,W=#{w.round(3)}um,n=#{n.to_s}, Total W=#{wtot.round(3)}um)"
+      "Pch\r\n(L=#{l.round(3)}um,W=#{w.round(3)}um,n=#{n.to_s},Total W=#{wtot.round(3)}um)"
     end
         
     def produce_impl indices, vs, u1, params = {} # PMOS
@@ -517,7 +517,11 @@ module MinedaPCell
       offset = x2+u1-x1-pitch*n
       (offset/2 + x1+vs/2..x2-vs/2).step(pitch){|x|
         # insert_cell indices, index, x, y1, vs, u1, fill_metal
-        insert_cell indices[:dcont], x, y0
+        if indices[:pol]
+          insert_cell indices[:pcont], x, y0
+        else
+          insert_cell indices[:dcont], x, y0
+        end
         insert_cell indices[:via], x, y0
       }
     end
@@ -528,7 +532,11 @@ module MinedaPCell
       offset = y2+u1-y1-pitch*n
       (offset/2+y1+vs/2..y2-vs/2).step(pitch){|y|
         # insert_cell indices, index, x1, y, vs, u1, fill_metal
-        insert_cell indices[:dcont], x0, y
+        if indices[:pol]
+          insert_cell indices[:pcont], x0, y
+        else
+          insert_cell indices[:dcont], x0, y
+        end
         insert_cell indices[:via], x0, y
       }
     end
@@ -566,6 +574,7 @@ module MinedaPCell
         create_box indices[:pol], -u1, 0, cw + u1, cl
         create_contacts_vertically indices, u1+vs/2, 0, cl, vs, u1, true # false
       end
+      indices[:pol] = nil # this tells create_contacts_horizontally to use dcont
       create_contacts_horizontally indices, 0, cw, u1/2+cl+u1, vs, u1, true # false
       # insert_cell indices, nsubcont_index, 0, cl+2*u1+vs, vs, u1
       # insert_cell indices, :diff, 0, cl+2*u1+vs, vs, u1
