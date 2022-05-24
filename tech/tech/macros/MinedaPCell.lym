@@ -15,10 +15,10 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.45 May 23rd, 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.46 May 24th, 2022 copy right S. Moriyama (Anagix Corporation)
 # 
 module MinedaPCell
-  version = '0.45'
+  version = '0.46'
 
   include RBA
 
@@ -542,6 +542,7 @@ module MinedaPCell
     def initialize
       super
       param(:cval, TypeDouble, "Capacitor value", :default =&gt; 0, :hidden=&gt; true)
+      param(:polcnt_outside, TypeBoolean, "Poly contact outside?", :default =&gt; true, :hidden =&gt; false)
     end
         
     def display_text_impl
@@ -554,12 +555,17 @@ module MinedaPCell
       cl = (l/layout.dbu).to_i
       u2 = u1 + u1
 
-      create_box indices[:diff], 0, -u1, cw, cl+u2+vs
-      create_box area_index, -u1/2, -u1-u1/2, cw + u1/2, cl + u1/2 + vs + u2
-      create_box well_index, -u1*5, -u1-u1*5, cw + u1*5, cl + u1*5 + vs + u2
-      create_box indices[:pol], -u1, 0, cw + u1, cl
+      create_box indices[:diff], 0, -u1, cw, cl+u1+vs
+      create_box area_index, -u1/2, -u1-u1/2, cw + u1/2, cl + u1/2 + vs + u1
+      create_box well_index, -u1*5, -u1-u1*5, cw + u1*5, cl + u1*5 + vs + u1
       create_box indices[:cap], 0, 0, cw, cl 
-      create_contacts_vertically indices, u1+vs/2, 0, cl, vs, u1, true # false
+      if polcnt_outside
+        create_box indices[:pol], -u2-vs, 0, cw + u1, cl
+        create_contacts_vertically indices, -u1-vs/2, 0, cl, vs, u1, true # false
+      else
+        create_box indices[:pol], -u1, 0, cw + u1, cl
+        create_contacts_vertically indices, u1+vs/2, 0, cl, vs, u1, true # false
+      end
       create_contacts_horizontally indices, 0, cw, u1/2+cl+u1, vs, u1, true # false
       # insert_cell indices, nsubcont_index, 0, cl+2*u1+vs, vs, u1
       # insert_cell indices, :diff, 0, cl+2*u1+vs, vs, u1
