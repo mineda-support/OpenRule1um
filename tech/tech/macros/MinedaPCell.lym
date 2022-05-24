@@ -231,6 +231,7 @@ module MinedaPCell
         #create_box indices[:narea], x1-u1, y1+vs+u1/2, offset-gl+u1, y2-vs-u1/2
         narea_bw = params[:narea_bw] || u1 + u1/4
         create_box indices[:narea], x1-narea_bw, y1+vs+u1-narea_bw, offset-gl+narea_bw, y2-vs-u1+narea_bw
+        create_box indices[:nhd], x1-narea_bw, y1+vs+u1-narea_bw, offset-gl+narea_bw, y2-vs-u1+narea_bw if indices[:nhd] # special for PTS06  
         if indices[:nex]
           delta = params[:nex_delta] || u1*5
           create_box indices[:nex], x1-delta, y1+vs-u1/2-delta-u1, offset-gl+delta, y2-vs+u1/2+delta+u1
