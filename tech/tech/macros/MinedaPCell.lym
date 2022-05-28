@@ -15,10 +15,10 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.47 May 27th, 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.471 May 28th, 2022 copy right S. Moriyama (Anagix Corporation)
 # 
 module MinedaPCell
-  version = '0.47'
+  version = '0.471'
 
   include RBA
 
@@ -564,8 +564,8 @@ module MinedaPCell
       u2 = u1 + u1
 
       create_box indices[:diff], 0, -u1, cw, cl+u1+vs
-      #create_box indices[:cap], 0, 0, cw, cl
-      create_box indices[:cap], 0, 0, cw, cl+u1+vs
+      create_box indices[:cap], 0, 0, cw, cl
+      # create_box indices[:cap], 0, 0, cw, cl+u1+vs
       create_box area_index, -u1/2, -u1-u1/2, cw + u1/2, cl + u1/2 + vs + u1
       create_box well_index, -u1*5, -u1-u1*5, cw + u1*5, cl + u1*5 + vs + u1
 
