@@ -14,7 +14,7 @@
  <menu-path/>
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
- <text># Mineda LVS preprocessor v0.2 May 19th copy right by S. Moriyama (Anagix Corporation)
+ <text># Mineda LVS preprocessor v0.3 May 25th copy right by S. Moriyama (Anagix Corporation)
 
 class MinedaLVS
   include RBA # unless $0 == __FILE__
@@ -68,7 +68,8 @@ class MinedaLVS
       Dir.chdir File.dirname(cv.filename).force_encoding('UTF-8')
       ext_name = File.extname cv.filename
       target = File.basename(cv.filename).sub(ext_name, '')
-      reference = "#{target}_reference.cir"
+      Dir.mkdir 'lvs_work' unless File.directory? 'lvs_work'
+      reference = File.join('lvs_work', "#{target}_reference.cir.txt")
       ref={'target' =&gt; target, 'reference'=&gt; reference, 'netlist'=&gt; netlist, 'schematic' =&gt; netlist.sub('.net', '.asc')}
       File.open(target+'.yaml', 'w'){|f| f.puts ref.to_yaml}
       desc = ''
@@ -76,11 +77,7 @@ class MinedaLVS
       circuit_top = nil
       device_class = {}
       lines = expand_file netlist, ''
-
-      Dir.mkdir 'lvs_work' unless File.directory? 'lvs_work'
-
       params = get_params netlist
-      Dir.mkdir 'lvs_work' unless File.directory? 'lvs_work'
       c = File.open(File.join('lvs_work', File.basename(netlist))+'.txt', 'w:UTF-8')
       lines.each_line{|l|
         l.gsub! 00.chr, ''
@@ -130,6 +127,7 @@ class MinedaLVS
               new_desc &lt;&lt; l
             }
             desc = new_desc
+            puts "new_desc: #{desc}"
           end
         else
           if l =~ /{(\S+)}/
@@ -147,16 +145,15 @@ class MinedaLVS
         f.puts '.GLOBAL 0'
         f.puts '.END'
       }
-      slink = File.join('lvs_work', reference+'.txt')
-      File.delete slink if File.exist?(slink) 
-      if /mswin32|mingw/ =~ RUBY_PLATFORM
-        File.link reference, slink
-      else
-        File.symlink "../#{File.basename reference}", slink
-      end
+      # slink = File.join('lvs_work', reference+'.txt')
+      # File.delete slink if File.exist?(slink) 
+      # if /mswin32|mingw/ =~ RUBY_PLATFORM
+      #   File.link reference, slink
+      # else
+      #   File.symlink "../#{File.basename reference}", slink
+      # end
 
       puts "#{reference} created under #{Dir.pwd}"
-      File.mkdir 'lvs_work' unless File.directory? 'lvs_work'
       ['macros', 'pymacros', 'python', 'ruby', 'drc'].each{|f| FileUtils.rm_rf f if File.directory? f}
       if cells.size &gt; 0
         or1_cells = %[an21 an31 an41 buf1 buf2 buf4 buf8 cinv clkbuf1 clkbuf2 clkinv1 clkinv2 dff1 exnr exor
