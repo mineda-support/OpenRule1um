@@ -15,7 +15,7 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.471 May 28th, 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.472 June 2nd, 2022 copy right S. Moriyama (Anagix Corporation)
 # 
 module MinedaPCell
   version = '0.471'
@@ -102,10 +102,11 @@ module MinedaPCell
       gw = (w/layout.dbu).to_i
       gl = (l/layout.dbu).to_i
       vo = params[:vs_overhead] || 0
+      dgl = (dg/layout.dbu).to_i
       if gw &lt; vs - vo  # dgl: dumbbell gap length
-        dgl = [(dg/layout.dbu).to_i, ((dsl/layout.dbu).to_i - gl)/2].max # dsl: minimum dumbbell shaft length
+        dgl = [dgl, ((dsl/layout.dbu).to_i - gl)/2].max if defined? dsl # dsl: minimum dumbbell shaft length
       else 
-        dgl = [(dg/layout.dbu).to_i,  ((sdg/layout.dbu).to_i - gl)/2].max # sdg: minimum source-drain gap
+        dgl = [dgl,  ((sdg/layout.dbu).to_i - gl)/2].max if defined? sdg # sdg: minimum source-drain gap
       end
       xshift = params[:xshift] || vs/2
       yshift = params[:yshift] || vs/2
