@@ -14,7 +14,7 @@
  <menu-path/>
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
- <text># Mineda LVS preprocessor v0.3 May 25th copy right by S. Moriyama (Anagix Corporation)
+ <text># Mineda LVS preprocessor v0.41 June 3rd copy right by S. Moriyama (Anagix Corporation)
 
 class MinedaLVS
   include RBA # unless $0 == __FILE__
@@ -83,11 +83,20 @@ class MinedaLVS
         l.gsub! 00.chr, ''
         l.tr! "@%-", "$$_"
         c.puts l
-        if l=~ /(\S+)@or1_stdcells_v1/
-          cells &lt;&lt; $1 unless cells.include? $1
-          l.sub! '@', '$'
-        elsif l =~ /^ *\.inc/ || l =~ /^ *([iI]|[vV])/
-          l.sub! /^/, '*'
+        # if l=~ /(\S+)@or1_stdcells_v1/
+        #  cells &lt;&lt; $1 unless cells.include? $1
+        #  l.sub! '@', '$'
+        # elsif l =~ /^ *\.inc/ || l =~ /^ *([iI]|[vV])/
+        #   l.sub! /^/, '*'
+        #  els
+        if l =~ /^\.ends/
+          inside_subckt = false
+        elsif l=~/^\.subckt *(\S+)/
+          inside_subckt = true
+          circuit_top ||= $1
+          puts "subcircuit: #{$1}"
+        elsif !inside_subckt
+          l.sub! /^/, '*' unless l =~ /^ *([xX]|[rR]|[cC])/
         elsif l=~/^(([mM]\S+) *\S+ *\S+ *\S+ *\S+ *(\S+)) *(.*)/
           body = $1
           name=$2
@@ -97,7 +106,7 @@ class MinedaLVS
           device_class['PMOS'] = model if model &amp;&amp; model.upcase =~ /PCH|PMOS/
           p = {}
           others &amp;&amp; others.split.each{|equation|
-           if equation =~ /(\S+) *= *{(\S+)}/
+            if equation =~ /(\S+) *= *{(\S+)}/
               ov = $2
               p[$1] = params[ov.upcase] || ov
             elsif equation =~ /(\S+) *= *(\S+)/
@@ -115,20 +124,6 @@ class MinedaLVS
           # others = p.map{|a| "#{a[0]}=#{a[1]}"}.join ' '
           others = "l=#{p['L']} w=#{p['W']}" # supress other parameters like as, ps, ad and pd
           l = "#{body} #{others}\n"
-        elsif circuit_top.nil? &amp;&amp; l=~/^\.subckt *(\S+)/
-          if $1 == cell.name
-            circuit_top = $1 
-            puts "circuit_top: #{circuit_top}"
-          end
-          if circuit_top.nil?
-            new_desc = ''
-            desc.each_line{|l|
-              l.sub! /^/, '*' unless l=~/^\*/
-              new_desc &lt;&lt; l
-            }
-            desc = new_desc
-            puts "new_desc: #{desc}"
-          end
         else
           if l =~ /{(\S+)}/
             ov = $1
@@ -139,6 +134,8 @@ class MinedaLVS
         break if l.upcase.strip == '.END'
         desc &lt;&lt; l.upcase
       }
+      circuit_top = circuit_top ? circuit_top.upcase : '.TOP'
+      puts "circuit_top =&gt; #{circuit_top}"
       c.close
       File.open(reference, 'w:UTF-8'){|f| 
         f.puts desc
