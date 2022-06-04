@@ -18,7 +18,7 @@
 # MinedaPCell v0.472 June 2nd, 2022 copy right S. Moriyama (Anagix Corporation)
 # 
 module MinedaPCell
-  version = '0.471'
+  version = '0.472'
 
   include RBA
 

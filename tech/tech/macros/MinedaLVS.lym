@@ -14,7 +14,7 @@
  <menu-path/>
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
- <text># Mineda LVS preprocessor v0.41 June 3rd copy right by S. Moriyama (Anagix Corporation)
+ <text># Mineda LVS preprocessor v0.42 June 4th copy right by S. Moriyama (Anagix Corporation)
 
 class MinedaLVS
   include RBA # unless $0 == __FILE__
@@ -95,8 +95,6 @@ class MinedaLVS
           inside_subckt = true
           circuit_top ||= $1
           puts "subcircuit: #{$1}"
-        elsif !inside_subckt
-          l.sub! /^/, '*' unless l =~ /^ *([xX]|[rR]|[cC])/
         elsif l=~/^(([mM]\S+) *\S+ *\S+ *\S+ *\S+ *(\S+)) *(.*)/
           body = $1
           name=$2
@@ -124,6 +122,8 @@ class MinedaLVS
           # others = p.map{|a| "#{a[0]}=#{a[1]}"}.join ' '
           others = "l=#{p['L']} w=#{p['W']}" # supress other parameters like as, ps, ad and pd
           l = "#{body} #{others}\n"
+        elsif !inside_subckt
+          l.sub! /^/, '*' unless l =~ /^ *([xX]|[rR]|[cC])/
         else
           if l =~ /{(\S+)}/
             ov = $1
