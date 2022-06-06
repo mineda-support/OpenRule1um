@@ -14,7 +14,7 @@
  <menu-path/>
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
- <text># Mineda LVS preprocessor v0.42 June 4th copy right by S. Moriyama (Anagix Corporation)
+ <text># Mineda LVS preprocessor v0.5 June 6th copy right by S. Moriyama (Anagix Corporation)
 
 class MinedaLVS
   include RBA # unless $0 == __FILE__
@@ -100,8 +100,8 @@ class MinedaLVS
           name=$2
           others = ($4 &amp;&amp; $4.upcase)
           model = $3
-          device_class['NMOS'] = model if model &amp;&amp; model.upcase =~ /NCH|NMOS/
-          device_class['PMOS'] = model if model &amp;&amp; model.upcase =~ /PCH|PMOS/
+          # device_class['NMOS'] = model if model &amp;&amp; model.upcase =~ /NCH|NMOS/
+          # device_class['PMOS'] = model if model &amp;&amp; model.upcase =~ /PCH|PMOS/
           p = {}
           others &amp;&amp; others.split.each{|equation|
             if equation =~ /(\S+) *= *{(\S+)}/
@@ -123,7 +123,13 @@ class MinedaLVS
           others = "l=#{p['L']} w=#{p['W']}" # supress other parameters like as, ps, ad and pd
           l = "#{body} #{others}\n"
         elsif !inside_subckt
-          l.sub! /^/, '*' unless l =~ /^ *([xX]|[rR]|[cC])/
+          if l =~ /^ *[xX]/
+            circuit_top ||= '.TOP'
+          elsif l =~ /^ *([rR]|[cC])/ || l.downcase =~ /^ *\.global/ 
+            # do nothing
+          else
+            l.sub! /^/, '*'
+          end
         else
           if l =~ /{(\S+)}/
             ov = $1
