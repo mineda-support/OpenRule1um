@@ -15,10 +15,10 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.472 June 2nd, 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.48 June 9th, 2022 copy right S. Moriyama (Anagix Corporation)
 # 
 module MinedaPCell
-  version = '0.472'
+  version = '0.48'
 
   include RBA
 
@@ -533,12 +533,16 @@ module MinedaPCell
       offset = y2+u1-y1-pitch*n
       (offset/2+y1+vs/2..y2-vs/2).step(pitch){|y|
         # insert_cell indices, index, x1, y, vs, u1, fill_metal
-        if indices[:pol]
-          insert_cell indices[:pcont], x0, y
+        if indices[:via2]
+          insert_cell indices[:via2], x0, y
         else
-          insert_cell indices[:dcont], x0, y
+          if indices[:pol]
+            insert_cell indices[:pcont], x0, y
+          else
+            insert_cell indices[:dcont], x0, y
+          end
+          insert_cell indices[:via], x0, y
         end
-        insert_cell indices[:via], x0, y
       }
     end
     
@@ -608,6 +612,84 @@ module MinedaPCell
       create_box indices[:cap], offset, 0, offset + cw, cl
       create_box indices[:pol], offset, -u1, offset + cw , cl+u2+vs
       create_contacts_horizontally indices, offset,  offset + cw, cl + vs/2 + u1, vs, u1
+    end
+  end
+  
+  class MinedaSlit_cap &lt; MinedaCapacitor
+    # include MinedaPCell
+    def display_text_impl
+      "Slit capacitor\r\n(L=#{(us*nc).to_s}um,W=#{(us*nr).to_s}um, C=#{cval.to_s}"
+    end
+    def draw_unit index, x, y, u
+      create_box index, x-u/2, y-u/2, x+u/2, y+u/2
+    end
+    def produce_impl(indices, vs, u1, usize, nc, nr, slit_length, slit_width, csq)
+      (0..(hp ? nc: nc-1)).each{|i|
+        (0..nr-1).each{|j|
+          puts [i, j].inspect
+          x = i*usize + (hp ? 0 : usize/2)
+          y = j*usize + usize/2
+          draw_unit(indices[:m1], x, y, usize -  slit_width)
+          draw_unit(indices[:m1], x - usize/2 + csq/2, y - usize/2 + csq/2, csq)
+          draw_unit(indices[:m1], x + usize/2 - csq/2, y - usize/2 + csq/2, csq)
+          draw_unit(indices[:m1], x - usize/2 + csq/2, y + usize/2 - csq/2, csq)
+          draw_unit(indices[:m1], x + usize/2 - csq/2, y + usize/2 - csq/2, csq)
+        }
+      }
+      us2 = usize/2
+      if hp # high precision
+         create_box indices[:m1], -us2,  0, nc*usize + us2, slit_width
+         create_box indices[:m1], -us2,  nr*usize, nc*usize + us2, nr*usize - slit_width
+         create_box indices[:pol], 0, -us2, nc*usize, nr*usize + us2 
+         create_box indices[:m1], -us2, 0, -us2 + slit_width, nr*usize   
+         create_box indices[:m1], nc*usize + us2, 0, nc*usize + us2 - slit_width, nr*usize
+         create_box indices[:cap], 0, 0, nc*usize, nr*usize
+      else
+        create_box indices[:pol], 0, 0, nc*usize, nr*usize
+        create_box indices[:cap], slit_width, slit_width, nc*usize-slit_width, nr*usize-slit_width
+      end
+    end
+  end
+  
+  class MinedaFinger_cap &lt; MinedaCapacitor
+    # include MinedaPCell
+    def display_text_impl
+      "Finger capacitor\r\n(L=#{fl.round(3)}um,W=#{(fw*nf + fs*(nf-1)).round(3)}um, C=#{cval.to_s}"
+    end
+    def draw_fingers index, fl, fw, fs, nf, flag
+      pitch = (fw + fs)*2
+      y = 0
+      for i in 0..((nf+1)/2).to_i - 1 do
+        x = flag ? -fs-fw/2 : fl+fs+fw/2
+        if y &gt; 0
+          points = [Point::new(x, y), Point::new(x, y - pitch)]
+          cell.shapes(index).insert(Path::new(points, fw, fw/2, fw/2))
+        end
+        points = flag ? [Point::new(x, y), Point::new(fl, y)] : [Point::new(0, y), Point::new(x, y)]
+        cell.shapes(index).insert(Path::new(points, fw, 0, 0))
+        y = y + pitch
+      end
+      y = fw + fs 
+      x = nil
+      for i in ((nf+1)/2).to_i..(nf-1) do
+        x = flag ? fl+fs+fw/2 : -fs-fw/2
+        if y &gt; fw + fs
+          points = [Point::new(x, y), Point::new(x, y - pitch)]
+          cell.shapes(index).insert(Path::new(points, fw, fw/2, fw/2))
+        end
+        points = flag ? [Point::new(0, y), Point::new(x, y)] : [Point::new(x, y), Point::new(fl, y)]
+        cell.shapes(index).insert(Path::new(points, fw, 0, 0))
+        y = y + pitch
+      end
+      [x, fw + fs, y - pitch]
+    end
+    def produce_impl(indices, vs, u1, finger_length, finger_width, finger_sep, nf)
+      # super indices, vs, u1, finger_length, finger_width, finger_sep, nf
+      x0, y0, y1 = draw_fingers indices[:m2], finger_length, finger_width, finger_sep, nf, true
+      create_contacts_vertically indices, x0, y0, y1, vs, u1
+      x1, y0, y1 = draw_fingers indices[:m3], finger_length, finger_width, finger_sep, nf, false
+      create_contacts_vertically indices, x1, y0, y1, vs, u1
+      create_box indices[:cap], 0, -finger_width/2, finger_length, finger_width*nf + finger_sep*(nf-1) - finger_width/2
     end
   end
 end
