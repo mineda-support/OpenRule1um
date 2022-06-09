@@ -15,10 +15,10 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.48 June 9th, 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.481 June 9th, 2022 copy right S. Moriyama (Anagix Corporation)
 # 
 module MinedaPCell
-  version = '0.48'
+  version = '0.481'
 
   include RBA
 
@@ -654,13 +654,13 @@ module MinedaPCell
   class MinedaFinger_cap &lt; MinedaCapacitor
     # include MinedaPCell
     def display_text_impl
-      "Finger capacitor\r\n(L=#{fl.round(3)}um,W=#{(fw*nf + fs*(nf-1)).round(3)}um, C=#{cval.to_s}"
+      "Finger capacitor\r\n(L=#{fl.round(3)}um,W=#{(fw*nf + fg*(nf-1)).round(3)}um, C=#{cval.to_s}"
     end
-    def draw_fingers index, fl, fw, fs, nf, flag
-      pitch = (fw + fs)*2
+    def draw_fingers index, fl, fw, fg, nf, flag
+      pitch = (fw + fg)*2
       y = 0
       for i in 0..((nf+1)/2).to_i - 1 do
-        x = flag ? -fs-fw/2 : fl+fs+fw/2
+        x = flag ? -fg-fw/2 : fl+fg+fw/2
         if y &gt; 0
           points = [Point::new(x, y), Point::new(x, y - pitch)]
           cell.shapes(index).insert(Path::new(points, fw, fw/2, fw/2))
@@ -669,11 +669,11 @@ module MinedaPCell
         cell.shapes(index).insert(Path::new(points, fw, 0, 0))
         y = y + pitch
       end
-      y = fw + fs 
+      y = fw + fg 
       x = nil
       for i in ((nf+1)/2).to_i..(nf-1) do
-        x = flag ? fl+fs+fw/2 : -fs-fw/2
-        if y &gt; fw + fs
+        x = flag ? fl+fg+fw/2 : -fg-fw/2
+        if y &gt; fw + fg
           points = [Point::new(x, y), Point::new(x, y - pitch)]
           cell.shapes(index).insert(Path::new(points, fw, fw/2, fw/2))
         end
@@ -681,15 +681,15 @@ module MinedaPCell
         cell.shapes(index).insert(Path::new(points, fw, 0, 0))
         y = y + pitch
       end
-      [x, fw + fs, y - pitch]
+      [x, fw + fg, y - pitch]
     end
-    def produce_impl(indices, vs, u1, finger_length, finger_width, finger_sep, nf)
-      # super indices, vs, u1, finger_length, finger_width, finger_sep, nf
-      x0, y0, y1 = draw_fingers indices[:m2], finger_length, finger_width, finger_sep, nf, true
+    def produce_impl(indices, vs, u1, finger_length, finger_width, finger_gap, nf)
+      # super indices, vs, u1, finger_length, finger_width, finger_gap, nf
+      x0, y0, y1 = draw_fingers indices[:m2], finger_length, finger_width, finger_gap, nf, true
       create_contacts_vertically indices, x0, y0, y1, vs, u1
-      x1, y0, y1 = draw_fingers indices[:m3], finger_length, finger_width, finger_sep, nf, false
+      x1, y0, y1 = draw_fingers indices[:m3], finger_length, finger_width, finger_gap, nf, false
       create_contacts_vertically indices, x1, y0, y1, vs, u1
-      create_box indices[:cap], 0, -finger_width/2, finger_length, finger_width*nf + finger_sep*(nf-1) - finger_width/2
+      create_box indices[:cap], 0, -finger_width/2, finger_length, finger_width*nf + finger_gap*(nf-1) - finger_width/2
     end
   end
 end
