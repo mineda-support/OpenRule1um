@@ -15,10 +15,10 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.481 June 9th, 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.49 June 9th, 2022 copy right S. Moriyama (Anagix Corporation)
 # 
 module MinedaPCell
-  version = '0.481'
+  version = '0.49'
 
   include RBA
 
@@ -170,12 +170,12 @@ module MinedaPCell
           if n == 1 &amp;&amp; !with_sdcont
             insert_cell indices[:pcont], x1+vs+dgl+gl/2, y
             insert_cell indices[:via], x1+vs+dgl+gl/2, y if with_via
-            create_path indices[:pol], x1+vs+dgl+gl/2, y, x1+vs+dgl+gl/2, y2-vs, pol_width, 0,0
+            create_path indices[:pol], x1+vs+dgl+gl/2, y, x1+vs+dgl+gl/2, y2-vs + params[:gate_ext] - u1, pol_width, 0,0
           else
             insert_cell indices[:pcont], x, y
             insert_cell indices[:via], x, y if with_via
             y = y - u1/2
-            create_path2 indices[:pol], x, y, x1+vs+u1/2+dgl, y, x1+vs+u1/2+dgl, y2-vs, pol_width, 0, 0
+            create_path2 indices[:pol], x, y, x1+vs+u1/2+dgl, y, x1+vs+u1/2+dgl, y2-vs + params[:gate_ext] - u1, pol_width, 0, 0
           end
         end
         offset = x1
@@ -184,7 +184,7 @@ module MinedaPCell
         prev_pol = nil
         (n+1).times{|i|
           x = offset + vs/2
-          y = y2+u1-vs-u1/2
+          y = y2 - vs + u1/2 + params[:gate_ext] - u1
           create_path indices[:pol], prev_pol-vs/2-gl-dgl, y , x-vs/2-dgl, y, u1, 0, 0 if prev_pol
           prev_pol = x if i &gt;= 1
           if i % 2 == 0
@@ -277,7 +277,7 @@ module MinedaPCell
             insert_cell indices[:pcont], x, y
             insert_cell indices[:via], x, y if with_via
             y = y + u1/2
-            create_path2 indices[:pol], x, y, x1+vs+u1/2+dgl, y, x1+vs+u1/2+dgl, y1+vs, pol_width, 0, 0
+            create_path2 indices[:pol], x, y, x1+vs+u1/2+dgl, y, x1+vs+u1/2+dgl, y1+vs - params[:gate_ext] + u1, pol_width, 0, 0
           end
         end
         offset = x1
@@ -286,7 +286,8 @@ module MinedaPCell
         prev_pol = nil
         (n+1).times{|i|
           x = offset + vs/2
-          create_path indices[:pol], prev_pol-vs/2-gl-dgl, y1+u1/2+vs/2, x-vs/2-dgl, y1+u1/2+vs/2, u1, 0, 0 if prev_pol
+          y = y1 + vs - u1/2 - params[:gate_ext] + u1 ### y1 + u1/2 + vs/2 # 
+          create_path indices[:pol], prev_pol-vs/2-gl-dgl, y, x-vs/2-dgl, y, u1, 0, 0 if prev_pol
           prev_pol = x  if i &gt;=1   
           if i % 2 == 0
             # first s/d and via
