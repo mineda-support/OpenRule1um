@@ -15,12 +15,11 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# OpenRule1um_v2 PCells v2.0 May 3rd, 2022 copy left by S. Moriyama (Anagix Corporation)
+# OpenRule1um_v2 PCells v2.1 June 17th, 2022 copy left by S. Moriyama (Anagix Corporation)
 #   based on OpenRule1um v1.97 Sep. 20, 2021 copy left by S. Moriyama (Anagix Corporation)
 
 module OpenRule1um_v2
   include MinedaPCell
-
   # Remove any definition of our classes (this helps when 
   # reexecuting this code after a change has been applied)
   # OpenRule1um_v2.constants.member?(:Resistor) &amp;&amp; remove_const(:Resistor)
@@ -83,8 +82,8 @@ module OpenRule1um_v2
     include RBA
     def initialize
       super
-      param(:w, TypeDouble, "Pch w", :default =&gt; 10.0.um)
-      param(:l, TypeDouble, "Pch l", :default =&gt; 1.0.um)
+      param(:w, TypeDouble, "Pch w", :default =&gt; 6.0)
+      param(:l, TypeDouble, "Pch l", :default =&gt; 1.0)
       param(:dg, TypeDouble, "Dumbbell gap", :default =&gt; 0.0.um, :hidden =&gt; true)
       param(:with_pcont, TypeBoolean, "Use polysilicon contact", :default =&gt; true)
       param(:with_via, TypeBoolean, "Put Via over contacts", :default =&gt; true, :hidden =&gt; false)
@@ -93,8 +92,8 @@ module OpenRule1um_v2
       param(:use_nwell, TypeBoolean, "Use nwell", :default =&gt; true, :hidden =&gt; false) 
       param(:wide_metal, TypeBoolean, "Wide metal entry?", :default =&gt; false)
       param(:wtot, TypeDouble, "Total width", :default =&gt; 0, :hidden=&gt; true)
-    end 
-    
+    end
+       
     def produce_impl # PMOS
       nwl_index = layout.insert_layer(LayerInfo::new(1, 0))
       diff_index = layout.insert_layer(LayerInfo::new(3, 0))
@@ -427,8 +426,10 @@ module OpenRule1um_v2
       cap_index = layout.insert_layer(LayerInfo::new(16, 0))
       via_index = library_cell('Via', 'OpenRule1um_Basic', layout)
       dcont_index = library_cell('dcont', 'OpenRule1um_Basic', layout)
+      pcont_index = library_cell('pcont', 'OpenRule1um_Basic', layout)
       indices = {m1: m1_index,  cap: cap_index, # m2 : m2_index, 
-                 via: via_index, pol: pol_index, dcont: dcont_index}
+                 via: via_index, pol: pol_index, dcont: dcont_index,
+                 pcont: pcont_index}
       super indices, vs, u1
     end
   end
@@ -453,10 +454,12 @@ module OpenRule1um_v2
       m1_index = layout.insert_layer(LayerInfo::new(8, 0))
       m2_index = layout.insert_layer(LayerInfo::new(10, 0))
       cap_index = layout.insert_layer(LayerInfo::new(16, 0))
-      dcont_index = library_cell('dcont', 'OpenRule1um_Basic', layout)
       via_index = library_cell('Via', 'OpenRule1um_Basic', layout)
+      dcont_index = library_cell('dcont', 'OpenRule1um_Basic', layout)
+      pcont_index = library_cell('pcont', 'OpenRule1um_Basic', layout)
       indices = {diff: diff_index, pol: pol_index, m1: m1_index, m2: m2_index, 
-                cap: cap_index, via: via_index, dcont: dcont_index}
+                cap: cap_index, via: via_index, dcont: dcont_index,
+                pcont: pcont_index}
       super indices, vs, u1, area_index, well_index
     end
   end
@@ -476,7 +479,7 @@ module OpenRule1um_v2
   end
 
   class OpenRule1um &lt; Library
-  
+
     def initialize  
     
       # 説明を設定

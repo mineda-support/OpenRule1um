@@ -15,16 +15,142 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.49 June 9th, 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.5 June 20th, 2022 copy right S. Moriyama (Anagix Corporation)
 # 
 module MinedaPCell
-  version = '0.49'
+  version = '0.5'
 
   include RBA
+  class ConvertPCells
+    def convert_pcells cv, to
+      lib = RBA::Library::library_by_name to
+      cv.cell.each_inst{|inst|
+        puts inst.cell.name
+        if inst.cell.is_pcell_variant?
+          pcell_params = inst.pcell_parameters_by_name
+          pd = lib.layout.pcell_declaration(inst.cell.name) 
+          pcv = cv.layout.add_pcell_variant(lib, pd.id, pcell_params)
+          t = inst.trans
+          pcell_inst = cv.cell.insert(RBA::CellInstArray::new(pcv, t))
+          inst.delete
+        end
+      }
+    end
+  
+    def current_cellview
+      app = RBA::Application.instance
+      mw = app.main_window
+      lv = mw.current_view
+      if lv == nil
+         raise "No view selected"
+      end
+      cv = lv.active_cellview
+      if !cv.is_valid?
+        raise "No cell or no layout found"
+      end
+      cv
+    end
+      
+    def do_convert_pcells to
+      cv = current_cellview()
+      # puts 'hello'
+      convert_pcells cv, to
+     end
+  end
+  
+  class PCellDefaults
+    include RBA
+    def dump_pcells lib_name, file = nil
+      lib = RBA::Library::library_by_name lib_name
+      defaults = {}
+      lib.layout.pcell_names.each{|name|
+        defaults[name] = {}
+        lib.layout.pcell_declaration(name).get_parameters.each{|p|
+          defaults[name][p.hidden ? p.name + '_hidden' : p.name] = p.default
+        }
+      }
+      File.open(file, 'w'){|f| f.puts defaults.to_yaml} if file
+      defaults.to_yaml
+    end
+    
+    def change_pcell_defaults
+      app = RBA::Application.instance
+      mw = app.main_window
+      cv = mw.current_view.active_cellview
+      dialog = QDialog.new(Application.instance.main_window)
+      dialog.windowTitle = "Change PCell defaults for #{cv.technology}"
+      layout = QVBoxLayout::new(dialog)
+      dialog.setLayout(layout)
+      tech_map = {'OpenRule1um' =&gt; 'PCells', 'OR_TIASCR' =&gt; 'PCells_Tiascr130'}
+      pcell_map = {'OpenRule1um' =&gt; 'OpenRule1um_v2::OpenRule1um', 'OR_TIASCR' =&gt; 'Tiascr130::Tiascr130',
+                   'Mineda_SKY130' =&gt; 'Sky130a_v0p2::Sky130a' } # rest are : #{cv.technology}::#{cv.technology}
+      lib_name = (tech_map[cv.technology] || 'PCells_' + cv.technology ) 
+      key = lib_name + '-defaults'
+      config = Application.instance.get_config(key)
+      if config.nil? || config == ''
+        config = dump_pcells(lib_name)
+      end
+      # puts "config for '#{key}': \n#{config}"
+      editor = QPlainTextEdit.new(dialog)
+      editor.insertPlainText config || ''
+      layout.addWidget(editor)
 
+      # OK button
+      buttonOK = QPushButton.new(dialog)
+      layout.addWidget(buttonOK)
+      buttonOK.text = " OK "
+      buttonOK.clicked do 
+         dialog.accept()
+         config = editor.document.toPlainText
+         # puts config
+         Application.instance.set_config key, config
+         puts "PCell defaults set for '#{key}'"
+         eval(pcell_map[cv.technology] || "#{cv.technology}::#{cv.technology}").send 'new'
+         # puts pcell_map[cv.technology] || "#{cv.technology}::#{cv.technology}"
+      end
+      # Cancel button
+      cancel = QPushButton.new(dialog)
+      layout.addWidget(cancel)
+      cancel.text = "cancel"
+      cancel.clicked do 
+        dialog.accept()
+      end
+      dialog.exec
+    end
+  end
+  
   class MinedaPCellCommon &lt; PCellDeclarationHelper
     include RBA
+    attr_accessor :defaults
     
+    def initialize
+      key = 'PCells_' + self.class.name.to_s.split('::').first + '-defaults'
+      @defaults = YAML.load(Application.instance.get_config key)
+      # puts "Got PCell @defaults from #{key}"
+      super
+    end
+    
+    def param name, type, desc, last_resort
+      if @defaults
+        cellname = self.class.name.to_s.split('::').last.to_s
+        if (value = @defaults[cellname][name.to_s]) || (value == nil) || (value == false)
+          # puts "#{self.class.name} '#{name}' =&gt; #{value}"
+          if last_resort[:default] == true
+            super name, type, desc, {default: value}         
+          else
+            super name, type, desc, value ? {default: value} : last_resort
+          end        
+        elsif value = @defaults[cellname][name.to_s + '_hidden']
+          # puts "#{self.class.name} '#{name}' =&gt; #{value} 'hidden' =&gt; true"
+          super name, type, desc, value ? {default: value, hidden: true} : last_resort
+        else
+          super name, type, desc, value ? {default: value} : last_resort     
+        end
+      else
+        super name, type, desc, last_resort
+      end
+    end
+     
     def library_cell name, libname, layout
       if cell = layout.cell(name)
         return cell.cell_index
@@ -102,7 +228,7 @@ module MinedaPCell
       gw = (w/layout.dbu).to_i
       gl = (l/layout.dbu).to_i
       vo = params[:vs_overhead] || 0
-      dgl = (dg/layout.dbu).to_i
+      dgl = ((dg || 0.0)/layout.dbu).to_i
       if gw &lt; vs - vo  # dgl: dumbbell gap length
         dgl = [dgl, ((dsl/layout.dbu).to_i - gl)/2].max if defined? dsl # dsl: minimum dumbbell shaft length
       else 
