@@ -15,10 +15,10 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.5 June 20th, 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.51 June 23rd, 2022 copy right S. Moriyama (Anagix Corporation)
 # 
 module MinedaPCell
-  version = '0.5'
+  version = '0.51'
 
   include RBA
   class ConvertPCells
@@ -79,8 +79,8 @@ module MinedaPCell
       cv = mw.current_view.active_cellview
       dialog = QDialog.new(Application.instance.main_window)
       dialog.windowTitle = "Change PCell defaults for #{cv.technology}"
-      layout = QVBoxLayout::new(dialog)
-      dialog.setLayout(layout)
+      mainLayout = QVBoxLayout::new(dialog)
+      dialog.setLayout(mainLayout)
       tech_map = {'OpenRule1um' =&gt; 'PCells', 'OR_TIASCR' =&gt; 'PCells_Tiascr130'}
       pcell_map = {'OpenRule1um' =&gt; 'OpenRule1um_v2::OpenRule1um', 'OR_TIASCR' =&gt; 'Tiascr130::Tiascr130',
                    'Mineda_SKY130' =&gt; 'Sky130a_v0p2::Sky130a' } # rest are : #{cv.technology}::#{cv.technology}
@@ -93,7 +93,30 @@ module MinedaPCell
       # puts "config for '#{key}': \n#{config}"
       editor = QPlainTextEdit.new(dialog)
       editor.insertPlainText config || ''
-      layout.addWidget(editor)
+      mainLayout.addWidget(editor)
+      
+      # button boxes
+      layout = QHBoxLayout.new(dialog)
+      mainLayout.addLayout(layout)
+      
+      # Save button
+      buttonSave = QPushButton.new(dialog)
+      layout.addWidget(buttonSave)
+      buttonSave.text = ' Save '
+      buttonSave.clicked do
+        settings_file = QFileDialog::getSaveFileName(mw, 'Save File', File.dirname(cv.filename))
+        File.open(settings_file, 'w'){|f| f.puts editor.document.toPlainText}
+        puts "#{settings_file} saved"
+      end
+      
+      # Load button
+      buttonLoad = QPushButton.new(dialog)
+      layout.addWidget(buttonLoad)
+      buttonLoad.text = ' Load '
+      buttonLoad.clicked do
+        file = QFileDialog::getOpenFileName(mw, 'Load File', File.dirname(cv.filename))
+        editor.setPlainText File.read(file)
+      end
 
       # OK button
       buttonOK = QPushButton.new(dialog)
