@@ -15,10 +15,10 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.52 June 25th, 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.521 June 28th, 2022 copy right S. Moriyama (Anagix Corporation)
 # 
 module MinedaPCell
-  version = '0.51'
+  version = '0.521'
 
   include RBA
   class ConvertPCells
@@ -411,7 +411,7 @@ module MinedaPCell
           end     
           offset = offset + vs + gl + 2*dgl
         }
-        if body_tie
+        if defined?(body_tie) &amp;&amp; body_tie
           y = y1 + vs/2
           x = offset - 2*dgl - gl - vs/2 
           x = x + vs + u1 if n % 2 == 0
