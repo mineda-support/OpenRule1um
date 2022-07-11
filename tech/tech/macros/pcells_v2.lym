@@ -15,7 +15,7 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: cp932
-# OpenRule1um_v2 PCells v2.3 July 10th, 2022 copy left by S. Moriyama (Anagix Corporation)
+# OpenRule1um_v2 PCells v2.4 July 11th, 2022 copy left by S. Moriyama (Anagix Corporation)
 #   based on OpenRule1um v1.97 Sep. 20, 2021 copy left by S. Moriyama (Anagix Corporation)
 
 module OpenRule1um_v2
@@ -386,12 +386,12 @@ module OpenRule1um_v2
       #juts = rw - nv*vs
       #juts = ((nv+1)*vs-rw) if juts != 0
       juts = 0
-      pol_index = layout.insert_layer(LayerInfo::new(4, 0))
-      m1_index = layout.insert_layer(LayerInfo::new(6, 0))
+      pol_index = layout.insert_layer(LayerInfo::new(5, 0))
+      m1_index = layout.insert_layer(LayerInfo::new(8, 0))
       m2_index = layout.insert_layer(LayerInfo::new(10, 0))
-      res_index = layout.insert_layer(LayerInfo::new(64, 0))
-      via_index = library_cell('Via', 'PTS06_Basic', layout)
-      pcont_index = library_cell('pcont', 'PTS06_Basic', layout)
+      res_index = layout.insert_layer(LayerInfo::new(15, 0))
+      via_index = library_cell('Via', 'OpenRule1um_Basic', layout)
+      pcont_index = library_cell('pcont', 'OpenRule1um_Basic', layout)
       prev_x = nil
       for i in 0..n-1
         offset = vs/2 + (sp+(w/layout.dbu).to_i)*i
@@ -490,7 +490,7 @@ module OpenRule1um_v2
       juts = 0
       pol_index = layout.insert_layer(LayerInfo::new(5, 0))
       hpol_index =  layout.insert_layer(LayerInfo::new(6, 0))
-      phd2_index =  layout.insert_layer(LayerInfo::new(51, 0))
+      # phd2_index =  layout.insert_layer(LayerInfo::new(51, 0))
       m1_index = layout.insert_layer(LayerInfo::new(8, 0))
       m2_index = layout.insert_layer(LayerInfo::new(10, 0))
       res_index = layout.insert_layer(LayerInfo::new(15, 0))
@@ -515,7 +515,7 @@ module OpenRule1um_v2
             insert_via_pcont via_index, pcont_index, x-juts/2, y, rw, vs
             cell.shapes(m1_index).insert(Box::new(x-rw/2, y-vs/2, x+rw/2, y+vs/2))
             cell.shapes(m2_index).insert(Box::new(x-rw/2, y-vs/2, x+rw/2, y+vs/2))
-            cell.shapes(phd2_index).insert(Box::new(x-rw/2-u1, y-vs/2-u1, x+rw/2+u1, y+vs/2+u1))
+            # ell.shapes(phd2_index).insert(Box::new(x-rw/2-u1, y-vs/2-u1, x+rw/2+u1, y+vs/2+u1))
           }
           if prev_x
             points = [Point::new(offset, vs/2), Point::new(prev_x, vs/2)]
@@ -531,7 +531,7 @@ module OpenRule1um_v2
             insert_via_pcont via_index, pcont_index, x+juts/2, y, rw, vs
             cell.shapes(m1_index).insert(Box::new(x-rw/2, y-vs/2, x+rw/2, y+vs/2))
             cell.shapes(m2_index).insert(Box::new(x-rw/2, y-vs/2, x+rw/2, y+vs/2))
-            cell.shapes(phd2_index).insert(Box::new(x-rw/2-u1, y-vs/2-u1, x+rw/2+u1, y+vs/2+u1))
+            # cell.shapes(phd2_index).insert(Box::new(x-rw/2-u1, y-vs/2-u1, x+rw/2+u1, y+vs/2+u1))
           }
           if prev_x
             # points = [Point::new(offset, vs/2+sl-r), Point::new(prev_x, vs/2+sl-r)]
