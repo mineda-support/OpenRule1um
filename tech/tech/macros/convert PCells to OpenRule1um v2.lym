@@ -15,9 +15,15 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text>module MyMacro
-  include MinedaPCell
-  cp = ConvertPCells.new
-  cp.do_convert_pcells 'PCells'
+ # include MinedaPCell
+  app = Application.instance
+  mw = app.main_window
+  cv = mw.current_view.active_cellview
+  file = QFileDialog::getSaveFileName(mw, 'Converted File name', File.dirname(cv.filename))
+
+  cv.cell.write file
+ # cp = ConvertPCells.new
+ # cp.do_convert_pcells 'PCells'
 end
 </text>
 </klayout-macro>
