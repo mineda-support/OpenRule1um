@@ -608,10 +608,11 @@ module OpenRule1um_v2
       via_index = library_cell('Via', 'OpenRule1um_Basic', layout)
       dcont_index = library_cell('dcont', 'OpenRule1um_Basic', layout)
       pcont_index = library_cell('pcont', 'OpenRule1um_Basic', layout)
+      nsubcont_index = library_cell('nsubcont', 'OpenRule1um_Basic', layout)
       indices = {diff: diff_index, pol: pol_index, m1: m1_index, m2: m2_index, 
                 cap: cap_index, via: via_index, dcont: dcont_index,
-                pcont: pcont_index}
-      super indices, vs, u1, area_index, well_index
+                pcont: pcont_index, nsubcont: nsubcont_index}
+      super indices, vs, u1, area_index, well_index, {wd_enc: u1 * 2}
     end
   end
   
@@ -625,7 +626,7 @@ module OpenRule1um_v2
     def produce_impl
       parea_index = layout.insert_layer(LayerInfo::new(18, 0))
       nwl_index = layout.insert_layer(LayerInfo::new(1, 0))
-      super parea_index, nwl_index 
+      super parea_index, nwl_index
     end
   end
 

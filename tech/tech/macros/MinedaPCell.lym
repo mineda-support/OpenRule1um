@@ -15,10 +15,10 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.52 June 25th, 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.53 July 13th, 2022 copy right S. Moriyama (Anagix Corporation)
 # 
 module MinedaPCell
-  version = '0.51'
+  version = '0.53'
 
   include RBA
   class ConvertPCells
@@ -706,6 +706,7 @@ module MinedaPCell
       super
       param(:cval, TypeDouble, "Capacitor value", :default =&gt; 0, :hidden=&gt; true)
       param(:polcnt_outside, TypeBoolean, "Poly contact outside?", :default =&gt; true, :hidden =&gt; false)
+      param(:nsub_cont, TypeBoolean, "Use nsub contact", :default =&gt; false, :hidden =&gt; false)
     end
         
     def display_text_impl
@@ -713,7 +714,7 @@ module MinedaPCell
       "Diff Capacitor\r\n(L=#{l.round(3)}um,W=#{w.round(3)}um,C=#{cval.to_s})"
     end
     
-    def produce_impl indices, vs, u1, area_index=nil, well_index=nil
+    def produce_impl indices, vs, u1, area_index=nil, well_index=nil, params={}
       cw = (w/layout.dbu).to_i
       cl = (l/layout.dbu).to_i
       u2 = u1 + u1
@@ -722,8 +723,19 @@ module MinedaPCell
       create_box indices[:cap], 0, 0, cw, cl
       # create_box indices[:cap], 0, 0, cw, cl+u1+vs
       create_box area_index, -u1/2, -u1-u1/2, cw + u1/2, cl + u1/2 + vs + u1
-      create_box well_index, -u1*5, -u1-u1*5, cw + u1*5, cl + u1*5 + vs + u1
-
+      well_diff_enc = params[:wd_enc] || u1*5
+      if well_index
+        if nsub_cont
+          create_box well_index, [-well_diff_enc, -vs-u1/2-u2].min, -u1-well_diff_enc,
+                          cw + well_diff_enc, [cl + well_diff_enc + vs + u1, cl+u2+vs + u2].max
+          insert_cell indices[:nsubcont], -vs-u1/2, cl+u2+vs
+        else
+          x0 = -well_diff_enc
+          x0 = [x0, -u2-vs].min if polcnt_outside
+          create_box well_index, x0, -u1-well_diff_enc, cw + well_diff_enc, cl + well_diff_enc + vs + u1
+        end
+      end
+      
       if polcnt_outside
         create_box indices[:pol], -u2-vs, 0, cw + u1, cl
         create_contacts_vertically indices, -u1-vs/2, 0, cl, vs, u1, true # false
