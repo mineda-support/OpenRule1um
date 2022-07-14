@@ -15,10 +15,10 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.53 July 13th, 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.531 July 13th, 2022 copy right S. Moriyama (Anagix Corporation)
 # 
 module MinedaPCell
-  version = '0.53'
+  version = '0.531'
 
   include RBA
   class ConvertPCells
@@ -391,7 +391,7 @@ module MinedaPCell
             end
             create_path indices[:m1], x, y2-vs-2*u1 - wm_offset, x, y, pol_width, 0, 0 if with_sdcont || n != 1
             if bottom
-              if soi_bridge
+              if defined?(soi_bridge) &amp;&amp; soi_bridge
                 create_path indices[:m1], bottom, y, x, y, pol_width+u1/4, 0, 0
               else
                 create_path indices[:m1], bottom, y, x, y, pol_width, pol_width/2, pol_width/2
