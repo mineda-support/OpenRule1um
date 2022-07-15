@@ -14,7 +14,7 @@
  <menu-path/>
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
- <text># Mineda LVS preprocessor v0.5 June 6th copy right by S. Moriyama (Anagix Corporation)
+ <text># Mineda LVS preprocessor v0.51 July 15th copy right by S. Moriyama (Anagix Corporation)
 
 class MinedaLVS
   include RBA # unless $0 == __FILE__
@@ -125,7 +125,7 @@ class MinedaLVS
         elsif !inside_subckt
           if l =~ /^ *[xX]/
             circuit_top ||= '.TOP'
-          elsif l =~ /^ *([rR]|[cC])/ || l.downcase =~ /^ *\.global/ 
+          elsif l =~ /^ *([rR]|[cC]|[dD])/ || l.downcase =~ /^ *\.global/ 
             # do nothing
           else
             l.sub! /^/, '*'
