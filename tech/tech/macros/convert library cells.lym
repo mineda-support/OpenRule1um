@@ -15,15 +15,14 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text>module MyMacro
- # include MinedaPCell
-  app = Application.instance
-  mw = app.main_window
-  cv = mw.current_view.active_cellview
-  file = QFileDialog::getSaveFileName(mw, 'Converted File name', File.dirname(cv.filename))
-
-  cv.cell.write file
- # cp = ConvertPCells.new
- # cp.do_convert_pcells 'PCells'
+  include MinedaPCell 
+  go = ConvertPCells.new
+  go.do_convert_library_cells({
+    pcell_lib: 'PCells',
+    basic_lib: 'OpenRule1um_Basic',
+    layer_map: '/home/seijirom/.klayout/salt/PTS06/Technology/tech/PTS_to_OR.txt',
+    routing_scale_factor: 1
+  })
 end
 </text>
 </klayout-macro>

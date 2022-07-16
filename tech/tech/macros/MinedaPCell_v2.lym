@@ -22,19 +22,73 @@ module MinedaPCell
 
   include RBA
   class ConvertPCells
-    def convert_pcells cv, to
-      lib = RBA::Library::library_by_name to
-      cv.cell.each_inst{|inst|
+    def convert_library_cells cv, pcell_lib, basic_lib, pcell_factor=1.0
+      convert_library_cells0 cv.cell, pcell_lib, basic_lib, pcell_factor
+    end
+    def convert_library_cells0 cell, pcell_lib, basic_lib, pcell_factor
+      lib = RBA::Library::library_by_name pcell_lib
+      bas_lib = RBA::Library::library_by_name basic_lib
+      cells_to_delete = []
+      cell.each_inst{|inst|
+        t = inst.trans          
         puts inst.cell.name
         if inst.cell.is_pcell_variant?
+          next if inst.cell.library == lib # already converted
           pcell_params = inst.pcell_parameters_by_name
-          pd = lib.layout.pcell_declaration(inst.cell.name) 
-          pcv = cv.layout.add_pcell_variant(lib, pd.id, pcell_params)
-          t = inst.trans
-          pcell_inst = cv.cell.insert(RBA::CellInstArray::new(pcv, t))
-          inst.delete
+          if pcell_factor
+            pcell_params['l'] = pcell_params['l']*pcell_factor
+            pcell_params['w'] = pcell_params['w']*pcell_factor
+          end
+          next unless pd = lib.layout.pcell_declaration(inst.cell.name) 
+          pcv = cell.layout.add_pcell_variant(lib, pd.id, pcell_params)
+          pcell_inst = cell.insert(RBA::CellInstArray::new(pcv, t))
+        elsif inst.cell.library &amp;&amp; inst.cell.library.name =~ /_Basic/
+          next if inst.cell.library == bas_lib # already converted
+          basic_cell = bas_lib.layout.cell(inst.cell.name)
+          proxy_index = cell.layout.add_lib_cell(bas_lib, basic_cell.cell_index)
+          basic_inst = cell.insert(RBA::CellInstArray.new(proxy_index, t))       
+        else
+          next
         end
+        cells_to_delete &lt;&lt; inst.cell
+        inst.cell.each_child_cell{|id|
+          cells_to_delete &lt;&lt; cell.layout.cell(id)
+        }
+        inst.delete
       }
+      puts "### CELLS TO DELETE ###"
+      cells_to_delete.uniq.each{|c|
+       puts "#{c.name}@#{c.library.name}"
+       c.delete
+      }
+      child_cells = []
+      cell.each_child_cell{|id| child_cells &lt;&lt; id}
+      child_cells.each{|id|
+        c = cell.layout.cell(id)
+        #puts c.name
+        convert_library_cells0 c, pcell_lib, basic_lib, pcell_factor
+      }
+    end
+    include RBA
+    def do_convert_library_cells params
+      app = Application.instance
+      mw = app.main_window
+      cv = mw.current_view.active_cellview
+      file = QFileDialog::getSaveFileName(mw, 'Converted File name', File.dirname(cv.filename))
+      file = file + '.GDS' unless File.extname(file).upcase == '.GDS'
+      opt = SaveLayoutOptions.new
+      opt.scale_factor = params[:routing_scale_factor] || 1
+      cv.cell.write file, opt
+      technology_name = cv.technology
+      
+      opt = LoadLayoutOptions.new
+      if map_file = params[:layer_map]
+        opt.layer_map = LayerMap::from_string File.read(map_file) if File.exist? map_file
+      end  
+      cv = mw.load_layout file, opt, technology_name, 1 #  mode 1 means new view
+      cp = ConvertPCells.new
+      cp.convert_library_cells cv, params[:pcell_lib], params[:basic_lib], params[:pcell_scale_factor]
+      # cv.cell.write file
     end
   
     def current_cellview
