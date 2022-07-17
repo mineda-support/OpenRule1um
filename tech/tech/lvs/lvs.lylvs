@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <klayout-macro>
- <description>lvs: for MOS transistors only (OpenRule1um std cells supported)</description>
+ <description>LVS for OpenRule1um</description>
  <version/>
  <category>lvs</category>
  <prolog/>
@@ -9,31 +9,15 @@
  <autorun>false</autorun>
  <autorun-early>false</autorun-early>
  <shortcut/>
- <show-in-menu>false</show-in-menu>
+ <show-in-menu>true</show-in-menu>
  <group-name>lvs_scripts</group-name>
  <menu-path>tools_menu.lvs.end</menu-path>
  <interpreter>dsl</interpreter>
  <dsl-interpreter-name>lvs-dsl-xml</dsl-interpreter-name>
- <text># OpenRule1um lvs rule v1.21 June 29, 2020 copy left by S. Moriyama (Anagix Corporation)
-# merged:  v1.10 June 11, 2020, modified by akita11 (akita@ifdl.jp)
+ <text># LVS for OpenRule1um v1.3 July 16th, 2022 copy left by S. Moriyama (Anagix Corporation)
 
-# Read LVS scripts in the User Manual in "Layout vs. Schematic (LVS)"
-
-# Try this sample script with this layout:
-#   https://github.com/KLayout/klayout/tree/master/samples/lvs/ringo.gds
-# and this schematic:
-#   https://github.com/KLayout/klayout/tree/master/samples/lvs/schematic.cir
-
-# Tip: you can also use:
-#   schematic(source.path.sub(/\.(oas|gds)/, ".cir"))
-# to derive the schematic name from the layout file's name 
-# by substituting .oas or .gsd with .cir.
-
-# Enable hierarchical mode
 deep
-# Enable hierarchical mode
 report_lvs
-
 
 # Drawing layers
 
@@ -64,63 +48,125 @@ dm_via1 = input(105, 0)
 dm_via2 = input(106, 0)
 
 # Special layer for bulk terminals
+
 bulk        = polygon_layer
 
 # Computed layers
+pol_in_hpol = pol &amp; hpol
+pol_not_hpol = pol - hpol
+pol_not_res  = pol_not_hpol - res
+pol_in_res   = pol_not_hpol &amp; res
+
+hpol_not_res  = pol_in_hpol - res
+hpol_in_res   = pol_in_hpol &amp; res
+
+cnt_in_cap = cnt &amp; cap
+pol_overlapping_cap = pol_not_res.overlapping(cap) - pol_not_res.inside(cap)
+
+diff_overlapping_cap = diff.overlapping(cap) - diff.inside(cap)
+
+#diff_in_cap = diff &amp; cap
+#diff_not_cap = diff - cap
+
 diff_in_nwl = diff &amp; nwl
-#pdiff       = diff_in_nwl - narea
-pdiff       = diff_in_nwl &amp; parea
-pgate       = pdiff &amp; pol
+pdiff       = diff_in_nwl - narea
+#pdiff       = diff_in_nwl &amp; parea
+pgate       = pdiff &amp; pol_not_res - cap
 psd         = pdiff - pgate
 ntie        = diff_in_nwl &amp; narea
+# hv_pgate    = pgate &amp; thickox
+# lv_pgate    = pgate - hv_pgate
 lv_pgate = pgate
+# hv_psd      = psd &amp; thickox
+# lv_psd      = psd - thickox
 
 diff_outside_nwl = diff - nwl
-ndiff      = diff_outside_nwl &amp; narea
-ngate      = ndiff &amp; pol
+ndiff      = diff_outside_nwl - parea
+#ndiff      = diff_outside_nwl &amp; narea
+ngate      = ndiff &amp; pol_not_res - cap 
 nsd        = ndiff - ngate
 ptie       = diff_outside_nwl &amp; dm_pscn #&amp; parea
+# hv_ngate   = ngate &amp; thickox
+# lv_ngate   = ngate - hv_ngate
 lv_ngate = ngate
+# hv_nsd     = nsd &amp; thickox
+# lv_nsd     = nsd - thickox
 
-# Device extraction
+# Device extraction  
+# Capacitor extraction
+area_cap = 0.028e-15 # TO BE REVISITED!
+model_name = 'CAP'
+cap1 = ml1 &amp; cap
+extract_devices(capacitor(model_name, area_cap), {'P1'=&gt;pol_overlapping_cap, 'P2'=&gt; cap1}) 
+
+# model_name = 'DCAP'
+area_cap = 2.60e-15
+cap2 = pol.overlapping(cap)
+#cap2.output(101)
+extract_devices(capacitor(model_name, area_cap), {'P1'=&gt;diff_overlapping_cap, 'P2'=&gt; cap2})                    
+# resistance extraction
+
+model_name = "D"
+pplus = (pdiff - pdiff.interacting(pgate)) &amp; dio 
+extract_devices(diode(model_name), { "P" =&gt; pplus, "N" =&gt; nwl })
+
+sheet_rho = 20.0
+model_name = "RES"
+bbox = (res | cnt).extents
+cap_layer = bbox - res
+extract_devices(resistor(model_name, sheet_rho), {"R" =&gt;  pol_in_res, "C" =&gt; cap_layer,
+                                                                'tA' =&gt; pol_not_res, 'tB'=&gt;pol_not_res  })# &amp; pol &amp; via1 &amp; ml1})
+sheet_rho = 7000.0
+model_name = "HRES"
+#bbox = (res | cnt).extents
+#cap_layer = bbox - res
+#cap_layer = phd2 &amp; pol
+cap_layer = hpol_not_res
+extract_devices(resistor(model_name, sheet_rho), {"R" =&gt;  hpol_in_res, "C" =&gt;cap_layer,  'tA' =&gt; hpol_not_res, 'tB'=&gt;hpol_not_res  })
+
+### R_ndiff and R_pdiff need to be ADDED HERE!
+
 # PMOS transistor device extraction
-extract_devices(mos4("pch"), { "SD" =&gt; psd, "G" =&gt; lv_pgate, "W" =&gt; nwl, 
-                                "tS" =&gt; psd, "tD" =&gt; psd, "tG" =&gt; pol, "tW" =&gt; nwl })
-
+extract_devices(mos4("PMOS"), { "SD" =&gt; psd, "G" =&gt; lv_pgate, "W" =&gt; nwl, 
+                                "tS" =&gt; psd, "tD" =&gt; psd, "tG" =&gt;pol_not_res, "tW" =&gt; nwl })
 # NMOS transistor device extraction
-extract_devices(mos4("nch"), { "SD" =&gt; nsd, "G" =&gt; lv_ngate, "W" =&gt; bulk, 
-                                "tS" =&gt; nsd, "tD" =&gt; nsd, "tG" =&gt; pol, "tW" =&gt; bulk })
+extract_devices(mos4("NMOS"), { "SD" =&gt; nsd, "G" =&gt; lv_ngate, "W" =&gt; bulk, 
+                                "tS" =&gt; nsd, "tD" =&gt; nsd, "tG" =&gt;pol_not_res, "tW" =&gt; bulk })
 
 # Define connectivity for netlist extraction
 
 # Inter-layer
 connect(psd,     cnt)
 connect(nsd,     cnt)
-connect(pol,    cnt)
+# connect(pol,    cnt)
+connect(pol_not_res, cnt)
+connect(hpol_not_res, cnt)
+connect(pol_overlapping_cap, cnt)
+connect(diff_overlapping_cap, cnt)
+#connect(cap, cnt)
+connect(cap1, ml1)
+connect(cap2, cnt)
+connect(pplus, cnt)
+
 connect(cnt, ntie)
 connect(nwl,   ntie)
 connect(cnt, ptie)
 connect(cnt, ml1)
 connect(ml1,  via1)
 connect(via1,     ml2)
-connect(ml2,  via2)
-connect(via2,     ml3)
+connect(ml2, via2)
+connect(via2, ml3)
 
 # Global connections
 connect_global(ptie, "SUBSTRATE")
 connect_global(bulk, "SUBSTRATE")
 
-#netlist.make_top_level_pins
-netlist.purge
-# Netlist normalization
-netlist.simplify
-
 sdir = File.dirname source.path
 ext_name = File.extname source.path
 target = File.basename(source.path).sub(ext_name, '')
-reference = File.join(sdir, "#{target}_reference.cir")
 output = File.join sdir, "#{target}_output.cir"
 lvs_work = File.join(sdir, 'lvs_work')
+reference = File.join(lvs_work, "#{target}_reference.cir.txt")
 Dir.mkdir lvs_work unless File.directory? lvs_work
 
 if File.exist? File.join(sdir, target+'.yaml')
@@ -139,6 +185,9 @@ end
 # -------------------------------------------------------------------
 # Netlist and compare
 
+netlist.purge
+# Hierarchy alignment (flatten out unmatched cells)
+
 target_netlist(output, write_spice, "Created by KLayout")
 
 if File.exist? reference
@@ -147,12 +196,10 @@ if File.exist? reference
     load "#{lvs_work}/#{target}_lvs_settings.rb"
     lvs_settings
   end
-# Hierarchy alignment (flatten out unmatched cells)
-  align
 # Netlist vs. netlist
   compare
   slink = "#{lvs_work}/#{File.basename output}.txt"
-  File.delete slink if File.exist?(slink)
+  File.delete slink if File.exist?(slink) || File.symlink?(slink)
   if /mswin32|mingw/ =~ RUBY_PLATFORM
     File.link output, slink
   else

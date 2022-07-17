@@ -15,7 +15,7 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: cp932
-# OpenRule1um_v2 PCells v2.41 July 13th, 2022 copy left by S. Moriyama (Anagix Corporation)
+# OpenRule1um_v2 PCells v2.42 July 17th, 2022 copy left by S. Moriyama (Anagix Corporation)
 #   based on OpenRule1um v1.97 Sep. 20, 2021 copy left by S. Moriyama (Anagix Corporation)
 
 module OpenRule1um_v2
@@ -38,7 +38,7 @@ module OpenRule1um_v2
     include RBA
     def initialize
       super
-      param(:w, TypeDouble, "Nch w", :default =&gt; 10.0.um)
+      param(:w, TypeDouble, "Nch w", :default =&gt; 2.0.um)
       param(:l, TypeDouble, "Nch l", :default =&gt; 1.0.um)
       # param(:n, TypeInt, "Number of fingers", :default =&gt; 1)
       param(:dg, TypeDouble, "Dumbbell gap", :default =&gt; 0.0.um, :hidden =&gt; true)
