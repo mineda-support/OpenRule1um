@@ -15,7 +15,7 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: cp932
-# OpenRule1um_v2 PCells v2.42 July 17th, 2022 copy left by S. Moriyama (Anagix Corporation)
+# OpenRule1um_v2 PCells v2.43 July 17th, 2022 copy left by S. Moriyama (Anagix Corporation)
 #   based on OpenRule1um v1.97 Sep. 20, 2021 copy left by S. Moriyama (Anagix Corporation)
 
 module OpenRule1um_v2
@@ -45,8 +45,8 @@ module OpenRule1um_v2
       param(:with_pcont, TypeBoolean, "Use polysilicon contact", :default =&gt; true)
       param(:with_via, TypeBoolean, "Put Via over contacts", :default =&gt; true, :hidden =&gt; false)
       param(:with_sdcont, TypeBoolean, "Use source/drain contact", :default =&gt; true)   
-      param(:with_psubcont, TypeBoolean, "Use psub contact", :default =&gt; true, :hidden =&gt; false)
       param(:use_pwell, TypeBoolean, "Use pwell", :default =&gt; true, :hidden =&gt; true)  
+      param(:with_psubcont, TypeBoolean, "Use psub contact", :default =&gt; true, :hidden =&gt; false)
       param(:wide_metal, TypeBoolean, "Wide metal entry?", :default =&gt; false)
       param(:wtot, TypeDouble, "Total width", :default =&gt; 0, :hidden=&gt; true)
     end
@@ -88,8 +88,8 @@ module OpenRule1um_v2
       param(:with_pcont, TypeBoolean, "Use polysilicon contact", :default =&gt; true)
       param(:with_via, TypeBoolean, "Put Via over contacts", :default =&gt; true, :hidden =&gt; false)
       param(:with_sdcont, TypeBoolean, "Use source/drain contact", :default =&gt; true)
-      param(:with_nsubcont, TypeBoolean, "Use nsub contact", :default =&gt; true, :hidden =&gt; false)
       param(:use_nwell, TypeBoolean, "Use nwell", :default =&gt; true, :hidden =&gt; false) 
+      param(:with_nsubcont, TypeBoolean, "Use nwell contact", :default =&gt; true, :hidden =&gt; false)
       param(:wide_metal, TypeBoolean, "Wide metal entry?", :default =&gt; false)
       param(:wtot, TypeDouble, "Total width", :default =&gt; 0, :hidden=&gt; true)
     end
