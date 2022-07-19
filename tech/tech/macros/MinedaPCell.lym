@@ -706,7 +706,7 @@ module MinedaPCell
       super
       param(:cval, TypeDouble, "Capacitor value", :default =&gt; 0, :hidden=&gt; true)
       param(:polcnt_outside, TypeBoolean, "Poly contact outside?", :default =&gt; true, :hidden =&gt; false)
-      param(:nsub_cont, TypeBoolean, "Use nsub contact", :default =&gt; false, :hidden =&gt; false)
+      param(:nsub_cont, TypeBoolean, "Use nwell contact", :default =&gt; false, :hidden =&gt; false)
     end
         
     def display_text_impl
