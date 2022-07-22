@@ -14,7 +14,7 @@
  <menu-path/>
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
- <text># Mineda LVS preprocessor v0.51 July 15th copy right by S. Moriyama (Anagix Corporation)
+ <text># Mineda LVS preprocessor v0.52 July 22nd copy right by S. Moriyama (Anagix Corporation)
 
 class MinedaLVS
   include RBA # unless $0 == __FILE__
@@ -113,7 +113,7 @@ class MinedaLVS
           }
           if p['M'] &amp;&amp; p['M'] &gt; "1"
             if p['W'] =~ /([^U]+) *(U*)/
-              new_w  = "#{$1.to_i * p['M'].to_i}#{$2}"
+              new_w  = "#{$1.to_f * p['M'].to_f}#{$2}"
               puts "Caution for #{name}: w=#{p['W']} replaced with w=#{new_w} because m=#{p['M']}"
               p['W'] = new_w
               p['M'] = '1'
