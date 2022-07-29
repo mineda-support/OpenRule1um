@@ -14,7 +14,131 @@
  <menu-path/>
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
- <text># Mineda LVS preprocessor v0.51 July 15th copy right by S. Moriyama (Anagix Corporation)
+ <text># Mineda Common
+#   Force on-grid v0.1 July 39th copy right S. Moriyama (Anagix Corp.)
+#   LVS preprocessor v0.51 July 15th copy right by S. Moriyama (Anagix Corporation)
+
+class MinedaGridCheck
+  include RBA
+  def initialize grid = nil
+    @grid = grid 
+  end
+    
+  def fix_offgrid(shape, old_x, old_y)
+    p = fixed_point old_x, old_y
+    shape.transform Trans.new(Trans::R0, p.x-old_x, p.y-old_y) if p
+  end
+
+  def fixed_point old_x, old_y
+    x = (old_x/@grid_db).to_i * @grid_db
+    y = (old_y/@grid_db).to_i * @grid_db
+    unless x == old_x &amp;&amp; y == old_y
+      puts "(#{old_x}, #{old_y}) =&gt; (#{x}, #{y})"
+      return Point::new(x, y)
+    end
+    nil
+  end
+
+  def fix_path_points shape
+    spine = []
+    flag = false
+    shape.each_point{|p|
+      if new_p = fixed_point(p.x, p.y)
+        flag = true
+        spine &lt;&lt; new_p
+      else
+        spine &lt;&lt; p
+      end
+    }
+    flag &amp;&amp; spine
+  end
+  
+  def current_cellview
+    app = RBA::Application.instance
+    mw = app.main_window
+    lv = mw.current_view
+    if lv == nil
+       raise "No view selected"
+    end
+    cv = lv.active_cellview
+    if !cv.is_valid?
+      raise "No cell or no layout found"
+    end
+    layout = cv.layout
+    @grid ||= app.get_config('grid-micron').to_f
+    @grid_db = (@grid/layout.dbu.round(3)).to_i
+    puts "grid_db = #{@grid_db}"
+    [cv, lv]
+  end
+
+  def check_off_grid cell, lv
+    return if cell.is_library_cell
+    puts "*** check offgrid for '#{cell.name}"
+    lv.each_layer{|layer_props|
+      paths = 0
+      cell.shapes(layer_props.layer_index).each{|shape|
+         # fix_offgrid(shape, shape.bbox.left, shape.bbox.top)
+         if shape.is_path?
+           path = shape.path
+           if spine = fix_path_points(shape)
+             path.points= spine
+             shape.path = path
+           end
+           paths = paths + 1
+         elsif shape.is_box?
+           box = shape.box
+           flag = false
+           if p = fixed_point(box.left, box.top)
+             box.top = p.y
+             box.left = p.x
+             flag = true
+           end
+           if p = fixed_point(box.right, box.bottom)
+             box.bottom = p.y
+             box.right = p.x
+             flag = true
+           end
+           shape.box = box if flag
+         elsif shape.is_polygon?
+           plgn =shape.polygon
+           hull = []
+           plgn.each_point_hull{|p|
+             hull &lt;&lt; (fixed_point(p.x, p.y) || p)
+           }
+           plgn.hull = hull
+           plgn.holes.times{|i|
+             hole = []
+             plgn.each_point_hole(i){|p|
+              hole &lt;&lt; (fixed_point(p.x, p.y) || p)
+              }
+             plgn.hole = hole
+           }
+           shape.polygon = plgn
+         end
+      }
+      puts "paths=#{paths} for layer:#{layer_props.name}" if paths&gt;0
+    }
+
+    cell.each_inst{|inst|
+      old_x=inst.trans.disp.x
+      old_y=inst.trans.disp.y
+      fix_offgrid(inst, old_x, old_y)
+    }
+          
+    child_cells = []
+    cell.each_child_cell{|id| child_cells &lt;&lt; id}
+    child_cells.each{|id|
+      c = cell.layout.cell(id)
+      #puts c.name
+      check_off_grid c, lv
+    }
+  end
+  
+  def do_check
+    cv, lv = current_cellview()
+    check_off_grid cv.cell, lv
+  end
+end
 
 class MinedaLVS
   include RBA # unless $0 == __FILE__
