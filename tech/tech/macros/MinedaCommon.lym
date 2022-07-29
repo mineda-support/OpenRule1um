@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <klayout-macro>
- <description>Common macro library for LVS preprocessor </description>
+ <description>Common macro library for LVS preprocessor, On grid check, etc. </description>
  <version/>
  <category/>
  <prolog/>
@@ -237,7 +237,7 @@ class MinedaLVS
           }
           if p['M'] &amp;&amp; p['M'] &gt; "1"
             if p['W'] =~ /([^U]+) *(U*)/
-              new_w  = "#{$1.to_i * p['M'].to_i}#{$2}"
+              new_w  = "#{$1.to_f * p['M'].to_f}#{$2}"
               puts "Caution for #{name}: w=#{p['W']} replaced with w=#{new_w} because m=#{p['M']}"
               p['W'] = new_w
               p['M'] = '1'
