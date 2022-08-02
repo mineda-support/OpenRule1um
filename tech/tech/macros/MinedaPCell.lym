@@ -351,10 +351,12 @@ module MinedaPCell
             # second s/d and via
             if n == 1
               insert_cell indices[:via], x, y2-vs/2 + (wide_metal ? u1/2 : 0) if with_via &amp;&amp; with_sdcont
+              y = y2-vs/2
             else
               insert_cell indices[:via], x, y2+u1-vs/2 if with_via &amp;&amp; with_sdcont
+              y = y2+u1-vs/2
             end
-            create_path indices[:m1], x, y2-vs-2*u1 - wm_offset, x, y2+u1-vs/2, u1, 0, 0 if with_sdcont || n != 1
+            create_path indices[:m1], x, y2-vs-2*u1 - wm_offset, x, y, u1, 0, 0 if with_sdcont || n != 1
             if bottom
               y = y2+u1-vs/2
               create_path indices[:m1], bottom, y, x, y, u1, u1/2, u1/2
@@ -453,10 +455,12 @@ module MinedaPCell
             # second s/d and via
             if n == 1
               insert_cell indices[:via], x, y1+vs/2 - (wide_metal ? u1/2 : 0) if with_via &amp;&amp; with_sdcont
+              y = y1 + vs/2
             else
               insert_cell indices[:via], x, y1-u1+vs/2 if with_via &amp;&amp; with_sdcont
+              y = y1-u1+vs/2
             end
-            create_path indices[:m1], x, y1-u1+vs/2, x, y1+vs+2*u1, u1, 0, 0 if with_sdcont || n != 1
+            create_path indices[:m1], x, y, x, y1+vs+2*u1, u1, 0, 0 if with_sdcont || n != 1
             if bottom
               create_path indices[:m1], bottom, y1-u1+vs/2, x, y1 -u1+vs/2, u1, u1/2, u1/2
             end
