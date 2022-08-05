@@ -15,7 +15,7 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: cp932
-# OpenRule1um_v2 PCells v2.43 July 17th, 2022 copy left by S. Moriyama (Anagix Corporation)
+# OpenRule1um_v2 PCells v2.44 Aug. 5th, 2022 copy left by S. Moriyama (Anagix Corporation)
 #   based on OpenRule1um v1.97 Sep. 20, 2021 copy left by S. Moriyama (Anagix Corporation)
 
 module OpenRule1um_v2
@@ -29,6 +29,7 @@ module OpenRule1um_v2
   OpenRule1um_v2.constants.member?(:R_ndiff) &amp;&amp; remove_const(:R_ndiff)
   OpenRule1um_v2.constants.member?(:R_pdiff) &amp;&amp; remove_const(:R_pdiff)
   OpenRule1um_v2.constants.member?(:Poly_cap) &amp;&amp; remove_const(:Poly_cap)
+  OpenRule1um_v2.constants.member?(:Ndiff_cap) &amp;&amp; remove_const(:Ndiff_cap)  
   OpenRule1um_v2.constants.member?(:Pdiff_cap) &amp;&amp; remove_const(:Pdiff_cap)
   OpenRule1um_v2.constants.member?(:PCells) &amp;&amp; remove_const(:PCells)
   
@@ -616,6 +617,19 @@ module OpenRule1um_v2
     end
   end
   
+  class Ndiff_cap &lt; Diff_cap
+
+    def coerce_parameters_impl
+      area_cap = 2.6e-15
+      set_cval(area_cap * l * w)
+    end
+
+    def produce_impl
+      narea_index = layout.insert_layer(LayerInfo::new(19, 0))
+      super narea_index
+    end
+  end
+  
   class Pdiff_cap &lt; Diff_cap
 
     def coerce_parameters_impl
@@ -647,7 +661,7 @@ module OpenRule1um_v2
       layout.register_pcell("R_ndiff", R_ndiff::new)
       layout.register_pcell("R_pdiff", R_pdiff::new)
       layout.register_pcell("Poly_cap", Poly_cap::new)
-      # layout.register_pcell("Ndiff_cap", Ndiff_cap::new)
+      layout.register_pcell("Ndiff_cap", Ndiff_cap::new)
       layout.register_pcell("Pdiff_cap", Pdiff_cap::new)      
       
       # "OpenRule1um_v2"という名前で登録します。
