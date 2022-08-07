@@ -16,7 +16,7 @@
  <dsl-interpreter-name/>
  <text># Mineda Common
 #   Force on-grid v0.1 July 39th copy right S. Moriyama (Anagix Corp.)
-#   LVS preprocessor v0.51 July 15th copy right by S. Moriyama (Anagix Corporation)
+#   LVS preprocessor v0.53 August 8th copy right by S. Moriyama (Anagix Corporation)
 
 class MinedaGridCheck
   include RBA
@@ -249,7 +249,7 @@ class MinedaLVS
         elsif !inside_subckt
           if l =~ /^ *[xX]/
             circuit_top ||= '.TOP'
-          elsif l =~ /^ *([rR]|[cC]|[dD])/ || l.downcase =~ /^ *\.global/ 
+          elsif l =~ /^ *([rR]|[cC]|[dD])/ || l.downcase =~ /^ *\.(global|subckt|ends)/ 
             # do nothing
           else
             l.sub! /^/, '*'
