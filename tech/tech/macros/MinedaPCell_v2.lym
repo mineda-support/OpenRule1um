@@ -15,10 +15,10 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.532 July 17th, 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.533 August 9th, 2022 copy right S. Moriyama (Anagix Corporation)
 # 
 module MinedaPCell
-  version = '0.532'
+  version = '0.533'
 
   include RBA
   class ConvertPCells
@@ -495,8 +495,11 @@ module MinedaPCell
         if indices[:pwell]
           create_box indices[:pwell], x1-narea_bw, y1+vs+u1-narea_bw, offset-gl+narea_bw, y2-vs-u1+narea_bw
           create_box indices[:narea], x1-narea_bw+u1/2, y1+vs+u1-narea_bw+u1/2, offset-gl+narea_bw-u1/2, y2-vs-u1+narea_bw-u1/2
+          create_box indices[:lvhvt], x1-narea_bw+u1/2, y1+vs+u1-narea_bw+u1/2, offset-gl+narea_bw-u1/2, y2-vs-u1+narea_bw-u1/2 if indices[:lvhvt]
         else
           create_box indices[:narea], x1-narea_bw, y1+vs+u1-narea_bw, offset-gl+narea_bw, y2-vs-u1+narea_bw
+          create_box indices[:lvhvt], x1-narea_bw, y1+vs+u1-narea_bw, offset-gl+narea_bw, y2-vs-u1+narea_bw if indices[:lvhvt]
+
         end
         
         create_box indices[:nhd], x1-narea_bw, y1+vs+u1-narea_bw, offset-gl+narea_bw, y2-vs-u1+narea_bw if indices[:nhd] # special for PTS06  
@@ -651,6 +654,7 @@ module MinedaPCell
         end
         parea_bw = params[:parea_bw] || u1 + u1/4
         create_box indices[:parea], x1-parea_bw, y1+vs+u1-parea_bw, offset-gl+parea_bw, y2-vs-u1+parea_bw
+        create_box indices[:lvhvt], x1-parea_bw, y1+vs+u1-parea_bw, offset-gl+parea_bw, y2-vs-u1+parea_bw if indices[:lvhvt]
         delta = params[:pex_delta] || u1*5
         create_box indices[:pex], x1-delta, y1+vs-u1/2-delta-u1, offset-gl+delta, y2-vs+u1/2+delta+u1 if indices[:pex]
         delta = delta + delta
