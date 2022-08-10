@@ -15,10 +15,10 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.533 August 9th, 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.54 August 10th, 2022 copy right S. Moriyama (Anagix Corporation)
 # 
 module MinedaPCell
-  version = '0.533'
+  version = '0.54'
 
   include RBA
   class ConvertPCells
@@ -393,8 +393,12 @@ module MinedaPCell
         end
          if indices[:pwl] &amp;&amp; use_pwell
            if one = params[:pwl_bw] #        one = u1*6.25
-             create_box indices[:pwl], x1-delta-one, [y1+vs-u1/2-delta-u1-one, y2-vs+u1/2+delta+u1-4*one].min,
+             if indices[:nex]
+               create_box indices[:pwl], x1-delta-one, [y1+vs-u1/2-delta-u1-one, y2-vs+u1/2+delta+u1-4*one].min,
                      [offset-gl+delta+one, x1-delta+4*one].max, y2-vs+u1/2+delta+u1+one
+             else
+               create_box indices[:pwl], x1-delta-one, y1+vs+u1-delta-one, offset-gl+delta+onr, y2-vs-u1+delta+one
+             end
            end
         end
       }
@@ -493,8 +497,12 @@ module MinedaPCell
         create_box indices[:ar], x1-delta, y1+vs-u1/2-delta-u1, offset-gl+delta, y2-vs+u1/2+delta+u1 if indices[:ar]
         if indices[:nwl] &amp;&amp; use_nwell
           if one = params[:nwl_bw] #         one = u1*6.25
-            create_box indices[:nwl],  x1-delta-one, y1+vs-u1/2-delta-u1-one, [offset-gl+delta+one, x1-delta+4*one].max, 
-                     [y2-vs+u1/2+delta+u1+one, y1+vs-u1/2-delta-u1+4*one].max
+            if indices[:pex]
+              create_box indices[:nwl],  x1-delta-one, y1+vs-u1/2-delta-u1-one, [offset-gl+delta+one, x1-delta+4*one].max, 
+                     [y2-vs+u1/2+delta+u1+one, y1+vs-u1/2-delta-u1+4*one].max # just for tiascr130?
+            else
+              create_box indices[:nwl],  x1-delta-one, y1+vs+u1-delta-one, offset-gl+delta+one, y2-vs-u1+delta+one
+            end
           else
             if n % 2 == 0
               create_box indices[:nwl], x1-vs, y1-u1-u1/2, offset-gl +2*u1, y2
