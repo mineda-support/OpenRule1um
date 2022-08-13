@@ -15,10 +15,10 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.54 August 10th, 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.541 August 13th 2022 copy right S. Moriyama (Anagix Corporation)
 # 
 module MinedaPCell
-  version = '0.54'
+  version = '0.541'
 
   include RBA
   class ConvertPCells
@@ -687,9 +687,9 @@ module MinedaPCell
   
     include RBA
     def initialize
-
       # Important: initialize the super class
       super
+      param(:with_via, TypeBoolean, "Put Via over contacts", :default =&gt; true, :hidden =&gt; false)
     end
     
     # default implementation
@@ -715,14 +715,14 @@ module MinedaPCell
       pitch = vs+u1/4  # cnt distance &gt; 5 um
       n = (w/pitch).to_i
       if n &lt;= 1
-        insert_cell contact, x0, y
-        insert_cell indices[:via], x0, y
+        insert_cell contact, x0, y, true
+        insert_cell indices[:via], x0, y if with_via
       else
         offset = w- pitch*n
         (x0-w/2 + offset/2 + pitch/2).step(x0+w/2-vs/2, pitch){|x|
           # insert_cell indices, :via, x, y, vs, u1, false
-          insert_cell contact, x0, y
-          insert_cell indices[:via], x0, y   
+          insert_cell contact, x0, y, true
+          insert_cell indices[:via], x0, y if with_via
         }
         create_box indices[:m1], x0-w/2, y-vs/2, x0+w/2, y+vs/2
         #vs2 = vs + u1/4
