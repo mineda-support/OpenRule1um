@@ -15,10 +15,10 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.541 August 13th 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.55 August 13th 2022 copy right S. Moriyama (Anagix Corporation)
 # 
 module MinedaPCell
-  version = '0.541'
+  version = '0.55'
 
   include RBA
   class ConvertPCells
@@ -729,13 +729,14 @@ module MinedaPCell
         #create_box indices[:m2], x0-w/2, y-vs2/2, x0+w/2, y+vs2/2
       end
     end
-       
     def produce_impl indices, header_outside, vs, u1, params={}
       res_body = indices[:pol] || indices[:diff]
       rw = (w/layout.dbu).to_i
       rrl = (l/layout.dbu).to_i
       sp = (s/layout.dbu).to_i
       ms = (m/layout.dbu).to_i
+      cs = params[:contact_size] || vs
+      rrl = rrl - (vs - cs)
       rw_ho = rw*header_outside
       rl = rrl - (sp+rw)*(n-1) -rw_ho
       sl = [(rl/n/u1).to_i*u1, ms-2*rw].min
@@ -753,7 +754,6 @@ module MinedaPCell
       prev_x = nil
       xmax = ymax = -10000000
       ymin = 10000000
-      header_offset = params[:header_offset] || 0
       for i in 0..n-1
         offset = vs/2 + (sp+rw)*i
         r = sl
@@ -763,20 +763,22 @@ module MinedaPCell
         puts "offset=#{offset}, r=#{r} for i=#{i}"
         if i % 2 == 0
           x = offset
-          points = [Point::new(x, vs-rw_ho), Point::new(x, vs+r)]
-          cell.shapes(indices[:res]).insert(Path::new(points, rw, 0, 0))    
           if i == 0 
-            points = [Point::new(x, -rw_ho + header_offset), Point::new(x, vs+r - header_offset)]
-            y = vs/2-rw_ho + header_offset
+            points = [Point::new(x, -rw_ho), Point::new(x, vs+r)]
+            y = vs/2-rw_ho
             # insert_cell indices, :via, x, y, vs, u1
             # insert_cell indices, :cnt, x, y, vs, u1
             # insert_cell indices, :diff, x, y, vs, u1
             create_contacts indices, rw, x, y, vs, u1
             ymin = [ho ? y + vs/2 : y - vs/2, ymin].min
+            points = [Point::new(x, vs-rw_ho-(vs-cs)/2), Point::new(x, vs+r + (vs-cs)/2)]
+          else
+            points = [Point::new(x, vs-rw_ho), Point::new(x, vs+r + (vs-cs)/2)]
           end
+          cell.shapes(indices[:res]).insert(Path::new(points, rw, 0, 0))    
           if i == n-1
-            points = [Point::new(x, (n == 1 ? -rw_ho : vs) - header_offset), Point::new(x, vs+r+vs)]
-            y =  vs+r+vs/2 - header_offset
+            points = [Point::new(x, (n == 1 ? -rw_ho : vs)), Point::new(x, vs+r+vs)]
+            y =  vs+r+vs/2
             # insert_cell indices, :via, x, y, vs, u1
             # insert_cell indices, :cnt, x, y, vs, u1
             # insert_cell indices, :diff, x, y, vs, u1
@@ -789,16 +791,16 @@ module MinedaPCell
             y = vs - rw/2
             points = [Point::new(x, y), Point::new(prev_x, y)]
             cell.shapes(res_body).insert(Path::new(points, rw, rw/2, rw/2))
-            cell.shapes(res_body).insert(Path::new(points, rw, rw/2, rw/2))
+            cell.shapes(indices[:res]).insert(Path::new(points, rw, rw/2, rw/2))
             ymax = [y+rw/2, ymax].max 
           end  
         else
-          points = [Point::new(offset, vs+(sl-r)), Point::new(offset, vs+sl)]
+          points = [Point::new(offset, vs+(sl-r)-(vs-cs)/2), Point::new(offset, vs+sl)]
           cell.shapes(indices[:res]).insert(Path::new(points, rw, 0, 0))
           if i == n-1
             points = [Point::new(offset, sl-r), Point::new(offset, vs+sl)]
             x = offset
-            y = vs+sl-r-vs/2 + header_offset
+            y = vs+sl-r-vs/2
             # insert_cell indices, :via, x, y, vs, u1
             # insert_cell indices, :cnt, x, y, vs, u1
             # insert_cell indices, :diff, x, y, vs, u1
