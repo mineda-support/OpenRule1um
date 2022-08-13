@@ -243,8 +243,8 @@ module MinedaPCell
        cell.shapes(index).insert(Box::new(x1, y1, x2, y2))
     end
     
-    def insert_cell via_index, x, y
-      via = CellInstArray.new(via_index, Trans.new(x, y))      
+    def insert_cell via_index, x, y, rotate=false
+      via = CellInstArray.new(via_index, rotate ? Trans.new(1, false, x, y) : Trans.new(x, y))    
       inst = cell.insert(via)
     end
 

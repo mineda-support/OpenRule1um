@@ -15,7 +15,7 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: cp932
-# OpenRule1um_v2 PCells v2.44 Aug. 5th, 2022 copy left by S. Moriyama (Anagix Corporation)
+# OpenRule1um_v2 PCells v2.45 Aug. 13th 2022 copy left by S. Moriyama (Anagix Corporation)
 #   based on OpenRule1um v1.97 Sep. 20, 2021 copy left by S. Moriyama (Anagix Corporation)
 
 module OpenRule1um_v2
@@ -158,7 +158,9 @@ module OpenRule1um_v2
       vs = (s/layout.dbu).to_i
       grid = 1.0.um
       u1 = (grid/layout.dbu).to_i
-      rectangle, rw_ho = super indices, ho ? 1:0 , vs, u1
+      cs = (0.6.um/layout.dbu).to_i 
+      params = {contact_size: cs}
+      rectangle, rw_ho = super indices, ho ? 1:0 , vs, u1, params
       x1, y1, x2, y2 = rectangle
       # create_box indices[head], x1-u1/2, y1-u1/2-rw_ho, x1 + vs + u1/2,  y1 + rw_ho + vs + u1/2
       # create_box indices[head], x2 - vs - u1/2, y2 - vs -u1/2 , x2+u1/2, y2+u1/2
