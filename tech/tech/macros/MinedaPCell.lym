@@ -15,10 +15,10 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.55 August 13th 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.56 August 16th 2022 copy right S. Moriyama (Anagix Corporation)
 # 
 module MinedaPCell
-  version = '0.55'
+  version = '0.56'
 
   include RBA
   class ConvertPCells
@@ -539,11 +539,7 @@ module MinedaPCell
     end
 
     def create_contacts indices, w, x0, y, vs, u1, fill_metal=true
-      if indices[:pol]
-        contact = indices[:pcont]
-      else
-        contact = indices[:dcont]
-      end
+      contact = indices[:pcont] || indices[:dcont] || indices[:nsubcont]
       pitch = vs+u1/4  # cnt distance &gt; 5 um
       n = (w/pitch).to_i
       if n &lt;= 1
@@ -563,7 +559,7 @@ module MinedaPCell
     end
        
     def produce_impl indices, header_outside, vs, u1, params={}
-      res_body = indices[:pol] || indices[:diff]
+      res_body = indices[:pol] || indices[:diff] || indices[:nwl]
       rw = (w/layout.dbu).to_i
       rrl = (l/layout.dbu).to_i
       sp = (s/layout.dbu).to_i
