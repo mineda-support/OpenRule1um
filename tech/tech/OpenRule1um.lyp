@@ -270,8 +270,8 @@
    <marked>false</marked>
    <xfill>false</xfill>
    <animation>0</animation>
-   <name/>
-   <source>DIO 17/0@1</source>
+   <name>DIO</name>
+   <source>17/0@1</source>
   </properties>
   <properties>
    <frame-color>#ff00ff</frame-color>
