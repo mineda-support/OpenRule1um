@@ -15,10 +15,10 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.57 August 17th 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.57 Aug1ust 17th 2022 copy right S. Moriyama (Anagix Corporation)
 # 
 module MinedaPCell
-  version = '0.57'
+  version = '0.571'
 
   include RBA
   class ConvertPCells
@@ -199,7 +199,7 @@ module MinedaPCell
   class MinedaPCellCommon &lt; PCellDeclarationHelper
     include RBA
     attr_accessor :defaults
-    @@lyp_file = @@basic_library = nil   
+    @@lyp_file = @@basic_library = @@layer_index = nil   
     def initialize
       key = 'PCells_' + self.class.name.to_s.split('::').first + '-defaults'
       @defaults = YAML.load(Application.instance.get_config key)
