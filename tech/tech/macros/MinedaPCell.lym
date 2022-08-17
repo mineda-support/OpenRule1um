@@ -15,11 +15,10 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.56 August 16th 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.57 August 167h 2022 copy right S. Moriyama (Anagix Corporation)
 # 
 module MinedaPCell
-  version = '0.56'
-
+  version = '0.57'
   include RBA
   class ConvertPCells
     def convert_pcells cv, to
@@ -145,13 +144,51 @@ module MinedaPCell
   class MinedaPCellCommon &lt; PCellDeclarationHelper
     include RBA
     attr_accessor :defaults
-    
-    def initialize
+    @@lyp_file = @@basic_library = nil
+    def initialize 
       key = 'PCells_' + self.class.name.to_s.split('::').first + '-defaults'
       @defaults = YAML.load(Application.instance.get_config key)
       # puts "Got PCell @defaults from #{key}"
+      set_layer_index
       super
     end
+       
+    def set_technology tech_name
+      tech = RBA::Technology::technology_by_name(tech_name)
+      @@lyp_file = File.join tech.base_path, tech.layer_properties_file
+      @@layer_index = get_layer_index_from_file @@lyp_file
+    end
+     
+    def set_basic_library basic_lib
+      @@basic_library = basic_lib
+    end
+    
+    def get_layer_index_from_file lyp_file
+      return unless lyp_file
+      require 'rexml/document'
+      doc = REXML::Document.new(File.open(lyp_file))
+      layer_index = {}
+      doc.elements.each('layer-properties/properties'){|e|
+        name = e.get_text('name').to_s.sub(/\(.*$/, '')
+        index = e.get_text('source').to_s.sub(/\/.*$/, '')
+        layer_index[name] = index.to_i
+      }
+      # puts layer_index
+      layer_index
+    end
+    
+    def set_layer_index
+      @layer_index = @@layer_index
+      @basic_library = @@basic_library
+    end
+    
+    def get_layer_index name
+      layout.insert_layer(LayerInfo::new(@layer_index[name], 0))
+    end
+    
+    def get_cell_index name
+      library_cell name, @basic_library, layout
+    end    
     
     def param name, type, desc, last_resort
       if @defaults
