@@ -15,10 +15,10 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.572 Aug1ust 19th 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.574 Aug1ust 19th 2022 copy right S. Moriyama (Anagix Corporation)
 # 
 module MinedaPCell
-  version = '0.572'
+  version = '0.574'
 
   include RBA
   class ConvertPCells
@@ -225,11 +225,18 @@ module MinedaPCell
       layer_index = {}
       doc.elements.each('layer-properties/properties'){|e|
         name = e.get_text('name').to_s.sub(/\(.*$/, '')
-        index = e.get_text('source').to_s.sub(/\/.*$/, '')
-        layer_index[name] = index.to_i
+        e.get_text('source').to_s =~ /([0-9]+)\/([0-9]+)/
+        index = $1.to_i
+        data_type = $2.to_i
+        layer_index[name] = [index, data_type]
       }
       # puts layer_index
       layer_index
+    end
+    
+    def set_layer_index
+      @layer_index = @@layer_index
+      @basic_library = @@basic_library
     end
     
     def set_layer_index
@@ -405,6 +412,7 @@ module MinedaPCell
         x = x1 + vs/2
         pcont_dy = params[:pcont_dy] || u1/4
         y = y2 - vs/2 + pcont_dy
+        gate_ext = params[:gate_ext] || 0
         if wide_metal
           x = x - u1
           y = y + u1/2 
@@ -414,16 +422,16 @@ module MinedaPCell
           if n == 1 &amp;&amp; !with_sdcont
             insert_cell indices[:pcont], x1+vs+dgl+gl/2, y
             insert_cell indices[:via], x1+vs+dgl+gl/2, y if with_via
-            create_path indices[:pol], x1+vs+dgl+gl/2, y, x1+vs+dgl+gl/2, y2-vs + params[:gate_ext] - u1, pol_width, 0,0
+            create_path indices[:pol], x1+vs+dgl+gl/2, y, x1+vs+dgl+gl/2, y2-vs + gate_ext - u1, pol_width, 0,0
           else
             insert_cell indices[:pcont], x, y
             insert_cell indices[:via], x, y if with_via
             y = y - u1/2 # necessary to eliminate POL gap error
             x0 = x1+vs+u1/2+dgl
             if defined?(soi_bridge) &amp;&amp; soi_bridge
-              create_path2 indices[:m1], x, y, x0+u1, y, x0+u1, y2-vs + params[:gate_ext] - u1, pol_width, 0, 0
+              create_path2 indices[:m1], x, y, x0+u1, y, x0+u1, y2-vs + gate_ext - u1, pol_width, 0, 0
             else
-              create_path2 indices[:pol], x, y, x0, y, x0, y2-vs + params[:gate_ext] - u1, pol_width, 0, 0
+              create_path2 indices[:pol], x, y, x0, y, x0, y2-vs + gate_ext - u1, pol_width, 0, 0
             end
           end
         end
@@ -433,7 +441,7 @@ module MinedaPCell
         prev_pol = nil
         (n+1).times{|i|
           x = offset + vs/2
-          y = y2 - vs + u1/2 + params[:gate_ext] - u1
+          y = y2 - vs + u1/2 + gate_ext - u1
           pol_width = params[:pol_width] || u1
           if defined?(soi_bridge) &amp;&amp; soi_bridge # NOTE: gate_contact_space + u1 = gl + dgl*2
             create_path indices[:pol], prev_pol-vs-gl-dgl*2, y+u1/2, x-vs-u1/2, y+u1/2, pol_width, 0, 0 if prev_pol
@@ -575,6 +583,7 @@ module MinedaPCell
         x = x1 + vs/2
         pcont_dy = params[:pcont_dy] || -u1/4
         y = y1 + vs/2 + pcont_dy
+        gate_ext = params[:gate_ext] || 0
         if wide_metal
           x = x - u1
           y = y - u1/2
@@ -591,9 +600,9 @@ module MinedaPCell
             y = y + u1/2 # necessary to eliminate POL gap error
             x0 = x1+vs+u1/2+dgl
             if defined?(soi_bridge) &amp;&amp; soi_bridge
-              create_path2 indices[:m1], x, y, x0+u1, y, x0+u1, y1+vs - params[:gate_ext] + u1, pol_width, 0, 0
+              create_path2 indices[:m1], x, y, x0+u1, y, x0+u1, y1+vs - gate_ext + u1, pol_width, 0, 0
             else
-              create_path2 indices[:pol], x, y, x0, y, x0, y1+vs - params[:gate_ext] + u1, pol_width, 0, 0
+              create_path2 indices[:pol], x, y, x0, y, x0, y1+vs - gate_ext + u1, pol_width, 0, 0
             end
           end
         end
@@ -603,7 +612,7 @@ module MinedaPCell
         prev_pol = nil
         (n+1).times{|i|
           x = offset + vs/2
-          y = y1 + vs - u1/2 - params[:gate_ext] + u1 ### y1 + u1/2 + vs/2 # 
+          y = y1 + vs - u1/2 - gate_ext + u1 ### y1 + u1/2 + vs/2 # 
           pol_width = params[:pol_width] || u1
           if defined?(soi_bridge) &amp;&amp; soi_bridge # NOTE: gate_contact_space + u1 = gl + dgl*2
             create_path indices[:pol], prev_pol-vs-gl-dgl*2, y-u1/2, x-vs-u1/2, y-u1/2, pol_width, 0, 0 if prev_pol

@@ -15,10 +15,10 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.573 August 19h 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.574 August 19h 2022 copy right S. Moriyama (Anagix Corporation)
 # 
 module MinedaPCell
-  version = '0.573'
+  version = '0.574'
   include RBA
   class ConvertPCells
     def convert_pcells cv, to
@@ -170,8 +170,10 @@ module MinedaPCell
       layer_index = {}
       doc.elements.each('layer-properties/properties'){|e|
         name = e.get_text('name').to_s.sub(/\(.*$/, '')
-        index = e.get_text('source').to_s.sub(/\/.*$/, '')
-        layer_index[name] = index.to_i
+        e.get_text('source').to_s =~ /([0-9]+)\/([0-9]+)/
+        index = $1.to_i
+        data_type = $2.to_i
+        layer_index[name] = [index, data_type]
       }
       # puts layer_index
       layer_index
@@ -183,7 +185,8 @@ module MinedaPCell
     end
     
     def get_layer_index name
-      layout.insert_layer(LayerInfo::new(@layer_index[name], 0))
+      layer, data_type = @layer_index[name]
+      layout.insert_layer(LayerInfo::new layer, data_type)
     end
     
     def get_cell_index name
@@ -457,6 +460,7 @@ module MinedaPCell
         x = x1 + vs/2
         pcont_dy = params[:pcont_dy] || -u1/4
         y = y1 + vs/2 + pcont_dy
+        gate_ext = params[:gate_ext] || 0
         if wide_metal
           x = x - u1
           y = y - u1/2
