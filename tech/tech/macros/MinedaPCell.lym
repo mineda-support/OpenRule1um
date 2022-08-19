@@ -15,10 +15,10 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.571 August 167h 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.573 August 19h 2022 copy right S. Moriyama (Anagix Corporation)
 # 
 module MinedaPCell
-  version = '0.571'
+  version = '0.573'
   include RBA
   class ConvertPCells
     def convert_pcells cv, to
@@ -191,8 +191,8 @@ module MinedaPCell
     end    
     
     def param name, type, desc, last_resort
-      if @defaults
-        cellname = self.class.name.to_s.split('::').last.to_s
+      cellname = self.class.name.to_s.split('::').last.to_s
+      if @defaults &amp;&amp; @defaults[cellname]
         if (value = @defaults[cellname][name.to_s]) || (value == nil) || (value == false)
           # puts "#{self.class.name} '#{name}' =&gt; #{value}"
           if last_resort[:default] == true
@@ -297,6 +297,7 @@ module MinedaPCell
       xshift = params[:xshift] || vs/2
       yshift = params[:yshift] || vs/2
       u1cut = params[:u1cut] || 0
+      gate_ext = params[:gate_ext] || vs/2 + u1/8
       offset = 0
       (n+1).times{|i|
         x = offset + vs/2 - xshift
@@ -305,7 +306,6 @@ module MinedaPCell
         create_dcont(indices[:dcont], x, vs-yshift+u1, x, vs-yshift+u1+[gw, vs].max, vs)  
         x = x + vs/2 + gl/2 + dgl
         if i &lt; n
-          gate_ext = params[:gate_ext] || vs/2 + u1/8
           create_path(indices[:pol], x, vs-yshift+u1, x, vs-yshift+u1+[gw, vs].max, gl, gate_ext, gate_ext) 
           if indices[:gate_impl]
             gim = params[:gate_impl_margin] || vs/2
@@ -347,6 +347,7 @@ module MinedaPCell
         x = x1 + vs/2
         pcont_dy = params[:pcont_dy] || u1/4
         y = y2 - vs/2 + pcont_dy
+        gate_ext = params[:gate_ext] || 0
         if wide_metal
           x = x - u1
           y = y + u1/2 
@@ -356,12 +357,12 @@ module MinedaPCell
           if n == 1 &amp;&amp; !with_sdcont
             insert_cell indices[:pcont], x1+vs+dgl+gl/2, y
             insert_cell indices[:via], x1+vs+dgl+gl/2, y if with_via
-            create_path indices[:pol], x1+vs+dgl+gl/2, y, x1+vs+dgl+gl/2, y2-vs + params[:gate_ext] - u1, pol_width, 0,0
+            create_path indices[:pol], x1+vs+dgl+gl/2, y, x1+vs+dgl+gl/2, y2-vs + gate_ext - u1, pol_width, 0,0
           else
             insert_cell indices[:pcont], x, y
             insert_cell indices[:via], x, y if with_via
             y = y - u1/2
-            create_path2 indices[:pol], x, y, x1+vs+u1/2+dgl, y, x1+vs+u1/2+dgl, y2-vs + params[:gate_ext] - u1, pol_width, 0, 0
+            create_path2 indices[:pol], x, y, x1+vs+u1/2+dgl, y, x1+vs+u1/2+dgl, y2-vs + gate_ext - u1, pol_width, 0, 0
           end
         end
         offset = x1
@@ -370,7 +371,7 @@ module MinedaPCell
         prev_pol = nil
         (n+1).times{|i|
           x = offset + vs/2
-          y = y2 - vs + u1/2 + params[:gate_ext] - u1
+          y = y2 - vs + u1/2 + gate_ext - u1
           create_path indices[:pol], prev_pol-vs/2-gl-dgl, y , x-vs/2-dgl, y, u1, 0, 0 if prev_pol
           prev_pol = x if i &gt;= 1
           if i % 2 == 0
@@ -470,7 +471,7 @@ module MinedaPCell
             insert_cell indices[:pcont], x, y
             insert_cell indices[:via], x, y if with_via
             y = y + u1/2
-            create_path2 indices[:pol], x, y, x1+vs+u1/2+dgl, y, x1+vs+u1/2+dgl, y1+vs - params[:gate_ext] + u1, pol_width, 0, 0
+            create_path2 indices[:pol], x, y, x1+vs+u1/2+dgl, y, x1+vs+u1/2+dgl, y1+vs - gate_ext + u1, pol_width, 0, 0
           end
         end
         offset = x1
@@ -479,7 +480,7 @@ module MinedaPCell
         prev_pol = nil
         (n+1).times{|i|
           x = offset + vs/2
-          y = y1 + vs - u1/2 - params[:gate_ext] + u1 ### y1 + u1/2 + vs/2 # 
+          y = y1 + vs - u1/2 - gate_ext + u1 ### y1 + u1/2 + vs/2 # 
           create_path indices[:pol], prev_pol-vs/2-gl-dgl, y, x-vs/2-dgl, y, u1, 0, 0 if prev_pol
           prev_pol = x  if i &gt;=1   
           if i % 2 == 0

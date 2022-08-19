@@ -15,10 +15,10 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.57 Aug1ust 17th 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.572 Aug1ust 19th 2022 copy right S. Moriyama (Anagix Corporation)
 # 
 module MinedaPCell
-  version = '0.571'
+  version = '0.572'
 
   include RBA
   class ConvertPCells
@@ -246,8 +246,8 @@ module MinedaPCell
     end
     
     def param name, type, desc, last_resort
-      if @defaults
-        cellname = self.class.name.to_s.split('::').last.to_s
+      cellname = self.class.name.to_s.split('::').last.to_s
+      if @defaults &amp;&amp; @defaults[cellname]
         if (value = @defaults[cellname][name.to_s]) || (value == nil) || (value == false)
           # puts "#{self.class.name} '#{name}' =&gt; #{value}"
           if last_resort[:default] == true
