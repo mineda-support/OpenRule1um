@@ -15,7 +15,7 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text>module MyMacro
-  include MinedaPCell
+  include MinedaCommon
   pd = PCellDefaults.new
   pd.change_pcell_defaults
 end

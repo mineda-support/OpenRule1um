@@ -15,7 +15,7 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text>module MyMacro
-  include MinedaPCell 
+  include MinedaCommon
   go = ConvertPCells.new
   go.do_convert_library_cells({
     pcell_lib: 'PCells',

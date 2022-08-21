@@ -17,6 +17,253 @@
  <text># Mineda Common
 #   Force on-grid v0.1 July 39th copy right S. Moriyama (Anagix Corp.)
 #   LVS preprocessor v0.53 August 8th copy right by S. Moriyama (Anagix Corporation)
+#   ConvertPCells and PCellDefaults moved from MinedaPCell
+#   PCellTest v0.1 August 21st 2022 S. Moriyama
+
+module MinedaCommon
+  class PCellTest
+    include RBA  
+    def initialize
+      cv = ConvertPCells::current_cellview
+      @cell = cv.cell
+      @lib = Library::library_by_name 'PCells_' + cv.technology
+      @xpos = @ypos = 0
+      puts cv
+    end
+    def create_pcell name, params
+      pd = @lib.layout.pcell_declaration(name)
+      @cell.layout.add_pcell_variant(@lib, pd.id, params)
+    end
+    def insert_pcell x, y, name, params
+      pcv = create_pcell name, params
+      @cell.insert RBA::CellInstArray::new(pcv, Trans::new(x,y))
+    end
+    def get_defaults
+      params = YAML.load(PCellDefaults::dump_pcells @lib.name)
+      defaults = {}
+      params.keys.each{|key|
+        defaults[key.to_s] = params[key]
+      }
+      defaults
+    end
+    def render_pcells(pcvs, width, height, ncolumns)
+      w = (width/@cell.layout.dbu).to_i
+      h = (height/@cell.layout.dbu).to_i
+      count = 0
+      pcvs.each{|pcv|
+        @xpos = @xpos + w
+        count = count + 1
+        @cell.insert RBA::CellInstArray::new(pcv, Trans::new(@xpos, @ypos))
+        if (count % ncolumns) == 0
+          count = 0
+          @xpos = 0
+          @ypos = @ypos + h
+        end
+      }
+      @xpos = 0
+      @ypos = @ypos + h
+    end
+    
+    def do_sweep new_sweep, params = {}, &amp;block
+      sweep = new_sweep.dup
+      #puts "sweep=#{sweep}, params = #{params}"
+      if sweep &amp;&amp; sweep.size &gt; 0
+        new_sweep = sweep.delete('sweep')
+        longest = nil
+        sweep.each_key{|k|
+          longest = k if longest.nil? || sweep[k].length &gt; sweep[longest].length
+        }
+        prev = {}
+        for i in 0..(sweep[longest].length - 1) do
+          sweep.each_pair{|k, v|
+            params[k] = v[i] || prev[k]
+            prev[k] = params[k]
+          }
+          do_sweep new_sweep, params, &amp;block
+        end
+      else
+        yield params
+        # puts "###{params.inspect}"
+      end
+    end
+    def create_samples device, width, height, ncolumns, sweep_spec
+      pcvs = []
+      do_sweep(YAML.load(sweep_spec)['sweep']){|params|
+        pcvs &lt;&lt; create_pcell(device, params)
+      }
+      render_pcells(pcvs, width, height, ncolumns)
+    end
+  end
+
+  class ConvertPCells
+    def convert_library_cells cv, pcell_lib, basic_lib, pcell_factor=1.0
+      convert_library_cells0 cv.cell, pcell_lib, basic_lib, pcell_factor
+    end
+    def convert_library_cells0 cell, pcell_lib, basic_lib, pcell_factor
+      lib = RBA::Library::library_by_name pcell_lib
+      bas_lib = RBA::Library::library_by_name basic_lib
+      cells_to_delete = []
+      cell.each_inst{|inst|
+        t = inst.trans          
+        puts inst.cell.name
+        if inst.cell.is_pcell_variant?
+          next if inst.cell.library == lib # already converted
+          pcell_params = inst.pcell_parameters_by_name
+          if pcell_factor
+            pcell_params['l'] = pcell_params['l']*pcell_factor
+            pcell_params['w'] = pcell_params['w']*pcell_factor
+          end
+          next unless pd = lib.layout.pcell_declaration(inst.cell.name) 
+          pcv = cell.layout.add_pcell_variant(lib, pd.id, pcell_params)
+          pcell_inst = cell.insert(RBA::CellInstArray::new(pcv, t))
+        elsif inst.cell.library &amp;&amp; inst.cell.library.name =~ /_Basic/
+          next if inst.cell.library == bas_lib # already converted
+          basic_cell = bas_lib.layout.cell(inst.cell.name)
+          proxy_index = cell.layout.add_lib_cell(bas_lib, basic_cell.cell_index)
+          basic_inst = cell.insert(RBA::CellInstArray.new(proxy_index, t))       
+        else
+          next
+        end
+        cells_to_delete &lt;&lt; inst.cell
+        inst.cell.each_child_cell{|id|
+          cells_to_delete &lt;&lt; cell.layout.cell(id)
+        }
+        inst.delete
+      }
+      puts "### CELLS TO DELETE ###"
+      cells_to_delete.uniq.each{|c|
+       puts "#{c.name}@#{c.library.name}"
+       c.delete
+      }
+      child_cells = []
+      cell.each_child_cell{|id| child_cells &lt;&lt; id}
+      child_cells.each{|id|
+        c = cell.layout.cell(id)
+        #puts c.name
+        convert_library_cells0 c, pcell_lib, basic_lib, pcell_factor
+      }
+    end
+    include RBA
+    def do_convert_library_cells params
+      app = Application.instance
+      mw = app.main_window
+      cv = mw.current_view.active_cellview
+      file = QFileDialog::getSaveFileName(mw, 'Converted File name', File.dirname(cv.filename))
+      file = file + '.GDS' unless File.extname(file).upcase == '.GDS'
+      opt = SaveLayoutOptions.new
+      opt.scale_factor = params[:routing_scale_factor] || 1
+      cv.cell.write file, opt
+      technology_name = cv.technology
+      
+      opt = LoadLayoutOptions.new
+      if map_file = params[:layer_map]
+        opt.layer_map = LayerMap::from_string File.read(map_file) if File.exist? map_file
+      end  
+      cv = mw.load_layout file, opt, technology_name, 1 #  mode 1 means new view
+      cp = ConvertPCells.new
+      cp.convert_library_cells cv, params[:pcell_lib], params[:basic_lib], params[:pcell_scale_factor]
+      # cv.cell.write file
+    end
+  
+    def self.current_cellview
+      app = RBA::Application.instance
+      mw = app.main_window
+      lv = mw.current_view
+      if lv == nil
+         raise "No view selected"
+      end
+      cv = lv.active_cellview
+      if !cv.is_valid?
+        raise "No cell or no layout found"
+      end
+      cv
+    end
+  end
+  
+  class PCellDefaults
+    include RBA
+    def self.dump_pcells lib_name, file = nil
+      lib = RBA::Library::library_by_name lib_name
+      defaults = {}
+      lib.layout.pcell_names.each{|name|
+        defaults[name] = {}
+        lib.layout.pcell_declaration(name).get_parameters.each{|p|
+          defaults[name][p.hidden ? p.name + '_hidden' : p.name] = p.default
+        }
+      }
+      File.open(file, 'w'){|f| f.puts defaults.to_yaml} if file
+      defaults.to_yaml
+    end
+    
+    def change_pcell_defaults
+      app = RBA::Application.instance
+      mw = app.main_window
+      cv = mw.current_view.active_cellview
+      dialog = QDialog.new(Application.instance.main_window)
+      dialog.windowTitle = "Change PCell defaults for #{cv.technology}"
+      mainLayout = QVBoxLayout::new(dialog)
+      dialog.setLayout(mainLayout)
+      tech_map = {'OpenRule1um' =&gt; 'PCells', 'OR_TIASCR' =&gt; 'PCells_Tiascr130'}
+      pcell_map = {'OpenRule1um' =&gt; 'OpenRule1um_v2::OpenRule1um', 'OR_TIASCR' =&gt; 'Tiascr130::Tiascr130',
+                   'Mineda_SKY130' =&gt; 'Sky130a_v0p2::Sky130a' } # rest are : #{cv.technology}::#{cv.technology}
+      lib_name = (tech_map[cv.technology] || 'PCells_' + cv.technology ) 
+      key = lib_name + '-defaults'
+      config = Application.instance.get_config(key)
+      if config.nil? || config == ''
+        config = self.class.dump_pcells(lib_name)
+      end
+      # puts "config for '#{key}': \n#{config}"
+      editor = QPlainTextEdit.new(dialog)
+      editor.insertPlainText config || ''
+      mainLayout.addWidget(editor)
+      
+      # button boxes
+      layout = QHBoxLayout.new(dialog)
+      mainLayout.addLayout(layout)
+      
+      # Save button
+      buttonSave = QPushButton.new(dialog)
+      layout.addWidget(buttonSave)
+      buttonSave.text = ' Save '
+      buttonSave.clicked do
+        settings_file = QFileDialog::getSaveFileName(mw, 'Save File', File.dirname(cv.filename))
+        File.open(settings_file, 'w'){|f| f.puts editor.document.toPlainText}
+        puts "#{settings_file} saved"
+      end
+      
+      # Load button
+      buttonLoad = QPushButton.new(dialog)
+      layout.addWidget(buttonLoad)
+      buttonLoad.text = ' Load '
+      buttonLoad.clicked do
+        file = QFileDialog::getOpenFileName(mw, 'Load File', File.dirname(cv.filename))
+        editor.setPlainText File.read(file)
+      end
+
+      # OK button
+      buttonOK = QPushButton.new(dialog)
+      layout.addWidget(buttonOK)
+      buttonOK.text = " OK "
+      buttonOK.clicked do 
+         dialog.accept()
+         config = editor.document.toPlainText
+         # puts config
+         Application.instance.set_config key, config
+         puts "PCell defaults set for '#{key}'"
+         eval(pcell_map[cv.technology] || "#{cv.technology}::#{cv.technology}").send 'new'
+         # puts pcell_map[cv.technology] || "#{cv.technology}::#{cv.technology}"
+      end
+      # Cancel button
+      cancel = QPushButton.new(dialog)
+      layout.addWidget(cancel)
+      cancel.text = "cancel"
+      cancel.clicked do 
+        dialog.accept()
+      end
+      dialog.exec
+    end
+  end
+end
 
 class MinedaGridCheck
   include RBA
