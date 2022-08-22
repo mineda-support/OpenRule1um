@@ -18,7 +18,7 @@
 #   Force on-grid v0.1 July 39th copy right S. Moriyama (Anagix Corp.)
 #   LVS preprocessor v0.53 August 8th copy right by S. Moriyama (Anagix Corporation)
 #   ConvertPCells and PCellDefaults moved from MinedaPCell
-#   PCellTest v0.1 August 21st 2022 S. Moriyama
+#   PCellTest v0.2 August 22nd 2022 S. Moriyama
 
 module MinedaCommon
   class PCellTest
@@ -32,11 +32,14 @@ module MinedaCommon
     end
     def create_pcell name, params
       pd = @lib.layout.pcell_declaration(name)
+      raise "No pcell declartion for #{name}" if pd.nil?
+      puts "params for #{name}: #{params.inspect}"
       @cell.layout.add_pcell_variant(@lib, pd.id, params)
     end
     def insert_pcell x, y, name, params
       pcv = create_pcell name, params
-      @cell.insert RBA::CellInstArray::new(pcv, Trans::new(x,y))
+      inst=@cell.insert RBA::CellInstArray::new(pcv, Trans::new(x,y))
+      puts "=&gt; #{inst.pcell_parameters_by_name}"
     end
     def get_defaults
       params = YAML.load(PCellDefaults::dump_pcells @lib.name)
@@ -53,7 +56,8 @@ module MinedaCommon
       pcvs.each{|pcv|
         @xpos = @xpos + w
         count = count + 1
-        @cell.insert RBA::CellInstArray::new(pcv, Trans::new(@xpos, @ypos))
+        inst = @cell.insert RBA::CellInstArray::new(pcv, Trans::new(@xpos, @ypos))
+        # puts "=&gt; #{inst.pcell_parameters_by_name}"
         if (count % ncolumns) == 0
           count = 0
           @xpos = 0
@@ -76,7 +80,7 @@ module MinedaCommon
         prev = {}
         for i in 0..(sweep[longest].length - 1) do
           sweep.each_pair{|k, v|
-            params[k] = v[i] || prev[k]
+            params[k] = v[i].nil? ? prev[k] : v[i]
             prev[k] = params[k]
           }
           do_sweep new_sweep, params, &amp;block

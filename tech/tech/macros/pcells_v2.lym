@@ -15,7 +15,7 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: cp932
-# OpenRule1um_v2 PCells v2.45 Aug. 13th 2022 copy left by S. Moriyama (Anagix Corporation)
+# OpenRule1um_v2 PCells v2.451 Aug. 22nd 2022 copy left by S. Moriyama (Anagix Corporation)
 #   based on OpenRule1um v1.97 Sep. 20, 2021 copy left by S. Moriyama (Anagix Corporation)
 
 module OpenRule1um_v2
@@ -633,7 +633,11 @@ module OpenRule1um_v2
   end
   
   class Pdiff_cap &lt; Diff_cap
-
+    def initialize
+      super
+      param(:nsub_cont, TypeBoolean, "Use nwell contact", :default =&gt; false, :hidden =&gt; false) 
+    end 
+    
     def coerce_parameters_impl
       area_cap = 2.6e-15
       set_cval(area_cap * l * w)

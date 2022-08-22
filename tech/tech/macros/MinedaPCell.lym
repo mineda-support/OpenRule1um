@@ -15,10 +15,10 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.58 August 21st 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.59 August 21st 2022 copy right S. Moriyama (Anagix Corporation)
 # 
 module MinedaPCell
-  version = '0.58'
+  version = '0.59'
   include RBA
   class MinedaPCellCommon &lt; PCellDeclarationHelper
     include RBA
@@ -289,7 +289,7 @@ module MinedaPCell
         # psubcont and via
         psubcont_dx = params[:psubcont_dx] || 0
         psubcont_dy = params[:psubcont_dy] || u1/2 + u1
-        x = offset - gl - vs/2 + (with_via ? u1/2 : 0) + psubcont_dx
+        x = offset - gl - vs/2 + (with_via ? u1/2 : u1/4) + psubcont_dx
         if with_psubcont &amp;&amp; use_pwell
           if n % 2 == 0
             y = y2 - vs/2 + psubcont_dy
@@ -640,7 +640,6 @@ module MinedaPCell
       super
       param(:cval, TypeDouble, "Capacitor value", :default =&gt; 0, :hidden=&gt; true)
       param(:polcnt_outside, TypeBoolean, "Poly contact outside?", :default =&gt; true, :hidden =&gt; false)
-      param(:nsub_cont, TypeBoolean, "Use nwell contact", :default =&gt; false, :hidden =&gt; false)
     end
         
     def display_text_impl
@@ -659,7 +658,7 @@ module MinedaPCell
       create_box area_index, -u1/2, -u1-u1/2, cw + u1/2, cl + u1/2 + vs + u1
       well_diff_enc = params[:wd_enc] || u1*5
       if well_index
-        if nsub_cont
+        if nsub_cont 
           create_box well_index, [-well_diff_enc, -vs-u1/2-u2].min, -u1-well_diff_enc,
                           cw + well_diff_enc, [cl + well_diff_enc + vs + u1, cl+u2+vs + u2].max
           insert_cell indices[:nsubcont], -vs-u1/2, cl+u2+vs
