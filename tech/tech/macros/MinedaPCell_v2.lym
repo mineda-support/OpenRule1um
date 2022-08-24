@@ -15,14 +15,14 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.59 Aug1ust 22nd 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.591 Aug1ust 24th 2022 copy right S. Moriyama (Anagix Corporation)
 # 
 module MinedaPCell
-  version = '0.59'
+  version = '0.591'
   include RBA
   class MinedaPCellCommon &lt; PCellDeclarationHelper
     include RBA
-    attr_accessor :defaults
+    attr_accessor :defaults, :layer_index
     @@lyp_file = @@basic_library = @@layer_index = nil   
     def initialize
       key = 'PCells_' + self.class.name.to_s.split('::').first + '-defaults'
@@ -34,7 +34,7 @@ module MinedaPCell
       
     def set_technology tech_name
       tech = RBA::Technology::technology_by_name(tech_name)
-      @@lyp_file = File.join tech.base_path, tech.layer_properties_file
+      @@lyp_file = File.join(tech.base_path, tech.layer_properties_file)
       @@layer_index = get_layer_index_from_file @@lyp_file
     end
      
@@ -59,14 +59,13 @@ module MinedaPCell
     end
     
     def set_layer_index
-      @layer_index = @@layer_index
       @basic_library = @@basic_library
+      @layer_index = @@layer_index
     end
     
-    def set_layer_index
-      @layer_index = @@layer_index
-      @basic_library = @@basic_library
-    end
+    #def layer_index
+    #  @layer_index
+    #end
     
     def get_layer_index name
       layout.insert_layer(LayerInfo::new(@layer_index[name], 0))
@@ -250,7 +249,7 @@ module MinedaPCell
           else
             insert_cell indices[:pcont], x, y
             insert_cell indices[:via], x, y if with_via
-            y = y - u1/2 # necessary to eliminate POL gap error
+            y = y #- u1/2 # necessary to eliminate POL gap error
             x0 = x1+vs+u1/2+dgl
             if defined?(soi_bridge) &amp;&amp; soi_bridge
               create_path2 indices[:m1], x, y, x0+u1, y, x0+u1, y2-vs + gate_ext - u1, pol_width, 0, 0
@@ -421,7 +420,7 @@ module MinedaPCell
           else
             insert_cell indices[:pcont], x, y
             insert_cell indices[:via], x, y if with_via
-            y = y + u1/2 # necessary to eliminate POL gap error
+            y = y # + u1/2 # necessary to eliminate POL gap error
             x0 = x1+vs+u1/2+dgl
             if defined?(soi_bridge) &amp;&amp; soi_bridge
               create_path2 indices[:m1], x, y, x0+u1, y, x0+u1, y1+vs - gate_ext + u1, pol_width, 0, 0

@@ -15,14 +15,14 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.59 August 21st 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.591 August 24th 2022 copy right S. Moriyama (Anagix Corporation)
 # 
 module MinedaPCell
-  version = '0.59'
+  version = '0.591'
   include RBA
   class MinedaPCellCommon &lt; PCellDeclarationHelper
     include RBA
-    attr_accessor :defaults
+    attr_accessor :defaults, :layer_index
     @@lyp_file = @@basic_library = @@layer_index = nil
     def initialize 
       key = 'PCells_' + self.class.name.to_s.split('::').first + '-defaults'
@@ -59,8 +59,8 @@ module MinedaPCell
     end
     
     def set_layer_index
-      @layer_index = @@layer_index
       @basic_library = @@basic_library
+      @layer_index = @@layer_index
     end
     
     def get_layer_index name

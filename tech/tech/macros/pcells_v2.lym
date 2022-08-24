@@ -17,6 +17,15 @@
  <text># coding: cp932
 # OpenRule1um_v2 PCells v2.451 Aug. 22nd 2022 copy left by S. Moriyama (Anagix Corporation)
 #   based on OpenRule1um v1.97 Sep. 20, 2021 copy left by S. Moriyama (Anagix Corporation)
+#
+# Naming convention
+# 
+# Technology      PCell                  PCell module     Basic
+# -----------------------------------------------------------------------
+# OpenRule1um     PCells                 OpenRule1um_v2       OpenRule1um_Basic
+# PTS06           PCells_PTS06           PTS06                PTS06_Basic
+# Sky130a         PCells_Sky130a         Sky130a_v0p2         Sky130a_Basic
+# Mineda2022_6    PCells_Mineda2022_6    Mineda2022_6         Mineda2022_6_Basic
 
 module OpenRule1um_v2
   include MinedaPCell

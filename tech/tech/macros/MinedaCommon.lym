@@ -16,8 +16,8 @@
  <dsl-interpreter-name/>
  <text># Mineda Common
 #   Force on-grid v0.1 July 39th copy right S. Moriyama (Anagix Corp.)
-#   LVS preprocessor v0.53 August 8th copy right by S. Moriyama (Anagix Corporation)
-#   ConvertPCells and PCellDefaults moved from MinedaPCell
+#   LVS preprocessor v0.54 August 24th copy right by S. Moriyama (Anagix Corporation)
+#   ConvertPCells and PCellDefaults moved from MinedaPCell v0.2 August 24th 2022
 #   PCellTest v0.2 August 22nd 2022 S. Moriyama
 
 module MinedaCommon
@@ -28,12 +28,17 @@ module MinedaCommon
       @cell = cv.cell
       @lib = Library::library_by_name 'PCells_' + cv.technology
       @xpos = @ypos = 0
+      # @defaults = PCellDefaults::get_defaults @lib.name
       puts cv
     end
     def create_pcell name, params
       pd = @lib.layout.pcell_declaration(name)
       raise "No pcell declartion for #{name}" if pd.nil?
       puts "params for #{name}: #{params.inspect}"
+      # @defaults[name].each_pair{|p, v|
+      #   params[p] ||= v
+      # }
+      puts "=&gt; #{params.inspect}"
       @cell.layout.add_pcell_variant(@lib, pd.id, params)
     end
     def insert_pcell x, y, name, params
@@ -41,8 +46,8 @@ module MinedaCommon
       inst=@cell.insert RBA::CellInstArray::new(pcv, Trans::new(x,y))
       puts "=&gt; #{inst.pcell_parameters_by_name}"
     end
-    def get_defaults
-      params = YAML.load(PCellDefaults::dump_pcells @lib.name)
+    def get_defaults pcell_lib = @lib.name
+      params = YAML.load(PCellDefaults::dump_pcells pcell_lib)
       defaults = {}
       params.keys.each{|key|
         defaults[key.to_s] = params[key]
@@ -100,6 +105,13 @@ module MinedaCommon
   end
 
   class ConvertPCells
+    def initialize pcell_module
+      @technology_name = pcell_module.sub(/_v[^_]*$/, '')
+      @pcell_lib = ('PCells_' + @technology_name).sub('PCells_OpenRule1um', 'PCells')
+      @basic_lib = @technology_name + '_Basic'
+      @defaults = PCellDefaults::get_defaults @pcell_lib
+      @pcell_module = pcell_module
+    end
     def convert_library_cells cv, pcell_lib, basic_lib, pcell_factor=1.0
       convert_library_cells0 cv.cell, pcell_lib, basic_lib, pcell_factor
     end
@@ -113,62 +125,94 @@ module MinedaCommon
         if inst.cell.is_pcell_variant?
           next if inst.cell.library == lib # already converted
           pcell_params = inst.pcell_parameters_by_name
+          @defaults[inst.cell.name].each_pair{|p, v|
+            pcell_params[p.sub '_hidden', ''] ||= v
+          }
           if pcell_factor
             pcell_params['l'] = pcell_params['l']*pcell_factor
             pcell_params['w'] = pcell_params['w']*pcell_factor
+            pcell_params['sdg'] = pcell_params['sdg']*pcell_factor if pcell_params['sdg']
           end
+          puts "pcell parameters for #{inst.trans}(#{inst.cell.name}): #{pcell_params.inspect}"
           next unless pd = lib.layout.pcell_declaration(inst.cell.name) 
           pcv = cell.layout.add_pcell_variant(lib, pd.id, pcell_params)
           pcell_inst = cell.insert(RBA::CellInstArray::new(pcv, t))
         elsif inst.cell.library &amp;&amp; inst.cell.library.name =~ /_Basic/
           next if inst.cell.library == bas_lib # already converted
           basic_cell = bas_lib.layout.cell(inst.cell.name)
+          raise "basic_cell for #{inst.cell.name} not found" if basic_cell.nil?
           proxy_index = cell.layout.add_lib_cell(bas_lib, basic_cell.cell_index)
           basic_inst = cell.insert(RBA::CellInstArray.new(proxy_index, t))       
         else
           next
         end
         cells_to_delete &lt;&lt; inst.cell
-        inst.cell.each_child_cell{|id|
-          cells_to_delete &lt;&lt; cell.layout.cell(id)
-        }
+        #inst.cell.each_child_cell{|id|
+        #  cells_to_delete &lt;&lt; cell.layout.cell(id)
+        #}
         inst.delete
       }
-      puts "### CELLS TO DELETE ###"
-      cells_to_delete.uniq.each{|c|
-       puts "#{c.name}@#{c.library.name}"
-       c.delete
-      }
+      if cells_to_delete.size &gt; 0
+        puts "### CELLS TO DELETE: #{cells_to_delete.map{|c| [c.name, c.library.name]}.uniq.inspect}"
+        cells_to_delete.uniq.each{|c|
+         # puts "#{c.name}@#{c.library.name}"
+         c.delete
+        }
+      end
       child_cells = []
       cell.each_child_cell{|id| child_cells &lt;&lt; id}
       child_cells.each{|id|
         c = cell.layout.cell(id)
-        #puts c.name
-        convert_library_cells0 c, pcell_lib, basic_lib, pcell_factor
+        if c.child_instances &gt; 0
+          puts c.name
+          convert_library_cells0 c, pcell_lib, basic_lib, pcell_factor
+        end
       }
     end
     include RBA
-    def do_convert_library_cells params
+    def do_convert_library_cells args
       app = Application.instance
       mw = app.main_window
-      cv = mw.current_view.active_cellview
-      file = QFileDialog::getSaveFileName(mw, 'Converted File name', File.dirname(cv.filename))
+      @cv = mw.current_view.active_cellview
+      file = args[:target] || QFileDialog::getSaveFileName(mw, 'Converted File name', File.dirname(@cv.filename))
       file = file + '.GDS' unless File.extname(file).upcase == '.GDS'
       opt = SaveLayoutOptions.new
-      opt.scale_factor = params[:routing_scale_factor] || 1
-      cv.cell.write file, opt
-      technology_name = cv.technology
-      
+      opt.scale_factor = args[:routing_scale_factor] || 1
+      @cv.cell.write file, opt
+      technology_name = @cv.technology
+      puts "Current technology: #{technology_name}"
       opt = LoadLayoutOptions.new
-      if map_file = params[:layer_map]
-        opt.layer_map = LayerMap::from_string File.read(map_file) if File.exist? map_file
+      if map_file = args[:layer_map] &amp;&amp; File.exist?(map_file)
+        opt.layer_map = LayerMap::from_string File.read(map_file) 
+      else
+        opt.layer_map = LayerMap::from_string self.class.create_map(@cv, @pcell_module)
       end  
       cv = mw.load_layout file, opt, technology_name, 1 #  mode 1 means new view
-      cp = ConvertPCells.new
-      cp.convert_library_cells cv, params[:pcell_lib], params[:basic_lib], params[:pcell_scale_factor]
+      @pcell_lib = args[:pcell_lib] || @pcell_lib
+      @basic_lib = args[:basic_lib] || @basic_lib
+      convert_library_cells cv, @pcell_lib, @basic_lib, args[:pcell_scale_factor]
+      cv.technology = @technology_name
       # cv.cell.write file
     end
   
+    def self.create_map cv, pcell_module
+      # mpc = pcell_module.send MinedaPCellCommon::new
+      mpc = eval "#{pcell_module}::MinedaPCellCommon::new"
+      name = pcell_module.sub(/_v[^_]*$/, '')
+      mpc.set_technology name # ('PCells_' + name).sub('PCells_OpenRule1um', 'PCells') #.sub('Sky130a', 'SKY130')
+      puts "target technology: #{name}:#{mpc.set_layer_index}"
+      map = ''
+      cv.view.each_layer{|l|
+        layer_name = l.name.sub(/\(.*$/, '')
+        if pair = mpc.layer_index[l.name]
+          target_layer, target_datatype = pair
+          map &lt;&lt; "#{l.source_layer}/#{l.source_datatype}:#{target_layer}/#{target_datatype}\n"
+        end
+      }
+      puts map
+      map
+    end
+    
     def self.current_cellview
       app = RBA::Application.instance
       mw = app.main_window
@@ -186,9 +230,14 @@ module MinedaCommon
   
   class PCellDefaults
     include RBA
+
     def self.dump_pcells lib_name, file = nil
       lib = RBA::Library::library_by_name lib_name
       defaults = {}
+      if lib.nil?
+        #raise 'error' 
+        puts "error caused by #{lib_name}"
+      end
       lib.layout.pcell_names.each{|name|
         defaults[name] = {}
         lib.layout.pcell_declaration(name).get_parameters.each{|p|
@@ -197,6 +246,15 @@ module MinedaCommon
       }
       File.open(file, 'w'){|f| f.puts defaults.to_yaml} if file
       defaults.to_yaml
+    end
+    
+    def self.get_defaults pcell_lib
+      params = YAML.load(PCellDefaults::dump_pcells pcell_lib)
+      defaults = {}
+      params.keys.each{|key|
+        defaults[key.to_s] = params[key]
+      }
+      defaults
     end
     
     def change_pcell_defaults
@@ -209,7 +267,7 @@ module MinedaCommon
       dialog.setLayout(mainLayout)
       tech_map = {'OpenRule1um' =&gt; 'PCells', 'OR_TIASCR' =&gt; 'PCells_Tiascr130'}
       pcell_map = {'OpenRule1um' =&gt; 'OpenRule1um_v2::OpenRule1um', 'OR_TIASCR' =&gt; 'Tiascr130::Tiascr130',
-                   'Mineda_SKY130' =&gt; 'Sky130a_v0p2::Sky130a' } # rest are : #{cv.technology}::#{cv.technology}
+                   'Sky130a' =&gt; 'Sky130a_v0p2::Sky130a' } # rest are : #{cv.technology}::#{cv.technology}
       lib_name = (tech_map[cv.technology] || 'PCells_' + cv.technology ) 
       key = lib_name + '-defaults'
       config = Application.instance.get_config(key)
@@ -454,6 +512,7 @@ class MinedaLVS
       lines = expand_file netlist, ''
       params = get_params netlist
       c = File.open(File.join('lvs_work', File.basename(netlist))+'.txt', 'w:UTF-8')
+      prev_line = ''
       lines.each_line{|l|
         l.gsub! 00.chr, ''
         l.tr! "@%-", "$$_"
@@ -502,17 +561,20 @@ class MinedaLVS
             circuit_top ||= '.TOP'
           elsif l =~ /^ *([rR]|[cC]|[dD])/ || l.downcase =~ /^ *\.(global|subckt|ends)/ 
             # do nothing
-          else
-            l.sub! /^/, '*'
+          else   
+            l.sub! /^/, '*' if !(l =~ /^ *\+/) || prev_line =~ /^ *\*/ # comment
           end
         else
           if l =~ /{(\S+)}/
             ov = $1
             rv = params[ov.upcase] || ov  #  calculation for ov like (6u*20u) should be implemented
             l.sub! "{#{ov}}", rv
+          else
+            l.sub! /^/, '*' if !(l =~ /^ *\+/) || prev_line =~ /^ *\*/ # comment
           end
         end
         break if l.upcase.strip == '.END'
+        prev_line = l
         desc &lt;&lt; l.upcase
       }
       circuit_top = circuit_top ? circuit_top.upcase : '.TOP'
