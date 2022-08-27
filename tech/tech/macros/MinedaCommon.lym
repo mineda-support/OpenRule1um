@@ -152,7 +152,7 @@ module MinedaCommon
         #}
         inst.delete
       }
-      if cells_to_delete.size &gt; 0
+      if false &amp;&amp; cells_to_delete.size &gt; 0
         puts "### CELLS TO DELETE: #{cells_to_delete.map{|c| [c.name, c.library.name]}.uniq.inspect}"
         cells_to_delete.uniq.each{|c|
          # puts "#{c.name}@#{c.library.name}"
