@@ -15,10 +15,10 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.591 August 24th 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.592 August 29th 2022 copy right S. Moriyama (Anagix Corporation)
 # 
 module MinedaPCell
-  version = '0.591'
+  version = '0.592'
   include RBA
   class MinedaPCellCommon &lt; PCellDeclarationHelper
     include RBA
@@ -406,6 +406,7 @@ module MinedaPCell
             y = y2 - vs/2 + nsubcont_dy + wm_offset
           end
           y = y + u1/2 if wide_metal
+          x = x + u1/2 if n &gt; 1
           insert_cell indices[:nsubcont], x, y if indices[:nsubcont] 
           insert_cell indices[:via], x, y if with_via
         end
@@ -658,7 +659,7 @@ module MinedaPCell
       create_box area_index, -u1/2, -u1-u1/2, cw + u1/2, cl + u1/2 + vs + u1
       well_diff_enc = params[:wd_enc] || u1*5
       if well_index
-        if nsub_cont 
+        if nsub_cont = indices[:psubcont]
           create_box well_index, [-well_diff_enc, -vs-u1/2-u2].min, -u1-well_diff_enc,
                           cw + well_diff_enc, [cl + well_diff_enc + vs + u1, cl+u2+vs + u2].max
           insert_cell indices[:nsubcont], -vs-u1/2, cl+u2+vs

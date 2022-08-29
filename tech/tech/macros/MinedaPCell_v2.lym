@@ -15,7 +15,7 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.591 Aug1ust 24th 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.592 Aug1ust 29th 2022 copy right S. Moriyama (Anagix Corporation)
 # 
 module MinedaPCell
   version = '0.591'
@@ -523,6 +523,7 @@ module MinedaPCell
             y = y2 - vs/2 + nsubcont_dy + wm_offset
           end
           y = y + u1/2 if wide_metal
+          x = x + u1/2 if n &gt; 1
           insert_cell indices[:nsubcont], x, y if indices[:nsubcont] 
           insert_cell indices[:via], x, y if with_via
         end
