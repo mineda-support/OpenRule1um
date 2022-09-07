@@ -15,10 +15,10 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.592 Aug1ust 29th 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.593 Sep 5th 2022 copy right S. Moriyama (Anagix Corporation)
 # 
 module MinedaPCell
-  version = '0.591'
+  version = '0.593'
   include RBA
   class MinedaPCellCommon &lt; PCellDeclarationHelper
     include RBA
@@ -49,6 +49,8 @@ module MinedaPCell
       layer_index = {}
       doc.elements.each('layer-properties/properties'){|e|
         name = e.get_text('name').to_s.sub(/\(.*$/, '')
+        valid = e.get_text('valid')
+        next if valid == 'false'
         e.get_text('source').to_s =~ /([0-9]+)\/([0-9]+)/
         index = $1.to_i
         data_type = $2.to_i

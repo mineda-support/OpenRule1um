@@ -17,7 +17,7 @@
  <text># Mineda Common
 #   Force on-grid v0.1 July 39th copy right S. Moriyama (Anagix Corp.)
 #   LVS preprocessor v0.54 August 24th copy right by S. Moriyama (Anagix Corporation)
-#   ConvertPCells and PCellDefaults moved from MinedaPCell v0.2 August 24th 2022
+#   ConvertPCells and PCellDefaults moved from MinedaPCell v0.3 Sep. 3rd 2022
 #   PCellTest v0.2 August 22nd 2022 S. Moriyama
 
 module MinedaCommon
@@ -113,6 +113,7 @@ module MinedaCommon
       @pcell_module = pcell_module
     end
     def convert_library_cells cv, pcell_lib, basic_lib, pcell_factor=1.0
+      # puts "@defaults=#{@defaults}"
       convert_library_cells0 cv.cell, pcell_lib, basic_lib, pcell_factor
     end
     def convert_library_cells0 cell, pcell_lib, basic_lib, pcell_factor
@@ -121,18 +122,23 @@ module MinedaCommon
       cells_to_delete = []
       cell.each_inst{|inst|
         t = inst.trans          
-        puts inst.cell.name
+        ### puts inst.cell.name
         if inst.cell.is_pcell_variant?
           next if inst.cell.library == lib # already converted
           pcell_params = inst.pcell_parameters_by_name
-          @defaults[inst.cell.name].each_pair{|p, v|
-            pcell_params[p.sub '_hidden', ''] ||= v
-          }
           if pcell_factor
             pcell_params['l'] = pcell_params['l']*pcell_factor
             pcell_params['w'] = pcell_params['w']*pcell_factor
-            pcell_params['sdg'] = pcell_params['sdg']*pcell_factor if pcell_params['sdg']
+            if @defaults[inst.cell.name]['sdg'].nil?
+              pcell_params['sdg'] = pcell_params['sdg']*pcell_factor if pcell_params['sdg'] 
+            else
+              pcell_params['sdg'] = @defaults[inst.cell.name]['sdg']
+            end
           end
+          @defaults[inst.cell.name].each_pair{|p, v|
+            name = p.sub '_hidden', ''
+            pcell_params[name] || pcell_params[name] = v 
+          }
           puts "pcell parameters for #{inst.trans}(#{inst.cell.name}): #{pcell_params.inspect}"
           next unless pd = lib.layout.pcell_declaration(inst.cell.name) 
           pcv = cell.layout.add_pcell_variant(lib, pd.id, pcell_params)
@@ -181,12 +187,14 @@ module MinedaCommon
       @cv.cell.write file, opt
       technology_name = @cv.technology
       puts "Current technology: #{technology_name}"
+      @technology_name = args[:technology_name] || @technology_name
       opt = LoadLayoutOptions.new
       if map_file = args[:layer_map] &amp;&amp; File.exist?(map_file)
         opt.layer_map = LayerMap::from_string File.read(map_file) 
       else
-        opt.layer_map = LayerMap::from_string self.class.create_map(@cv, @pcell_module)
-      end  
+        opt.layer_map = LayerMap::from_string self.class.create_map(@cv, @pcell_module, @technology_name)
+      end
+      opt.create_other_layers = false # layers not listed in this layer map are ignored (not created)
       cv = mw.load_layout file, opt, technology_name, 1 #  mode 1 means new view
       @pcell_lib = args[:pcell_lib] || @pcell_lib
       @basic_lib = args[:basic_lib] || @basic_lib
@@ -195,14 +203,18 @@ module MinedaCommon
       # cv.cell.write file
     end
   
-    def self.create_map cv, pcell_module
+    def self.create_map cv, pcell_module, technology_name = pcell_module.sub(/_v[^_]*$/, '')
       # mpc = pcell_module.send MinedaPCellCommon::new
       mpc = eval "#{pcell_module}::MinedaPCellCommon::new"
-      name = pcell_module.sub(/_v[^_]*$/, '')
+      name = technology_name
+      unless RBA::Technology.technology_names.include? name
+        raise "#{name} is not a valid technology name ... check RBA:Technology.technology_names!"
+      end
       mpc.set_technology name # ('PCells_' + name).sub('PCells_OpenRule1um', 'PCells') #.sub('Sky130a', 'SKY130')
       puts "target technology: #{name}:#{mpc.set_layer_index}"
       map = ''
       cv.view.each_layer{|l|
+        next unless l.valid?
         layer_name = l.name.sub(/\(.*$/, '')
         if pair = mpc.layer_index[l.name]
           target_layer, target_datatype = pair
