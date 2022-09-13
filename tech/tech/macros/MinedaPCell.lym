@@ -15,10 +15,10 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.595 Sep. 13th 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.6 Sep. 13th 2022 copy right S. Moriyama (Anagix Corporation)
 #
 module MinedaPCell
-  version = '0.595'
+  version = '0.6'
   include RBA
   class MinedaPCellCommon &lt; PCellDeclarationHelper
     include RBA
@@ -178,6 +178,9 @@ module MinedaPCell
       else
         dgl = [dgl,  ((sdg/layout.dbu).to_i - gl)/2].max if defined? sdg # sdg: minimum source-drain gap
       end
+      if defined?(soi_bridge) &amp;&amp; soi_bridge &amp;&amp; defined?(sdg)
+        dgl = ([gl,  (sdg/layout.dbu).to_i].max - gl)/2
+      end
       xshift = params[:xshift] || vs/2
       yshift = params[:yshift] || vs/2
       u1cut = params[:u1cut] || 0
@@ -203,7 +206,7 @@ module MinedaPCell
       else
         create_box indices[:diff], -xshift, vs-yshift+u1+vs/2-gw/2, offset - gl - 2*dgl - xshift, vs-yshift+u1-u1cut+gw+vs/2-gw/2
       end
-      yield -xshift, -yshift, vs*2+gl-xshift, (vs+u1)*2+[gw, vs].max-yshift, gl, dgl
+      yield -xshift, -yshift, vs*2+gl-xshift, (vs+u1)*2+[gw, vs].max-yshift, gl, gw, dgl
     end
 
     def library_cell name, libname, layout
@@ -225,7 +228,7 @@ module MinedaPCell
     end
 
     def produce_impl indices, vs, u1, params = {} # NMOS
-      produce_impl_core(indices, vs, u1, params){|x1, y1, x2, y2, gl, dgl|
+      produce_impl_core(indices, vs, u1, params){|x1, y1, x2, y2, gl, gw, dgl|
         # create ncon
         wm_offset = wide_metal ? u1 : 0
         x = x1 + vs/2
@@ -327,6 +330,173 @@ module MinedaPCell
     end
   end
 
+  class MinedaNch_SOI &lt; MinedaMOS
+    include RBA
+
+    def produce_impl indices, vs, u1, params = {} # NMOS
+      produce_impl_core(indices, vs, u1, params){|x1, y1, x2, y2, gl, gw, dgl|
+        # create ncon
+        wm_offset = wide_metal ? u1 : 0
+        x = x1 + vs/2
+        pcont_dy = params[:pcont_dy] || u1/4
+        y = y2 - vs/2 + pcont_dy
+        gate_ext = params[:gate_ext] || 0
+        if wide_metal
+          x = x - u1
+          y = y + u1/2
+        end
+        if with_pcont
+          pol_width = params[:pol_width] || u1 + u1/4
+          if n == 1 &amp;&amp; !with_sdcont
+            insert_cell indices[:pcont], x1+vs+dgl+gl/2, y
+            insert_cell indices[:via], x1+vs+dgl+gl/2, y if with_via
+            create_path indices[:pol], x1+vs+dgl+gl/2, y, x1+vs+dgl+gl/2, y2-vs + gate_ext - u1, pol_width, 0,0
+          else
+            insert_cell indices[:pcont], x, y
+            insert_cell indices[:via], x, y if with_via
+            y = y #- u1/2 # necessary to eliminate POL gap error
+            x0 = x1+vs+u1/2+dgl
+            if defined?(soi_bridge) &amp;&amp; soi_bridge
+              create_path2 indices[:m1], x, y, x0+u1, y, x0+u1, y2-vs + gate_ext - u1, pol_width, 0, 0
+            else
+              create_path2 indices[:pol], x, y, x0, y, x0, y2-vs + gate_ext - u1, pol_width, 0, 0
+            end
+          end
+        end
+        offset = x1
+        top = nil
+        bottom = nil
+        prev_pol = nil
+        (n+1).times{|i|
+          x = offset + vs/2
+          y = y2 - vs + u1/2 + gate_ext - u1
+          pol_width = params[:pol_width] || u1
+          if defined?(soi_bridge) &amp;&amp; soi_bridge # NOTE: gate_contact_space + u1 = gl + dgl*2
+            create_path indices[:pol], prev_pol-vs-gl-dgl*2, y+u1/2, x-vs-u1/2, y+u1/2, pol_width, 0, 0 if prev_pol
+          else
+            create_path indices[:pol], prev_pol-vs/2-gl-dgl*2, y, x-vs/2-dgl, y, pol_width, 0, 0 if prev_pol
+          end
+          if defined?(body_tie) &amp;&amp; body_tie &amp;&amp; i &lt; n
+            create_path indices[:tin_block], x + vs/2, vs - u1/2 - u1/4,  x + vs/2  + gl + dgl*2, vs - u1/2 - u1/4, u1 + u1/2, 0, 0
+            xstop = x + gl + dgl*2 + vs
+            xstop = xstop + vs + u1 + u1/8 if i &lt; n-1 || n % 2 ==  0
+            xstart = x + vs/2 + gl/2 + dgl
+            create_path2 indices[:diff], xstart, vs + u1, xstart, u1/4, xstop, u1/4, u1 + u1/2, 0, 0
+            create_path indices[:pwell],  xstart, y1+vs,  xstart, y1+vs/2+u1/2-u1/8, u1 + u1 + u1/2, 0, 0
+          end
+          prev_pol = x if i &gt;= 1
+          if i % 2 == 0
+            # first s/d and via
+            y = y1+vs/2 - wm_offset
+            if with_sdcont || n != 1
+              insert_cell indices[:via], x, y if with_via &amp;&amp; with_sdcont
+              create_path indices[:m1], x, y, x, y1+vs+2*u1, pol_width, 0, 0
+            end
+            if top
+              create_path indices[:m1], top, y, x, y, pol_width, u1/2, u1/2
+            end
+            top = x
+          else
+            # second s/d and via
+            # create_path indices[:m1], x, y2-vs-2*u1 - wm_offset, x, y2+u1-vs/2, u1, 0, 0 if with_sdcont || n != 1
+            if defined?(soi_bridge) &amp;&amp; soi_bridge
+              if n == 1 || (n == 2 &amp;&amp; i == 1)
+                y = y2-u1/4-vs/2
+              else
+                y = y2+pol_width+u1/8
+              end
+            else
+              if n == 1 || (n == 2 &amp;&amp; i == 1)
+                y = y2-vs/2
+              else
+                y = y2+u1-vs/2
+              end
+            end
+            if n == 1
+              insert_cell indices[:via], x, y2-vs/2 + (wide_metal ? u1/2 : 0) if with_via &amp;&amp; with_sdcont
+            else
+              insert_cell indices[:via], x, y if with_via &amp;&amp; with_sdcont
+            end
+            create_path indices[:m1], x, y2-vs-2*u1 - wm_offset, x, y, pol_width, 0, 0 if with_sdcont || n != 1
+            if bottom
+              if defined?(soi_bridge) &amp;&amp; soi_bridge
+                create_path indices[:m1], bottom, y, x, y, pol_width+u1/4, 0, 0
+              else
+                create_path indices[:m1], bottom, y, x, y, pol_width, pol_width/2, pol_width/2
+              end
+            end
+            bottom = x
+          end
+
+          if i &lt; n
+            #create_path(indices[:pol], x, vs, x, vs+u1+gw + u1, gl, 0, 0)
+            if defined?(soi_bridge) &amp;&amp; soi_bridge
+              x = x + vs/2 + gl/2 + dgl
+              insert_cell indices[:pcont], x, [u1+gw, vs+u1+vs/2].max
+              insert_cell indices[:pcont], x, vs+u1+gw +vs/2 + u1 if i &gt; 0
+              create_path indices[:m1], x, [u1+gw, vs+u1+vs/2].max, x, vs+u1+gw +vs/2 + u1, vs, 0, 0
+            end
+          end
+          offset = offset + vs + gl + 2*dgl
+        }
+        if defined?(body_tie) &amp;&amp; body_tie
+          y = y1 + vs/2
+          x = offset - 2*dgl - gl - vs/2
+          x = x + vs + u1 if n % 2 == 0
+          insert_cell indices[:dcont], x, y - u1 - u1/4
+          # insert_cell indices[:diff], x, y - u1 - u1/4
+          create_box indices[:diff], x - vs/2, y - u1 - u1/4 - vs/2, x + vs/2, y - u1 - u1/4 + vs/2
+          create_box indices[:parea], x1 + vs -u1/2- u1/8, y + u1/2 - u1/8, x + vs/2 + u1/2, y - 3*u1 + u1/8
+          create_box indices[:pwell], x1 + vs -u1- u1/8, y + u1 + u1/8 , x + vs/2 + u1, y - 3*u1 + u1/8-u1/2
+        end
+        offset = offset - 2*dgl
+        # psubcont and via
+        psubcont_dx = params[:psubcont_dx] || 0
+        psubcont_dy = params[:psubcont_dy] || u1/2 + u1
+        x = offset - gl - vs/2 + (with_via ? u1/2 : u1/4) + psubcont_dx
+        if with_psubcont &amp;&amp; use_pwell
+          if n % 2 == 0
+            y = y2 - vs/2 + psubcont_dy
+          else
+            y = y1 + vs/2 - psubcont_dy
+            y = y - u1/2 if wide_metal
+          end
+          insert_cell indices[:psubcont], x, y if indices[:psubcont]
+          insert_cell indices[:via], x, y if with_via
+        end
+        #create_box indices[:narea], x1-u1, y1+vs+u1/2, offset-gl+u1, y2-vs-u1/2
+        narea_bw = params[:narea_bw] || u1 + u1/4
+        if indices[:pwell]
+          create_box indices[:pwell], x1-narea_bw, y1+vs+u1-narea_bw, offset-gl+narea_bw, y2-vs-u1+narea_bw
+          create_box indices[:narea], x1-narea_bw+u1/2, y1+vs+u1-narea_bw+u1/2, offset-gl+narea_bw-u1/2, y2-vs-u1+narea_bw-u1/2
+          create_box indices[:lvhvt], x1-narea_bw+u1/2, y1+vs+u1-narea_bw+u1/2, offset-gl+narea_bw-u1/2, y2-vs-u1+narea_bw-u1/2 if indices[:lvhvt]
+        else
+          create_box indices[:narea], x1-narea_bw, y1+vs+u1-narea_bw, offset-gl+narea_bw, y2-vs-u1+narea_bw
+          create_box indices[:lvhvt], x1-narea_bw, y1+vs+u1-narea_bw, offset-gl+narea_bw, y2-vs-u1+narea_bw if indices[:lvhvt]
+
+        end
+
+        create_box indices[:nhd], x1-narea_bw, y1+vs+u1-narea_bw, offset-gl+narea_bw, y2-vs-u1+narea_bw if indices[:nhd] # special for PTS06
+        if indices[:nex]
+          delta = params[:nex_delta] || u1*5
+          create_box indices[:nex], x1-delta, y1+vs-u1/2-delta-u1, offset-gl+delta, y2-vs+u1/2+delta+u1
+          delta = delta + delta
+          create_box indices[:ar], x1-delta, y1+vs-u1/2-delta-u1, offset-gl+delta, y2-vs+u1/2+delta+u1 if indices[:ar]
+        end
+        if indices[:pwl] &amp;&amp; use_pwell
+          if one = params[:pwl_bw] #        one = u1*6.25
+            if indices[:nex]
+              create_box indices[:pwl], x1-delta-one, [y1+vs-u1/2-delta-u1-one, y2-vs+u1/2+delta+u1-4*one].min,
+                     [offset-gl+delta+one, x1-delta+4*one].max, y2-vs+u1/2+delta+u1+one
+            else
+               create_box indices[:pwl], x1-delta-one, y1+vs+u1-delta-one, offset-gl+delta+onr, y2-vs-u1+delta+one
+            end
+          end
+        end
+      }
+    end
+  end
+
   class MinedaPch &lt; MinedaMOS
     include RBA
 
@@ -335,7 +505,7 @@ module MinedaPCell
     end
 
     def produce_impl indices, vs, u1, params = {} # PMOS
-      produce_impl_core(indices, vs, u1, params){|x1, y1, x2, y2, gl, dgl|
+      produce_impl_core(indices, vs, u1, params){|x1, y1, x2, y2, gl, gw, dgl|
         # create pcont
         wm_offset = wide_metal ? vs/2 : 0
         x = x1 + vs/2
@@ -401,6 +571,164 @@ module MinedaPCell
           # nsubcont_dx = params[:nsubont_dx] || 0
           nsubcont_dy = params[:nsubcont_dy] ||  u1/2 + u1
           offset = offset - 2*dgl
+          x = offset - gl - vs/2 + (with_via ? u1/2 : 0)
+          if n % 2 == 0
+            y = y1 + vs/2 - nsubcont_dy - (wide_metal ? u1 : 0)
+          else
+            y = y2 - vs/2 + nsubcont_dy + wm_offset
+          end
+          y = y + u1/2 if wide_metal
+          x = x + u1/2 if n &gt; 1
+          insert_cell indices[:nsubcont], x, y if indices[:nsubcont]
+          insert_cell indices[:via], x, y if with_via
+        end
+        parea_bw = params[:parea_bw] || u1 + u1/4
+        create_box indices[:parea], x1-parea_bw, y1+vs+u1-parea_bw, offset-gl+parea_bw, y2-vs-u1+parea_bw
+        create_box indices[:lvhvt], x1-parea_bw, y1+vs+u1-parea_bw, offset-gl+parea_bw, y2-vs-u1+parea_bw if indices[:lvhvt]
+        delta = params[:pex_delta] || u1*5
+        create_box indices[:pex], x1-delta, y1+vs-u1/2-delta-u1, offset-gl+delta, y2-vs+u1/2+delta+u1 if indices[:pex]
+        delta = delta + delta
+        create_box indices[:ar], x1-delta, y1+vs-u1/2-delta-u1, offset-gl+delta, y2-vs+u1/2+delta+u1 if indices[:ar]
+        if indices[:nwl] &amp;&amp; use_nwell
+          if one = params[:nwl_bw] #         one = u1*6.25
+            if indices[:pex]
+              create_box indices[:nwl],  x1-delta-one, y1+vs-u1/2-delta-u1-one, [offset-gl+delta+one, x1-delta+4*one].max,
+                     [y2-vs+u1/2+delta+u1+one, y1+vs-u1/2-delta-u1+4*one].max # just for tiascr130?
+            else
+              create_box indices[:nwl],  x1-delta-one, y1+vs+u1-delta-one, offset-gl+delta+one, y2-vs-u1+delta+one
+            end
+          else
+            if n % 2 == 0
+              create_box indices[:nwl], x1-vs, y1-u1-u1/2, offset-gl +2*u1, y2
+            else
+              create_box indices[:nwl], x1-vs, y1, offset-gl +2*u1, y2+u1+u1/2
+            end
+          end
+        end
+      }
+    end
+  end
+
+  class MinedaPch_SOI &lt; MinedaMOS
+    include RBA
+
+    def produce_impl indices, vs, u1, params = {} # PMOS
+      produce_impl_core(indices, vs, u1, params){|x1, y1, x2, y2, gl, gw, dgl|
+        # create pcont
+        wm_offset = wide_metal ? vs/2 : 0
+        x = x1 + vs/2
+        pcont_dy = params[:pcont_dy] || -u1/4
+        y = y1 + vs/2 + pcont_dy
+        gate_ext = params[:gate_ext] || 0
+        if wide_metal
+          x = x - u1
+          y = y - u1/2
+        end
+        if with_pcont
+          pol_width = params[:pol_width] || u1 + u1/4
+          if n == 1 &amp;&amp; !with_sdcont
+            insert_cell indices[:pcont], x1+vs+dgl+gl/2, y
+            insert_cell indices[:via], x1+vs+dgl+gl/2, y if with_via
+            create_path indices[:pol], x1+vs+dgl+gl/2, y, x1+vs+dgl+gl/2, y1+vs - gate_ext + u1, pol_width, 0,0
+          else
+            insert_cell indices[:pcont], x, y
+            insert_cell indices[:via], x, y if with_via
+            y = y # + u1/2 # necessary to eliminate POL gap error
+            x0 = x1+vs+u1/2+dgl
+            if defined?(soi_bridge) &amp;&amp; soi_bridge
+              create_path2 indices[:m1], x, y, x0+u1, y, x0+u1, y1+vs - gate_ext + u1, pol_width, 0, 0
+            else
+              create_path2 indices[:pol], x, y, x0, y, x0, y1+vs - gate_ext + u1, pol_width, 0, 0
+            end
+          end
+        end
+        offset = x1
+        top = nil
+        bottom = nil
+        prev_pol = nil
+        (n+1).times{|i|
+          x = offset + vs/2
+          y = y1 + vs - u1/2 - gate_ext + u1 ### y1 + u1/2 + vs/2 #
+          pol_width = params[:pol_width] || u1
+          if defined?(soi_bridge) &amp;&amp; soi_bridge # NOTE: gate_contact_space + u1 = gl + dgl*2
+            create_path indices[:pol], prev_pol-vs-gl-dgl*2, y-u1/2, x-vs-u1/2, y-u1/2, pol_width, 0, 0 if prev_pol
+          else
+            # create_path indices[:pol], prev_pol-vs/2-gl-dgl*2, y, x-vs/2-dgl, y, pol_width, 0, 0 if prev_pol
+            create_path indices[:pol], prev_pol-vs/2-gl-dgl, y, x-vs/2-dgl, y, pol_width, 0, 0 if prev_pol
+          end
+          if defined?(body_tie) &amp;&amp; body_tie &amp;&amp; i &lt; n
+            create_path indices[:tin_block], x + vs/2, y2 - (vs - u1/2 - u1/4),  x + vs/2  + gl+dgl*2, y2 - (vs - u1/2 - u1/4), u1 + u1/2, 0, 0
+            xstop = x + gl + dgl*2 + vs
+            xstop = xstop + vs + u1 + u1/8 if i &lt; n-1 || n % 2 ==  0
+            create_path2 indices[:diff], x + vs/2  + (gl+dgl*2)/2, y2-(vs + u1), x + vs/2  + (gl+dgl*2)/2, y2-u1/4,                          xstop, y2-u1/4, u1 + u1/2, 0, 0
+          end
+          prev_pol = x  if i &gt;=1
+          if i % 2 == 0
+            # first s/d and via
+            y = y2-vs/2 + wm_offset
+            if with_sdcont || n != 1
+              insert_cell indices[:via], x, y if with_via &amp;&amp; with_sdcont
+              create_path indices[:m1], x, y2-vs-2*u1, x, y, pol_width, 0, 0
+            end
+            if top
+              create_path indices[:m1], top, y, x, y, pol_width, u1/2, u1/2
+            end
+            top = x
+          else
+            # second s/d and via
+            if defined?(soi_bridge) &amp;&amp; soi_bridge
+              if n == 1 || (n == 2 &amp;&amp; i == 1)
+                y = y1-u1+vs
+              else
+                y = y1-pol_width-u1/8
+              end
+            else
+              if n == 1 || (n == 2 &amp;&amp; i == 1)
+                y = y1+vs/2
+              else
+                y = y1-u1+vs/2
+              end
+            end
+            if n == 1
+              insert_cell indices[:via], x, y1+vs/2 - (wide_metal ? u1/2 : 0) if with_via &amp;&amp; with_sdcont
+            else
+              insert_cell indices[:via], x, y if with_via &amp;&amp; with_sdcont
+            end
+            create_path indices[:m1], x, y, x, y1+vs+2*u1, pol_width, 0, 0 if with_sdcont || n != 1
+            if bottom
+              if defined?(soi_bridge) &amp;&amp; soi_bridge
+                create_path indices[:m1], bottom, y1-pol_width, x, y1-pol_width, pol_width+u1/4, 0, 0
+              else
+                create_path indices[:m1], bottom, y1-u1+vs/2, x, y1 -u1+vs/2, pol_width, u1/2, u1/2
+              end
+            end
+            bottom = x
+          end
+
+          if i &lt; n
+            #create_path(indices[:pol], x, vs, x, vs+u1+gw + u1, gl, 0, 0)
+            if defined?(soi_bridge) &amp;&amp; soi_bridge
+              x = x + vs/2 + gl/2 + dgl
+              insert_cell indices[:pcont], x, [y1+vs+vs+u1, y1+vs+u1+gw-vs/2].min
+              insert_cell indices[:pcont],  x, y1+vs/2 if i&gt; 0
+              create_path indices[:m1], x, y1+vs/2, x,[y1+vs+vs+u1, y1+vs+u1+gw-vs/2].min, vs, 0, 0
+            end
+          end
+          offset = offset + vs + gl + 2*dgl
+        }
+        if defined?(body_tie) &amp;&amp; body_tie
+          y = y2 + vs/2
+          x = offset - gl-dgl*2 - vs/2
+          x = x + vs + u1 if n % 2 == 0
+          insert_cell indices[:dcont], x, y - u1
+          insert_cell indices[:diff], x, y - u1
+          create_box indices[:narea], x1 + vs -u1/2- u1/8, y + u1/2 + u1/8, x + vs/2 + u1/2, y - 3*u1 + u1/4 + u1/8
+        end
+        offset = offset - 2*dgl
+        # nsubcont and via
+        if with_nsubcont &amp;&amp; use_nwell
+          # nsubcont_dx = params[:nsubont_dx] || 0
+          nsubcont_dy = params[:nsubcont_dy] ||  u1/2 + u1
           x = offset - gl - vs/2 + (with_via ? u1/2 : 0)
           if n % 2 == 0
             y = y1 + vs/2 - nsubcont_dy - (wide_metal ? u1 : 0)
