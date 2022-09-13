@@ -15,15 +15,15 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.594 Sep 12th 2022 copy right S. Moriyama (Anagix Corporation)
-# 
+# MinedaPCell v0.595 Sep 13th 2022 copy right S. Moriyama (Anagix Corporation)
+#
 module MinedaPCell
-  version = '0.594'
+  version = '0.595'
   include RBA
   class MinedaPCellCommon &lt; PCellDeclarationHelper
     include RBA
     attr_accessor :defaults, :layer_index
-    @@lyp_file = @@basic_library = @@layer_index = nil   
+    @@lyp_file = @@basic_library = @@layer_index = nil
     def initialize
       key = 'PCells_' + self.class.name.to_s.split('::').first + '-defaults'
       @defaults = YAML.load(Application.instance.get_config key)
@@ -31,17 +31,17 @@ module MinedaPCell
       set_layer_index
       super
     end
-      
+
     def set_technology tech_name
       tech = RBA::Technology::technology_by_name(tech_name)
       @@lyp_file = File.join(tech.base_path, tech.layer_properties_file)
       @@layer_index = get_layer_index_from_file @@lyp_file
     end
-     
+
     def set_basic_library basic_lib
       @@basic_library = basic_lib
     end
-    
+
     def get_layer_index_from_file lyp_file
       return unless lyp_file
       require 'rexml/document'
@@ -59,45 +59,42 @@ module MinedaPCell
       # puts layer_index
       layer_index
     end
-    
+
     def set_layer_index
       @basic_library = @@basic_library
       @layer_index = @@layer_index
     end
-    
-    #def layer_index
-    #  @layer_index
-    #end
-    
+
     def get_layer_index name
-      layout.insert_layer(LayerInfo::new(@layer_index[name], 0))
+      layer, data_type = @layer_index[name]
+      layout.insert_layer(LayerInfo::new layer, data_type)
     end
-    
+
     def get_cell_index name
       library_cell name, @basic_library, layout
     end
-    
+
     def param name, type, desc, last_resort
       cellname = self.class.name.to_s.split('::').last.to_s
       if @defaults &amp;&amp; @defaults[cellname]
         if (value = @defaults[cellname][name.to_s]) || (value == nil) || (value == false)
           # puts "#{self.class.name} '#{name}' =&gt; #{value}"
           if last_resort[:default] == true
-            super name, type, desc, {default: value}         
+            super name, type, desc, {default: value}
           else
             super name, type, desc, value ? {default: value} : last_resort
-          end        
+          end
         elsif value = @defaults[cellname][name.to_s + '_hidden']
           # puts "#{self.class.name} '#{name}' =&gt; #{value} 'hidden' =&gt; true"
           super name, type, desc, value ? {default: value, hidden: true} : last_resort
         else
-          super name, type, desc, value ? {default: value} : last_resort     
+          super name, type, desc, value ? {default: value} : last_resort
         end
       else
         super name, type, desc, last_resort
       end
     end
-     
+
     def library_cell name, libname, layout
       if cell = layout.cell(name)
         return cell.cell_index
@@ -112,9 +109,9 @@ module MinedaPCell
     def create_box index, x1, y1, x2, y2
        cell.shapes(index).insert(Box::new(x1, y1, x2, y2))
     end
-    
+
     def insert_cell via_index, x, y, rotate=false
-      via = CellInstArray.new(via_index, rotate ? Trans.new(1, false, x, y) : Trans.new(x, y))    
+      via = CellInstArray.new(via_index, rotate ? Trans.new(1, false, x, y) : Trans.new(x, y))
       inst = cell.insert(via)
     end
 
@@ -122,22 +119,22 @@ module MinedaPCell
       points = [Point::new(x1, y1), Point::new(x2, y2)]
       cell.shapes(index).insert(Path::new(points, w, be, ee))
     end
-    
+
     def create_path2 index, x1, y1, x2, y2, x3, y3, w, be, ee
       points = [Point::new(x1, y1), Point::new(x2, y2), Point::new(x3, y3)]
       cell.shapes(index).insert(Path::new(points, w, be, ee))
     end
-    
+
     def create_dcont index, x1, y1, x2, y2, vs
       (y1+vs/2..y2-vs/2).step(vs){|y|
         insert_cell index, x1, y
       }
     end
   end
-  
+
   # The PCell declaration for the Mineda MOSFET
-    class MinedaMOS &lt; MinedaPCellCommon
-    
+  class MinedaMOS &lt; MinedaPCellCommon
+
     include RBA
     def initialize
       # Important: initialize the super class
@@ -146,31 +143,31 @@ module MinedaPCell
     end
 
     def coerce_parameters_impl
-      
-      # We employ coerce_parameters_impl to decide whether the handle or the 
-      # numeric parameter has changed (by comparing against the effective 
-      # radius ru) and set ru to the effective radius. We also update the 
+
+      # We employ coerce_parameters_impl to decide whether the handle or the
+      # numeric parameter has changed (by comparing against the effective
+      # radius ru) and set ru to the effective radius. We also update the
       # numerical value or the shape, depending on which on has not changed.
     end
-    
+
     # default implementation
     def can_create_from_shape_impl
       false
     end
-    
+
     def parameters_from_shape_impl
     end
-    
+
     def transformation_from_shape_impl
       # I「Create PCell from shape（形状からPCellを作成）」プロトコルを実装します。
       # 変形を決定するために、図形のバウンディングボックスの中心を使用します。
       Trans.new(shape.bbox.center)
     end
-    
+
     def coerce_parameters_impl
       set_wtot(w*n)
     end
-    
+
     def produce_impl_core indices, vs, u1, params = {}
       gw = (w/layout.dbu).to_i
       gl = (l/layout.dbu).to_i
@@ -178,11 +175,11 @@ module MinedaPCell
       dgl = ((dg || 0.0)/layout.dbu).to_i
       if gw &lt; vs - vo  # dgl: dumbbell gap length
         dgl = [dgl, ((dsl/layout.dbu).to_i - gl)/2].max if defined? dsl # dsl: minimum dumbbell shaft length
-      else 
+      else
         dgl = [dgl,  ((sdg/layout.dbu).to_i - gl)/2].max if defined? sdg # sdg: minimum source-drain gap
       end
       if defined?(soi_bridge) &amp;&amp; soi_bridge &amp;&amp; defined?(sdg)
-        dgl = ([gl,  (sdg/layout.dbu).to_i].max - gl)/2 
+        dgl = ([gl,  (sdg/layout.dbu).to_i].max - gl)/2
       end
       xshift = params[:xshift] || vs/2
       yshift = params[:yshift] || vs/2
@@ -192,14 +189,14 @@ module MinedaPCell
         x = offset + vs/2 - xshift
         create_path(indices[:m1], x, vs-yshift+u1, x, vs-yshift+u1-u1cut+[gw, vs].max, vs, 0, 0)
         create_path(indices[:li1], x, vs-yshift+u1, x, vs-yshift+u1-u1cut+[gw, vs].max, u1, 0, 0) if indices[:li1]
-        create_dcont(indices[:dcont], x, vs-yshift+u1, x, vs-yshift+u1+[gw, vs].max, vs)  
+        create_dcont(indices[:dcont], x, vs-yshift+u1, x, vs-yshift+u1+[gw, vs].max, vs)
         x = x + vs/2 + gl/2 + dgl
         if i &lt; n
           gate_ext = params[:gate_ext] || vs/2 + u1/8
-          create_path(indices[:pol], x, vs-yshift+u1, x, vs-yshift+u1+[gw, vs].max, gl, gate_ext, gate_ext) 
+          create_path(indices[:pol], x, vs-yshift+u1, x, vs-yshift+u1+[gw, vs].max, gl, gate_ext, gate_ext)
           if indices[:gate_impl]
             gim = params[:gate_impl_margin] || vs/2
-            create_path(indices[:gate_impl], x, vs-yshift+u1, x, vs-yshift+u1+[gw, vs].max, gl+gim*2, gate_ext+gim, gate_ext+gim) 
+            create_path(indices[:gate_impl], x, vs-yshift+u1, x, vs-yshift+u1+[gw, vs].max, gl+gim*2, gate_ext+gim, gate_ext+gim)
           end
         end
         offset = offset + vs + gl + 2*dgl
@@ -208,10 +205,10 @@ module MinedaPCell
         create_box indices[:diff], -xshift, vs-yshift+u1, offset - gl - 2*dgl - xshift, vs-yshift+u1-u1cut+gw
       else
         create_box indices[:diff], -xshift, vs-yshift+u1+vs/2-gw/2, offset - gl - 2*dgl - xshift, vs-yshift+u1-u1cut+gw+vs/2-gw/2
-      end   
+      end
       yield -xshift, -yshift, vs*2+gl-xshift, (vs+u1)*2+[gw, vs].max-yshift, gl, gw, dgl
     end
-    
+
     def library_cell name, libname, layout
       if cell = layout.cell(name)
         return cell.cell_index
@@ -225,11 +222,11 @@ module MinedaPCell
 
   class MinedaNch &lt; MinedaMOS
     include RBA
-    
+
     def display_text_impl
       "Nch\r\n(L=#{l.round(3)}um,W=#{w.round(3)}um,n=#{n.to_s},Total W=#{wtot.round(3)}um)"
-    end 
-    
+    end
+
     def produce_impl indices, vs, u1, params = {} # NMOS
       produce_impl_core(indices, vs, u1, params){|x1, y1, x2, y2, gl, gw, dgl|
         # create ncon
@@ -240,7 +237,7 @@ module MinedaPCell
         gate_ext = params[:gate_ext] || 0
         if wide_metal
           x = x - u1
-          y = y + u1/2 
+          y = y + u1/2
         end
         if with_pcont
           pol_width = params[:pol_width] || u1 + u1/4
@@ -303,7 +300,7 @@ module MinedaPCell
                 y = y2+pol_width+u1/8
               end
             else
-              if n == 1 || (n == 2 &amp;&amp; i == 1)              
+              if n == 1 || (n == 2 &amp;&amp; i == 1)
                 y = y2-vs/2
               else
                 y = y2+u1-vs/2
@@ -320,7 +317,7 @@ module MinedaPCell
                 create_path indices[:m1], bottom, y, x, y, pol_width+u1/4, 0, 0
               else
                 create_path indices[:m1], bottom, y, x, y, pol_width, pol_width/2, pol_width/2
-              end              
+              end
             end
             bottom = x
           end
@@ -328,17 +325,17 @@ module MinedaPCell
           if i &lt; n
             #create_path(indices[:pol], x, vs, x, vs+u1+gw + u1, gl, 0, 0)
             if defined?(soi_bridge) &amp;&amp; soi_bridge
-              x = x + vs/2 + gl/2 + dgl 
+              x = x + vs/2 + gl/2 + dgl
               insert_cell indices[:pcont], x, [u1+gw, vs+u1+vs/2].max
               insert_cell indices[:pcont], x, vs+u1+gw +vs/2 + u1 if i &gt; 0
               create_path indices[:m1], x, [u1+gw, vs+u1+vs/2].max, x, vs+u1+gw +vs/2 + u1, vs, 0, 0
             end
-          end     
+          end
           offset = offset + vs + gl + 2*dgl
         }
         if defined?(body_tie) &amp;&amp; body_tie
           y = y1 + vs/2
-          x = offset - 2*dgl - gl - vs/2 
+          x = offset - 2*dgl - gl - vs/2
           x = x + vs + u1 if n % 2 == 0
           insert_cell indices[:dcont], x, y - u1 - u1/4
           # insert_cell indices[:diff], x, y - u1 - u1/4
@@ -358,7 +355,7 @@ module MinedaPCell
             y = y1 + vs/2 - psubcont_dy
             y = y - u1/2 if wide_metal
           end
-          insert_cell indices[:psubcont], x, y if indices[:psubcont] 
+          insert_cell indices[:psubcont], x, y if indices[:psubcont]
           insert_cell indices[:via], x, y if with_via
         end
         #create_box indices[:narea], x1-u1, y1+vs+u1/2, offset-gl+u1, y2-vs-u1/2
@@ -372,8 +369,8 @@ module MinedaPCell
           create_box indices[:lvhvt], x1-narea_bw, y1+vs+u1-narea_bw, offset-gl+narea_bw, y2-vs-u1+narea_bw if indices[:lvhvt]
 
         end
-        
-        create_box indices[:nhd], x1-narea_bw, y1+vs+u1-narea_bw, offset-gl+narea_bw, y2-vs-u1+narea_bw if indices[:nhd] # special for PTS06  
+
+        create_box indices[:nhd], x1-narea_bw, y1+vs+u1-narea_bw, offset-gl+narea_bw, y2-vs-u1+narea_bw if indices[:nhd] # special for PTS06
         if indices[:nex]
           delta = params[:nex_delta] || u1*5
           create_box indices[:nex], x1-delta, y1+vs-u1/2-delta-u1, offset-gl+delta, y2-vs+u1/2+delta+u1
@@ -393,14 +390,14 @@ module MinedaPCell
       }
     end
   end
-  
+
   class MinedaPch &lt; MinedaMOS
     include RBA
-    
+
     def display_text_impl
       "Pch\r\n(L=#{l.round(3)}um,W=#{w.round(3)}um,n=#{n.to_s},Total W=#{wtot.round(3)}um)"
     end
-    
+
     def produce_impl indices, vs, u1, params = {} # PMOS
       produce_impl_core(indices, vs, u1, params){|x1, y1, x2, y2, gl, gw, dgl|
         # create pcont
@@ -437,7 +434,7 @@ module MinedaPCell
         prev_pol = nil
         (n+1).times{|i|
           x = offset + vs/2
-          y = y1 + vs - u1/2 - gate_ext + u1 ### y1 + u1/2 + vs/2 # 
+          y = y1 + vs - u1/2 - gate_ext + u1 ### y1 + u1/2 + vs/2 #
           pol_width = params[:pol_width] || u1
           if defined?(soi_bridge) &amp;&amp; soi_bridge # NOTE: gate_contact_space + u1 = gl + dgl*2
             create_path indices[:pol], prev_pol-vs-gl-dgl*2, y-u1/2, x-vs-u1/2, y-u1/2, pol_width, 0, 0 if prev_pol
@@ -451,7 +448,7 @@ module MinedaPCell
             xstop = xstop + vs + u1 + u1/8 if i &lt; n-1 || n % 2 ==  0
             create_path2 indices[:diff], x + vs/2  + (gl+dgl*2)/2, y2-(vs + u1), x + vs/2  + (gl+dgl*2)/2, y2-u1/4,                          xstop, y2-u1/4, u1 + u1/2, 0, 0
           end
-          prev_pol = x  if i &gt;=1   
+          prev_pol = x  if i &gt;=1
           if i % 2 == 0
             # first s/d and via
             y = y2-vs/2 + wm_offset
@@ -493,21 +490,21 @@ module MinedaPCell
             end
             bottom = x
           end
-          
+
           if i &lt; n
             #create_path(indices[:pol], x, vs, x, vs+u1+gw + u1, gl, 0, 0)
             if defined?(soi_bridge) &amp;&amp; soi_bridge
-              x = x + vs/2 + gl/2 + dgl 
+              x = x + vs/2 + gl/2 + dgl
               insert_cell indices[:pcont], x, [y1+vs+vs+u1, y1+vs+u1+gw-vs/2].min
               insert_cell indices[:pcont],  x, y1+vs/2 if i&gt; 0
               create_path indices[:m1], x, y1+vs/2, x,[y1+vs+vs+u1, y1+vs+u1+gw-vs/2].min, vs, 0, 0
             end
-          end 
+          end
           offset = offset + vs + gl + 2*dgl
         }
         if defined?(body_tie) &amp;&amp; body_tie
           y = y2 + vs/2
-          x = offset - gl-dgl*2 - vs/2 
+          x = offset - gl-dgl*2 - vs/2
           x = x + vs + u1 if n % 2 == 0
           insert_cell indices[:dcont], x, y - u1
           insert_cell indices[:diff], x, y - u1
@@ -526,7 +523,7 @@ module MinedaPCell
           end
           y = y + u1/2 if wide_metal
           x = x + u1/2 if n &gt; 1
-          insert_cell indices[:nsubcont], x, y if indices[:nsubcont] 
+          insert_cell indices[:nsubcont], x, y if indices[:nsubcont]
           insert_cell indices[:via], x, y if with_via
         end
         parea_bw = params[:parea_bw] || u1 + u1/4
@@ -539,7 +536,7 @@ module MinedaPCell
         if indices[:nwl] &amp;&amp; use_nwell
           if one = params[:nwl_bw] #         one = u1*6.25
             if indices[:pex]
-              create_box indices[:nwl],  x1-delta-one, y1+vs-u1/2-delta-u1-one, [offset-gl+delta+one, x1-delta+4*one].max, 
+              create_box indices[:nwl],  x1-delta-one, y1+vs-u1/2-delta-u1-one, [offset-gl+delta+one, x1-delta+4*one].max,
                      [y2-vs+u1/2+delta+u1+one, y1+vs-u1/2-delta-u1+4*one].max # just for tiascr130?
             else
               create_box indices[:nwl],  x1-delta-one, y1+vs+u1-delta-one, offset-gl+delta+one, y2-vs-u1+delta+one
@@ -557,22 +554,22 @@ module MinedaPCell
   end
 
   class MinedaResistor &lt; MinedaPCellCommon
-  
+
     include RBA
     def initialize
       # Important: initialize the super class
       super
       param(:with_via, TypeBoolean, "Put Via over contacts", :default =&gt; true, :hidden =&gt; false)
     end
-    
+
     # default implementation
     def can_create_from_shape_impl
       false
     end
-    
+
     def parameters_from_shape_impl
     end
-    
+
     def transformation_from_shape_impl
       # I「Create PCell from shape（形状からPCellを作成）」プロトコルを実装します。
       # 変形を決定するために、図形のバウンディングボックスの中心を使用します。
@@ -585,7 +582,7 @@ module MinedaPCell
       n = (w/pitch).to_i
       if n &lt;= 1
         insert_cell contact, x0, y, true
-        insert_cell indices[:via], x0, y if with_via
+        insert_cell indices[:via], x0, y if !defined?(with_via) || with_via
       else
         offset = w- pitch*n
         (x0-w/2 + offset/2 + pitch/2).step(x0+w/2-vs/2, pitch){|x|
@@ -598,6 +595,7 @@ module MinedaPCell
         #create_box indices[:m2], x0-w/2, y-vs2/2, x0+w/2, y+vs2/2
       end
     end
+
     def produce_impl indices, header_outside, vs, u1, params={}
       res_body = indices[:pol] || indices[:diff] || indices[:nwl]
       rw = (w/layout.dbu).to_i
@@ -632,7 +630,7 @@ module MinedaPCell
         puts "offset=#{offset}, r=#{r} for i=#{i}"
         if i % 2 == 0
           x = offset
-          if i == 0 
+          if i == 0
             points = [Point::new(x, -rw_ho), Point::new(x, vs+r)]
             y = vs/2-rw_ho
             # insert_cell indices, :via, x, y, vs, u1
@@ -644,7 +642,7 @@ module MinedaPCell
           else
             points = [Point::new(x, vs-rw_ho), Point::new(x, vs+r + (vs-cs)/2)]
           end
-          cell.shapes(indices[:res]).insert(Path::new(points, rw, 0, 0))    
+          cell.shapes(indices[:res]).insert(Path::new(points, rw, 0, 0))
           if i == n-1
             points = [Point::new(x, (n == 1 ? -rw_ho : vs)), Point::new(x, vs+r+vs)]
             y =  vs+r+vs/2
@@ -655,14 +653,14 @@ module MinedaPCell
             ymax = [y+vs/2, ymax].max
           end
           cell.shapes(res_body).insert(Path::new(points, rw, 0, 0))
-       
+
           if prev_x
             y = vs - rw/2
             points = [Point::new(x, y), Point::new(prev_x, y)]
             cell.shapes(res_body).insert(Path::new(points, rw, rw/2, rw/2))
             cell.shapes(indices[:res]).insert(Path::new(points, rw, rw/2, rw/2))
-            ymax = [y+rw/2, ymax].max 
-          end  
+            ymax = [y+rw/2, ymax].max
+          end
         else
           points = [Point::new(offset, vs+(sl-r)-(vs-cs)/2), Point::new(offset, vs+sl)]
           cell.shapes(indices[:res]).insert(Path::new(points, rw, 0, 0))
@@ -685,13 +683,13 @@ module MinedaPCell
             points = [Point::new(x, y), Point::new(prev_x, y)]
             cell.shapes(res_body).insert(Path::new(points, rw, rw/2, rw/2))
             cell.shapes(indices[:res]).insert(Path::new(points, rw, rw/2, rw/2))
-            ymax = [y+rw/2, ymax].max 
+            ymax = [y+rw/2, ymax].max
           end
         end
-        prev_x = offset 
+        prev_x = offset
         xmax = [x + [rw/2, vs/2].max, xmax].max
         puts "[xmax,ymax] = #{[xmax,ymax].inspect}"
-      end 
+      end
       # puts "n=#{n}"
       [[[vs/2-rw/2, 0].min, [(ho||n&lt;=2) ? 0 : vs - rw, ymin].min, xmax, ymax], rw_ho]
     end
@@ -699,22 +697,22 @@ module MinedaPCell
 
   class MinedaCapacitor &lt; MinedaPCellCommon
     include RBA
-    def initialize 
+    def initialize
       # Important: initialize the super class --- don't know if this is really necessary
       super
     end
-    
+
     # default implementation
     def can_create_from_shape_impl
       false
     end
-    
+
     def transformation_from_shape_impl
       # I「Create PCell from shape（形状からPCellを作成）」プロトコルを実装します。
       # 変形を決定するために、図形のバウンディングボックスの中心を使用します。
       Trans.new(shape.bbox.center)
     end
-    
+
     def create_contacts_horizontally indices, x1, x2, y0, vs, u1, fill_metal=true
       pitch = vs+u1 # +u1/2+u1/4
       n = ((x2+u1-x1)/pitch).to_i
@@ -729,7 +727,7 @@ module MinedaPCell
         insert_cell indices[:via], x, y0
       }
     end
-    
+
     def create_contacts_vertically indices, x0, y1, y2, vs, u1, fill_metal=true
       pitch = vs+u1  # +u1/2+u1/4
       n = ((y2+u1-y1)/pitch).to_i
@@ -748,24 +746,24 @@ module MinedaPCell
         end
       }
     end
-    
+
     def instantiate index, x, y
       CellInstArray.new(index, Trans.new(x, y))
     end
   end
-  
+
   class  MinedaDiff_cap &lt; MinedaCapacitor
     def initialize
       super
       param(:cval, TypeDouble, "Capacitor value", :default =&gt; 0, :hidden=&gt; true)
       param(:polcnt_outside, TypeBoolean, "Poly contact outside?", :default =&gt; true, :hidden =&gt; false)
     end
-        
+
     def display_text_impl
       # Provide a descriptive text for the cell
       "Diff Capacitor\r\n(L=#{l.round(3)}um,W=#{w.round(3)}um,C=#{cval.to_s})"
     end
-    
+
     def produce_impl indices, vs, u1, area_index=nil, well_index=nil, params={}
       cw = (w/layout.dbu).to_i
       cl = (l/layout.dbu).to_i
@@ -787,7 +785,7 @@ module MinedaPCell
           create_box well_index, x0, -u1-well_diff_enc, cw + well_diff_enc, cl + well_diff_enc + vs + u1
         end
       end
-      
+
       if polcnt_outside
         create_box indices[:pol], -u2-vs, 0, cw + u1, cl
         create_contacts_vertically indices, -u1-vs/2, 0, cl, vs, u1, true # false
@@ -805,18 +803,18 @@ module MinedaPCell
       #          cell.shapes(res_index).insert(Path::new(points, rw, vs/4, vs/4))
     end
   end
-  
+
   class MinedaPoly_cap &lt; MinedaCapacitor
     def initialize
       super
       param(:cval, TypeDouble, "Capacitor value", :default =&gt; 0, :hidden=&gt; true)
     end
-  
+
     def display_text_impl
       # Provide a descriptive text for the cell
       "Poly Capacitor\r\n(L=#{l.round(3)}um,W=#{w.round(3)}um,C=#{cval.to_s})"
     end
-    
+
     def produce_impl indices, vs, u1
       cw = (w/layout.dbu).to_i
       cl = (l/layout.dbu).to_i
@@ -828,7 +826,7 @@ module MinedaPCell
       create_contacts_horizontally indices, offset,  offset + cw, cl + vs/2 + u1, vs, u1
     end
   end
-  
+
   class MinedaSlit_cap &lt; MinedaCapacitor
     # include MinedaPCell
     def display_text_impl
@@ -854,8 +852,8 @@ module MinedaPCell
       if hp # high precision
          create_box indices[:m1], -us2,  0, nc*usize + us2, slit_width
          create_box indices[:m1], -us2,  nr*usize, nc*usize + us2, nr*usize - slit_width
-         create_box indices[:pol], 0, -us2, nc*usize, nr*usize + us2 
-         create_box indices[:m1], -us2, 0, -us2 + slit_width, nr*usize   
+         create_box indices[:pol], 0, -us2, nc*usize, nr*usize + us2
+         create_box indices[:m1], -us2, 0, -us2 + slit_width, nr*usize
          create_box indices[:m1], nc*usize + us2, 0, nc*usize + us2 - slit_width, nr*usize
          create_box indices[:cap], 0, 0, nc*usize, nr*usize
       else
@@ -864,7 +862,7 @@ module MinedaPCell
       end
     end
   end
-  
+
   class MinedaFinger_cap &lt; MinedaCapacitor
     # include MinedaPCell
     def display_text_impl
@@ -883,7 +881,7 @@ module MinedaPCell
         cell.shapes(index).insert(Path::new(points, fw, 0, 0))
         y = y + pitch
       end
-      y = fw + fg 
+      y = fw + fg
       x = nil
       for i in ((nf+1)/2).to_i..(nf-1) do
         x = flag ? fl+fg+fw/2 : -fg-fw/2
