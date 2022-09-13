@@ -15,10 +15,10 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.6 Sep. 13th 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.61 Sep. 13th 2022 copy right S. Moriyama (Anagix Corporation)
 #
 module MinedaPCell
-  version = '0.6'
+  version = '0.61'
   include RBA
   class MinedaPCellCommon &lt; PCellDeclarationHelper
     include RBA
@@ -130,6 +130,21 @@ module MinedaPCell
         insert_cell index, x1, y
       }
     end
+    
+    def overcoat layer, original
+      cell.shapes(original).each{|shape|
+        if shape.is_path?
+          path = shape.path
+          cell.shapes(layer).insert(Path::new path)
+        elsif shape.is_box?
+          box = shape.box
+          cell.shapes(layer).insert(Box::new box)
+        elsif shape.is_polygon?
+          polygon = shape.polygon
+          cell.spapes(layer).insert(Polygon::new polygon)
+        end
+      }
+    end
   end
 
   # The PCell declaration for the Mineda MOSFET
@@ -231,6 +246,7 @@ module MinedaPCell
       produce_impl_core(indices, vs, u1, params){|x1, y1, x2, y2, gl, gw, dgl|
         # create ncon
         wm_offset = wide_metal ? u1 : 0
+        via_offset = params[:via_offset] || 0
         x = x1 + vs/2
         pcont_dy = params[:pcont_dy] || u1/4
         y = y2 - vs/2 + pcont_dy
@@ -263,7 +279,7 @@ module MinedaPCell
           prev_pol = x if i &gt;= 1
           if i % 2 == 0
             # first s/d and via
-            y = y1+vs/2 - wm_offset
+            y = y1+vs/2 - wm_offset -via_offset
             if with_sdcont || n != 1
               insert_cell indices[:via], x, y if with_via &amp;&amp; with_sdcont
               create_path indices[:m1], x, y, x, y1+vs+2*u1, u1, 0, 0
@@ -275,13 +291,13 @@ module MinedaPCell
           else
             # second s/d and via
             if n == 1
-              insert_cell indices[:via], x, y2-vs/2 + (wide_metal ? u1/2 : 0) if with_via &amp;&amp; with_sdcont
+              insert_cell indices[:via], x, y2-vs/2 + (wide_metal ? u1/2 : 0) + via_offset if with_via &amp;&amp; with_sdcont
               y = y2-vs/2
             else
-              insert_cell indices[:via], x, y2+u1-vs/2 if with_via &amp;&amp; with_sdcont
+              insert_cell indices[:via], x, y2+u1-vs/2 + via_offset if with_via &amp;&amp; with_sdcont
               y = y2+u1-vs/2
             end
-            create_path indices[:m1], x, y2-vs-2*u1 - wm_offset, x, y, u1, 0, 0 if with_sdcont || n != 1
+            create_path indices[:m1], x, y2-vs-2*u1 - wm_offset - via_offset, x, y, u1, 0, 0 if with_sdcont || n != 1
             if bottom
               y = y2+u1-vs/2
               create_path indices[:m1], bottom, y, x, y, u1, u1/2, u1/2
@@ -308,7 +324,7 @@ module MinedaPCell
         #create_box indices[:narea], x1-u1, y1+vs+u1/2, offset-gl+u1, y2-vs-u1/2
         narea_bw = params[:narea_bw] || u1 + u1/4
         create_box indices[:narea], x1-narea_bw, y1+vs+u1-narea_bw, offset-gl+narea_bw, y2-vs-u1+narea_bw
-        create_box indices[:lvhvt], x1-narea_bw, y1+vs+u1-narea_bw, offset-gl+narea_bw, y2-vs-u1+narea_bw if indices[:lvhvt]
+        # create_box indices[:lvhvt], x1-narea_bw, y1+vs+u1-narea_bw, offset-gl+narea_bw, y2-vs-u1+narea_bw if indices[:lvhvt]
         create_box indices[:nhd], x1-narea_bw, y1+vs+u1-narea_bw, offset-gl+narea_bw, y2-vs-u1+narea_bw if indices[:nhd] # special for PTS06
         if indices[:nex]
           delta = params[:nex_delta] || u1*5
@@ -333,10 +349,11 @@ module MinedaPCell
   class MinedaNch_SOI &lt; MinedaMOS
     include RBA
 
-    def produce_impl indices, vs, u1, params = {} # NMOS
+    def produce_impl indices, vs, u1, params = {} # NMOS_SOI
       produce_impl_core(indices, vs, u1, params){|x1, y1, x2, y2, gl, gw, dgl|
         # create ncon
         wm_offset = wide_metal ? u1 : 0
+        
         x = x1 + vs/2
         pcont_dy = params[:pcont_dy] || u1/4
         y = y2 - vs/2 + pcont_dy
@@ -469,10 +486,10 @@ module MinedaPCell
         if indices[:pwell]
           create_box indices[:pwell], x1-narea_bw, y1+vs+u1-narea_bw, offset-gl+narea_bw, y2-vs-u1+narea_bw
           create_box indices[:narea], x1-narea_bw+u1/2, y1+vs+u1-narea_bw+u1/2, offset-gl+narea_bw-u1/2, y2-vs-u1+narea_bw-u1/2
-          create_box indices[:lvhvt], x1-narea_bw+u1/2, y1+vs+u1-narea_bw+u1/2, offset-gl+narea_bw-u1/2, y2-vs-u1+narea_bw-u1/2 if indices[:lvhvt]
+          # create_box indices[:lvhvt], x1-narea_bw+u1/2, y1+vs+u1-narea_bw+u1/2, offset-gl+narea_bw-u1/2, y2-vs-u1+narea_bw-u1/2 if indices[:lvhvt]
         else
           create_box indices[:narea], x1-narea_bw, y1+vs+u1-narea_bw, offset-gl+narea_bw, y2-vs-u1+narea_bw
-          create_box indices[:lvhvt], x1-narea_bw, y1+vs+u1-narea_bw, offset-gl+narea_bw, y2-vs-u1+narea_bw if indices[:lvhvt]
+          # create_box indices[:lvhvt], x1-narea_bw, y1+vs+u1-narea_bw, offset-gl+narea_bw, y2-vs-u1+narea_bw if indices[:lvhvt]
 
         end
 
@@ -508,6 +525,7 @@ module MinedaPCell
       produce_impl_core(indices, vs, u1, params){|x1, y1, x2, y2, gl, gw, dgl|
         # create pcont
         wm_offset = wide_metal ? vs/2 : 0
+        via_offset = params[:via_offset] || 0
         x = x1 + vs/2
         pcont_dy = params[:pcont_dy] || -u1/4
         y = y1 + vs/2 + pcont_dy
@@ -541,21 +559,21 @@ module MinedaPCell
           if i % 2 == 0
             # first s/d and via
             if with_sdcont || n != 1
-              insert_cell indices[:via], x, y2-vs/2 + wm_offset if with_via &amp;&amp; with_sdcont
-              create_path indices[:m1], x, y2-vs-2*u1, x, y2-vs/2 + wm_offset, u1, 0, 0
+              insert_cell indices[:via], x, y2-vs/2 + wm_offset + via_offset if with_via &amp;&amp; with_sdcont
+              create_path indices[:m1], x, y2-vs-2*u1, x, y2-vs/2 + wm_offset + via_offset, u1, 0, 0
             end
             if top
-              y = y2-vs/2 + wm_offset
+              y = y2-vs/2 + wm_offset + via_offset
               create_path indices[:m1], top, y, x, y, u1, u1/2, u1/2
             end
             top = x
           else
             # second s/d and via
             if n == 1
-              insert_cell indices[:via], x, y1+vs/2 - (wide_metal ? u1/2 : 0) if with_via &amp;&amp; with_sdcont
+              insert_cell indices[:via], x, y1+vs/2 - (wide_metal ? u1/2 : 0) - via_offset if with_via &amp;&amp; with_sdcont
               y = y1 + vs/2
             else
-              insert_cell indices[:via], x, y1-u1+vs/2 if with_via &amp;&amp; with_sdcont
+              insert_cell indices[:via], x, y1-u1+vs/2 - via_offset if with_via &amp;&amp; with_sdcont
               y = y1-u1+vs/2
             end
             create_path indices[:m1], x, y, x, y1+vs+2*u1, u1, 0, 0 if with_sdcont || n != 1
@@ -584,7 +602,7 @@ module MinedaPCell
         end
         parea_bw = params[:parea_bw] || u1 + u1/4
         create_box indices[:parea], x1-parea_bw, y1+vs+u1-parea_bw, offset-gl+parea_bw, y2-vs-u1+parea_bw
-        create_box indices[:lvhvt], x1-parea_bw, y1+vs+u1-parea_bw, offset-gl+parea_bw, y2-vs-u1+parea_bw if indices[:lvhvt]
+        # create_box indices[:lvhvt], x1-parea_bw, y1+vs+u1-parea_bw, offset-gl+parea_bw, y2-vs-u1+parea_bw if indices[:lvhvt]
         delta = params[:pex_delta] || u1*5
         create_box indices[:pex], x1-delta, y1+vs-u1/2-delta-u1, offset-gl+delta, y2-vs+u1/2+delta+u1 if indices[:pex]
         delta = delta + delta
@@ -612,7 +630,7 @@ module MinedaPCell
   class MinedaPch_SOI &lt; MinedaMOS
     include RBA
 
-    def produce_impl indices, vs, u1, params = {} # PMOS
+    def produce_impl indices, vs, u1, params = {} # PMOS_SOI
       produce_impl_core(indices, vs, u1, params){|x1, y1, x2, y2, gl, gw, dgl|
         # create pcont
         wm_offset = wide_metal ? vs/2 : 0
@@ -742,7 +760,7 @@ module MinedaPCell
         end
         parea_bw = params[:parea_bw] || u1 + u1/4
         create_box indices[:parea], x1-parea_bw, y1+vs+u1-parea_bw, offset-gl+parea_bw, y2-vs-u1+parea_bw
-        create_box indices[:lvhvt], x1-parea_bw, y1+vs+u1-parea_bw, offset-gl+parea_bw, y2-vs-u1+parea_bw if indices[:lvhvt]
+        # create_box indices[:lvhvt], x1-parea_bw, y1+vs+u1-parea_bw, offset-gl+parea_bw, y2-vs-u1+parea_bw if indices[:lvhvt]
         delta = params[:pex_delta] || u1*5
         create_box indices[:pex], x1-delta, y1+vs-u1/2-delta-u1, offset-gl+delta, y2-vs+u1/2+delta+u1 if indices[:pex]
         delta = delta + delta
@@ -790,9 +808,9 @@ module MinedaPCell
       Trans.new(shape.bbox.center)
     end
 
-    def create_contacts indices, w, x0, y, vs, u1, fill_metal=true
+    def create_contacts indices, w, x0, y, vs, u1, pitch=nil, fill_metal=true
       contact = indices[:pcont] || indices[:dcont] || indices[:nsubcont]
-      pitch = vs+u1/4  # cnt distance &gt; 5 um
+      pitch ||= vs+u1/4  # cnt distance &gt; 5 um
       n = (w/pitch).to_i
       if n &lt;= 1
         insert_cell contact, x0, y, true
@@ -804,7 +822,8 @@ module MinedaPCell
           insert_cell contact, x, y, true
           insert_cell indices[:via], x, y if !defined?(with_via) || with_via
         }
-        create_box indices[:m1], x0-w/2, y-vs/2, x0+w/2, y+vs/2
+        #create_box indices[:m1], x0-w/2, y-vs/2, x0+w/2, y+vs/2 
+        create_box fill_metal, x0-w/2, y-vs/2, x0+w/2, y+vs/2 if fill_metal
         #vs2 = vs + u1/4
         #create_box indices[:m2], x0-w/2, y-vs2/2, x0+w/2, y+vs2/2
       end
@@ -850,7 +869,7 @@ module MinedaPCell
             # insert_cell indices, :via, x, y, vs, u1
             # insert_cell indices, :cnt, x, y, vs, u1
             # insert_cell indices, :diff, x, y, vs, u1
-            create_contacts indices, rw, x, y, vs, u1
+            create_contacts indices, rw, x, y, vs, u1, params[:pitch], res_body
             ymin = [ho ? y + vs/2 : y - vs/2, ymin].min
             points = [Point::new(x, vs-rw_ho-(vs-cs)/2), Point::new(x, vs+r + (vs-cs)/2)]
           else
@@ -863,7 +882,7 @@ module MinedaPCell
             # insert_cell indices, :via, x, y, vs, u1
             # insert_cell indices, :cnt, x, y, vs, u1
             # insert_cell indices, :diff, x, y, vs, u1
-            create_contacts indices, rw, x, y, vs, u1
+            create_contacts indices, rw, x, y, vs, u1, params[:pitch], res_body
             ymax = [y+vs/2, ymax].max
           end
           cell.shapes(res_body).insert(Path::new(points, rw, 0, 0))
@@ -885,7 +904,7 @@ module MinedaPCell
             # insert_cell indices, :via, x, y, vs, u1
             # insert_cell indices, :cnt, x, y, vs, u1
             # insert_cell indices, :diff, x, y, vs, u1
-            create_contacts indices, rw, x, y, vs, u1
+            create_contacts indices, rw, x, y, vs, u1, params[:pitch], res_body
             ymax = [y+vs/2, ymax].max
             ymin = [ho ? y+vs/2+u1/4 : y-vs/2, ymin].min
           end
@@ -927,8 +946,8 @@ module MinedaPCell
       Trans.new(shape.bbox.center)
     end
 
-    def create_contacts_horizontally indices, x1, x2, y0, vs, u1, fill_metal=true
-      pitch = vs+u1 # +u1/2+u1/4
+    def create_contacts_horizontally indices, x1, x2, y0, vs, u1, pitch=nil, fill_metal=true
+      pitch ||= vs+u1 # +u1/2+u1/4
       n = ((x2+u1-x1)/pitch).to_i
       offset = x2+u1-x1-pitch*n
       (offset/2 + x1+vs/2..x2-vs/2).step(pitch){|x|
@@ -942,8 +961,8 @@ module MinedaPCell
       }
     end
 
-    def create_contacts_vertically indices, x0, y1, y2, vs, u1, fill_metal=true
-      pitch = vs+u1  # +u1/2+u1/4
+    def create_contacts_vertically indices, x0, y1, y2, vs, u1, pitch=nil, fill_metal=true
+      pitch ||= vs+u1  # +u1/2+u1/4
       n = ((y2+u1-y1)/pitch).to_i
       offset = y2+u1-y1-pitch*n
       (offset/2+y1+vs/2..y2-vs/2).step(pitch){|y|
@@ -1002,13 +1021,13 @@ module MinedaPCell
 
       if polcnt_outside
         create_box indices[:pol], -u2-vs, 0, cw + u1, cl
-        create_contacts_vertically indices, -u1-vs/2, 0, cl, vs, u1, true # false
+        create_contacts_vertically indices, -u1-vs/2, 0, cl, vs, u1, params[:vpitch], :true # false
       else
         create_box indices[:pol], -u1, 0, cw + u1, cl
-        create_contacts_vertically indices, u1+vs/2, 0, cl, vs, u1, true # false
+        create_contacts_vertically indices, u1+vs/2, 0, cl, vs, u1, params[:vpitch], true # false
       end
       indices[:pol] = nil # this tells create_contacts_horizontally to use dcont
-      create_contacts_horizontally indices, 0, cw, u1/2+cl+u1, vs, u1, true # false
+      create_contacts_horizontally indices, 0, cw, u1/2+cl+u1, vs, u1, params[:hpitch], true # false
       # insert_cell indices, nsubcont_index, 0, cl+2*u1+vs, vs, u1
       # insert_cell indices, :diff, 0, cl+2*u1+vs, vs, u1
       # insert_cell indices, :cnt, 0, cl+2*u1+vs, vs, u1
@@ -1038,7 +1057,7 @@ module MinedaPCell
       create_box indices[:m1], 0, 0, offset + cw +u1, cl
       create_box indices[:cap], offset, 0, offset + cw, cl
       create_box indices[:pol], offset, -u1, offset + cw , cl+u2+vs + pcont_dy
-      create_contacts_horizontally indices, offset,  offset + cw, cl + vs/2 + u1 + pcont_dy, vs, u1
+      create_contacts_horizontally indices, offset,  offset + cw, cl + vs/2 + u1 + pcont_dy, vs, u1, params[:hpitch]
     end
   end
 
