@@ -15,7 +15,7 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.61 Sep. 13th 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.62 Sep. 14th 2022 copy right S. Moriyama (Anagix Corporation)
 #
 module MinedaPCell
   version = '0.61'
@@ -1001,8 +1001,8 @@ module MinedaPCell
       cw = (w/layout.dbu).to_i
       cl = (l/layout.dbu).to_i
       u2 = u1 + u1
-
-      create_box indices[:diff], 0, -u1, cw, cl+u1+vs
+      cap_ext = params[:cap_ext] || u1
+      create_box indices[:diff], 0, -cap_ext, cw, cl+vs+u1+u1/2
       create_box indices[:cap], 0, 0, cw, cl
       # create_box indices[:cap], 0, 0, cw, cl+u1+vs
       create_box area_index, -u1/2, -u1-u1/2, cw + u1/2, cl + u1/2 + vs + u1
@@ -1020,10 +1020,10 @@ module MinedaPCell
       end
 
       if polcnt_outside
-        create_box indices[:pol], -u2-vs, 0, cw + u1, cl
+        create_box indices[:pol], -u2-vs, 0, cw + cap_ext, cl
         create_contacts_vertically indices, -u1-vs/2, 0, cl, vs, u1, params[:vpitch], :true # false
       else
-        create_box indices[:pol], -u1, 0, cw + u1, cl
+        create_box indices[:pol], -u1, 0, cw + cap_ext, cl
         create_contacts_vertically indices, u1+vs/2, 0, cl, vs, u1, params[:vpitch], true # false
       end
       indices[:pol] = nil # this tells create_contacts_horizontally to use dcont
@@ -1052,11 +1052,12 @@ module MinedaPCell
       cw = (w/layout.dbu).to_i
       cl = (l/layout.dbu).to_i
       u2 = u1 + u1
+      cap_ext = params[:cap_ext] || u1
       pcont_dy = params[:pcont_dy] || 0
       offset = vs+ u2+u1/2+u1/8
-      create_box indices[:m1], 0, 0, offset + cw +u1, cl
+      create_box indices[:m1], 0, 0, offset + cw + cap_ext, cl
       create_box indices[:cap], offset, 0, offset + cw, cl
-      create_box indices[:pol], offset, -u1, offset + cw , cl+u2+vs + pcont_dy
+      create_box indices[:pol], offset, -cap_ext, offset + cw , cl+u2+vs + pcont_dy
       create_contacts_horizontally indices, offset,  offset + cw, cl + vs/2 + u1 + pcont_dy, vs, u1, params[:hpitch]
     end
   end
