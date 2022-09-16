@@ -15,10 +15,10 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.62 Sep. 14th 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.63 Sep. 16th 2022 copy right S. Moriyama (Anagix Corporation)
 #
 module MinedaPCell
-  version = '0.62'
+  version = '0.63'
   include RBA
   class MinedaPCellCommon &lt; PCellDeclarationHelper
     include RBA

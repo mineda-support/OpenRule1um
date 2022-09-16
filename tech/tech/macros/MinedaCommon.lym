@@ -21,17 +21,17 @@
 #   PCellTest v0.2 August 22nd 2022 S. Moriyama
 
 module MinedaCommon
-class MinedaInput
-  def initialize source
-    tech = source.layout.technology
-    lyp_file = File.join(tech.base_path, tech.layer_properties_file)
-    @layer_index = MinedaPCell::MinedaPCellCommon::get_layer_index_from_file lyp_file
-  end
+  class MinedaInput
+    def initialize source
+      tech = source.layout.technology
+      lyp_file = File.join(tech.base_path, tech.layer_properties_file)
+      @layer_index = MinedaPCell::MinedaPCellCommon::get_layer_index_from_file lyp_file
+    end
 
-  def index layer_name
-    @layer_index[layer_name]
+    def index layer_name
+      @layer_index[layer_name]
+    end
   end
-end
 
   class PCellTest
     include RBA  
