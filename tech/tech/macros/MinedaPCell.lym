@@ -18,7 +18,7 @@
 # MinedaPCell v0.62 Sep. 14th 2022 copy right S. Moriyama (Anagix Corporation)
 #
 module MinedaPCell
-  version = '0.61'
+  version = '0.62'
   include RBA
   class MinedaPCellCommon &lt; PCellDeclarationHelper
     include RBA
@@ -35,14 +35,14 @@ module MinedaPCell
     def set_technology tech_name
       tech = RBA::Technology::technology_by_name(tech_name)
       @@lyp_file = File.join(tech.base_path, tech.layer_properties_file)
-      @@layer_index = get_layer_index_from_file @@lyp_file
+      @@layer_index = self.class.get_layer_index_from_file @@lyp_file
     end
 
     def set_basic_library basic_lib
       @@basic_library = basic_lib
     end
 
-    def get_layer_index_from_file lyp_file
+    def self.get_layer_index_from_file lyp_file
       return unless lyp_file
       require 'rexml/document'
       doc = REXML::Document.new(File.open(lyp_file))
