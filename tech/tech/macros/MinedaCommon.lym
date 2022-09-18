@@ -22,6 +22,7 @@
 
 module MinedaCommon
   class MinedaInput
+    attr_accessor :layer_index
     def initialize source
       tech = source.layout.technology
       lyp_file = File.join(tech.base_path, tech.layer_properties_file)

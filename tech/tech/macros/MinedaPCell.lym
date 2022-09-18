@@ -15,7 +15,7 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.63 Sep. 16th 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.64 Sep. 18th 2022 copy right S. Moriyama (Anagix Corporation)
 #
 module MinedaPCell
   version = '0.63'
@@ -144,6 +144,20 @@ module MinedaPCell
           cell.spapes(layer).insert(Polygon::new polygon)
         end
       }
+    end
+    
+    def fill_area area, square_size, layer_index=nil
+      x1, y1, x2, y2 = area
+      create_box layer_index, x1, y1, x2, y2 if layer_index
+      n = ((x2 - x1)/square_size).to_i
+      xoffset = x2 - x1 - n * square_size
+      m = ((y2 - y1)/square_size).to_i
+      yoffset = y2 - y1 - m * square_size
+      for i in 0..n-1
+        for j in 0..m-1
+          yield x1 + xoffset/2 + i*square_size + square_size/2, y1 + yoffset/2 + j*square_size+ square_size/2
+        end
+      end
     end
   end
 
