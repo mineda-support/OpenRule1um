@@ -32,6 +32,20 @@ module MinedaCommon
     def index layer_name
       @layer_index[layer_name]
     end
+    
+    def self.exclude layer, pattern, skin_thickness=0
+      cv = ConvertPCells::current_cellview()
+      st = skin_thickness/cv.layout.dbu
+      layer = cv.layout.layer(RBA::LayerInfo::new(63, 63))
+      cv.cell.shapes(layer).each{|s| s.delete}
+        cv.cell.each_inst{|inst| 
+        next unless inst.cell.name =~ /^a[np]5g/
+        p1 = inst.bbox.p1
+        p2 = inst.bbox.p2
+        cv.cell.shapes(layer).insert(RBA::Box::new(p1.x + st, p1.y + st, p2.x - st, p2.y - st))
+        puts inst.cell.name, inst.bbox
+      }
+    end
   end
 
   class PCellTest
