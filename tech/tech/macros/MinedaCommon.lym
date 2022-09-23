@@ -19,8 +19,43 @@
 #   LVS preprocessor v0.54 August 24th copy right by S. Moriyama (Anagix Corporation)
 #   ConvertPCells and PCellDefaults moved from MinedaPCell v0.3 Sep. 3rd 2022
 #   PCellTest v0.2 August 22nd 2022 S. Moriyama
+#   DRC_helper::find_cells_to_exclude v0.1 Sep 23rd 2022 S. Moriyama
 
 module MinedaCommon
+  class DRC_helper
+    def find_cells_to_exclude layer, pattern, skin_thickness=0
+      @pattern = pattern
+      @cv = MinedaCommon::ConvertPCells::current_cellview()
+      @st = skin_thickness/@cv.layout.dbu
+      @layer= @cv.layout.layer(RBA::LayerInfo::new(*layer))
+      @cv.cell.shapes(@layer).each{|s| s.delete}
+      @cv.cell.each_inst{|inst|
+        find_cells_recursive inst, @cv.context_trans
+      }
+    end
+    def go
+      find_cells_to_exclude  [63, 63], '^a[np]5g', 5.0
+    end
+    def find_cells_recursive inst, trans
+      cell = inst.cell
+      if cell.child_instances &gt; 0
+        inst.cell_inst.each_cplx_trans{|a|
+          cell.each_inst do |inst2|
+            trans2 = trans * a
+            find_cells_recursive(inst2, trans2)
+          end
+        }
+      elsif cell.name =~ /#{@pattern}/
+        box = inst.bbox
+        p1 = box.p1
+        p2 = box.p2
+        box = RBA::Box::new(p1.x + @st, p1.y + @st, p2.x - @st, p2.y - @st)
+        @cv. cell.shapes(@layer).insert(box.transformed trans)
+        puts "#{inst.cell.name} @ #{inst.bbox}, #{trans}"
+      end
+    end
+  end
+  
   class MinedaInput
     attr_accessor :layer_index
     def initialize source
@@ -31,20 +66,6 @@ module MinedaCommon
 
     def index layer_name
       @layer_index[layer_name]
-    end
-    
-    def self.exclude layer, pattern, skin_thickness=0
-      cv = ConvertPCells::current_cellview()
-      st = skin_thickness/cv.layout.dbu
-      layer = cv.layout.layer(RBA::LayerInfo::new(63, 63))
-      cv.cell.shapes(layer).each{|s| s.delete}
-        cv.cell.each_inst{|inst| 
-        next unless inst.cell.name =~ /^a[np]5g/
-        p1 = inst.bbox.p1
-        p2 = inst.bbox.p2
-        cv.cell.shapes(layer).insert(RBA::Box::new(p1.x + st, p1.y + st, p2.x - st, p2.y - st))
-        puts inst.cell.name, inst.bbox
-      }
     end
   end
 
