@@ -20,6 +20,7 @@
 #   ConvertPCells and PCellDefaults moved from MinedaPCell v0.3 Sep. 3rd 2022
 #   PCellTest v0.2 August 22nd 2022 S. Moriyama
 #   DRC_helper::find_cells_to_exclude v0.1 Sep 23rd 2022 S. Moriyama
+#   MinedaInput v0.2 Oct. 3rd 2022 S. Moriyama
 
 module MinedaCommon
   class DRC_helper
@@ -58,14 +59,56 @@ module MinedaCommon
   
   class MinedaInput
     attr_accessor :layer_index
-    def initialize source
-      tech = source.layout.technology
+    def initialize source, params={}
+      @source = source
+      tech = @source.layout.technology
       lyp_file = File.join(tech.base_path, tech.layer_properties_file)
       @layer_index = MinedaPCell::MinedaPCellCommon::get_layer_index_from_file lyp_file
     end
 
     def index layer_name
       @layer_index[layer_name]
+    end
+    
+    def get_reference
+      sdir = File.dirname @source.path
+      ext_name = File.extname @source.path
+      @target = File.basename(@source.path).sub(ext_name, '')
+      output = File.join sdir, "#{@target}_output.cir"
+      @lvs_work = File.join(sdir, 'lvs_work')
+      reference = File.join(@lvs_work, "#{@target}_reference.cir.txt")
+      Dir.mkdir @lvs_work unless File.directory? @lvs_work
+      if File.exist? File.join(sdir, @target+'.yaml')
+        require 'yaml'
+        ref = YAML.load File.read(File.join sdir, @target+'.yaml')
+        if File.exist? ref['netlist']
+          if File.exist?(ref['schematic']) &amp;&amp; (File.mtime(ref['netlist']) &lt; File.mtime(ref['schematic']))
+            raise "netlist file '#{ref['netlist']}' is outdated!\nPlease update netlist and run get_reference again!"
+          end
+          if File.exist?(reference) &amp;&amp; (File.mtime(reference) &lt; File.mtime(ref['netlist']))
+            raise "Please run get_reference because netlist file '#{ref['netlist']}'is modified"
+          end
+        end
+      end
+      [reference, output]
+    end
+    
+    def get_settings
+        #  schematic reference
+      if File.exist? "#{@lvs_work}/#{@target}_lvs_settings.rb"
+        "#{@lvs_work}/#{@target}_lvs_settings.rb"
+      end
+    end
+    
+    def make_symlink output
+      # Netlist vs. netlist
+      slink = "#{@lvs_work}/#{File.basename output}.txt"
+      File.delete slink if File.exist?(slink) || File.symlink?(slink)
+      if /mswin32|mingw/ =~ RUBY_PLATFORM
+        File.link output, slink
+      else
+        File.symlink "../#{File.basename output}", slink
+      end
     end
   end
 
