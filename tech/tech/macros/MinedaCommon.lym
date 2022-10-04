@@ -16,7 +16,7 @@
  <dsl-interpreter-name/>
  <text># Mineda Common
 #   Force on-grid v0.1 July 39th copy right S. Moriyama (Anagix Corp.)
-#   LVS preprocessor v0.54 August 24th copy right by S. Moriyama (Anagix Corporation)
+#   LVS preprocessor v0.55 October 4th copyright by S. Moriyama (Anagix Corporation)
 #   ConvertPCells and PCellDefaults moved from MinedaPCell v0.3 Sep. 3rd 2022
 #   PCellTest v0.2 August 22nd 2022 S. Moriyama
 #   DRC_helper::find_cells_to_exclude v0.1 Sep 23rd 2022 S. Moriyama
@@ -616,10 +616,16 @@ class MinedaLVS
       params = get_params netlist
       c = File.open(File.join('lvs_work', File.basename(netlist))+'.txt', 'w:UTF-8')
       prev_line = ''
+      comment_subckt = false
       lines.each_line{|l|
         l.gsub! 00.chr, ''
         l.tr! "@%-", "$$_"
         c.puts l
+        nl = yield(l) if block_given?
+        if nl != l
+          print "=&gt; #{nl}"
+          l = nl
+        end
         # if l=~ /(\S+)@or1_stdcells_v1/
         #  cells &lt;&lt; $1 unless cells.include? $1
         #  l.sub! '@', '$'
@@ -628,10 +634,17 @@ class MinedaLVS
         #  els
         if l =~ /^\.ends/
           inside_subckt = false
+          desc &lt;&lt; '***' if comment_subckt
+          comment_subckt = false
         elsif l=~/^\.subckt *(\S+)/
+          subckt_name = $1
           inside_subckt = true
-          circuit_top ||= $1
+          circuit_top ||= subckt_name
           puts "subcircuit: #{$1}"
+          if (pattern = settings[:dump_subckt]) &amp;&amp; subckt_name =~ /#{pattern}/
+            comment_subckt = true
+            puts '===&gt; *** commented out'
+          end
         elsif l=~/^(([mM]\S+) *\S+ *\S+ *\S+ *\S+ *(\S+)) *(.*)/
           body = $1
           name=$2
@@ -678,6 +691,7 @@ class MinedaLVS
         end
         break if l.upcase.strip == '.END'
         prev_line = l
+        desc &lt;&lt; '***' if comment_subckt
         desc &lt;&lt; l.upcase
       }
       circuit_top = circuit_top ? circuit_top.upcase : '.TOP'
