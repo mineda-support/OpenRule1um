@@ -16,7 +16,7 @@
  <dsl-interpreter-name/>
  <text># Mineda Common
 #   Force on-grid v0.1 July 39th copy right S. Moriyama (Anagix Corp.)
-#   LVS preprocessor(get_reference) v0.61 October 10th copyright by S. Moriyama (Anagix Corporation)
+#   LVS preprocessor(get_reference) v0.62 October 11th copyright by S. Moriyama (Anagix Corporation)
 #   ConvertPCells and PCellDefaults moved from MinedaPCell v0.3 Sep. 3rd 2022
 #   PCellTest v0.2 August 22nd 2022 S. Moriyama
 #   DRC_helper::find_cells_to_exclude v0.1 Sep 23rd 2022 S. Moriyama
@@ -741,8 +741,8 @@ class MinedaLVS
       ln, dt = settings[:exclude_layer]
       blank_layout = settings[:blank_layout]
       f.puts "def set_blank_layout layer_number=#{ln}, data_type=#{dt}"
-      f.puts "  unless File.dirname(source.path).gsub(\"\\\\\", '/') == '#{File.dirname(File.expand_path(File.join file, '..'))}'"
-      f.puts '    raise "Invalid set_blank_layout for #{source.path}"'
+      f.puts "  unless source.cell_name == '#{cell_name}'"
+      f.puts '    raise "Invalid set_blank_layout for #{source.path}[#{source.cell_name}]"'
       f.puts '  end'
       if blank_layout
         f.puts "  blank_layout = '#{blank_layout}'" 
