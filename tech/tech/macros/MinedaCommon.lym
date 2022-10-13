@@ -16,7 +16,7 @@
  <dsl-interpreter-name/>
  <text># Mineda Common
 #   Force on-grid v0.1 July 39th copy right S. Moriyama (Anagix Corp.)
-#   LVS preprocessor(get_reference) v0.62 October 11th copyright by S. Moriyama (Anagix Corporation)
+#   LVS preprocessor(get_reference) v0.63 October 13th copyright by S. Moriyama (Anagix Corporation)
 #   ConvertPCells and PCellDefaults moved from MinedaPCell v0.3 Sep. 3rd 2022
 #   PCellTest v0.2 August 22nd 2022 S. Moriyama
 #   DRC_helper::find_cells_to_exclude v0.1 Sep 23rd 2022 S. Moriyama
@@ -30,6 +30,7 @@ module MinedaCommon
       @st = skin_thickness/@cv.layout.dbu
       @layer= @cv.layout.layer(RBA::LayerInfo::new(*layer))
       @cv.cell.shapes(@layer).each{|s| s.delete}
+      puts "All the shapes in layer: #{layer} deleted"
       @cv.cell.each_inst{|inst|
         find_cells_recursive inst, @cv.context_trans
       }
@@ -639,7 +640,11 @@ class MinedaLVS
         elsif l=~/^\.subckt *(\S+)/
           subckt_name = $1
           inside_subckt = true
-          circuit_top ||= subckt_name
+          if subckt_name.upcase == cell.name.upcase
+            circuit_top = subckt_name
+          else
+            circuit_top ||= subckt_name
+          end
           puts "subcircuit: #{$1}"
           if (pattern = settings[:dump_subckt_model]) &amp;&amp; subckt_name =~ /#{pattern}/
             comment_subckt = true
@@ -731,16 +736,18 @@ class MinedaLVS
         }
       end
       unless File.exist? "lvs_work/#{target}_lvs_settings.rb"
-        set_settings cell.name, circuit_top, device_class, "lvs_work/#{target}_lvs_settings.rb", settings
+        set_settings cell, circuit_top, device_class, "lvs_work/#{target}_lvs_settings.rb", settings
       end
     end
   end
 
-  def set_settings cell_name, circuit_top, device_class, file, settings
+  def set_settings cell, circuit_top, device_class, file, settings
+    cell_name = cell.name
     File.open(file, 'w'){|f|
       ln, dt = settings[:exclude_layer]
       blank_layout = settings[:blank_layout]
       f.puts "def set_blank_layout layer_number=#{ln}, data_type=#{dt}"
+      f.puts "  source.layout.technology_name='#{cell.layout.technology_name}'"
       f.puts "  unless source.cell_name == '#{cell_name}'"
       f.puts '    raise "Invalid set_blank_layout for #{source.path}[#{source.cell_name}]"'
       f.puts '  end'
@@ -752,8 +759,10 @@ class MinedaLVS
       f.puts '  if blank_layout'
       f.puts '    dh = MinedaCommon::DRC_helper.new'
       f.puts '    dh.find_cells_to_exclude [layer_number, data_type], blank_layout, 0'
+      f.puts '    exclude = input layer_number, data_type'
+      f.puts '  else'
+      f.puts '    exclude = input'
       f.puts '  end'
-      f.puts '  exclude = input layer_number, data_type'
       f.puts 'end'
       f.puts 'def lvs_settings'
       f.puts "  same_circuits '#{cell_name}', '#{circuit_top ? circuit_top.upcase : '.TOP'}'" if cell_name
