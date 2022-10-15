@@ -15,7 +15,7 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.66 Sep. 18th 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.67 Oct. 15th 2022 copy right S. Moriyama (Anagix Corporation)
 #
 module MinedaPCell
   version = '0.66'
@@ -159,6 +159,15 @@ module MinedaPCell
           yield x1 + xoffset/2 + i*square_size + square_size/2, y1 + yoffset/2 + j*square_size+ square_size/2
         end
       end
+    end
+    
+    def create_loop xs, ys, l, w
+      points = [Point::new(xs, ys), 
+                Point::new(xs, ys - l), 
+                Point::new(xs - l, ys - l),
+                Point::new(xs - l, ys),
+                Point::new(xs, ys)]
+      cell.shapes(index).insert(Path::new(points, w, w/2, -w/2))           
     end
   end
 
