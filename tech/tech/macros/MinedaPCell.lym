@@ -147,25 +147,26 @@ module MinedaPCell
     end
     
     def fill_area area, square_size, layer_index=nil
-      x1, y1, x2, y2, margin = area
-      margin ||= 0
+      x1, y1, x2, y2, xmargin, ymargin = area
+      xmargin ||= 0
+      ymargin ||= xmargin
       create_box layer_index, x1, y1, x2, y2 if layer_index
-      n = ((x2 - x1 - 2*margin)/square_size).to_i
-      xoffset = x2 - x1 - n * square_size
-      m = ((y2 - y1 - 2*margin)/square_size).to_i
-      yoffset = y2 - y1 - m * square_size
+      n = ((x2 - x1 - 2*xmargin)/square_size).to_i
+      xoffset = (x2 - x1 - n * square_size)/2 + xmargin
+      m = ((y2 - y1 - 2*ymargin)/square_size).to_i
+      yoffset = (y2 - y1 - m * square_size)/2 + ymargin
       for i in 0..n-1
         for j in 0..m-1
-          yield x1 + xoffset/2 + i*square_size + square_size/2, y1 + yoffset/2 + j*square_size+ square_size/2
+          yield x1 + xoffset + i*square_size + square_size/2, y1 + yoffset + j*square_size+ square_size/2
         end
       end
     end
     
-    def create_loop xs, ys, l, w
+    def create_loop index, xs, ys, xl, yl, w
       points = [Point::new(xs, ys), 
-                Point::new(xs, ys - l), 
-                Point::new(xs - l, ys - l),
-                Point::new(xs - l, ys),
+                Point::new(xs, ys - yl), 
+                Point::new(xs - xl, ys - yl),
+                Point::new(xs - xl, ys),
                 Point::new(xs, ys)]
       cell.shapes(index).insert(Path::new(points, w, w/2, -w/2))           
     end
