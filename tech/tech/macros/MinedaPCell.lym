@@ -145,7 +145,20 @@ module MinedaPCell
         end
       }
     end
-    
+         
+    def box_points original
+      x1 = y1 = x2 = y2 = nil
+      cell.shapes(original).each{|shape|
+        if shape.is_box?
+          box = shape.box
+          x1, y1, x2, y2 = [box.p1.x, box.p1.y, box.p2.x, box.p2.y]
+          puts "[x1, y1, x2, y2]=#{[x1, y1, x2, y2].inspect}"
+          break # return [1,2,3,4]#
+        end
+      }
+      [x1, y1, x2, y2] 
+    end
+  
 =begin
     def fill_area area, square_size, layer_index=nil
       x1, y1, x2, y2, xmargin, ymargin = area
