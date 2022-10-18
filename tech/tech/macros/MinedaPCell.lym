@@ -15,10 +15,10 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.67 Oct. 15th 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.68 Oct. 18th 2022 copy right S. Moriyama (Anagix Corporation)
 #
 module MinedaPCell
-  version = '0.66'
+  version = '0.68'
   include RBA
   class MinedaPCellCommon &lt; PCellDeclarationHelper
     include RBA
@@ -146,6 +146,7 @@ module MinedaPCell
       }
     end
     
+=begin
     def fill_area area, square_size, layer_index=nil
       x1, y1, x2, y2, xmargin, ymargin = area
       xmargin ||= 0
@@ -158,6 +159,21 @@ module MinedaPCell
       for i in 0..n-1
         for j in 0..m-1
           yield x1 + xoffset + i*square_size + square_size/2, y1 + yoffset + j*square_size+ square_size/2
+        end
+      end
+    end
+=end
+    def fill_area area, square_size, layer_index=nil
+      x1, y1, x2, y2, margin = area
+      margin ||= 0
+      create_box layer_index, x1, y1, x2, y2 if layer_index
+      n = ((x2 - x1 - 2*margin)/square_size).to_i
+      xoffset = x2 - x1 - n * square_size
+      m = ((y2 - y1 - 2*margin)/square_size).to_i
+      yoffset = y2 - y1 - m * square_size
+      for i in 0..n-1
+        for j in 0..m-1
+          yield x1 + xoffset/2 + i*square_size + square_size/2, y1 + yoffset/2 + j*square_size+ square_size/2
         end
       end
     end
