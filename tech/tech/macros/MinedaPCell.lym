@@ -6,8 +6,8 @@
  <prolog/>
  <epilog/>
  <doc/>
- <autorun>true</autorun>
- <autorun-early>false</autorun-early>
+ <autorun>false</autorun>
+ <autorun-early>true</autorun-early>
  <shortcut/>
  <show-in-menu>false</show-in-menu>
  <group-name/>
@@ -15,10 +15,10 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.68 Oct. 18th 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.69 Oct. 20th 2022 copy right S. Moriyama (Anagix Corporation)
 #
 module MinedaPCell
-  version = '0.68'
+  version = '0.69'
   include RBA
   class MinedaPCellCommon &lt; PCellDeclarationHelper
     include RBA
@@ -141,22 +141,26 @@ module MinedaPCell
           cell.shapes(layer).insert(Box::new box)
         elsif shape.is_polygon?
           polygon = shape.polygon
-          cell.spapes(layer).insert(Polygon::new polygon)
+          cell.shapes(layer).insert(Polygon::new polygon)
         end
       }
     end
          
-    def box_points original
-      x1 = y1 = x2 = y2 = nil
+    def boxes_bbox  original
+      xmin = ymin = 10000000
+      xmax = ymax = -xmin
       cell.shapes(original).each{|shape|
         if shape.is_box?
           box = shape.box
           x1, y1, x2, y2 = [box.p1.x, box.p1.y, box.p2.x, box.p2.y]
           puts "[x1, y1, x2, y2]=#{[x1, y1, x2, y2].inspect}"
-          break # return [1,2,3,4]#
+          xmin = [xmin, x1].min
+          ymin = [ymin, y1].min
+          xmax = [xmax, x2].max
+          ymax = [ymax, y2].max
         end
       }
-      [x1, y1, x2, y2] 
+      [xmin, ymin, xmax, ymax] unless xmin == 10000000
     end
   
 =begin
@@ -197,7 +201,7 @@ module MinedaPCell
                 Point::new(xs - xl, ys - yl),
                 Point::new(xs - xl, ys),
                 Point::new(xs, ys)]
-      cell.shapes(index).insert(Path::new(points, w, w/2, -w/2))           
+      cell.shapes(index).insert(Path::new(points, w, w/2, -w/2).simple_polygon)           
     end
   end
 
