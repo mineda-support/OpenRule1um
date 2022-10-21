@@ -15,10 +15,10 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.69 Oct. 20th 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.691 Oct. 21st 2022 copy right S. Moriyama (Anagix Corporation)
 #
 module MinedaPCell
-  version = '0.69'
+  version = '0.691'
   include RBA
   class MinedaPCellCommon &lt; PCellDeclarationHelper
     include RBA
@@ -310,6 +310,7 @@ module MinedaPCell
         pcont_dy = params[:pcont_dy] || u1/4
         y = y2 - vs/2 + pcont_dy
         gate_ext = params[:gate_ext] || 0
+        mw1 = params[:m1_width] || u1
         if wide_metal
           x = x - u1
           y = y + u1/2
@@ -343,10 +344,10 @@ module MinedaPCell
             y = y1+vs/2 - wm_offset -via_offset
             if !no_finger_conn &amp;&amp; (with_sdcont || n != 1)
               insert_cell indices[:via], x, y if with_via &amp;&amp; with_sdcont  
-              create_path indices[:m1], x, y, x, y1+vs+2*u1, u1, 0, 0
+              create_path indices[:m1], x, y, x, y1+vs+2*u1, mw1, 0, 0
             end
             if top
-              create_path indices[:m1], top, y, x, y, u1, u1/2, u1/2 unless no_finger_conn
+              create_path indices[:m1], top, y, x, y, mw1, mw1/2, mw1/2 unless no_finger_conn
             end
             top = x
           else
@@ -359,11 +360,11 @@ module MinedaPCell
               y = y2+u1-vs/2
             end
             unless no_finger_conn
-              create_path indices[:m1], x, y2-vs-2*u1 - wm_offset - via_offset, x, y, u1, 0, 0 if with_sdcont || n != 1
+              create_path indices[:m1], x, y2-vs-2*u1 - wm_offset - via_offset, x, y, mw1, 0, 0 if with_sdcont || n != 1
             end
             if bottom
               y = y2+u1-vs/2
-              create_path indices[:m1], bottom, y, x, y, u1, u1/2, u1/2 unless no_finger_conn
+              create_path indices[:m1], bottom, y, x, y, mw1, mw1/2, mw1/2 unless no_finger_conn
             end
             bottom = x
           end
@@ -597,6 +598,7 @@ module MinedaPCell
         pcont_dy = params[:pcont_dy] || -u1/4
         y = y1 + vs/2 + pcont_dy
         gate_ext = params[:gate_ext] || 0
+        mw1 = params[:m1_width] || u1
         if wide_metal
           x = x - u1
           y = y - u1/2
@@ -629,11 +631,11 @@ module MinedaPCell
             # first s/d and via
             if !no_finger_conn &amp;&amp; (with_sdcont || n != 1)
               insert_cell indices[:via], x, y2-vs/2 + wm_offset + via_offset if with_via &amp;&amp; with_sdcont
-              create_path indices[:m1], x, y2-vs-2*u1, x, y2-vs/2 + wm_offset + via_offset, u1, 0, 0
+              create_path indices[:m1], x, y2-vs-2*u1, x, y2-vs/2 + wm_offset + via_offset, mw1, 0, 0
             end
             if top
               y = y2-vs/2 + wm_offset + via_offset
-              create_path indices[:m1], top, y, x, y, u1, u1/2, u1/2 unless no_finger_conn
+              create_path indices[:m1], top, y, x, y, mw1, mw1/2,mw1/2 unless no_finger_conn
             end
             top = x
           else
@@ -645,9 +647,9 @@ module MinedaPCell
               insert_cell indices[:via], x, y1-u1+vs/2 - via_offset if with_via &amp;&amp; with_sdcont &amp;&amp; !no_finger_conn
               y = y1-u1+vs/2
             end
-            create_path indices[:m1], x, y, x, y1+vs+2*u1, u1, 0, 0 if !no_finger_conn &amp;&amp; (with_sdcont || n != 1)
+            create_path indices[:m1], x, y, x, y1+vs+2*u1, mw1, 0, 0 if !no_finger_conn &amp;&amp; (with_sdcont || n != 1)
             if bottom &amp;&amp; !no_finger_conn
-              create_path indices[:m1], bottom, y1-u1+vs/2, x, y1 -u1+vs/2, u1, u1/2, u1/2
+              create_path indices[:m1], bottom, y1-u1+vs/2, x, y1 -u1+vs/2, mw1, mw1/2, mw1/2
             end
             bottom = x
           end
