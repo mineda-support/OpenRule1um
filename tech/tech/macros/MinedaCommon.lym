@@ -16,7 +16,7 @@
  <dsl-interpreter-name/>
  <text># Mineda Common
 #   Force on-grid v0.1 July 39th copy right S. Moriyama (Anagix Corp.)
-#   LVS preprocessor(get_reference) v0.641 October 17th copyright by S. Moriyama (Anagix Corporation)
+#   LVS preprocessor(get_reference) v0.65 October 29th copyright by S. Moriyama (Anagix Corporation)
 #   ConvertPCells and PCellDefaults moved from MinedaPCell v0.3 Sep. 3rd 2022
 #   PCellTest v0.2 August 22nd 2022 S. Moriyama
 #   DRC_helper::find_cells_to_exclude v0.1 Sep 23rd 2022 S. Moriyama
@@ -622,10 +622,13 @@ class MinedaLVS
         l.gsub! 00.chr, ''
         l.tr! "@%-", "$$_"
         c.puts l
-        nl = yield(l) if block_given?
-        if nl != l
-          print "=&gt; #{nl}"
-          l = nl
+        puts "l=#{l}"
+        if block_given?
+          nl = yield(l)
+          if nl != l
+            print "=&gt; #{nl}"
+            l = nl
+          end
         end
         # if l=~ /(\S+)@or1_stdcells_v1/
         #  cells &lt;&lt; $1 unless cells.include? $1
@@ -677,10 +680,10 @@ class MinedaLVS
           # others = p.map{|a| "#{a[0]}=#{a[1]}"}.join ' '
           others = "l=#{p['L']} w=#{p['W']}" # supress other parameters like as, ps, ad and pd
           l = "#{body} #{others}\n"
-        elsif !inside_subckt
+        elsif  !inside_subckt
           if l =~ /^ *[xX]/
             circuit_top ||= '.TOP'
-          elsif l =~ /^ *([rR]|[cC]|[dD])/ || l.downcase =~ /^ *\.(global|subckt|ends)/ 
+          elsif l =~ /^ *([rR]|[cC]|[dD])/ || l.downcase =~ /^ *\.(global|subckt|ends)/
             # do nothing
           else   
             l.sub! /^/, '*' if !(l =~ /^ *\+/) || prev_line =~ /^ *\*/ # comment
@@ -697,7 +700,7 @@ class MinedaLVS
         break if l.upcase.strip == '.END'
         prev_line = l
         desc &lt;&lt; '***' if comment_subckt
-        desc &lt;&lt; l.upcase
+        desc &lt;&lt; l.upcase if l
       }
       circuit_top = circuit_top ? circuit_top.upcase : '.TOP'
       puts "circuit_top =&gt; #{circuit_top}"

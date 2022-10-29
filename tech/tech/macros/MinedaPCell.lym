@@ -67,6 +67,7 @@ module MinedaPCell
 
     def get_layer_index name
       layer, data_type = @layer_index[name]
+      # puts "get_layer_index:for #{name} = #{layer}/#{data_type}"
       layout.insert_layer(LayerInfo::new layer, data_type)
     end
 
