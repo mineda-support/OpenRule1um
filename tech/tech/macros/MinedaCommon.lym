@@ -16,7 +16,7 @@
  <dsl-interpreter-name/>
  <text># Mineda Common
 #   Force on-grid v0.1 July 39th copy right S. Moriyama (Anagix Corp.)
-#   LVS preprocessor(get_reference) v0.65 October 29th copyright by S. Moriyama (Anagix Corporation)
+#   LVS preprocessor(get_reference) v0.66 October 29th copyright by S. Moriyama (Anagix Corporation)
 #   ConvertPCells and PCellDefaults moved from MinedaPCell v0.3 Sep. 3rd 2022
 #   PCellTest v0.2 August 22nd 2022 S. Moriyama
 #   DRC_helper::find_cells_to_exclude v0.1 Sep 23rd 2022 S. Moriyama
@@ -747,26 +747,28 @@ class MinedaLVS
   def set_settings cell, circuit_top, device_class, file, settings
     cell_name = cell.name
     File.open(file, 'w'){|f|
-      ln, dt = settings[:exclude_layer]
-      blank_layout = settings[:blank_layout]
-      f.puts "def set_blank_layout layer_number=#{ln}, data_type=#{dt}"
-      f.puts "  source.layout.technology_name='#{cell.layout.technology_name}'"
-      f.puts "  unless source.cell_name == '#{cell_name}'"
-      f.puts '    raise "Invalid set_blank_layout for #{source.path}[#{source.cell_name}]"'
-      f.puts '  end'
-      if blank_layout
-        f.puts "  blank_layout = '#{blank_layout}'" 
-      else
-        f.puts "  blank_layout = nil"
+      if  settings[:exclude_layer]
+        ln, dt = settings[:exclude_layer]
+        blank_layout = settings[:blank_layout]
+        f.puts "def set_blank_layout layer_number=#{ln}, data_type=#{dt}"
+        f.puts "  source.layout.technology_name='#{cell.layout.technology_name}'"
+        f.puts "  unless source.cell_name == '#{cell_name}'"
+        f.puts '    raise "Invalid set_blank_layout for #{source.path}[#{source.cell_name}]"'
+        f.puts '  end'
+        if blank_layout
+          f.puts "  blank_layout = '#{blank_layout}'" 
+        else
+          f.puts "  blank_layout = nil"
+        end
+        f.puts '  if blank_layout'
+        f.puts '    dh = MinedaCommon::DRC_helper.new'
+        f.puts '    dh.find_cells_to_exclude [layer_number, data_type], blank_layout, 0'
+        f.puts '    exclude = input layer_number, data_type'
+        f.puts '  else'
+        f.puts '    exclude = input'
+        f.puts '  end'
+        f.puts 'end'
       end
-      f.puts '  if blank_layout'
-      f.puts '    dh = MinedaCommon::DRC_helper.new'
-      f.puts '    dh.find_cells_to_exclude [layer_number, data_type], blank_layout, 0'
-      f.puts '    exclude = input layer_number, data_type'
-      f.puts '  else'
-      f.puts '    exclude = input'
-      f.puts '  end'
-      f.puts 'end'
       f.puts 'def lvs_settings'
       f.puts "  same_circuits '#{cell_name}', '#{circuit_top ? circuit_top.upcase : '.TOP'}'" if cell_name
       f.puts "  netlist.make_top_level_pins"
