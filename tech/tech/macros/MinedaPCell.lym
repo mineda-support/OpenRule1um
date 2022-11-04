@@ -15,10 +15,10 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.692 Nov. 4th 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.693 Nov. 4th 2022 copy right S. Moriyama (Anagix Corporation)
 #
 module MinedaPCell
-  version = '0.692'
+  version = '0.693'
   include RBA
   class MinedaPCellCommon &lt; PCellDeclarationHelper
     include RBA
@@ -127,7 +127,7 @@ module MinedaPCell
     end
 
     def create_dcont index, x1, y1, x2, y2, vs, dcont_offset = 0
-      if dcont_offset  == true || dcont_offset &gt; vs
+      if  dcont_offset &amp;&amp; (dcont_offset  == true || dcont_offset &gt; vs)
         n = (y2 - y1)/vs
         dcont_offset = (y2 - y1 - n*vs)/2
       end
