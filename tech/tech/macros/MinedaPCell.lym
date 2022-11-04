@@ -15,10 +15,10 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.691 Oct. 21st 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.692 Nov. 4th 2022 copy right S. Moriyama (Anagix Corporation)
 #
 module MinedaPCell
-  version = '0.691'
+  version = '0.692'
   include RBA
   class MinedaPCellCommon &lt; PCellDeclarationHelper
     include RBA
@@ -126,12 +126,16 @@ module MinedaPCell
       cell.shapes(index).insert(Path::new(points, w, be, ee))
     end
 
-    def create_dcont index, x1, y1, x2, y2, vs
-      (y1+vs/2..y2-vs/2).step(vs){|y|
+    def create_dcont index, x1, y1, x2, y2, vs, dcont_offset = 0
+      if dcont_offset  == true || dcont_offset &gt; vs
+        n = (y2 - y1)/vs
+        dcont_offset = (y2 - y1 - n*vs)/2
+      end
+      (y1+vs/2 + (dcont_offset || 0) .. y2-vs/2).step(vs){|y|
         insert_cell index, x1, y
       }
     end
-    
+
     def overcoat layer, original
       cell.shapes(original).each{|shape|
         if shape.is_path?
@@ -265,7 +269,7 @@ module MinedaPCell
         x = offset + vs/2 - xshift
         create_path(indices[:m1], x, vs-yshift+u1, x, vs-yshift+u1-u1cut+[gw, vs].max, vs, 0, 0)
         create_path(indices[:li1], x, vs-yshift+u1, x, vs-yshift+u1-u1cut+[gw, vs].max, u1, 0, 0) if indices[:li1]
-        create_dcont(indices[:dcont], x, vs-yshift+u1, x, vs-yshift+u1+[gw, vs].max, vs)
+        create_dcont(indices[:dcont], x, vs-yshift+u1, x, vs-yshift+u1+[gw, vs].max, vs, params[:dcont_offset])
         x = x + vs/2 + gl/2 + dgl
         if i &lt; n
           create_path(indices[:pol], x, vs-yshift+u1, x, vs-yshift+u1+[gw, vs].max, gl, gate_ext, gate_ext)
