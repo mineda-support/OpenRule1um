@@ -7,7 +7,7 @@
  <epilog/>
  <doc/>
  <autorun>true</autorun>
- <autorun-early>false</autorun-early>
+ <autorun-early>true</autorun-early>
  <shortcut/>
  <show-in-menu>false</show-in-menu>
  <group-name/>
@@ -15,10 +15,10 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.693 Nov. 4th 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.7 Nov. 8th 2022 copy right S. Moriyama (Anagix Corporation)
 #
 module MinedaPCell
-  version = '0.693'
+  version = '0.7'
   include RBA
   class MinedaPCellCommon &lt; PCellDeclarationHelper
     include RBA
@@ -248,28 +248,30 @@ module MinedaPCell
     end
 
     def produce_impl_core indices, vs, u1, params = {}
-      gw = (w/layout.dbu).to_i
-      gl = (l/layout.dbu).to_i
+      oo_layout_dbu = 1 / layout.dbu
+      gw = (w * oo_layout_dbu).to_i
+      gl = (l*oo_layout_dbu).to_i
       vo = params[:vs_overhead] || 0
-      dgl = ((dg || 0.0)/layout.dbu).to_i
+      dgl = ((dg || 0.0)*oo_layout_dbu).to_i
       if gw &lt; vs - vo  # dgl: dumbbell gap length
-        dgl = [dgl, ((dsl/layout.dbu).to_i - gl)/2].max if defined? dsl # dsl: minimum dumbbell shaft length
+        dgl = [dgl, ((dsl*oo_layout_dbu).to_i - gl)/2].max if defined? dsl # dsl: minimum dumbbell shaft length
       else
-        dgl = [dgl,  ((sdg/layout.dbu).to_i - gl)/2].max if defined? sdg # sdg: minimum source-drain gap
+        dgl = [dgl,  ((sdg*oo_layout_dbu).to_i - gl)/2].max if defined? sdg # sdg: minimum source-drain gap
       end
       if defined?(soi_bridge) &amp;&amp; soi_bridge &amp;&amp; defined?(sdg)
-        dgl = ([gl,  (sdg/layout.dbu).to_i].max - gl)/2
+        dgl = ([gl,  (sdg*oo_layout_dbu).to_i].max - gl)/2
       end
       xshift = params[:xshift] || vs/2
       yshift = params[:yshift] || vs/2
       u1cut = params[:u1cut] || 0
       gate_ext = params[:gate_ext] || vs/2 + u1/8
+      vs_extra = params[:vs_extra] || 0
       offset = 0
       (n+1).times{|i|
         x = offset + vs/2 - xshift
         create_path(indices[:m1], x, vs-yshift+u1, x, vs-yshift+u1-u1cut+[gw, vs].max, vs, 0, 0)
         create_path(indices[:li1], x, vs-yshift+u1, x, vs-yshift+u1-u1cut+[gw, vs].max, u1, 0, 0) if indices[:li1]
-        create_dcont(indices[:dcont], x, vs-yshift+u1, x, vs-yshift+u1+[gw, vs].max, vs, params[:dcont_offset])
+        create_dcont(indices[:dcont], x, vs-yshift+u1, x, vs-yshift+u1+[gw, vs].max, vs + vs_extra, params[:dcont_offset])
         x = x + vs/2 + gl/2 + dgl
         if i &lt; n
           create_path(indices[:pol], x, vs-yshift+u1, x, vs-yshift+u1+[gw, vs].max, gl, gate_ext, gate_ext)
@@ -911,10 +913,11 @@ module MinedaPCell
 
     def produce_impl indices, header_outside, vs, u1, params={}
       res_body = indices[:pol] || indices[:diff] || indices[:nwl]
-      rw = (w/layout.dbu).to_i
-      rrl = (l/layout.dbu).to_i
-      sp = (s/layout.dbu).to_i
-      ms = (m/layout.dbu).to_i
+      oo_layout_dbu = 1/ layout.dbu
+      rw = (w*oo_layout_dbu).to_i
+      rrl = (l*oo_layout_dbu).to_i
+      sp = (s*oo_layout_dbu).to_i
+      ms = (m*oo_layout_dbu).to_i
       cs = params[:contact_size] || vs
       rrl = rrl - (vs - cs)
       rw_ho = rw*header_outside
@@ -1078,14 +1081,16 @@ module MinedaPCell
     end
 
     def produce_impl indices, vs, u1, area_index=nil, well_index=nil, params={}
-      cw = (w/layout.dbu).to_i
-      cl = (l/layout.dbu).to_i
+      oo_layout_dbu = 1 / layout.dbu
+      cw = (w*oo_layout_dbu).to_i
+      cl = (l*oo_layout_dbu).to_i
       u2 = u1 + u1
       cap_ext = params[:cap_ext] || u1
       create_box indices[:diff], 0, -cap_ext, cw, cl+vs+u1+u1/2
       create_box indices[:cap], 0, 0, cw, cl
       # create_box indices[:cap], 0, 0, cw, cl+u1+vs
-      create_box area_index, -u1/2, -u1-u1/2, cw + u1/2, cl + u1/2 + vs + u1
+      diff_enclosure = params[:diff_enclosure] || 0
+      create_box area_index, -u1/2, -u1-u1/2, cw + u1/2, cl + u1/2 + vs + u1 + diff_enclosure
       well_diff_enc = params[:wd_enc] || u1*5
       if well_index
         if nsub_cont = indices[:psubcont]
@@ -1129,8 +1134,9 @@ module MinedaPCell
     end
 
     def produce_impl indices, vs, u1, params = {}
-      cw = (w/layout.dbu).to_i
-      cl = (l/layout.dbu).to_i
+      oo_layout_dbu = 1 / layout.dbu
+      cw = (w*oo_layout_dbu).to_i
+      cl = (l*oo_layout_dbu).to_i
       u2 = u1 + u1
       cap_ext = params[:cap_ext] || u1
       pcont_dy = params[:pcont_dy] || 0
