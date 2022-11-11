@@ -26,9 +26,9 @@
 # PTS06           PCells_PTS06           PTS06                PTS06_Basic
 # Sky130a         PCells_Sky130a         Sky130a_v0p2         Sky130a_Basic
 # Mineda2022_6    PCells_Mineda2022_6    Mineda2022_6         Mineda2022_6_Basic
-  include MinedaPCell
+
 module OpenRule1um_v2
-  #include MinedaPCellCommonModule
+  include MinedaPCell
 
   # Remove any definition of our classes (this helps when 
   # reexecuting this code after a change has been applied)
@@ -44,7 +44,6 @@ module OpenRule1um_v2
   OpenRule1um_v2.constants.member?(:PCells) &amp;&amp; remove_const(:PCells)
   
   # The PCell declaration for the OpenRule1um_v2 MOSFET
-
   class Nch &lt; MinedaNch
     include RBA
     def initialize

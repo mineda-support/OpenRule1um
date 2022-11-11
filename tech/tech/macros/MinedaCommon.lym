@@ -132,11 +132,14 @@ module MinedaPCellCommonModule
     end
 
     def create_dcont index, x1, y1, x2, y2, vs, dcont_offset = 0
+      # puts [x1, y1, x2, y2].inspect
       if  dcont_offset &amp;&amp; (dcont_offset  == true || dcont_offset &gt; vs)
         n = (y2 - y1)/vs
         dcont_offset = (y2 - y1 - n*vs)/2
       end
+      # puts [y1+vs/2 + (dcont_offset || 0), y2-vs/2, vs].inspect
       (y1+vs/2 + (dcont_offset || 0) .. y2-vs/2).step(vs){|y|
+        # puts "insert #{index}@#{x1},#{y}"
         insert_cell index, x1, y
       }
     end

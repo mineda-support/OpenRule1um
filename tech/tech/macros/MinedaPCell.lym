@@ -15,7 +15,7 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: utf-8
-# MinedaPCell v0.7 Nov. 8th 2022 copy right S. Moriyama (Anagix Corporation)
+# MinedaPCell v0.72 Nov. 11th 2022 copy right S. Moriyama (Anagix Corporation)
 #
 #include MinedaPCellCommonModule
 module MinedaPCell
@@ -77,28 +77,29 @@ module MinedaPCell
       u1cut = params[:u1cut] || 0
       gate_ext = params[:gate_ext] || vs/2 + u1/8
       vs_extra = params[:vs_extra] || 0
+      sd_width = [gw, vs + vs_extra].max
       offset = 0
       (n+1).times{|i|
         x = offset + vs/2 - xshift
-        create_path(indices[:m1], x, vs-yshift+u1, x, vs-yshift+u1-u1cut+[gw, vs].max, vs, 0, 0)
-        create_path(indices[:li1], x, vs-yshift+u1, x, vs-yshift+u1-u1cut+[gw, vs].max, u1, 0, 0) if indices[:li1]
-        create_dcont(indices[:dcont], x, vs-yshift+u1, x, vs-yshift+u1+[gw, vs].max, vs + vs_extra, params[:dcont_offset])
+        create_path(indices[:m1], x, vs-yshift+u1, x, vs-yshift+u1-u1cut+sd_width, vs, 0, 0)
+        create_path(indices[:li1], x, vs-yshift+u1, x, vs-yshift+u1-u1cut+sd_width, u1, 0, 0) if indices[:li1]
+        create_dcont(indices[:dcont], x, vs-yshift+u1, x, vs-yshift+u1+sd_width, vs + vs_extra, params[:dcont_offset])
         x = x + vs/2 + gl/2 + dgl
         if i &lt; n
-          create_path(indices[:pol], x, vs-yshift+u1, x, vs-yshift+u1+[gw, vs].max, gl, gate_ext, gate_ext)
+          create_path(indices[:pol], x, vs-yshift+u1, x, vs-yshift+u1+sd_width, gl, gate_ext, gate_ext)
           if indices[:gate_impl]
             gim = params[:gate_impl_margin] || vs/2
-            create_path(indices[:gate_impl], x, vs-yshift+u1, x, vs-yshift+u1+[gw, vs].max, gl+gim*2, gate_ext+gim, gate_ext+gim)
+            create_path(indices[:gate_impl], x, vs-yshift+u1, x, vs-yshift+u1+sd_width, gl+gim*2, gate_ext+gim, gate_ext+gim)
           end
         end
         offset = offset + vs + gl + 2*dgl
       }
-      if gw &gt; vs
+      if gw &gt; vs + vs_extra
         create_box indices[:diff], -xshift, vs-yshift+u1, offset - gl - 2*dgl - xshift, vs-yshift+u1-u1cut+gw
       else
-        create_box indices[:diff], -xshift, vs-yshift+u1+vs/2-gw/2, offset - gl - 2*dgl - xshift, vs-yshift+u1-u1cut+gw+vs/2-gw/2
+        create_box indices[:diff], -xshift, vs-yshift+u1+(vs+vs_extra)/2-gw/2, offset - gl - 2*dgl - xshift, vs-yshift+u1-u1cut+gw+(vs+vs_extra)/2-gw/2
       end
-      yield -xshift, -yshift, vs*2+gl-xshift, (vs+u1)*2+[gw, vs].max-yshift, gl, gw, dgl
+      yield -xshift, -yshift, vs*2+gl-xshift, (vs+u1)*2+sd_width-yshift, gl, gw, dgl
     end
 
     def library_cell name, libname, layout
