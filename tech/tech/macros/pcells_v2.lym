@@ -15,20 +15,23 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: cp932
-# OpenRule1um_v2 PCells v2.451 Aug. 22nd 2022 copy left by S. Moriyama (Anagix Corporation)
+# OpenRule1um_v2 PCells v2.5 Dec. 19th 2022 copy left by S. Moriyama (Anagix Corporation)
 #   based on OpenRule1um v1.97 Sep. 20, 2021 copy left by S. Moriyama (Anagix Corporation)
 #
 # Naming convention
 # 
-# Technology      PCell                  PCell module     Basic
+# Technology      PCell                     PCell module        Basic
 # -----------------------------------------------------------------------
-# OpenRule1um     PCells                 OpenRule1um_v2       OpenRule1um_Basic
-# PTS06           PCells_PTS06           PTS06                PTS06_Basic
-# Sky130a         PCells_Sky130a         Sky130a_v0p2         Sky130a_Basic
+# OpenRule1um     PCells                 OpenRule1um_v2   OpenRule1um_Basic
+# PTS06              PCells_PTS06         PTS06                PTS06_Basic
+# Sky130a           PCells_Sky130a         Sky130a_v0p2         Sky130a_Basic
 # Mineda2022_6    PCells_Mineda2022_6    Mineda2022_6         Mineda2022_6_Basic
 
 module OpenRule1um_v2
   include MinedaPCell
+  mpc = MinedaPCellCommon::new 
+  mpc.set_technology 'OpenRule1um'
+  mpc.set_basic_library 'OpenRule1um_Basic'
 
   # Remove any definition of our classes (this helps when 
   # reexecuting this code after a change has been applied)
@@ -62,12 +65,12 @@ module OpenRule1um_v2
     end
 
     def produce_impl # NMOS
-      nwl_index = layout.insert_layer(LayerInfo::new(1, 0))
-      diff_index = layout.insert_layer(LayerInfo::new(3, 0))
-      pol_index = layout.insert_layer(LayerInfo::new(5, 0))
-      m1_index = layout.insert_layer(LayerInfo::new(8, 0))
-      parea_index = layout.insert_layer(LayerInfo::new(18, 0))
-      narea_index = layout.insert_layer(LayerInfo::new(19, 0))
+      nwl_index = get_layer_index 'NWL'
+      diff_index = get_layer_index 'DIFF'
+      pol_index = get_layer_index 'POL'
+      m1_index = get_layer_index 'ML1'
+      parea_index = get_layer_index 'Parea'
+      narea_index = get_layer_index 'Narea'
       via_index = library_cell('Via', 'OpenRule1um_Basic', layout)
       dcont_index = library_cell('dcont', 'OpenRule1um_Basic', layout)
       pcont_index = library_cell('pcont', 'OpenRule1um_Basic', layout)
@@ -105,12 +108,12 @@ module OpenRule1um_v2
     end
        
     def produce_impl # PMOS
-      nwl_index = layout.insert_layer(LayerInfo::new(1, 0))
-      diff_index = layout.insert_layer(LayerInfo::new(3, 0))
-      pol_index = layout.insert_layer(LayerInfo::new(5, 0))
-      m1_index = layout.insert_layer(LayerInfo::new(8, 0))
-      parea_index = layout.insert_layer(LayerInfo::new(18, 0))
-      narea_index = layout.insert_layer(LayerInfo::new(19, 0))
+      nwl_index = get_layer_index 'NWL'
+      diff_index = get_layer_index 'DIFF'
+      pol_index = get_layer_index 'POL'
+      m1_index = get_layer_index 'ML1'
+      parea_index = get_layer_index 'Parea'
+      narea_index = get_layer_index 'Narea'
       via_index = library_cell('Via', 'OpenRule1um_Basic', layout)
       dcont_index = library_cell('dcont', 'OpenRule1um_Basic', layout)
       pcont_index = library_cell('pcont', 'OpenRule1um_Basic', layout)
@@ -152,17 +155,17 @@ module OpenRule1um_v2
       end
     end
     def produce_impl(indices = {}, head = :narea)
-      indices[:diff] = layout.insert_layer(LayerInfo::new(3, 0))
+      indices[:diff] =  get_layer_index 'DIFF'
       # cnt_index = layout.insert_layer(LayerInfo::new(21,0))
       indices[:dcont] = library_cell('dcont', 'OpenRule1um_Basic', layout)
       indices[:pcont] = library_cell('pcont', 'OpenRule1um_Basic', layout)
-      indices[:m1] = layout.insert_layer(LayerInfo::new(8, 0))
-      indices[:m2] = layout.insert_layer(LayerInfo::new(10, 0))
-      indices[:res] = layout.insert_layer(LayerInfo::new(15, 0))
+      indices[:m1] = get_layer_index 'ML1'
+      indices[:m2] = get_layer_index 'ML2'
+      indices[:res] = get_layer_index 'RES'
       indices[:via] = library_cell('Via', 'OpenRule1um_Basic', layout)
-      indices[:parea] = layout.insert_layer(LayerInfo::new(18, 0))
-      indices[:narea] = layout.insert_layer(LayerInfo::new(19, 0))
-      indices[:nwl] = layout.insert_layer(LayerInfo::new(1, 0))
+      indices[:parea] = get_layer_index 'Parea'
+      indices[:narea] = get_layer_index 'Narea'
+      indices[:nwl] = get_layer_index 'NWL'
       s = 2.0.um # via size (fixed)
       vs = (s/layout.dbu).to_i
       grid = 1.0.um
@@ -264,10 +267,10 @@ module OpenRule1um_v2
       #juts = rw - nv*vs
       #juts = ((nv+1)*vs-rw) if juts != 0
       juts = 0
-      pol_index = layout.insert_layer(LayerInfo::new(5, 0))
-      m1_index = layout.insert_layer(LayerInfo::new(8, 0))
-      m2_index = layout.insert_layer(LayerInfo::new(10, 0))
-      res_index = layout.insert_layer(LayerInfo::new(15, 0))
+      pol_index = get_layer_index 'POL'
+      m1_index = get_layer_index 'ML1'
+      m2_index = get_layer_index 'ML2'
+      res_index = get_layer_index 'RES'
       via_index = library_cell('Via', 'OpenRule1um_Basic', layout)
       pcont_index = library_cell('pcont', 'OpenRule1um_Basic', layout)
       prev_x = nil
@@ -309,7 +312,7 @@ module OpenRule1um_v2
         prev_x = offset  
       end
       if hpol_layer
-        hpol_index =  layout.insert_layer(LayerInfo::new(hpol_layer, 0))
+        hpol_index =  get_layer_index 'HPOL'
         u5 = (5.0.um/layout.dbu).to_i
         cell.shapes(hpol_index).insert(Box.new(vs/2-rw/2 -u5 -juts, -u5, prev_x+rw/2 + u5 +juts, sl+u5+vs+vs/2))
         puts "u5=#{u5}, juts=#{juts}"
@@ -398,10 +401,10 @@ module OpenRule1um_v2
       #juts = rw - nv*vs
       #juts = ((nv+1)*vs-rw) if juts != 0
       juts = 0
-      pol_index = layout.insert_layer(LayerInfo::new(5, 0))
-      m1_index = layout.insert_layer(LayerInfo::new(8, 0))
-      m2_index = layout.insert_layer(LayerInfo::new(10, 0))
-      res_index = layout.insert_layer(LayerInfo::new(15, 0))
+      pol_index = get_layer_index 'POL'
+      m1_index = get_layer_index 'ML1'
+      m2_index = get_layer_index 'ML2'
+      res_index = get_layer_index 'RES'
       via_index = library_cell('Via', 'OpenRule1um_Basic', layout)
       pcont_index = library_cell('pcont', 'OpenRule1um_Basic', layout)
       prev_x = nil
@@ -500,12 +503,12 @@ module OpenRule1um_v2
       #juts = rw - nv*vs
       #juts = ((nv+1)*vs-rw) if juts != 0
       juts = 0
-      pol_index = layout.insert_layer(LayerInfo::new(5, 0))
-      hpol_index =  layout.insert_layer(LayerInfo::new(6, 0))
+      pol_index = get_layer_index 'POL'
+      hpol_index =  get_layer_index 'HPOL'
       # phd2_index =  layout.insert_layer(LayerInfo::new(51, 0))
-      m1_index = layout.insert_layer(LayerInfo::new(8, 0))
-      m2_index = layout.insert_layer(LayerInfo::new(10, 0))
-      res_index = layout.insert_layer(LayerInfo::new(15, 0))
+      m1_index = get_layer_index 'ML1'
+      m2_index = get_layer_index 'ML2'
+      res_index = get_layer_index 'RES'
       via_index = library_cell('Via', 'OpenRule1um_Basic', layout)
       pcont_index = library_cell('pcont', 'OpenRule1um_Basic', layout)
       prev_x = nil
@@ -583,10 +586,10 @@ module OpenRule1um_v2
       u1 = (grid/layout.dbu).to_i
       s = 2.0.um # via size (fixed)
       vs = (s/layout.dbu).to_i
-      pol_index = layout.insert_layer(LayerInfo::new(5, 0))
-      m1_index = layout.insert_layer(LayerInfo::new(8, 0))
+      pol_index = get_layer_index 'POL'
+      m1_index = get_layer_index 'ML1'
       # m2_index = layout.insert_layer(LayerInfo::new(10, 0))
-      cap_index = layout.insert_layer(LayerInfo::new(16, 0))
+      cap_index = get_layer_index 'CAP'
       via_index = library_cell('Via', 'OpenRule1um_Basic', layout)
       dcont_index = library_cell('dcont', 'OpenRule1um_Basic', layout)
       pcont_index = library_cell('pcont', 'OpenRule1um_Basic', layout)
@@ -612,12 +615,12 @@ module OpenRule1um_v2
       u2 = u1 + u1
       s = 2.0.um # via size (fixed)
       vs = (s/layout.dbu).to_i
-      diff_index = layout.insert_layer(LayerInfo::new(3, 0))     
-      pol_index = layout.insert_layer(LayerInfo::new(5, 0))
-      m1_index = layout.insert_layer(LayerInfo::new(8, 0))
-      m2_index = layout.insert_layer(LayerInfo::new(10, 0))
-      cap_index = layout.insert_layer(LayerInfo::new(16, 0))
-      via_index = library_cell('Via', 'OpenRule1um_Basic', layout)
+      diff_index = get_layer_index 'DIFF'    
+      pol_index = get_layer_index 'POL'
+      m1_index = get_layer_index 'ML1'
+      m2_index = get_layer_index 'ML2'
+      cap_index = get_layer_index 'CAP'
+     via_index = library_cell('Via', 'OpenRule1um_Basic', layout)
       dcont_index = library_cell('dcont', 'OpenRule1um_Basic', layout)
       pcont_index = library_cell('pcont', 'OpenRule1um_Basic', layout)
       nsubcont_index = library_cell('nsubcont', 'OpenRule1um_Basic', layout)
@@ -636,7 +639,7 @@ module OpenRule1um_v2
     end
 
     def produce_impl
-      narea_index = layout.insert_layer(LayerInfo::new(19, 0))
+      narea_index = get_layer_index 'Narea'
       super narea_index
     end
   end
@@ -653,8 +656,8 @@ module OpenRule1um_v2
     end
 
     def produce_impl
-      parea_index = layout.insert_layer(LayerInfo::new(18, 0))
-      nwl_index = layout.insert_layer(LayerInfo::new(1, 0))
+      parea_index = get_layer_index 'Parea'
+      nwl_index = get_layer_index 'NWL'
       super parea_index, nwl_index
     end
   end
