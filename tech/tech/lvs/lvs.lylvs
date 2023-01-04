@@ -8,44 +8,59 @@
  <doc/>
  <autorun>false</autorun>
  <autorun-early>false</autorun-early>
+ <priority>0</priority>
  <shortcut/>
  <show-in-menu>true</show-in-menu>
  <group-name>lvs_scripts</group-name>
  <menu-path>tools_menu.lvs.end</menu-path>
  <interpreter>dsl</interpreter>
  <dsl-interpreter-name>lvs-dsl-xml</dsl-interpreter-name>
- <text># LVS for OpenRule1um v1.3 July 16th, 2022 copy left by S. Moriyama (Anagix Corporation)
+ <text># LVS for OpenRule1um v1.4 Jan. 4th, 2023 copy left by S. Moriyama (Anagix Corporation)
+#        previous version: v1.3 July 16th, 2022
 
 deep
 report_lvs
 
+mi = MinedaCommon::MinedaInput::new source
+reference, output = mi.get_reference
+exclude = input
+if settings = mi.get_settings
+  load settings
+  if defined? set_blank_layout
+    exclude = set_blank_layout
+  end
+end
+if File.exist? reference
+  schematic reference
+end
+
 # Drawing layers
 
-nwl = input(1, 0)
-nwl_dp = input(2, 0)
-diff = input(3, 0) 
-pol = input(5, 0)
-hpol = input(6,0)
-cnt = input(7, 0)
-ml1 = input(8, 0)
-via1 = input(9, 0) 
-ml2 = input(10, 0)
-via2 = input(11, 0)
-ml3 = input(12, 0)
-text = input(13, 0)
-frame = input(14, 0)
-res = input(15, 0)
-cap = input(16, 0)
-dio = input(17, 0)
-parea = input(18, 0)
-narea = input(19, 0)
-pad = input(20, 0)
-dm_dcn = input(101, 0)
-dm_pcn = input(102, 0)
-dm_nscn = input(103, 0)
-dm_pscn = input(104, 0)
-dm_via1 = input(105, 0)
-dm_via2 = input(106, 0)
+nwl = input(*mi.index('NWL'))
+nwl_dp = input(*mi.index('NWL_dp'))
+diff = input(*mi.index('DIFF'))
+pol = input(*mi.index('POL'))
+hpol = input(*mi.index('HPOL'))
+cnt = input(*mi.index('CNT'))
+ml1 = input(*mi.index('ML1'))
+via1 = input(*mi.index('VIA1'))
+ml2 = input(*mi.index('ML2'))
+via2 = input(*mi.index('VIA2'))
+ml3 = input(*mi.index('ML3'))
+text = input(*mi.index('TEXT'))
+frame = input(*mi.index('FRAME'))
+res = input(*mi.index('RES'))
+cap = input(*mi.index('CAP'))
+dio = input(*mi.index('DIO'))
+parea = input(*mi.index('Parea'))
+narea = input(*mi.index('Narea'))
+pad = input(*mi.index('PAD'))
+dm_dcn = input(*mi.index('DM_dcn'))
+dm_pcn = input(*mi.index('DM_pcn'))
+dm_nscn = input(*mi.index('DM_nscn'))
+dm_pscn = input(*mi.index('DM_pscn'))
+dm_via1 = input(*mi.index('DM_via1'))
+dm_via2 = input(*mi.index('DM_via1'))
 
 # Special layer for bulk terminals
 
@@ -190,21 +205,11 @@ netlist.purge
 
 target_netlist(output, write_spice, "Created by KLayout")
 
-if File.exist? reference
-  schematic reference
-  if File.exist? "#{lvs_work}/#{target}_lvs_settings.rb"
-    load "#{lvs_work}/#{target}_lvs_settings.rb"
+mi.lvs(reference, output, lvs_data, l2n_data) {
+  if settings
     lvs_settings
   end
-# Netlist vs. netlist
   compare
-  slink = "#{lvs_work}/#{File.basename output}.txt"
-  File.delete slink if File.exist?(slink) || File.symlink?(slink)
-  if /mswin32|mingw/ =~ RUBY_PLATFORM
-    File.link output, slink
-  else
-    File.symlink "../#{File.basename output}", slink
-  end
-end
+}
 </text>
 </klayout-macro>
