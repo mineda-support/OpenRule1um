@@ -15,7 +15,7 @@
  <menu-path>tools_menu.lvs.end</menu-path>
  <interpreter>dsl</interpreter>
  <dsl-interpreter-name>lvs-dsl-xml</dsl-interpreter-name>
- <text># LVS for OpenRule1um v1.41 Jan. 4th, 2023 copy left by S. Moriyama (Anagix Corporation)
+ <text># LVS for OpenRule1um v1.42 Jan. 5th, 2023 copy left by S. Moriyama (Anagix Corporation)
 #        previous version: v1.3 July 16th, 2022
 
 deep
@@ -177,7 +177,7 @@ netlist.purge
 
 target_netlist(output, write_spice, "Created by KLayout")
 
-mi.lvs(reference, output, lvs_data, l2n_data) {
+mi.lvs(reference, output, lvs_data, l2n_data, is_deep?) {
   if settings
     lvs_settings
   end
