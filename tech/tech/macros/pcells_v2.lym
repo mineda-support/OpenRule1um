@@ -8,6 +8,7 @@
  <doc/>
  <autorun>true</autorun>
  <autorun-early>false</autorun-early>
+ <priority>0</priority>
  <shortcut/>
  <show-in-menu>false</show-in-menu>
  <group-name/>
@@ -15,7 +16,7 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: cp932
-# OpenRule1um_v2 PCells v2.5 Dec. 19th 2022 copy left by S. Moriyama (Anagix Corporation)
+# OpenRule1um_v2 PCells v2.6 Feb. 7th 2023 copy left by S. Moriyama (Anagix Corporation)
 #   based on OpenRule1um v1.97 Sep. 20, 2021 copy left by S. Moriyama (Anagix Corporation)
 #
 # Naming convention
@@ -87,7 +88,7 @@ module OpenRule1um_v2
      # m1w = (metal1width/layout.dbu).to_i    
       super indices, vs, u1, {xshift: 0, yshift:0, 
                               pol_width: u1, gate_ext: vs/2, pcont_dy: 0,
-                              psubcont_dx: 0, psubcont_dy: u1/2, narea_bw: u1/2}
+                              psubcont_dx: u1/4, psubcont_dy: u1/2, narea_bw: u1/2}
     end
   end
 
@@ -131,7 +132,7 @@ module OpenRule1um_v2
      # m1w = (metal1width/layout.dbu).to_i    
       super indices, vs, u1, {xshift: 0, yshift:0, 
                               pol_width: u1, gate_ext: vs/2, pcont_dy: 0,
-                              nsubcont_dy: u1/2, parea_bw: u1/2}
+                              nsubcont_dx: 0, nsubcont_dy: u1/2, parea_bw: u1/2}
     end    
   end
 

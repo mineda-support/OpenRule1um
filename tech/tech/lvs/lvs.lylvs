@@ -183,5 +183,6 @@ mi.lvs(reference, output, lvs_data, l2n_data, is_deep?) {
   end
   compare
 }
+mi.make_symlink output
 </text>
 </klayout-macro>
