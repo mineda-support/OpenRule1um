@@ -8,6 +8,7 @@
  <doc/>
  <autorun>false</autorun>
  <autorun-early>false</autorun-early>
+ <priority>0</priority>
  <shortcut/>
  <show-in-menu>false</show-in-menu>
  <group-name/>
@@ -15,7 +16,7 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text>module MyMacro
-  ogc = MinedaGridCheck.new 0.5.um
+  ogc = MinedaGridCheck.new ($openrule1um_grid || 0.05.um)
   ogc.do_check
 end
 </text>
