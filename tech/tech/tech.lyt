@@ -154,6 +154,12 @@
   </mag>
  </writer-options>
  <connectivity>
+  <stack>
+   <name/>
+   <description/>
+   <connection>Metal5,82/0,53/0</connection>
+   <symbols>Metal5='81/0+81/10'</symbols>
+  </stack>
   <connection>Metal5,82/0,53/0</connection>
   <symbols>Metal5='81/0+81/10'</symbols>
  </connectivity>

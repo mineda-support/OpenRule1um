@@ -8,6 +8,7 @@
  <doc/>
  <autorun>false</autorun>
  <autorun-early>false</autorun-early>
+ <priority>0</priority>
  <shortcut/>
  <show-in-menu>false</show-in-menu>
  <group-name/>
@@ -16,12 +17,10 @@
  <dsl-interpreter-name/>
  <text>module MyMacro
   include MinedaCommon
-  go = ConvertPCells.new 'PCells'
+  go = ConvertPCells.new 'OpenRule1um_v2'
   go.do_convert_library_cells({
-    # pcell_lib: 'PCells',
     basic_lib: 'OpenRule1um_Basic',
-    layer_map: '/home/seijirom/.klayout/salt/PTS06/Technology/tech/PTS_to_OR.txt',
-    routing_scale_factor: 1
+    routing_scale_factor: $rsf || 1, pcell_scale_factor: $psf || 1
   })
 end
 </text>
