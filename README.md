@@ -26,7 +26,7 @@ which needs to be installed together with the OpenRule1um PDK.
   - force_ongrid
 
 ## PDK installation
-Please follow instruction in the PDK Users's manual:
+Please follow instructions in the PDK Users's manual:
 https://www.dropbox.com/scl/fi/dyfb149804js9yqocoep0/OpenRule1um-v2-PDKv0.3.paper?rlkey=79z8g5id6cnem7vga39yy2t8h&dl=0
 
 Because the PDK is installed as a package in KLayout, please clone this repository under 
