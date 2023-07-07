@@ -16,7 +16,7 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: cp932
-# OpenRule1um_v2 PCells v2.6 Feb. 7th 2023 copy left by S. Moriyama (Anagix Corporation)
+# OpenRule1um_v2 PCells v2.61 July. 7th 2023 copy left by S. Moriyama (Anagix Corporation)
 #   based on OpenRule1um v1.97 Sep. 20, 2021 copy left by S. Moriyama (Anagix Corporation)
 #
 # Naming convention
@@ -628,7 +628,7 @@ module OpenRule1um_v2
       indices = {diff: diff_index, pol: pol_index, m1: m1_index, m2: m2_index, 
                 cap: cap_index, via: via_index, dcont: dcont_index,
                 pcont: pcont_index, nsubcont: nsubcont_index}
-      super indices, vs, u1, area_index, well_index, {wd_enc: u1 * 2}
+      super indices, vs, u1, area_index, well_index, {wd_enc: u1 * 2, nsub_cont: defined?(nsub_cont)&amp;&amp;nsub_cont}
     end
   end
   
