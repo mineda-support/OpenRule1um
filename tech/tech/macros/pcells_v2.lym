@@ -16,7 +16,7 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: cp932
-# OpenRule1um_v2 PCells v2.61 July. 7th 2023 copy left by S. Moriyama (Anagix Corporation)
+# OpenRule1um_v2 PCells v2.62 Aug. 8th 2023 copy left by S. Moriyama (Anagix Corporation)
 #   based on OpenRule1um v1.97 Sep. 20, 2021 copy left by S. Moriyama (Anagix Corporation)
 #
 # Naming convention
@@ -474,7 +474,7 @@ module OpenRule1um_v2
         l/n &gt; 80.0 &amp;&amp; (set_n n+1)
       end
       w &lt; 1.2 &amp;&amp; (set_w 1.2)
-      sheet_resistance = 4000
+      sheet_resistance = 7000 # corrected 4000-&gt;7000 Aug. 8, 2023
       set_rval(sheet_resistance * l / w)
     end 
 
