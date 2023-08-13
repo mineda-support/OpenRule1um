@@ -16,7 +16,7 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text>module MyMacro
-  ogc = MinedaGridCheck.new ($openrule1um_grid || 0.05.um)
+  ogc = MinedaGridCheck.new ($openrule1um_grid || 0.5.um)
   ogc.do_check
 end
 </text>
