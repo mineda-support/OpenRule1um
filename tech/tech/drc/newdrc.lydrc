@@ -126,7 +126,7 @@ hipol.width(2.0.um).output("Poly in HPOL width &lt; 2.0")
 polh = (pol.inside(hpol)) - dm_pcn
 polh_e = polh.edges
 polh_e_all = polh_e.with_length(2.1.um, 10000.um)
-polh_e_ok = polh_e.with_length(20.um, 80.um)
+polh_e_ok = polh_e.with_length(22.um, 82.um)
 (polh_e_all - polh_e_ok).output("POL in HPOL must be 20um - 80um")
 
 #puts 'Check Enclose'
