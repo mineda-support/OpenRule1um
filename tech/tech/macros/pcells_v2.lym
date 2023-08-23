@@ -16,7 +16,7 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: cp932
-# OpenRule1um_v2 PCells v2.62 Aug. 8th 2023 copy left by S. Moriyama (Anagix Corporation)
+# OpenRule1um_v2 PCells v2.7 Aug. 22nd 2023 copy left by S. Moriyama (Anagix Corporation)
 #   based on OpenRule1um v1.97 Sep. 20, 2021 copy left by S. Moriyama (Anagix Corporation)
 #
 # Naming convention
@@ -45,6 +45,10 @@ module OpenRule1um_v2
   OpenRule1um_v2.constants.member?(:Poly_cap) &amp;&amp; remove_const(:Poly_cap)
   OpenRule1um_v2.constants.member?(:Ndiff_cap) &amp;&amp; remove_const(:Ndiff_cap)  
   OpenRule1um_v2.constants.member?(:Pdiff_cap) &amp;&amp; remove_const(:Pdiff_cap)
+  OpenRule1um_v2.constants.member?(:Fill_box) &amp;&amp; remove_const(:Fill_box)
+  OpenRule1um_v2.constants.member?(:Psub_ring) &amp;&amp; remove_const(:Psub_ring)
+  OpenRule1um_v2.constants.member?(:Nsub_ring) &amp;&amp; remove_const(:Nsub_ring)
+  OpenRule1um_v2.constants.member?(:Nsub_filler) &amp;&amp; remove_const(:Nsub_filler)
   OpenRule1um_v2.constants.member?(:PCells) &amp;&amp; remove_const(:PCells)
   
   # The PCell declaration for the OpenRule1um_v2 MOSFET
@@ -663,6 +667,51 @@ module OpenRule1um_v2
     end
   end
 
+  class Psub_ring &lt; MinedaFillRing
+    def initialize
+      super
+      param(:sq_size, TypeDouble, "Square size", :default =&gt; 2.0.um, :hidden =&gt; true)
+    end  
+    def produce_impl
+      psubcont_index = library_cell('psubcont', 'OpenRule1um_Basic', layout) 
+      m1_index = get_layer_index 'ML1'
+      diff_index = get_layer_index 'DIFF'
+      super psubcont_index,  (sq_size/layout.dbu).to_i, [m1_index, diff_index],  (l/layout.dbu).to_i,  (w/layout.dbu).to_i
+    end
+  end
+
+  class Nsub_ring &lt; MinedaFillRing
+    def initialize
+      super
+      param(:sq_size, TypeDouble, "Square size", :default =&gt; 3.0.um, :hidden =&gt; true)
+    end
+    def produce_impl
+      nsubcont_index = library_cell('nsubcont', 'OpenRule1um_Basic', layout) 
+      m1_index = get_layer_index 'ML1'
+      super nsubcont_index,  (sq_size/layout.dbu).to_i, [m1_index, nhd_index],  (l/layout.dbu).to_i,  (w/layout.dbu).to_i
+      nwl_index =  get_layer_index 'NWL'
+      super nil,  (4.0/layout.dbu).to_i, nwl_index,  (l/layout.dbu).to_i,  (w/layout.dbu).to_i
+    end  
+  end
+
+  class Nsub_filler &lt; MinedaFillBox
+    def produce_impl
+      nsubcont_index = library_cell('nsubcont', 'OpenRule1um_Basic', layout) 
+      area = [0, 0, (l/layout.dbu).to_i, (w/layout.dbu).to_i]
+      fill_area(area,  (4.0/layout.dbu).to_i, nil){|x, y|
+        insert_cell nsubcont_index, x, y
+      }
+    end
+  end
+
+  class Fill_box &lt;  MinedaFillBox
+    def produce_impl
+      narea_index = get_layer_index 'Narea'
+      area = [0, 0, l/layout.dbu, w/layout.dbu]
+      fill_area(area, 0, narea_index)
+    end
+  end
+
   class OpenRule1um &lt; Library
 
     def initialize  
@@ -681,8 +730,12 @@ module OpenRule1um_v2
       layout.register_pcell("R_pdiff", R_pdiff::new)
       layout.register_pcell("Poly_cap", Poly_cap::new)
       layout.register_pcell("Ndiff_cap", Ndiff_cap::new)
-      layout.register_pcell("Pdiff_cap", Pdiff_cap::new)      
-      
+      layout.register_pcell("Pdiff_cap", Pdiff_cap::new) 
+      layout.register_pcell("Psub_ring", Psub_ring::new)      
+      layout.register_pcell("Nsub_ring", Nsub_ring::new) 
+      layout.register_pcell("Nsub_filler", Nsub_filler::new)
+      layout.register_pcell("Fill_box", Fill_box::new)      
+     
       # "OpenRule1um_v2"という名前で登録します。
       # その名前のライブラリがすでに存在していた場合は、その時点で置き換えられます。
       register("PCells")
