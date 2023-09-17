@@ -16,7 +16,7 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: cp932
-# OpenRule1um_v2 PCells v2.7 Aug. 22nd 2023 copy left by S. Moriyama (Anagix Corporation)
+# OpenRule1um_v2 PCells v2.8 Sep. 17th 2023 copy left by S. Moriyama (Anagix Corporation)
 #   based on OpenRule1um v1.97 Sep. 20, 2021 copy left by S. Moriyama (Anagix Corporation)
 #
 # Naming convention
@@ -49,6 +49,8 @@ module OpenRule1um_v2
   OpenRule1um_v2.constants.member?(:Psub_ring) &amp;&amp; remove_const(:Psub_ring)
   OpenRule1um_v2.constants.member?(:Nsub_ring) &amp;&amp; remove_const(:Nsub_ring)
   OpenRule1um_v2.constants.member?(:Nsub_filler) &amp;&amp; remove_const(:Nsub_filler)
+  OpenRule1um_v2.constants.member?(:Bridge) &amp;&amp; remove_const(:Bridge) 
+  OpenRule1um_v2.constants.member?(:Nbridge) &amp;&amp; remove_const(:Nbridge)   
   OpenRule1um_v2.constants.member?(:PCells) &amp;&amp; remove_const(:PCells)
   
   # The PCell declaration for the OpenRule1um_v2 MOSFET
@@ -711,6 +713,69 @@ module OpenRule1um_v2
       fill_area(area, 0, narea_index)
     end
   end
+  
+  class Bridge &lt; MinedaBridge
+    include RBA
+    def initialize  
+      super
+      default_l = 4.0.um
+      default_w = 1.0.um
+      default_s = '2'
+      param(:l, TypeDouble, "Bridge length", :default =&gt; default_l )
+      param(:w, TypeDouble, "Bridge width", :default =&gt; default_w)
+      param(:s, TypeString, "Side length", :default =&gt; default_s)
+    end
+    def display_text_impl
+      super 'POL'
+    end
+    def produce_impl
+      tin_index = get_layer_index 'POL'
+      cnt_index = get_layer_index 'CNT'
+      m1_index = get_layer_index 'ML1'
+      via_index = get_layer_index 'VIA'
+      m2_index = get_layer_index 'ML2'
+      res_index = get_layer_index 'RES'
+      narea_index = get_layer_index 'Narea'
+
+      indices = {m1: m1_index, m2: m2_index, via: via_index,
+                 cnt: cnt_index, res: res_index, tin: tin_index}
+      if mb
+        rectangle, u1 = produce_impl_core(indices, :m2, :via,  2.0.um, 1.0.um, 1.0.um)
+      else
+        rectangle, u1 = produce_impl_core(indices, :tin, :cnt,  2.0.um, 1.0.um, 1.0.um)
+      end
+    end 
+  end
+  
+  class Nbridge &lt; MinedaNbridge
+    def initialize  
+      super
+      default_l = 4.0.um
+      default_w = 1.0.um
+      default_s = '2'
+      param(:l, TypeDouble, "Bridge length", :default =&gt; default_l )
+      param(:w, TypeDouble, "Bridge width", :default =&gt; default_w)
+      param(:s, TypeString, "Side length", :default =&gt; default_s)
+    end
+    def produce_impl
+      diff_index = get_layer_index 'DIFF'
+      cnt_index = get_layer_index 'CNT'
+      m1_index = get_layer_index 'ML1'
+      via_index = get_layer_index 'VIA'
+      m2_index = get_layer_index 'ML2'
+      res_index = get_layer_index 'RES'
+      narea_index = get_layer_index 'Narea'
+
+      indices = {m1: m1_index, m2: m2_index, via: via_index,
+                 cnt: cnt_index, res: res_index, diff: diff_index, narea: narea_index}
+      if mb
+        rectangle, u1 = produce_impl_core(indices, :m2, :via,  2.0.um, 1.0.um, 1.0.um)
+      else
+        rectangle, u1 = produce_impl_core(indices, :diff, :cnt,  2.0.um, 1.0.um, 1.0.um)
+      end
+      x1, y1, x2, y2 = rectangle
+    end
+  end
 
   class OpenRule1um &lt; Library
 
@@ -734,7 +799,9 @@ module OpenRule1um_v2
       layout.register_pcell("Psub_ring", Psub_ring::new)      
       layout.register_pcell("Nsub_ring", Nsub_ring::new) 
       layout.register_pcell("Nsub_filler", Nsub_filler::new)
-      layout.register_pcell("Fill_box", Fill_box::new)      
+      layout.register_pcell("Fill_box", Fill_box::new) 
+      layout.register_pcell("Bridge", Bridge::new)
+      layout.register_pcell("Nbridge", Nbridge::new)   
      
       # "OpenRule1um_v2"という名前で登録します。
       # その名前のライブラリがすでに存在していた場合は、その時点で置き換えられます。
