@@ -16,7 +16,7 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: cp932
-# OpenRule1um_v2 PCells v2.8 Sep. 17th 2023 copy left by S. Moriyama (Anagix Corporation)
+# OpenRule1um_v2 PCells v2.81 Sep. 18th 2023 copy left by S. Moriyama (Anagix Corporation)
 #   based on OpenRule1um v1.97 Sep. 20, 2021 copy left by S. Moriyama (Anagix Corporation)
 #
 # Naming convention
@@ -739,10 +739,12 @@ module OpenRule1um_v2
 
       indices = {m1: m1_index, m2: m2_index, via: via_index,
                  cnt: cnt_index, res: res_index, tin: tin_index}
+      via_size = 2.0.um
+      grid = 1.0.um
       if mb
-        rectangle, u1 = produce_impl_core(indices, :m2, :via,  2.0.um, 1.0.um, 1.0.um)
+        rectangle, u1 = produce_impl_core(indices, :m2, :via, via_size, grid)
       else
-        rectangle, u1 = produce_impl_core(indices, :tin, :cnt,  2.0.um, 1.0.um, 1.0.um)
+        rectangle, u1 = produce_impl_core(indices, :tin, :cnt, via_size, grid)
       end
     end 
   end
@@ -768,10 +770,12 @@ module OpenRule1um_v2
 
       indices = {m1: m1_index, m2: m2_index, via: via_index,
                  cnt: cnt_index, res: res_index, diff: diff_index, narea: narea_index}
+      via_size = 2.0.um
+      grid = 1.0.um
       if mb
-        rectangle, u1 = produce_impl_core(indices, :m2, :via,  2.0.um, 1.0.um, 1.0.um)
+        rectangle, u1 = produce_impl_core(indices, :m2, :via, via_size, grid)
       else
-        rectangle, u1 = produce_impl_core(indices, :diff, :cnt,  2.0.um, 1.0.um, 1.0.um)
+        rectangle, u1 = produce_impl_core(indices, :diff, :cnt, via_size, grid)
       end
       x1, y1, x2, y2 = rectangle
     end
