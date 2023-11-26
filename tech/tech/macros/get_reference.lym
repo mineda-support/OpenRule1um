@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <klayout-macro>
- <description>get_reference: create 'reference.cir' from LTspice/EEschema netlist and set same_circuits definitions</description>
+ <description>Get reference for OpenRule1um</description>
  <version/>
  <category/>
  <prolog/>
@@ -8,6 +8,7 @@
  <doc/>
  <autorun>false</autorun>
  <autorun-early>false</autorun-early>
+ <priority>0</priority>
  <shortcut/>
  <show-in-menu>true</show-in-menu>
  <group-name/>

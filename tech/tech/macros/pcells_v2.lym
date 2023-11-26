@@ -16,7 +16,7 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: cp932
-# OpenRule1um_v2 PCells v2.81 Sep. 18th 2023 copy left by S. Moriyama (Anagix Corporation)
+# OpenRule1um_v2 PCells v2.9 Nov. 26th 2023 copy left by S. Moriyama (Anagix Corporation)
 #   based on OpenRule1um v1.97 Sep. 20, 2021 copy left by S. Moriyama (Anagix Corporation)
 #
 # Naming convention
@@ -87,9 +87,9 @@ module OpenRule1um_v2
         parea: parea_index, narea: narea_index, m1: m1_index, via: via_index,
         dcont: dcont_index, pcont: pcont_index, psubcont: psubcont_index}
       s = 2.0.um # via size (fixed)
-      vs = (s/layout.dbu).to_i
+      self.class.set_vs vs = (s/layout.dbu).to_i
       grid = 1.0.um
-      u1 = (grid/layout.dbu).to_i
+      self.class.set_u1 u1 = (grid/layout.dbu).to_i
      # metal1width = 1.0.um
      # m1w = (metal1width/layout.dbu).to_i    
       super indices, vs, u1, {xshift: 0, yshift:0, 
@@ -131,9 +131,9 @@ module OpenRule1um_v2
         parea: parea_index, narea: narea_index, m1: m1_index, via: via_index,
         dcont: dcont_index, pcont: pcont_index, nsubcont: nsubcont_index}
       s = 2.0.um # via size (fixed)
-      vs = (s/layout.dbu).to_i
+      self.class.set_vs vs = (s/layout.dbu).to_i
       grid = 1.0.um
-      u1 = (grid/layout.dbu).to_i
+      self.class.set_u1 u1 = (grid/layout.dbu).to_i
      # metal1width = 1.0.um
      # m1w = (metal1width/layout.dbu).to_i    
       super indices, vs, u1, {xshift: 0, yshift:0, 
