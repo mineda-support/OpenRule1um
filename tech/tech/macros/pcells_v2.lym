@@ -16,7 +16,7 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: cp932
-# OpenRule1um_v2 PCells v2.9 Nov. 26th 2023 copy left by S. Moriyama (Anagix Corporation)
+# OpenRule1um_v2 PCells v2.91 August 7th, 2024 copy right by S. Moriyama (Anagix Corporation)
 #   based on OpenRule1um v1.97 Sep. 20, 2021 copy left by S. Moriyama (Anagix Corporation)
 #
 # Naming convention
@@ -42,7 +42,8 @@ module OpenRule1um_v2
   OpenRule1um_v2.constants.member?(:R_poly) &amp;&amp; remove_const(:R_poly)
   OpenRule1um_v2.constants.member?(:R_ndiff) &amp;&amp; remove_const(:R_ndiff)
   OpenRule1um_v2.constants.member?(:R_pdiff) &amp;&amp; remove_const(:R_pdiff)
-  OpenRule1um_v2.constants.member?(:Poly_cap) &amp;&amp; remove_const(:Poly_cap)
+  OpenRule1um_v2.constants.member?(:NO_MPoly_cap) &amp;&amp; remove_const(:NO_MPoly_cap)
+  OpenRule1um_v2.constants.member?(:MPoly_cap) &amp;&amp; remove_const(:MPoly_cap)
   OpenRule1um_v2.constants.member?(:Ndiff_cap) &amp;&amp; remove_const(:Ndiff_cap)  
   OpenRule1um_v2.constants.member?(:Pdiff_cap) &amp;&amp; remove_const(:Pdiff_cap)
   OpenRule1um_v2.constants.member?(:Fill_box) &amp;&amp; remove_const(:Fill_box)
@@ -365,7 +366,7 @@ module OpenRule1um_v2
       param(:w, TypeDouble, "Resistor width", :default =&gt; 2.0.um)
       param(:n, TypeInt, "Number of maximum stripes", :default =&gt; 1)
 
-      param(:rval, TypeDouble, "Resistor value", :default =&gt; 0, :hidden=&gt; true)
+      param(:rval, TypeDouble, "Resistor value", :default =&gt; 0, :hidden=&gt; false)
     end
     def display_text_impl
       "R_poly\r\n(L=#{l.round(3)}um,W=#{w.round(3)}um,n=#{n.to_s}, R=#{rval})"
@@ -570,22 +571,21 @@ module OpenRule1um_v2
   end
   
   class Poly_cap &lt; MinedaPoly_cap
-      def initialize
+      def initialize ml2 = false
       # Important: initialize the super class
-      super
+      super( {use_ml2: ['Use 2nd ML', ml2]} )
       param(:l, TypeDouble, "Capacitor length", :default =&gt; 10.0.um)
       param(:w, TypeDouble, "Capacitor width", :default =&gt; 10.0.um)
       param(:cval, TypeDouble, "Capacitor value", :default =&gt; 0, :hidden=&gt; true)
     end
     
-    def display_text_impl
+    def display_text_impl name = 'Poly Capacitor'
       # Provide a descriptive text for the cell
-      "Poly Capacitor\r\n(L=#{l.round(3)}um,W=#{w.round(3)}um,C=#{cval.round(3)})"
+      "#{name}\r\n(L=#{l.round(3)}um,W=#{w.round(3)}um,C=#{cval})"
     end
     
-    def coerce_parameters_impl
-      area_cap = 0.028e-15 
-      set_cval(area_cap * l * w)
+    def coerce_parameters_impl value
+      super value
     end
     
     def produce_impl
@@ -595,18 +595,39 @@ module OpenRule1um_v2
       vs = (s/layout.dbu).to_i
       pol_index = get_layer_index 'POL'
       m1_index = get_layer_index 'ML1'
-      # m2_index = layout.insert_layer(LayerInfo::new(10, 0))
+      m2_index = get_layer_index 'ML2'
       cap_index = get_layer_index 'CAP'
       via_index = library_cell('Via', 'OpenRule1um_Basic', layout)
       dcont_index = library_cell('dcont', 'OpenRule1um_Basic', layout)
       pcont_index = library_cell('pcont', 'OpenRule1um_Basic', layout)
-      indices = {m1: m1_index,  cap: cap_index, # m2 : m2_index, 
+      indices = {m1: m1_index,  cap: cap_index, m2: m2_index, 
                  via: via_index, pol: pol_index, dcont: dcont_index,
                  pcont: pcont_index}
       super indices, vs, u1
     end
   end
+  
+  class NO_MPoly_cap &lt; Poly_cap
+    def initialize
+      super
+    end
+    def coerce_parameters_impl
+      super 0.028e-15
+    end    
+  end
 
+  class MPoly_cap &lt; Poly_cap
+    def initialize
+      super true
+    end
+    def coerce_parameters_impl
+      super 0.028e-15+0.045e-15
+    end 
+    def display_text_impl
+      super 'Poly+ML2 Capacitor'
+    end      
+  end
+  
   class Diff_cap &lt; MinedaDiff_cap
     def initialize
       # Important: initialize the super class
@@ -797,7 +818,8 @@ module OpenRule1um_v2
       # layout.register_pcell("R_soi", R_soi::new)
       layout.register_pcell("R_ndiff", R_ndiff::new)
       layout.register_pcell("R_pdiff", R_pdiff::new)
-      layout.register_pcell("Poly_cap", Poly_cap::new)
+      layout.register_pcell("Poly_cap", NO_MPoly_cap::new)
+      layout.register_pcell("MPoly_cap", MPoly_cap::new)
       layout.register_pcell("Ndiff_cap", Ndiff_cap::new)
       layout.register_pcell("Pdiff_cap", Pdiff_cap::new) 
       layout.register_pcell("Psub_ring", Psub_ring::new)      
