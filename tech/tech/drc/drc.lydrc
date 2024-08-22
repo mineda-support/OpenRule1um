@@ -27,6 +27,7 @@
 ## ver1.51 : 2021/09/30: akita11 akita@ifdl.jp (nom-MOS POL touching DIFF)
 
 # temporary refine for HPOL (22-82um) -&gt; (20-80um) 2023/8/13 Seijiro Moriyama
+## ver1.52 : 2024/08/22 Chikau Takahashi (add OFF-GRIDS rules)
 
 report("Output database")
 
@@ -55,6 +56,22 @@ dm_nscn = input(103, 0)
 dm_pscn = input(104, 0)
 dm_via1 = input(105, 0)
 dm_via2 = input(106, 0)
+
+#OFF-GRID rules
+min_grid = 0.05.um
+nwl.ongrid(min_grid).output("nwl off-grid","nwl off grid")
+diff.ongrid(min_grid).output("diff off-grid","diff off grid")
+pol.ongrid(min_grid).output("pol off-grid","pol off grid")
+hpol.ongrid(min_grid).output("hpol off-grid","hpol off grid")
+cnt.ongrid(min_grid).output("cnt off-grid","cnt off grid")
+ml1.ongrid(min_grid).output("ml1 off-grid","ml1 off grid")
+via1.ongrid(min_grid).output("via1 off-grid","via1 off grid")
+ml2.ongrid(min_grid).output("ml2 off-grid","ml2 off grid")
+via2.ongrid(min_grid).output("via2 off-grid","via2 off grid")
+ml3.ongrid(min_grid).output("ml3 off-grid","ml3 off grid")
+parea.ongrid(min_grid).output("Parea off-grid","Parea off grid")
+narea.ongrid(min_grid).output("Narea off-grid","Narea off grid")
+pad.ongrid(min_grid).output("PAD off-grid","PAD off grid")
 
 ndiff = diff &amp; narea
 pdiff = diff &amp; parea
