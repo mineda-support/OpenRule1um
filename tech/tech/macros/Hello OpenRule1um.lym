@@ -6,8 +6,9 @@
  <prolog/>
  <epilog/>
  <doc/>
- <autorun>true</autorun>
+ <autorun>false</autorun>
  <autorun-early>false</autorun-early>
+ <priority>0</priority>
  <shortcut/>
  <show-in-menu>false</show-in-menu>
  <group-name/>
@@ -18,7 +19,7 @@
  
   include RBA
 
-    puts 'Hello NDA free OpenRule1um world'
+  puts 'Hello NDA free OpenRule1um world'
 
 end
 </text>
