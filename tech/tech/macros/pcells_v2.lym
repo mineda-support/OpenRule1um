@@ -16,7 +16,7 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: cp932
-# OpenRule1um_v2 PCells v2.91 August 7th, 2024 copy right by S. Moriyama (Anagix Corporation)
+# OpenRule1um_v2 PCells v2.92 Dec. 4th, 2025 copy right by S. Moriyama (Anagix Corporation)
 #   based on OpenRule1um v1.97 Sep. 20, 2021 copy left by S. Moriyama (Anagix Corporation)
 #
 # Naming convention
@@ -711,7 +711,7 @@ module OpenRule1um_v2
     def produce_impl
       nsubcont_index = library_cell('nsubcont', 'OpenRule1um_Basic', layout) 
       m1_index = get_layer_index 'ML1'
-      super nsubcont_index,  (sq_size/layout.dbu).to_i, [m1_index, nhd_index],  (l/layout.dbu).to_i,  (w/layout.dbu).to_i
+      super nsubcont_index,  (sq_size/layout.dbu).to_i, [m1_index],  (l/layout.dbu).to_i,  (w/layout.dbu).to_i
       nwl_index =  get_layer_index 'NWL'
       super nil,  (4.0/layout.dbu).to_i, nwl_index,  (l/layout.dbu).to_i,  (w/layout.dbu).to_i
     end  
