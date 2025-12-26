@@ -16,7 +16,7 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: cp932
-# OpenRule1um_v2 PCells v2.92 Dec. 4th, 2025 copy right by S. Moriyama (Anagix Corporation)
+# OpenRule1um_v2 PCells v2.93 Dec. 26th, 2025 copy right by S. Moriyama (Anagix Corporation)
 #   based on OpenRule1um v1.97 Sep. 20, 2021 copy left by S. Moriyama (Anagix Corporation)
 #
 # Naming convention
@@ -49,6 +49,8 @@ module OpenRule1um_v2
   OpenRule1um_v2.constants.member?(:Fill_box) &amp;&amp; remove_const(:Fill_box)
   OpenRule1um_v2.constants.member?(:Psub_ring) &amp;&amp; remove_const(:Psub_ring)
   OpenRule1um_v2.constants.member?(:Nsub_ring) &amp;&amp; remove_const(:Nsub_ring)
+  OpenRule1um_v2.constants.member?(:Psub_line) &amp;&amp; remove_const(:Psub_line)
+  OpenRule1um_v2.constants.member?(:Nsub_line) &amp;&amp; remove_const(:Nsub_line)
   OpenRule1um_v2.constants.member?(:Nsub_filler) &amp;&amp; remove_const(:Nsub_filler)
   OpenRule1um_v2.constants.member?(:Bridge) &amp;&amp; remove_const(:Bridge) 
   OpenRule1um_v2.constants.member?(:Nbridge) &amp;&amp; remove_const(:Nbridge)   
@@ -716,6 +718,45 @@ module OpenRule1um_v2
       super nil,  (4.0/layout.dbu).to_i, nwl_index,  (l/layout.dbu).to_i,  (w/layout.dbu).to_i
     end  
   end
+  
+  class Psub_line &lt; MinedaFillLine
+    def initialize
+      super 10.0.um #20.um
+      param(:sq_size, TypeDouble, "Square size", :default =&gt; 2.0.um, :hidden =&gt; false)
+      param(:sq_fit, TypeBoolean, "Fit fixed point", :default =&gt; true, :hidden =&gt; false)
+    end 
+    def produce_impl
+      puts "l=#{l}, w2=#{w2} in psub_line"
+      psubcont_index = library_cell('psubcont', 'OpenRule1um_Basic', layout) 
+      m1_index = get_layer_index 'ML1'
+      diff_index = get_layer_index 'DIFF'
+      gap_pattern = (gp || '').split(/[ ,] */).map{|a| sum = sum + (a.to_f/layout.dbu).to_i}
+      super psubcont_index,  (sq_size/layout.dbu).to_i, [diff_index], nil, (l/layout.dbu).to_i,  (w2/layout.dbu).to_i, gap_pattern, ['ML1', 'CNT', 'DIFF']
+    end
+    def display_text_impl
+      "Psub line\r\n(length=#{l.round(3)}um)"
+    end
+  end
+
+  class Nsub_line &lt; MinedaFillLine
+    def initialize
+      super 10.0.um #50.um
+      param(:sq_size, TypeDouble, "Square size", :default =&gt; 4.0.um, :hidden =&gt; false)
+      param(:sq_fit, TypeBoolean, "Fit fixed point", :default =&gt; true, :hidden =&gt; false)
+    end
+    def produce_impl
+      nsubcont_index = library_cell('nsubcont', 'OpenRule1um_Basic', layout) 
+      m1_index = get_layer_index 'ML1'
+      diff_index = get_layer_index 'DIFF'
+      gap_pattern = (gp || '').split(/[ ,] */).map{|a| sum = sum + (a.to_f/layout.dbu).to_i}
+      super nsubcont_index,  (sq_size/layout.dbu).to_i, [diff_index], nil, (l/layout.dbu).to_i,  (w2/layout.dbu).to_i, gap_pattern, ['ML1', 'CNT', 'DIFF']
+      nwl_index =  get_layer_index 'NWL'
+      super nil,  (4.0/layout.dbu).to_i, nwl_index, nil, (l/layout.dbu).to_i,  (w2/layout.dbu).to_i
+    end  
+    def display_text_impl
+      "Nsub line\r\n(length=#{l.round(3)}um)"
+    end
+  end   
 
   class Nsub_filler &lt; MinedaFillBox
     def produce_impl
@@ -823,7 +864,9 @@ module OpenRule1um_v2
       layout.register_pcell("Ndiff_cap", Ndiff_cap::new)
       layout.register_pcell("Pdiff_cap", Pdiff_cap::new) 
       layout.register_pcell("Psub_ring", Psub_ring::new)      
-      layout.register_pcell("Nsub_ring", Nsub_ring::new) 
+      layout.register_pcell("Nsub_ring", Nsub_ring::new)
+      layout.register_pcell("Psub_line", Psub_line::new)      
+      layout.register_pcell("Nsub_line", Nsub_line::new) 
       layout.register_pcell("Nsub_filler", Nsub_filler::new)
       layout.register_pcell("Fill_box", Fill_box::new) 
       layout.register_pcell("Bridge", Bridge::new)
