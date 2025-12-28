@@ -16,7 +16,7 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: cp932
-# OpenRule1um_v2 PCells v2.93 Dec. 26th, 2025 copy right by S. Moriyama (Anagix Corporation)
+# OpenRule1um_v2 PCells v2.94 Dec. 28th, 2025 copy right by S. Moriyama (Anagix Corporation)
 #   based on OpenRule1um v1.97 Sep. 20, 2021 copy left by S. Moriyama (Anagix Corporation)
 #
 # Naming convention
@@ -708,7 +708,7 @@ module OpenRule1um_v2
   class Nsub_ring &lt; MinedaFillRing
     def initialize
       super
-      param(:sq_size, TypeDouble, "Square size", :default =&gt; 3.0.um, :hidden =&gt; true)
+      param(:sq_size, TypeDouble, "Square size", :default =&gt; 4.0.um, :hidden =&gt; true)
     end
     def produce_impl
       nsubcont_index = library_cell('nsubcont', 'OpenRule1um_Basic', layout) 
