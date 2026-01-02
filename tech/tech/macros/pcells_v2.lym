@@ -694,44 +694,51 @@ module OpenRule1um_v2
 
   class Psub_ring &lt; MinedaFillRing
     def initialize
-      super
+      super 40.0.um, 40.0.um
       param(:sq_size, TypeDouble, "Square size", :default =&gt; 2.0.um, :hidden =&gt; true)
     end  
     def produce_impl
       psubcont_index = library_cell('psubcont', 'OpenRule1um_Basic', layout) 
       m1_index = get_layer_index 'ML1'
       diff_index = get_layer_index 'DIFF'
-      super psubcont_index,  (sq_size/layout.dbu).to_i, [m1_index, diff_index],  (l/layout.dbu).to_i,  (w/layout.dbu).to_i
+      super psubcont_index, sq_size, [diff_index, m1_index], nil,
+       ['ML1', 'CNT', 'DIFF', 'DM_dcn', 'DM_pscn', 'TEXT', 'Parea']
+    end
+    def display_text_impl
+      "#{self.name}\r\n(width=#{w.round(3)}um,length=#{l.round(3)}um)"
     end
   end
 
   class Nsub_ring &lt; MinedaFillRing
     def initialize
-      super
+      super 40.0.um, 40.0.um
       param(:sq_size, TypeDouble, "Square size", :default =&gt; 4.0.um, :hidden =&gt; true)
     end
     def produce_impl
       nsubcont_index = library_cell('nsubcont', 'OpenRule1um_Basic', layout) 
       m1_index = get_layer_index 'ML1'
-      super nsubcont_index,  (sq_size/layout.dbu).to_i, [m1_index],  (l/layout.dbu).to_i,  (w/layout.dbu).to_i
+      diff_index = get_layer_index 'DIFF'
+      super nsubcont_index, sq_size, [diff_index, m1_index], nil,
+       ['ML1', 'CNT', 'DIFF', 'DM_dcn', 'DM_nscn', 'TEXT', 'Narea']
       nwl_index =  get_layer_index 'NWL'
-      super nil,  (4.0/layout.dbu).to_i, nwl_index,  (l/layout.dbu).to_i,  (w/layout.dbu).to_i
-    end  
+      super nil, sq_size, nwl_index
+    end
+    def display_text_impl
+      "#{self.name}\r\n(width=#{w.round(3)}um,length=#{l.round(3)}um)"
+    end
   end
   
   class Psub_line &lt; MinedaFillLine
     def initialize
-      super 10.0.um #20.um
+      super 20.0.um
       param(:sq_size, TypeDouble, "Square size", :default =&gt; 2.0.um, :hidden =&gt; false)
-      param(:sq_fit, TypeBoolean, "Fit fixed point", :default =&gt; true, :hidden =&gt; false)
     end 
     def produce_impl
-      puts "l=#{l}, w2=#{w2} in psub_line"
       psubcont_index = library_cell('psubcont', 'OpenRule1um_Basic', layout) 
       m1_index = get_layer_index 'ML1'
       diff_index = get_layer_index 'DIFF'
-      gap_pattern = (gp || '').split(/[ ,] */).map{|a| sum = sum + (a.to_f/layout.dbu).to_i}
-      super psubcont_index,  (sq_size/layout.dbu).to_i, [diff_index], nil, (l/layout.dbu).to_i,  (w2/layout.dbu).to_i, gap_pattern, ['ML1', 'CNT', 'DIFF']
+      super psubcont_index,  sq_size, [diff_index, m1_index], nil, 
+        ['ML1', 'CNT', 'DIFF', 'DM_dcn', 'DM_pscn', 'TEXT', 'Parea']       
     end
     def display_text_impl
       "Psub line\r\n(length=#{l.round(3)}um)"
@@ -740,18 +747,17 @@ module OpenRule1um_v2
 
   class Nsub_line &lt; MinedaFillLine
     def initialize
-      super 10.0.um #50.um
+      super 20.0.um
       param(:sq_size, TypeDouble, "Square size", :default =&gt; 4.0.um, :hidden =&gt; false)
-      param(:sq_fit, TypeBoolean, "Fit fixed point", :default =&gt; true, :hidden =&gt; false)
     end
     def produce_impl
       nsubcont_index = library_cell('nsubcont', 'OpenRule1um_Basic', layout) 
       m1_index = get_layer_index 'ML1'
       diff_index = get_layer_index 'DIFF'
-      gap_pattern = (gp || '').split(/[ ,] */).map{|a| sum = sum + (a.to_f/layout.dbu).to_i}
-      super nsubcont_index,  (sq_size/layout.dbu).to_i, [diff_index], nil, (l/layout.dbu).to_i,  (w2/layout.dbu).to_i, gap_pattern, ['ML1', 'CNT', 'DIFF']
       nwl_index =  get_layer_index 'NWL'
-      super nil,  (4.0/layout.dbu).to_i, nwl_index, nil, (l/layout.dbu).to_i,  (w2/layout.dbu).to_i
+      super nsubcont_index,  sq_size, [diff_index, m1_index], nil, 
+        ['ML1', 'CNT', 'DIFF', 'DM_dcn', 'DM_nscn', 'TEXT', 'Narea']
+      super nil, sq_size, nwl_index
     end  
     def display_text_impl
       "Nsub line\r\n(length=#{l.round(3)}um)"
