@@ -16,7 +16,7 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: cp932
-# OpenRule1um_v2 PCells v2.94 Dec. 28th, 2025 copy right by S. Moriyama (Anagix Corporation)
+# OpenRule1um_v2 PCells v2.95 Jan. 10th, 2026 copy right by S. Moriyama (Anagix Corporation)
 #   based on OpenRule1um v1.97 Sep. 20, 2021 copy left by S. Moriyama (Anagix Corporation)
 #
 # Naming convention
@@ -696,12 +696,13 @@ module OpenRule1um_v2
     def initialize
       super 40.0.um, 40.0.um
       param(:sq_size, TypeDouble, "Square size", :default =&gt; 2.0.um, :hidden =&gt; true)
+      param(:wire_width, TypeDouble, "Wire width", :default =&gt; 1.0.um, :hidden =&gt; false)
     end  
     def produce_impl
       psubcont_index = library_cell('psubcont', 'OpenRule1um_Basic', layout) 
       m1_index = get_layer_index 'ML1'
       diff_index = get_layer_index 'DIFF'
-      super psubcont_index, sq_size, [diff_index, m1_index], nil,
+      super psubcont_index, sq_size, [m1_index, diff_index], nil,
        ['ML1', 'CNT', 'DIFF', 'DM_dcn', 'DM_pscn', 'TEXT', 'Parea']
     end
     def display_text_impl
@@ -713,12 +714,13 @@ module OpenRule1um_v2
     def initialize
       super 40.0.um, 40.0.um
       param(:sq_size, TypeDouble, "Square size", :default =&gt; 4.0.um, :hidden =&gt; true)
+      param(:wire_width, TypeDouble, "Wire width", :default =&gt; 1.0.um, :hidden =&gt; false)
     end
     def produce_impl
       nsubcont_index = library_cell('nsubcont', 'OpenRule1um_Basic', layout) 
       m1_index = get_layer_index 'ML1'
       diff_index = get_layer_index 'DIFF'
-      super nsubcont_index, sq_size, [diff_index, m1_index], nil,
+      super nsubcont_index, sq_size, [m1_index, diff_index], nil,
        ['ML1', 'CNT', 'DIFF', 'DM_dcn', 'DM_nscn', 'TEXT', 'Narea']
       nwl_index =  get_layer_index 'NWL'
       super nil, sq_size, nwl_index
@@ -732,12 +734,13 @@ module OpenRule1um_v2
     def initialize
       super 20.0.um
       param(:sq_size, TypeDouble, "Square size", :default =&gt; 2.0.um, :hidden =&gt; false)
+      param(:wire_width, TypeDouble, "Wire width", :default =&gt; 1.0.um, :hidden =&gt; false)
     end 
     def produce_impl
       psubcont_index = library_cell('psubcont', 'OpenRule1um_Basic', layout) 
       m1_index = get_layer_index 'ML1'
       diff_index = get_layer_index 'DIFF'
-      super psubcont_index,  sq_size, [diff_index, m1_index], nil, 
+      super psubcont_index,  sq_size, [m1_index, diff_index], nil, 
         ['ML1', 'CNT', 'DIFF', 'DM_dcn', 'DM_pscn', 'TEXT', 'Parea']       
     end
     def display_text_impl
@@ -749,13 +752,14 @@ module OpenRule1um_v2
     def initialize
       super 20.0.um
       param(:sq_size, TypeDouble, "Square size", :default =&gt; 4.0.um, :hidden =&gt; false)
+      param(:wire_width, TypeDouble, "Wire width", :default =&gt; 1.0.um, :hidden =&gt; false)
     end
     def produce_impl
       nsubcont_index = library_cell('nsubcont', 'OpenRule1um_Basic', layout) 
       m1_index = get_layer_index 'ML1'
       diff_index = get_layer_index 'DIFF'
       nwl_index =  get_layer_index 'NWL'
-      super nsubcont_index,  sq_size, [diff_index, m1_index], nil, 
+      super nsubcont_index,  sq_size, [m1_index, diff_index], nil, 
         ['ML1', 'CNT', 'DIFF', 'DM_dcn', 'DM_nscn', 'TEXT', 'Narea']
       super nil, sq_size, nwl_index
     end  
