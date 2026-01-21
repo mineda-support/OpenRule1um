@@ -16,7 +16,7 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: cp932
-# OpenRule1um_v2 PCells v2.95 Jan. 10th, 2026 copy right by S. Moriyama (Anagix Corporation)
+# OpenRule1um_v2 PCells v2.951 Jan. 21st, 2026 copy right by S. Moriyama (Anagix Corporation)
 #   based on OpenRule1um v1.97 Sep. 20, 2021 copy left by S. Moriyama (Anagix Corporation)
 #
 # Naming convention
@@ -723,7 +723,7 @@ module OpenRule1um_v2
       super nsubcont_index, sq_size, [m1_index, diff_index], nil,
        ['ML1', 'CNT', 'DIFF', 'DM_dcn', 'DM_nscn', 'TEXT', 'Narea']
       nwl_index =  get_layer_index 'NWL'
-      super nil, sq_size, nwl_index
+      super nil, sq_size, nwl_index, 0.5.um
     end
     def display_text_impl
       "#{self.name}\r\n(width=#{w.round(3)}um,length=#{l.round(3)}um)"
@@ -761,7 +761,7 @@ module OpenRule1um_v2
       nwl_index =  get_layer_index 'NWL'
       super nsubcont_index,  sq_size, [m1_index, diff_index], nil, 
         ['ML1', 'CNT', 'DIFF', 'DM_dcn', 'DM_nscn', 'TEXT', 'Narea']
-      super nil, sq_size, nwl_index
+      #super nil, sq_size, nwl_index, 0.5.um
     end  
     def display_text_impl
       "Nsub line\r\n(length=#{l.round(3)}um)"

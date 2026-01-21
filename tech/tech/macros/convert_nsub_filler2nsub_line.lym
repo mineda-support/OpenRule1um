@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<klayout-macro>
+ <description/>
+ <version/>
+ <category/>
+ <prolog/>
+ <epilog/>
+ <doc/>
+ <autorun>false</autorun>
+ <autorun-early>false</autorun-early>
+ <priority>0</priority>
+ <shortcut/>
+ <show-in-menu>false</show-in-menu>
+ <group-name/>
+ <menu-path/>
+ <interpreter>ruby</interpreter>
+ <dsl-interpreter-name/>
+ <text>module MyMacro
+include RBA
+
+class Convert_nsub_filler2nsub_line &lt; MinedaBridge
+  include RBA
+  
+  def nsub_filler2nsub_line
+    lib = Library::library_by_name 'PCells'
+    @cv.cell.each_inst{|inst|
+      if inst.cell.name.include?('Nsub_filler')
+        new_cell = lib.layout.cell('Nsub_line')
+        raise "new_cell for 'Nsub_line' not found" if new_cell.nil?
+        proxy_index = inst.cell.layout.add_lib_cell(lib, new_cell.cell_index)
+        l = inst.pcell_parameters_by_name['l']
+        w = inst.pcell_parameters_by_name['w']
+        if l &gt; w
+          t = RBA::Trans.new(0, (w/inst.cell.layout.dbu).to_i/2)
+          new_inst = @cv.cell.insert(RBA::CellInstArray.new(proxy_index, inst.trans*t, inst.a, inst.b, inst.na, inst.nb))
+          new_inst.change_pcell_parameter 'l', l
+          new_inst.change_pcell_parameter 'lu', l
+          new_inst.change_pcell_parameter 'w2', w/2 
+        else
+          t = RBA::Trans.new((l/inst.cell.layout.dbu).to_i/2, 0)
+          new_inst = @cv.cell.insert(RBA::CellInstArray.new(proxy_index, inst.trans*t*RBA::Trans::R90, inst.a, inst.b, inst.na, inst.nb))
+          new_inst.change_pcell_parameter 'l', w
+          new_inst.change_pcell_parameter 'lu', w
+          new_inst.change_pcell_parameter 'w2', l/2 
+        end
+        new_inst.change_pcell_parameter 'sq_size', 4
+        puts inst.pcell_parameters_by_name, '-&gt;', new_inst.pcell_parameters_by_name
+        inst.delete
+      end
+    }
+  end
+end
+cn = Convert_nsub_filler2nsub_line.new
+cn.nsub_filler2nsub_line
+end
+
+</text>
+</klayout-macro>
