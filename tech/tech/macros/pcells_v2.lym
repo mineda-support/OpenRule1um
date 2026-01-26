@@ -16,7 +16,7 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: cp932
-# OpenRule1um_v2 PCells v2.951 Jan. 21st, 2026 copy right by S. Moriyama (Anagix Corporation)
+# OpenRule1um_v2 PCells v2.96 Jan. 26th, 2026 copy right by S. Moriyama (Anagix Corporation)
 #   based on OpenRule1um v1.97 Sep. 20, 2021 copy left by S. Moriyama (Anagix Corporation)
 #
 # Naming convention
@@ -63,6 +63,8 @@ module OpenRule1um_v2
       super
       param(:w, TypeDouble, "Nch w", :default =&gt; 2.0.um)
       param(:l, TypeDouble, "Nch l", :default =&gt; 1.0.um)
+      param(:ld_length, TypeDouble, "Left dumy max length", :default =&gt; 0.0)
+      param(:rd_length, TypeDouble, "Right dumy max length", :default =&gt; 0.0)
       # param(:n, TypeInt, "Number of fingers", :default =&gt; 1)
       param(:dg, TypeDouble, "Dumbbell gap", :default =&gt; 0.0.um, :hidden =&gt; true)
       param(:with_pcont, TypeBoolean, "Use polysilicon contact", :default =&gt; true)
@@ -107,6 +109,8 @@ module OpenRule1um_v2
       super
       param(:w, TypeDouble, "Pch w", :default =&gt; 6.0)
       param(:l, TypeDouble, "Pch l", :default =&gt; 1.0)
+      param(:ld_length, TypeDouble, "Left dumy max length", :default =&gt; 0.0)
+      param(:rd_length, TypeDouble, "Right dumy max length", :default =&gt; 0.0)
       param(:dg, TypeDouble, "Dumbbell gap", :default =&gt; 0.0.um, :hidden =&gt; true)
       param(:with_pcont, TypeBoolean, "Use polysilicon contact", :default =&gt; true)
       param(:with_via, TypeBoolean, "Put Via over contacts", :default =&gt; true, :hidden =&gt; false)
