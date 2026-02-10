@@ -16,7 +16,7 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: cp932
-# OpenRule1um_v2 PCells v2.96 Jan. 26th, 2026 copy right by S. Moriyama (Anagix Corporation)
+# OpenRule1um_v2 PCells v2.98 Feb. 9th, 2026 copy right by S. Moriyama (Anagix Corporation)
 #   based on OpenRule1um v1.97 Sep. 20, 2021 copy left by S. Moriyama (Anagix Corporation)
 #
 # Naming convention
@@ -351,8 +351,10 @@ module OpenRule1um_v2
       x = x - rw/2 + vs/2
       for i in 0..nv-1
         x = x + rw - vs*nv if i == nv-1
-        via = instantiate via_index, x, y, cell
-        inst = cell.insert(via)
+        if with_via
+          via = instantiate via_index, x, y, cell
+          inst = cell.insert(via)
+        end
         pcont = instantiate pcont_index, x, y, cell
         inst = cell.insert(pcont)
         x = x + vs
@@ -543,7 +545,7 @@ module OpenRule1um_v2
           [[offset, vs/2], [offset, vs+u1+r+u1+vs/2]].each{|x, y|
             insert_via_pcont via_index, pcont_index, x-juts/2, y, rw, vs
             cell.shapes(m1_index).insert(Box::new(x-rw/2, y-vs/2, x+rw/2, y+vs/2))
-            cell.shapes(m2_index).insert(Box::new(x-rw/2, y-vs/2, x+rw/2, y+vs/2))
+            cell.shapes(m2_index).insert(Box::new(x-rw/2, y-vs/2, x+rw/2, y+vs/2)) if with_via
             # ell.shapes(phd2_index).insert(Box::new(x-rw/2-u1, y-vs/2-u1, x+rw/2+u1, y+vs/2+u1))
           }
           if prev_x
@@ -559,7 +561,7 @@ module OpenRule1um_v2
           [[offset, vs+u1+sl+u1+vs/2], [offset, vs/2+sl-r]].each{|x, y|
             insert_via_pcont via_index, pcont_index, x+juts/2, y, rw, vs
             cell.shapes(m1_index).insert(Box::new(x-rw/2, y-vs/2, x+rw/2, y+vs/2))
-            cell.shapes(m2_index).insert(Box::new(x-rw/2, y-vs/2, x+rw/2, y+vs/2))
+            cell.shapes(m2_index).insert(Box::new(x-rw/2, y-vs/2, x+rw/2, y+vs/2)) if with_via
             # cell.shapes(phd2_index).insert(Box::new(x-rw/2-u1, y-vs/2-u1, x+rw/2+u1, y+vs/2+u1))
           }
           if prev_x
@@ -701,6 +703,7 @@ module OpenRule1um_v2
       super 40.0.um, 40.0.um
       param(:sq_size, TypeDouble, "Square size", :default =&gt; 2.0.um, :hidden =&gt; true)
       param(:wire_width, TypeDouble, "Wire width", :default =&gt; 1.0.um, :hidden =&gt; false)
+      param(:wide_metal, TypeBoolean, "Wide metal entry?", :default =&gt; false)
     end  
     def produce_impl
       psubcont_index = library_cell('psubcont', 'OpenRule1um_Basic', layout) 
