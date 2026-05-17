@@ -1,0 +1,236 @@
+<Qucs Library 26.1.0 "MinedaLIB">
+<Component CAP_MIN>
+<Description>
+</Description>
+<Spice>
+.subckt MinedaLIB_CAP_MIN gnd _net1 _net2 C={C}
+C1 _net1 _net2 {C}
+.ends MinedaLIB_CAP_MIN
+</Spice>
+<Symbol>
+  <.ID 0 0 C "1=C===">
+  <Line 10 21 -20 0 #000080 2 1>
+  <Line 0 0 0 21 #000080 2 1>
+  <Line 0 30 0 30 #000080 2 1>
+  <Line -14 30 0 -5 #000080 2 1>
+  <Line 13 30 -27 0 #000080 2 1>
+  <Line 13 25 0 5 #000080 2 1>
+  <Line 13 25 0 0 #000080 2 1>
+  <.PortSym 0 0 1 0 PLUS>
+  <.PortSym 0 60 2 0 MINUS>
+</Symbol>
+</Component>
+<Component HR_POLY_MIN>
+<Description>
+</Description>
+<Spice>
+.subckt MinedaLIB_HR_POLY_MIN gnd _net1 _net2 R={R}
+R1 _net1 _net2 {R}
+.ends MinedaLIB_HR_POLY_MIN
+</Spice>
+<Symbol>
+  <.ID 0 0 R "1=R===">
+  <Line 0 60 0 -12 #000080 2 1>
+  <Line 0 48 -10 -3 #000080 2 1>
+  <Line -10 45 20 -7 #000080 2 1>
+  <Line 10 38 -20 -5 #000080 2 1>
+  <Line -10 33 20 -7 #000080 2 1>
+  <Line 10 26 -20 -5 #000080 2 1>
+  <Line -10 21 20 -6 #000080 2 1>
+  <Line 10 15 -10 -4 #000080 2 1>
+  <Line 0 11 0 -11 #000080 2 1>
+  <Line 0 41 0 -23 #000080 2 1>
+  <.PortSym 0 0 1 0 PLUS>
+  <.PortSym 0 60 2 0 MINUS>
+</Symbol>
+</Component>
+<Component NDIO_MIN>
+<Description>
+</Description>
+<Model>
+.Def:MinedaLIB_NDIO_MIN _net1 _net2 AREA=1
+Diode:D1 _net2 _net1 NDIO {AREA}
+.Def:End
+</Model>
+<Symbol>
+  <.ID 0 0 D "1=AREA===">
+  <Line 0 60 0 -25 #000080 2 1>
+  <Line -10 35 20 0 #000080 2 1>
+  <Line 0 20 0 -20 #000080 2 1>
+  <Line -10 20 20 0 #000080 2 1>
+  <Line 10 20 -10 15 #000080 2 1>
+  <Line 0 35 -10 -15 #000080 2 1>
+  <.PortSym 0 0 1 0 PLUS>
+  <.PortSym 0 60 2 0 MINUS>
+</Symbol>
+</Component>
+<Component NMOS_ESD_MIN>
+<Description>
+</Description>
+<Symbol>
+  <.ID 0 0 SUB>
+  <Line 20 40 40 0 #000080 2 1>
+  <Line 0 120 0 -120 #000080 2 1>
+  <Line 0 0 80 0 #000080 2 1>
+  <Line 80 0 0 120 #000080 2 1>
+  <Line 80 120 -80 0 #000080 2 1>
+  <Line 40 40 -20 40 #000080 2 1>
+  <Line 20 80 40 0 #000080 2 1>
+  <Line 60 80 -20 -40 #000080 2 1>
+  <Line 40 0 0 40 #000080 2 1>
+  <Line 40 120 0 -40 #000080 2 1>
+  <.PortSym 40 0 1 0 PAD>
+  <.PortSym 40 120 2 0 VSS>
+</Symbol>
+</Component>
+<Component NMOS_MIN>
+<Description>
+</Description>
+<Spice>
+.subckt MinedaLIB_NMOS_MIN gnd _net1 _net2 _net3 _net4 L=1u W=1u
+M1 _net1 _net2 _net3 _net4 nch L={L} W={W}
+.ends MinedaLIB_NMOS_MIN
+</Spice>
+<Model>
+.Def:MinedaLIB_NMOS_MIN _net1 _net2 _net3 _net4 L=1u W=1u
+MOSFET:M1 _net2 _net1 _net3 _net4 nch L="L" W="W"
+.Def:End
+</Model>
+<Symbol>
+  <.ID 0 0 M "1=L===" "1=W===">
+  <Line 20 -14 20 0 #000080 2 1>
+  <Line 40 -14 0 -16 #000080 2 1>
+  <Line 20 20 0 -40 #000080 2 1>
+  <Line 31 10 9 3 #000080 2 1>
+  <Line 40 13 -9 4 #000080 2 1>
+  <Line 0 0 15 0 #000080 2 1>
+  <Line 15 -15 0 30 #000080 2 1>
+  <Line 20 0 20 0 #000080 2 1>
+  <Line 20 13 11 0 #000080 2 1>
+  <Line 40 13 0 17 #000080 2 1>
+  <Line 31 17 0 -7 #000080 2 1>
+  <.PortSym 40 -30 1 0 D>
+  <.PortSym 0 0 2 0 G>
+  <.PortSym 40 30 3 0 S>
+  <.PortSym 40 0 4 0 B>
+</Symbol>
+</Component>
+<Component PDIO_MIN>
+<Description>
+</Description>
+<Model>
+.Def:MinedaLIB_PDIO_MIN _net1 _net2 AREA=1
+Diode:D1 _net2 _net1 PDIO {AREA}
+.Def:End
+</Model>
+<Symbol>
+  <.ID 0 0 D "1=AREA===">
+  <Line 0 60 0 -25 #000080 2 1>
+  <Line -10 35 20 0 #000080 2 1>
+  <Line 0 20 0 -20 #000080 2 1>
+  <Line -10 20 20 0 #000080 2 1>
+  <Line 10 20 -10 15 #000080 2 1>
+  <Line 0 35 -10 -15 #000080 2 1>
+  <.PortSym 0 0 1 0 PLUS>
+  <.PortSym 0 60 2 0 MINUS>
+</Symbol>
+</Component>
+<Component PMOS_ESD_MIN>
+<Description>
+</Description>
+<Symbol>
+  <.ID 0 0 SUB>
+  <Line 20 40 40 0 #000080 2 1>
+  <Line 0 120 0 -120 #000080 2 1>
+  <Line 0 0 80 0 #000080 2 1>
+  <Line 80 0 0 120 #000080 2 1>
+  <Line 80 120 -80 0 #000080 2 1>
+  <Line 40 40 -20 40 #000080 2 1>
+  <Line 20 80 40 0 #000080 2 1>
+  <Line 60 80 -20 -40 #000080 2 1>
+  <Line 40 0 0 40 #000080 2 1>
+  <Line 40 120 0 -40 #000080 2 1>
+  <.PortSym 40 0 2 0 VDD>
+  <.PortSym 40 120 1 0 PAD>
+</Symbol>
+</Component>
+<Component PMOS_MIN>
+<Description>
+</Description>
+<Spice>
+.subckt MinedaLIB_PMOS_MIN gnd _net1 _net2 _net3 _net4 L=1u W=1u
+M1 _net1 _net2 _net3 _net4 pch L={L} W={W}
+.ends MinedaLIB_PMOS_MIN
+</Spice>
+<Model>
+.Def:MinedaLIB_PMOS_MIN _net1 _net2 _net3 _net4 L=1u W=1u
+MOSFET:M1 _net2 _net1 _net3 _net4 pch L="L" W="W"
+.Def:End
+</Model>
+<Symbol>
+  <.ID 0 0 M "1=L===" "1=W===">
+  <Line 15 -15 0 30 #000080 2 1>
+  <Line 20 13 20 0 #000080 2 1>
+  <Line 40 13 0 17 #000080 2 1>
+  <Line 29 -14 11 0 #000080 2 1>
+  <Line 40 -14 0 -16 #000080 2 1>
+  <Line 0 0 15 0 #000080 2 1>
+  <Line 20 0 20 0 #000080 2 1>
+  <Line 20 20 0 -40 #000080 2 1>
+  <Line 20 -14 9 -4 #000080 2 1>
+  <Line 29 -11 -9 -3 #000080 2 1>
+  <Line 29 -11 0 -7 #000080 2 1>
+  <.PortSym 40 30 1 0 D>
+  <.PortSym 0 0 2 0 G>
+  <.PortSym 40 -30 3 0 S>
+  <.PortSym 40 0 4 0 B>
+</Symbol>
+</Component>
+<Component RES_MIN>
+<Description>
+</Description>
+<Spice>
+.subckt MinedaLIB_RES_MIN gnd _net1 _net2 R={R}
+R1 _net1 _net2 {R}
+.ends MinedaLIB_RES_MIN
+</Spice>
+<Symbol>
+  <.ID 0 0 R "1=R===">
+  <Line 0 60 0 -12 #000080 2 1>
+  <Line 0 48 -10 -3 #000080 2 1>
+  <Line -10 45 20 -7 #000080 2 1>
+  <Line 10 38 -20 -5 #000080 2 1>
+  <Line -10 33 20 -7 #000080 2 1>
+  <Line 10 26 -20 -5 #000080 2 1>
+  <Line -10 21 20 -6 #000080 2 1>
+  <Line 10 15 -10 -4 #000080 2 1>
+  <Line 0 11 0 -11 #000080 2 1>
+  <.PortSym 0 0 1 0 PLUS>
+  <.PortSym 0 60 2 0 MINUS>
+</Symbol>
+</Component>
+<Component R_POLY_MIN>
+<Description>
+</Description>
+<Spice>
+.subckt MinedaLIB_R_POLY_MIN gnd _net1 _net2 R={R}
+R1 _net1 _net2 {R}
+.ends MinedaLIB_R_POLY_MIN
+</Spice>
+<Symbol>
+  <.ID 0 0 R "1=R===">
+  <Line 0 60 0 -12 #000080 2 1>
+  <Line 0 48 -10 -3 #000080 2 1>
+  <Line -10 45 20 -7 #000080 2 1>
+  <Line 10 38 -20 -5 #000080 2 1>
+  <Line -10 33 20 -7 #000080 2 1>
+  <Line 10 26 -20 -5 #000080 2 1>
+  <Line -10 21 20 -6 #000080 2 1>
+  <Line 10 15 -10 -4 #000080 2 1>
+  <Line 0 11 0 -11 #000080 2 1>
+  <Line 0 18 0 -7 #000080 2 1>
+  <Line 0 41 0 7 #000080 2 1>
+  <.PortSym 0 0 1 0 PLUS>
+  <.PortSym 0 60 2 0 MINUS>
+</Symbol>
+</Component>

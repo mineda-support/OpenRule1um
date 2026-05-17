@@ -1,0 +1,1338 @@
+<Qucs Library 26.1.0 "LTspiceLIB">
+<Component FerriteBead>
+<Description>
+</Description>
+<Symbol>
+  <.ID 0 0 L_Ferrite_Bead>
+  <Line -10 5 0 -10 #000080 2 1>
+  <Line 0 -5 0 -15 #000080 2 1>
+  <Line 0 7 0 13 #000080 2 1>
+  <Line 10 5 0 -10 #000080 2 1>
+  <EArc -10 2 20 5 32 2704 #000000 0 1 #c0c0c0 1 0>
+  <Ellipse -10 -8 20 5 #000000 0 1 #c0c0c0 1 0>
+  <Ellipse -5 -6 9 1 #000000 0 1 #c0c0c0 1 0>
+  <.PortSym 0 -20 1 0 A>
+  <.PortSym 0 20 2 0 B>
+</Symbol>
+</Component>
+<Component FerriteBead2>
+<Description>
+</Description>
+<Symbol>
+  <.ID 0 0 L_Ferrite_Bead>
+  <Line 0 -6 0 -14 #000080 2 1>
+  <Line 0 5 0 15 #000080 2 1>
+  <Line -6 5 11 0 #000080 2 1>
+  <Line -6 4 11 0 #000080 2 1>
+  <Line -6 3 11 0 #000080 2 1>
+  <Line -6 3 11 0 #000080 2 1>
+  <Line -6 3 11 0 #000080 2 1>
+  <Line -6 2 11 0 #000080 2 1>
+  <Line -6 1 11 0 #000080 2 1>
+  <Line -6 1 11 0 #000080 2 1>
+  <Line -6 1 11 0 #000080 2 1>
+  <Line -6 0 11 0 #000080 2 1>
+  <Line -6 0 11 0 #000080 2 1>
+  <Line -6 0 11 0 #000080 2 1>
+  <Line -6 -1 11 0 #000080 2 1>
+  <Line -6 -3 11 0 #000080 2 1>
+  <Line -6 -4 11 0 #000080 2 1>
+  <Line -6 -4 11 0 #000080 2 1>
+  <Line -6 -4 11 0 #000080 2 1>
+  <Line -6 -5 11 0 #000080 2 1>
+  <Line -6 -5 11 0 #000080 2 1>
+  <Line -6 -2 11 0 #000080 2 1>
+  <Line -6 -2 11 0 #000080 2 1>
+  <Line 4 5 0 -11 #000080 2 1>
+  <Line 5 5 0 -11 #000080 2 1>
+  <Line 3 5 0 -11 #000080 2 1>
+  <Line 3 5 0 -11 #000080 2 1>
+  <Line 1 5 0 -11 #000080 2 1>
+  <Line 2 5 0 -11 #000080 2 1>
+  <Line 0 5 0 -11 #000080 2 1>
+  <Line 1 5 0 -11 #000080 2 1>
+  <Line -1 5 0 -11 #000080 2 1>
+  <Line 0 5 0 -11 #000080 2 1>
+  <Line -2 5 0 -11 #000080 2 1>
+  <Line -2 5 0 -11 #000080 2 1>
+  <Line -4 5 0 -11 #000080 2 1>
+  <Line -3 5 0 -11 #000080 2 1>
+  <Line -5 5 0 -11 #000080 2 1>
+  <Line -4 5 0 -11 #000080 2 1>
+  <Line -5 5 0 -11 #000080 2 1>
+  <Line -6 -6 11 0 #000080 2 1>
+  <Line 5 -6 0 11 #000080 2 1>
+  <Line 5 5 -11 0 #000080 2 1>
+  <Line -6 5 0 -11 #000080 2 1>
+  <.PortSym 0 -20 1 0 A>
+  <.PortSym 0 20 2 0 B>
+</Symbol>
+</Component>
+<Component ISO16750-2>
+<Description>
+</Description>
+<Symbol>
+  <.ID 0 0 X>
+  <Line 0 50 0 -5 #000080 2 1>
+  <Line 0 0 0 5 #000080 2 1>
+  <Line -5 34 0 -23 #000080 2 1>
+  <Line -12 34 7 0 #000080 2 1>
+  <EArc -5 -12 36 46 1472 1264 #000000 0 1 #c0c0c0 1 0>
+  <Ellipse -20 5 40 40 #000000 0 1 #c0c0c0 1 0>
+  <.PortSym 0 0 1 0 +>
+  <.PortSym 0 50 2 0 ->
+</Symbol>
+</Component>
+<Component ISO7637-2>
+<Description>
+</Description>
+<Symbol>
+  <.ID 0 0 X>
+  <Line 0 50 0 -5 #000080 2 1>
+  <Line 0 0 0 5 #000080 2 1>
+  <Line -5 34 0 -23 #000080 2 1>
+  <Line -12 34 7 0 #000080 2 1>
+  <EArc -5 -12 36 46 1472 1264 #000000 0 1 #c0c0c0 1 0>
+  <Ellipse -20 5 40 40 #000000 0 1 #c0c0c0 1 0>
+  <.PortSym 0 0 1 0 +>
+  <.PortSym 0 50 2 0 ->
+</Symbol>
+</Component>
+<Component LED>
+<Description>
+</Description>
+<Model>
+.Def:LTspiceLIB_LED _net1 _net2 AREA=1
+Diode:D1 _net2 _net1 D {AREA}
+.Def:End
+</Model>
+<Symbol>
+  <.ID 0 0 D "1=AREA===">
+  <Line 0 27 20 0 #000080 2 1>
+  <Line 0 12 20 0 #000080 2 1>
+  <Line 20 12 -10 15 #000080 2 1>
+  <Line 0 12 10 15 #000080 2 1>
+  <Line 10 0 0 12 #000080 2 1>
+  <Line 10 27 0 13 #000080 2 1>
+  <Line 45 20 -3 5 #000080 2 1>
+  <Line 45 20 -5 0 #000080 2 1>
+  <Line 45 30 -3 5 #000080 2 1>
+  <Line 45 30 -5 0 #000080 2 1>
+  <EArc 25 12 10 10 -2528 2528 #000000 0 1 #c0c0c0 1 0>
+  <EArc 35 12 10 10 480 2256 #000000 0 1 #c0c0c0 1 0>
+  <EArc 25 22 10 10 -2528 2528 #000000 0 1 #c0c0c0 1 0>
+  <EArc 35 22 10 10 480 2256 #000000 0 1 #c0c0c0 1 0>
+  <.PortSym 10 0 1 0 +>
+  <.PortSym 10 40 2 0 ->
+</Symbol>
+</Component>
+<Component SOAtherm-HeatSink>
+<Description>
+</Description>
+<Symbol>
+  <.ID 0 0 X>
+  <Line 30 40 -60 0 #000080 2 1>
+  <Line 30 -5 -10 0 #000080 2 1>
+  <Line 30 -10 0 5 #000080 2 1>
+  <Line 20 -10 10 0 #000080 2 1>
+  <Line 30 -25 -10 0 #000080 2 1>
+  <Line 30 -30 0 5 #000080 2 1>
+  <Line 30 -40 -60 0 #000080 2 1>
+  <Line 20 -30 10 0 #000080 2 1>
+  <Line 20 -35 0 5 #000080 2 1>
+  <Line 30 -35 -10 0 #000080 2 1>
+  <Line 30 -40 0 5 #000080 2 1>
+  <Line -50 40 20 0 #000080 2 1>
+  <Line -50 -40 0 80 #000080 2 1>
+  <Line -30 -40 -20 0 #000080 2 1>
+  <Line -30 40 0 -80 #000080 2 1>
+  <Line 30 -15 -10 0 #000080 2 1>
+  <Line 30 -20 0 5 #000080 2 1>
+  <Line 20 -20 10 0 #000080 2 1>
+  <Line 20 -15 0 5 #000080 2 1>
+  <Line 20 -25 0 5 #000080 2 1>
+  <Line 30 34 0 6 #000080 2 1>
+  <Line 20 34 10 0 #000080 2 1>
+  <Line 30 19 -10 0 #000080 2 1>
+  <Line 30 14 0 5 #000080 2 1>
+  <Line 20 14 10 0 #000080 2 1>
+  <Line 20 9 0 5 #000080 2 1>
+  <Line 30 9 -10 0 #000080 2 1>
+  <Line 30 4 0 5 #000080 2 1>
+  <Line 30 29 -10 0 #000080 2 1>
+  <Line 30 24 0 5 #000080 2 1>
+  <Line 20 24 10 0 #000080 2 1>
+  <Line 20 29 0 5 #000080 2 1>
+  <Line 20 19 0 5 #000080 2 1>
+  <Line 30 4 -10 0 #000080 2 1>
+  <Line 20 -5 0 9 #000080 2 1>
+  <Line -30 -60 -20 20 #000080 2 1>
+  <Line -10 -60 -20 0 #000080 2 1>
+  <Line -30 -40 20 -20 #000080 2 1>
+  <Line 50 -60 -60 0 #000080 2 1>
+  <Line 30 -40 20 -20 #000080 2 1>
+  <Line 50 -55 -20 20 #000080 2 1>
+  <Line 50 -50 -20 20 #000080 2 1>
+  <Line 50 -45 -20 20 #000080 2 1>
+  <Line 50 -40 -20 20 #000080 2 1>
+  <Line 50 -35 -20 20 #000080 2 1>
+  <Line 50 -30 -20 20 #000080 2 1>
+  <Line 50 -25 -20 20 #000080 2 1>
+  <Line 50 -16 -20 20 #000080 2 1>
+  <Line 50 -11 -20 20 #000080 2 1>
+  <Line 50 -6 -20 20 #000080 2 1>
+  <Line 50 -1 -20 20 #000080 2 1>
+  <Line 50 4 -20 20 #000080 2 1>
+  <Line 50 9 -20 20 #000080 2 1>
+  <Line 50 14 -20 20 #000080 2 1>
+  <Line 50 20 -20 20 #000080 2 1>
+  <Line 50 -55 0 -5 #000080 2 1>
+  <Line 50 -45 0 -5 #000080 2 1>
+  <Line 50 -35 0 -5 #000080 2 1>
+  <Line 50 -25 0 -5 #000080 2 1>
+  <Line 50 -11 0 -5 #000080 2 1>
+  <Line 50 -1 0 -5 #000080 2 1>
+  <Line 50 9 0 -5 #000080 2 1>
+  <Line 50 20 0 -6 #000080 2 1>
+  <Line 25 -35 -5 5 #000080 2 1>
+  <Line 25 -25 -5 5 #000080 2 1>
+  <Line 25 -15 -5 5 #000080 2 1>
+  <Line 28 -5 -8 9 #000080 2 1>
+  <Line 25 9 -5 5 #000080 2 1>
+  <Line 25 19 -5 5 #000080 2 1>
+  <Line 25 29 -5 5 #000080 2 1>
+  <Line 45 -50 5 0 #000080 2 1>
+  <Line 45 -40 5 0 #000080 2 1>
+  <Line 45 -30 5 0 #000080 2 1>
+  <Line 45 14 5 0 #000080 2 1>
+  <Line 45 4 5 0 #000080 2 1>
+  <Line 45 -6 5 0 #000080 2 1>
+  <Line 41 -16 9 0 #000080 2 1>
+  <.PortSym -50 0 1 0 Tc>
+  <.PortSym -30 0 2 0 Tinterface>
+  <.PortSym 30 0 3 0 Tfin>
+</Symbol>
+</Component>
+<Component SOAtherm-NMOS>
+<Description>
+</Description>
+<Symbol>
+  <.ID 0 0 X>
+  <Line 0 0 0 30 #000080 2 1>
+  <Line -20 20 20 0 #000080 2 1>
+  <Line -5 0 5 0 #000080 2 1>
+  <Line -20 0 15 -3 #000080 2 1>
+  <Line -20 0 15 2 #000080 2 1>
+  <Line -5 -3 0 5 #000080 2 1>
+  <Line -20 -25 0 10 #000080 2 1>
+  <Line -20 -5 0 10 #000080 2 1>
+  <Line -20 15 0 10 #000080 2 1>
+  <Line -30 20 5 0 #000080 2 1>
+  <Line -25 -20 0 40 #000080 2 1>
+  <Line 0 -20 -20 0 #000080 2 1>
+  <Line 0 -30 0 10 #000080 2 1>
+  <Line 0 40 -36 0 #000080 2 1>
+  <Line 40 -65 0 29 #000080 2 1>
+  <Line -36 -70 71 0 #000080 2 1>
+  <Line -40 35 0 -100 #000080 2 1>
+  <Line 3 35 0 -60 #000080 2 1>
+  <Line 10 -30 25 0 #000080 2 1>
+  <Line 0 -40 0 10 #000080 2 1>
+  <Line 0 -70 0 10 #000080 2 1>
+  <Line 6 -50 -6 0 #000080 2 1>
+  <Line 6 -47 0 -7 #000080 2 1>
+  <Line -7 -50 7 0 #000080 2 1>
+  <Line -7 -54 0 7 #000080 2 1>
+  <Line -40 20 10 0 #000080 2 1>
+  <Line 0 40 0 -10 #000080 2 1>
+  <EArc -40 30 8 10 1440 1296 #000000 0 1 #c0c0c0 1 0>
+  <EArc -5 30 8 10 0 912 #000000 0 1 #c0c0c0 1 0>
+  <EArc 3 -30 12 10 2880 -3792 #000000 0 1 #c0c0c0 1 0>
+  <EArc 30 -40 10 10 -176 1088 #000000 0 1 #c0c0c0 1 0>
+  <EArc -40 -70 8 10 2880 -3792 #000000 0 1 #c0c0c0 1 0>
+  <EArc 30 -70 10 10 -1440 1440 #000000 0 1 #c0c0c0 1 0>
+  <Ellipse -10 -60 20 20 #000000 0 1 #c0c0c0 1 0>
+  <.PortSym 0 -70 1 0 D>
+  <.PortSym -40 20 2 0 G>
+  <.PortSym 0 40 3 0 S>
+  <.PortSym 0 -30 4 0 D2>
+  <.PortSym -30 20 5 0 G2>
+  <.PortSym 0 30 6 0 S2>
+  <.PortSym 40 -40 7 0 Tj>
+  <.PortSym 40 -60 8 0 Tc>
+</Symbol>
+</Component>
+<Component SOAtherm-PCB>
+<Description>
+</Description>
+<Symbol>
+  <.ID 0 0 X>
+  <Line -50 -25 -20 50 #000080 2 1>
+  <Line 70 -25 -120 0 #000080 2 1>
+  <Line 50 25 20 -50 #000080 2 1>
+  <Line -70 25 120 0 #000080 2 1>
+  <Line -70 30 0 -5 #000080 2 1>
+  <Line 50 30 -120 0 #000080 2 1>
+  <Line 50 30 0 -5 #000080 2 1>
+  <Line 70 -20 -20 50 #000080 2 1>
+  <Line 70 -25 0 5 #000080 2 1>
+  <.PortSym 0 0 1 0 Tcenter>
+</Symbol>
+</Component>
+<Component TVSdiode>
+<Description>
+</Description>
+<Model>
+.Def:LTspiceLIB_TVSdiode _net1 _net2 AREA=1
+Diode:D1 _net2 _net1 D {AREA}
+.Def:End
+</Model>
+<Symbol>
+  <.ID 0 0 D "1=AREA===">
+  <Line 0 20 -3 2 #000080 2 1>
+  <Line 20 20 2 -3 #000080 2 1>
+  <Line 0 20 20 0 #000080 2 1>
+  <Line 0 5 20 0 #000080 2 1>
+  <Line 20 5 -10 15 #000080 2 1>
+  <Line 0 5 10 15 #000080 2 1>
+  <Line 0 35 20 0 #000080 2 1>
+  <Line 20 35 -10 -15 #000080 2 1>
+  <Line 0 35 10 -15 #000080 2 1>
+  <Line 10 0 0 5 #000080 2 1>
+  <Line 10 35 0 5 #000080 2 1>
+  <.PortSym 10 0 1 0 +>
+  <.PortSym 10 40 2 0 ->
+</Symbol>
+</Component>
+<Component bi>
+<Description>
+</Description>
+<Symbol>
+  <.ID 0 0 B>
+  <Line 0 35 2 -8 #000080 2 1>
+  <Line 0 35 -3 -8 #000080 2 1>
+  <Line -3 27 5 0 #000080 2 1>
+  <Line 0 15 0 12 #000080 2 1>
+  <Line 0 50 0 -5 #000080 2 1>
+  <Line 0 0 0 5 #000080 2 1>
+  <Ellipse -20 5 40 40 #000000 0 1 #c0c0c0 1 0>
+  <.PortSym 0 0 1 0 +>
+  <.PortSym 0 50 2 0 ->
+</Symbol>
+</Component>
+<Component bi2>
+<Description>
+</Description>
+<Symbol>
+  <.ID 0 0 B>
+  <Line 0 15 2 7 #000080 2 1>
+  <Line 0 15 -3 7 #000080 2 1>
+  <Line -3 22 5 0 #000080 2 1>
+  <Line 0 22 0 13 #000080 2 1>
+  <Line 0 50 0 -5 #000080 2 1>
+  <Line 0 0 0 5 #000080 2 1>
+  <Ellipse -20 5 40 40 #000000 0 1 #c0c0c0 1 0>
+  <.PortSym 0 50 1 0 +>
+  <.PortSym 0 0 2 0 ->
+</Symbol>
+</Component>
+<Component bv>
+<Description>
+</Description>
+<Symbol>
+  <.ID 0 0 B>
+  <Line -5 22 10 0 #000080 2 1>
+  <Line -5 47 10 0 #000080 2 1>
+  <Line 0 17 0 10 #000080 2 1>
+  <Line 0 60 0 -5 #000080 2 1>
+  <Line 0 10 0 5 #000080 2 1>
+  <Ellipse -20 15 40 40 #000000 0 1 #c0c0c0 1 0>
+  <.PortSym 0 10 1 0 +>
+  <.PortSym 0 60 2 0 ->
+</Symbol>
+</Component>
+<Component cap>
+<Description>
+</Description>
+<Spice>
+.subckt LTspiceLIB_cap gnd _net1 _net2 C={C}
+C1 _net1 _net2 {C}
+.ends LTspiceLIB_cap
+</Spice>
+<Symbol>
+  <.ID 0 0 C "1=C===">
+  <Line 10 22 0 18 #000080 2 1>
+  <Line 10 17 0 -17 #000080 2 1>
+  <Line 0 17 20 0 #000080 2 1>
+  <Line 0 22 20 0 #000080 2 1>
+  <.PortSym 10 0 1 0 A>
+  <.PortSym 10 40 2 0 B>
+</Symbol>
+</Component>
+<Component csw>
+<Description>
+</Description>
+<Symbol>
+  <.ID 0 0 W>
+  <Line 0 50 0 -15 #000080 2 1>
+  <Line 0 0 0 12 #000080 2 1>
+  <Line 0 12 12 15 #000080 2 1>
+  <Ellipse -20 5 40 40 #000000 0 1 #c0c0c0 1 0>
+  <Ellipse -3 32 5 5 #000000 0 1 #c0c0c0 1 0>
+  <Ellipse 10 25 5 5 #000000 0 1 #c0c0c0 1 0>
+  <.PortSym 0 0 1 0 +>
+  <.PortSym 0 50 2 0 ->
+</Symbol>
+</Component>
+<Component current>
+<Description>
+</Description>
+<Symbol>
+  <.ID 0 0 I>
+  <Line 0 35 2 -8 #000080 2 1>
+  <Line 0 35 -3 -8 #000080 2 1>
+  <Line -3 27 5 0 #000080 2 1>
+  <Line 0 15 0 12 #000080 2 1>
+  <Line 0 50 0 -5 #000080 2 1>
+  <Line 0 0 0 5 #000080 2 1>
+  <Ellipse -20 5 40 40 #000000 0 1 #c0c0c0 1 0>
+  <.PortSym 0 0 1 0 +>
+  <.PortSym 0 50 2 0 ->
+</Symbol>
+</Component>
+<Component diode>
+<Description>
+</Description>
+<Model>
+.Def:LTspiceLIB_diode _net1 _net2 AREA=1
+Diode:D1 _net2 _net1 D {AREA}
+.Def:End
+</Model>
+<Symbol>
+  <.ID 0 0 D "1=AREA===">
+  <Line 0 27 20 0 #000080 2 1>
+  <Line 0 12 20 0 #000080 2 1>
+  <Line 20 12 -10 15 #000080 2 1>
+  <Line 0 12 10 15 #000080 2 1>
+  <Line 10 0 0 12 #000080 2 1>
+  <Line 10 27 0 13 #000080 2 1>
+  <.PortSym 10 0 1 0 +>
+  <.PortSym 10 40 2 0 ->
+</Symbol>
+</Component>
+<Component e>
+<Description>
+</Description>
+<Symbol>
+  <.ID 0 0 E>
+  <Line -30 20 10 0 #000080 2 1>
+  <Line -20 20 5 2 #000080 2 1>
+  <Line -30 50 10 0 #000080 2 1>
+  <Line -20 50 5 -3 #000080 2 1>
+  <Line 0 10 0 5 #000080 2 1>
+  <Line 0 60 0 -5 #000080 2 1>
+  <Line -30 45 5 0 #000080 2 1>
+  <Line -30 25 5 0 #000080 2 1>
+  <Line -28 22 0 5 #000080 2 1>
+  <Line -3 45 5 0 #000080 2 1>
+  <Line -3 25 5 0 #000080 2 1>
+  <Line 0 22 0 5 #000080 2 1>
+  <Ellipse -20 15 40 40 #000000 0 1 #c0c0c0 1 0>
+  <.PortSym 0 10 1 0 +>
+  <.PortSym 0 60 2 0 ->
+  <.PortSym -30 20 3 0 P>
+  <.PortSym -30 50 4 0 N>
+</Symbol>
+</Component>
+<Component e2>
+<Description>
+</Description>
+<Symbol>
+  <.ID 0 0 E>
+  <Line -30 20 10 0 #000080 2 1>
+  <Line -20 20 5 2 #000080 2 1>
+  <Line -30 50 10 0 #000080 2 1>
+  <Line -20 50 5 -3 #000080 2 1>
+  <Line 0 10 0 5 #000080 2 1>
+  <Line 0 60 0 -5 #000080 2 1>
+  <Line -30 45 5 0 #000080 2 1>
+  <Line -28 47 0 -5 #000080 2 1>
+  <Line -30 25 5 0 #000080 2 1>
+  <Line -3 45 5 0 #000080 2 1>
+  <Line -3 25 5 0 #000080 2 1>
+  <Line 0 22 0 5 #000080 2 1>
+  <Ellipse -20 15 40 40 #000000 0 1 #c0c0c0 1 0>
+  <.PortSym 0 10 1 0 +>
+  <.PortSym 0 60 2 0 ->
+  <.PortSym -30 50 3 0 P>
+  <.PortSym -30 20 4 0 N>
+</Symbol>
+</Component>
+<Component f>
+<Description>
+</Description>
+<Symbol>
+  <.ID 0 0 F>
+  <Line 0 35 2 -8 #000080 2 1>
+  <Line 0 35 -3 -8 #000080 2 1>
+  <Line -3 27 5 0 #000080 2 1>
+  <Line 0 15 0 12 #000080 2 1>
+  <Line 0 50 0 -5 #000080 2 1>
+  <Line 0 0 0 5 #000080 2 1>
+  <Ellipse -20 5 40 40 #000000 0 1 #c0c0c0 1 0>
+  <.PortSym 0 0 1 0 +>
+  <.PortSym 0 50 2 0 ->
+</Symbol>
+</Component>
+<Component fra>
+<Description>
+</Description>
+<Symbol>
+  <.ID 0 0 @>
+  <Line 0 -30 0 -10 #000080 2 1>
+  <Line -10 -30 0 20 #000080 2 1>
+  <Line 10 -30 -20 0 #000080 2 1>
+  <Line 10 -10 0 -20 #000080 2 1>
+  <EArc 0 -10 20 20 2880 -3792 #000000 0 1 #c0c0c0 1 0>
+  <EArc -20 -10 20 20 -1440 1440 #000000 0 1 #c0c0c0 1 0>
+  <EArc -3 -27 3 15 -2576 2576 #000000 0 1 #c0c0c0 1 0>
+  <EArc -8 -22 3 5 -2576 2576 #000000 0 1 #c0c0c0 1 0>
+  <EArc -5 -25 2 10 0 2736 #000000 0 1 #c0c0c0 1 0>
+  <EArc 0 -27 2 15 -416 -1408 #000000 0 1 #c0c0c0 1 0>
+  <EArc 5 -22 2 5 -416 -1408 #000000 0 1 #c0c0c0 1 0>
+  <EArc 2 -25 3 10 2880 -2880 #000000 0 1 #c0c0c0 1 0>
+  <.PortSym 0 -40 1 0 OUT>
+  <.PortSym 0 0 2 0 IN>
+</Symbol>
+</Component>
+<Component g>
+<Description>
+</Description>
+<Symbol>
+  <.ID 0 0 G>
+  <Line -30 20 10 0 #000080 2 1>
+  <Line -20 20 5 2 #000080 2 1>
+  <Line -30 50 10 0 #000080 2 1>
+  <Line -20 50 5 -3 #000080 2 1>
+  <Line 0 10 0 5 #000080 2 1>
+  <Line 0 60 0 -5 #000080 2 1>
+  <Line -30 45 5 0 #000080 2 1>
+  <Line -30 25 5 0 #000080 2 1>
+  <Line -28 22 0 5 #000080 2 1>
+  <Line 2 32 -2 -7 #000080 2 1>
+  <Line -3 32 3 -7 #000080 2 1>
+  <Line -3 32 5 0 #000080 2 1>
+  <Line 0 32 0 13 #000080 2 1>
+  <Ellipse -20 15 40 40 #000000 0 1 #c0c0c0 1 0>
+  <.PortSym 0 60 1 0 +>
+  <.PortSym 0 10 2 0 ->
+  <.PortSym -30 20 3 0 NC+>
+  <.PortSym -30 50 4 0 NC->
+</Symbol>
+</Component>
+<Component g2>
+<Description>
+</Description>
+<Symbol>
+  <.ID 0 0 G>
+  <Line -30 20 10 0 #000080 2 1>
+  <Line -20 20 5 2 #000080 2 1>
+  <Line -30 50 10 0 #000080 2 1>
+  <Line -20 50 5 -3 #000080 2 1>
+  <Line 0 10 0 5 #000080 2 1>
+  <Line 0 60 0 -5 #000080 2 1>
+  <Line -30 45 5 0 #000080 2 1>
+  <Line -30 25 5 0 #000080 2 1>
+  <Line -28 47 0 -5 #000080 2 1>
+  <Line 2 32 -2 -7 #000080 2 1>
+  <Line -3 32 3 -7 #000080 2 1>
+  <Line -3 32 5 0 #000080 2 1>
+  <Line 0 32 0 13 #000080 2 1>
+  <Ellipse -20 15 40 40 #000000 0 1 #c0c0c0 1 0>
+  <.PortSym 0 60 1 0 +>
+  <.PortSym 0 10 2 0 ->
+  <.PortSym -30 50 3 0 NC+>
+  <.PortSym -30 20 4 0 NC->
+</Symbol>
+</Component>
+<Component h>
+<Description>
+</Description>
+<Symbol>
+  <.ID 0 0 H>
+  <Line -5 22 10 0 #000080 2 1>
+  <Line -5 47 10 0 #000080 2 1>
+  <Line 0 17 0 10 #000080 2 1>
+  <Line 0 60 0 -5 #000080 2 1>
+  <Line 0 10 0 5 #000080 2 1>
+  <Ellipse -20 15 40 40 #000000 0 1 #c0c0c0 1 0>
+  <.PortSym 0 10 1 0 +>
+  <.PortSym 0 60 2 0 ->
+</Symbol>
+</Component>
+<Component ind>
+<Description>
+</Description>
+<Symbol>
+  <.ID 0 0 L>
+  <EArc 0 25 20 20 -2160 3984 #000000 0 1 #c0c0c0 1 0>
+  <EArc 0 40 20 20 -2160 3072 #000000 0 1 #c0c0c0 1 0>
+  <EArc 0 10 20 20 -1440 3264 #000000 0 1 #c0c0c0 1 0>
+  <.PortSym 10 10 1 0 A>
+  <.PortSym 10 60 2 0 B>
+</Symbol>
+</Component>
+<Component ind2>
+<Description>
+</Description>
+<Symbol>
+  <.ID 0 0 L>
+  <EArc 0 25 20 20 -2160 3984 #000000 0 1 #c0c0c0 1 0>
+  <EArc 0 40 20 20 -2160 3072 #000000 0 1 #c0c0c0 1 0>
+  <EArc 0 10 20 20 -1440 3264 #000000 0 1 #c0c0c0 1 0>
+  <Ellipse 2 50 5 5 #000000 0 1 #c0c0c0 1 0>
+  <.PortSym 10 10 1 0 A>
+  <.PortSym 10 60 2 0 B>
+</Symbol>
+</Component>
+<Component load>
+<Description>
+</Description>
+<Symbol>
+  <.ID 0 0 I>
+  <Line 0 30 25 -25 #000080 2 1>
+  <Line 25 5 -8 2 #000080 2 1>
+  <Line 25 5 -3 7 #000080 2 1>
+  <Line 5 5 0 30 #000080 2 1>
+  <Line 5 35 10 0 #000080 2 1>
+  <Line 15 35 0 -30 #000080 2 1>
+  <Line 15 5 -10 0 #000080 2 1>
+  <Line 10 0 0 5 #000080 2 1>
+  <Line 10 35 0 5 #000080 2 1>
+  <.PortSym 10 0 1 0 A>
+  <.PortSym 10 40 2 0 B>
+</Symbol>
+</Component>
+<Component load2>
+<Description>
+</Description>
+<Symbol>
+  <.ID 0 0 I>
+  <Line 22 2 -2 8 #000080 2 1>
+  <Line 22 2 -7 3 #000080 2 1>
+  <Line -20 45 42 -43 #000080 2 1>
+  <Line 0 35 2 -5 #000080 2 1>
+  <Line 0 35 -3 -5 #000080 2 1>
+  <Line -3 30 5 0 #000080 2 1>
+  <Line 0 15 0 15 #000080 2 1>
+  <Line 0 50 0 -5 #000080 2 1>
+  <Line 0 0 0 5 #000080 2 1>
+  <Ellipse -20 5 40 40 #000000 0 1 #c0c0c0 1 0>
+  <.PortSym 0 0 1 0 +>
+  <.PortSym 0 50 2 0 ->
+</Symbol>
+</Component>
+<Component lpnp>
+<Description>
+</Description>
+<Model>
+.Def:LTspiceLIB_lpnp _net1 _net2 _net3 AREA=1
+BJT:Q1 _net2 _net1 _net3 LPNP {AREA}
+.Def:End
+</Model>
+<Symbol>
+  <.ID 0 0 QP "1=AREA===">
+  <Line 10 40 17 7 #000080 2 1>
+  <Line 27 47 -5 5 #000080 2 1>
+  <Line 10 40 12 12 #000080 2 1>
+  <Line 25 50 15 10 #000080 2 1>
+  <Line 10 50 0 -40 #000080 2 1>
+  <Line 10 20 30 -20 #000080 2 1>
+  <Line 10 30 -10 0 #000080 2 1>
+  <Line 32 30 8 0 #000080 2 1>
+  <Line 10 30 12 0 #000080 2 1>
+  <Line 22 25 0 10 #000080 2 1>
+  <Line 32 25 0 10 #000080 2 1>
+  <Line 32 25 -10 5 #000080 2 1>
+  <Line 32 35 -10 -5 #000080 2 1>
+  <.PortSym 40 0 1 0 C>
+  <.PortSym 0 30 2 0 B>
+  <.PortSym 40 60 3 0 E>
+  <.PortSym 40 30 4 0 S>
+</Symbol>
+</Component>
+<Component ltline>
+<Description>
+</Description>
+<Symbol>
+  <.ID 0 0 O>
+  <Line -30 10 60 0 #000080 2 1>
+  <Line -23 7 45 0 #000080 2 1>
+  <Line -23 -8 45 0 #000080 2 1>
+  <Line -30 -10 60 0 #000080 2 1>
+  <Line -30 10 7 -3 #000080 2 1>
+  <Line -30 -10 7 2 #000080 2 1>
+  <Line 30 10 -8 -3 #000080 2 1>
+  <Line 30 -10 -8 2 #000080 2 1>
+  <Line -25 0 5 0 #000080 2 1>
+  <Line -20 0 5 5 #000080 2 1>
+  <Line -15 5 10 -10 #000080 2 1>
+  <Line -5 -5 10 10 #000080 2 1>
+  <Line 5 5 10 -10 #000080 2 1>
+  <Line 15 -5 5 5 #000080 2 1>
+  <Line 20 0 5 0 #000080 2 1>
+  <.PortSym -30 -10 1 0 I1>
+  <.PortSym -30 10 2 0 R1>
+  <.PortSym 30 -10 3 0 I2>
+  <.PortSym 30 10 4 0 R2>
+</Symbol>
+</Component>
+<Component mesfet>
+<Description>
+</Description>
+<Symbol>
+  <.ID 0 0 Z>
+  <Line 10 7 0 45 #000080 2 1>
+  <Line 30 50 0 10 #000080 2 1>
+  <Line 30 10 0 -10 #000080 2 1>
+  <Line 10 10 20 0 #000080 2 1>
+  <Line 0 50 10 0 #000080 2 1>
+  <Line 10 50 20 0 #000080 2 1>
+  <.PortSym 30 0 1 0 D>
+  <.PortSym 0 50 2 0 G>
+  <.PortSym 30 60 3 0 S>
+</Symbol>
+</Component>
+<Component njf>
+<Description>
+</Description>
+<Symbol>
+  <.ID 0 0 JN>
+  <Line 10 10 0 40 #000080 2 1>
+  <Line 30 45 0 15 #000080 2 1>
+  <Line 10 45 20 0 #000080 2 1>
+  <Line 30 15 0 -15 #000080 2 1>
+  <Line 10 15 20 0 #000080 2 1>
+  <Line 0 40 2 0 #000080 2 1>
+  <Line 2 42 8 -2 #000080 2 1>
+  <Line 2 37 8 3 #000080 2 1>
+  <Line 2 37 0 5 #000080 2 1>
+  <.PortSym 30 0 1 0 D>
+  <.PortSym 0 40 2 0 G>
+  <.PortSym 30 60 3 0 S>
+</Symbol>
+</Component>
+<Component nmos>
+<Description>
+</Description>
+<Spice>
+.subckt LTspiceLIB_nmos gnd _net1 _net2 _net3 _net4 L=1u W=1u
+M1 _net1 _net2 _net3 _net4 NMOS L={L} W={W}
+.ends LTspiceLIB_nmos
+</Spice>
+<Model>
+.Def:LTspiceLIB_nmos _net1 _net2 _net3 _net4 L=1u W=1u
+MOSFET:M1 _net2 _net1 _net3 _net4 NMOS L="L" W="W"
+.Def:End
+</Model>
+<Symbol>
+  <.ID 0 0 MN "1=L===" "1=W===">
+  <Line 30 30 0 30 #000080 2 1>
+  <Line 10 50 20 0 #000080 2 1>
+  <Line 25 30 5 0 #000080 2 1>
+  <Line 10 30 15 -3 #000080 2 1>
+  <Line 10 30 15 2 #000080 2 1>
+  <Line 25 27 0 5 #000080 2 1>
+  <Line 10 5 0 10 #000080 2 1>
+  <Line 10 25 0 10 #000080 2 1>
+  <Line 10 45 0 10 #000080 2 1>
+  <Line 0 50 5 0 #000080 2 1>
+  <Line 5 10 0 40 #000080 2 1>
+  <Line 30 10 -20 0 #000080 2 1>
+  <Line 30 0 0 10 #000080 2 1>
+  <.PortSym 30 0 1 0 D>
+  <.PortSym 0 50 2 0 G>
+  <.PortSym 30 60 3 0 S>
+</Symbol>
+</Component>
+<Component nmos4>
+<Description>
+</Description>
+<Spice>
+.subckt LTspiceLIB_nmos4 gnd _net1 _net2 _net3 _net4 L=1u W=1u
+M1 _net1 _net2 _net3 _net4 NMOS L={L} W={W}
+.ends LTspiceLIB_nmos4
+</Spice>
+<Model>
+.Def:LTspiceLIB_nmos4 _net1 _net2 _net3 _net4 L=1u W=1u
+MOSFET:M1 _net2 _net1 _net3 _net4 NMOS L="L" W="W"
+.Def:End
+</Model>
+<Symbol>
+  <.ID 0 0 MN "1=L===" "1=W===">
+  <Line 30 50 0 10 #000080 2 1>
+  <Line 10 50 20 0 #000080 2 1>
+  <Line 25 30 5 0 #000080 2 1>
+  <Line 10 30 15 -3 #000080 2 1>
+  <Line 10 30 15 2 #000080 2 1>
+  <Line 25 27 0 5 #000080 2 1>
+  <Line 10 5 0 10 #000080 2 1>
+  <Line 10 25 0 10 #000080 2 1>
+  <Line 10 45 0 10 #000080 2 1>
+  <Line 0 50 5 0 #000080 2 1>
+  <Line 5 10 0 40 #000080 2 1>
+  <Line 30 10 -20 0 #000080 2 1>
+  <Line 30 0 0 10 #000080 2 1>
+  <.PortSym 30 0 1 0 D>
+  <.PortSym 0 50 2 0 G>
+  <.PortSym 30 60 3 0 S>
+  <.PortSym 30 30 4 0 B>
+</Symbol>
+</Component>
+<Component npn>
+<Description>
+</Description>
+<Model>
+.Def:LTspiceLIB_npn _net1 _net2 _net3 AREA=1
+BJT:Q1 _net2 _net1 _net3 NPN {AREA}
+.Def:End
+</Model>
+<Symbol>
+  <.ID 0 0 QN "1=AREA===">
+  <Line 27 47 -5 5 #000080 2 1>
+  <Line 40 60 -13 -13 #000080 2 1>
+  <Line 40 60 -18 -8 #000080 2 1>
+  <Line 25 50 -15 -10 #000080 2 1>
+  <Line 10 50 0 -40 #000080 2 1>
+  <Line 10 20 30 -20 #000080 2 1>
+  <Line 10 30 -10 0 #000080 2 1>
+  <.PortSym 40 0 1 0 C>
+  <.PortSym 0 30 2 0 B>
+  <.PortSym 40 60 3 0 E>
+</Symbol>
+</Component>
+<Component npn2>
+<Description>
+</Description>
+<Model>
+.Def:LTspiceLIB_npn2 _net1 _net2 _net3 AREA=1
+BJT:Q1 _net2 _net1 _net3 NPN {AREA}
+.Def:End
+</Model>
+<Symbol>
+  <.ID 0 0 QN "1=AREA===">
+  <Line 27 47 -5 5 #000080 2 1>
+  <Line 40 60 -13 -13 #000080 2 1>
+  <Line 40 60 -18 -8 #000080 2 1>
+  <Line 25 50 -15 -10 #000080 2 1>
+  <Line 10 20 30 -20 #000080 2 1>
+  <Line 7 30 -7 0 #000080 2 1>
+  <Line 10 45 -3 0 #000080 2 1>
+  <Line 7 45 0 -30 #000080 2 1>
+  <Line 7 15 3 0 #000080 2 1>
+  <Line 10 15 0 30 #000080 2 1>
+  <.PortSym 40 0 1 0 C>
+  <.PortSym 0 30 2 0 B>
+  <.PortSym 40 60 3 0 E>
+</Symbol>
+</Component>
+<Component npn3>
+<Description>
+</Description>
+<Model>
+.Def:LTspiceLIB_npn3 _net1 _net2 _net3 AREA=1
+BJT:Q1 _net2 _net1 _net3 NPN {AREA}
+.Def:End
+</Model>
+<Symbol>
+  <.ID 0 0 QN "1=AREA===">
+  <Line 27 47 -5 5 #000080 2 1>
+  <Line 40 60 -13 -13 #000080 2 1>
+  <Line 40 60 -18 -8 #000080 2 1>
+  <Line 25 50 -13 -10 #000080 2 1>
+  <Line 12 45 0 -30 #000080 2 1>
+  <Line 7 45 0 -30 #000080 2 1>
+  <Line 12 45 -5 0 #000080 2 1>
+  <Line 12 15 -5 0 #000080 2 1>
+  <Line 12 20 28 -20 #000080 2 1>
+  <Line 7 30 -7 0 #000080 2 1>
+  <.PortSym 40 0 1 0 C>
+  <.PortSym 0 30 2 0 B>
+  <.PortSym 40 60 3 0 E>
+</Symbol>
+</Component>
+<Component npn4>
+<Description>
+</Description>
+<Model>
+.Def:LTspiceLIB_npn4 _net1 _net2 _net3 AREA=1
+BJT:Q1 _net2 _net1 _net3 NPN {AREA}
+.Def:End
+</Model>
+<Symbol>
+  <.ID 0 0 QN "1=AREA===">
+  <Line 10 30 -10 0 #000080 2 1>
+  <Line 10 20 30 -20 #000080 2 1>
+  <Line 10 50 0 -40 #000080 2 1>
+  <Line 25 50 -15 -10 #000080 2 1>
+  <Line 40 60 -18 -8 #000080 2 1>
+  <Line 40 60 -13 -13 #000080 2 1>
+  <Line 27 47 -5 5 #000080 2 1>
+  <Line 25 10 5 7 #000080 2 1>
+  <Line 40 30 -5 -5 #000080 2 1>
+  <Line 25 20 10 -8 #000080 2 1>
+  <Line 30 27 10 -7 #000080 2 1>
+  <Line 30 27 0 -10 #000080 2 1>
+  <Line 40 20 -10 -3 #000080 2 1>
+  <.PortSym 40 0 1 0 C>
+  <.PortSym 0 30 2 0 B>
+  <.PortSym 40 60 3 0 E>
+  <.PortSym 40 30 4 0 S>
+</Symbol>
+</Component>
+<Component pjf>
+<Description>
+</Description>
+<Symbol>
+  <.ID 0 0 JP>
+  <Line 10 10 0 40 #000080 2 1>
+  <Line 30 45 0 15 #000080 2 1>
+  <Line 10 45 20 0 #000080 2 1>
+  <Line 30 15 0 -15 #000080 2 1>
+  <Line 10 15 20 0 #000080 2 1>
+  <Line 7 40 3 0 #000080 2 1>
+  <Line 7 42 -7 -2 #000080 2 1>
+  <Line 7 37 -7 3 #000080 2 1>
+  <Line 7 37 0 5 #000080 2 1>
+  <.PortSym 30 0 1 0 D>
+  <.PortSym 0 40 2 0 G>
+  <.PortSym 30 60 3 0 S>
+</Symbol>
+</Component>
+<Component pmos>
+<Description>
+</Description>
+<Spice>
+.subckt LTspiceLIB_pmos gnd _net1 _net2 _net3 _net4 L=1u W=1u
+M1 _net1 _net2 _net3 _net4 PMOS L={L} W={W}
+.ends LTspiceLIB_pmos
+</Spice>
+<Model>
+.Def:LTspiceLIB_pmos _net1 _net2 _net3 _net4 L=1u W=1u
+MOSFET:M1 _net2 _net1 _net3 _net4 PMOS L="L" W="W"
+.Def:End
+</Model>
+<Symbol>
+  <.ID 0 0 MP "1=L===" "1=W===">
+  <Line 30 30 0 30 #000080 2 1>
+  <Line 10 50 20 0 #000080 2 1>
+  <Line 10 30 5 0 #000080 2 1>
+  <Line 30 30 -15 -3 #000080 2 1>
+  <Line 30 30 -15 2 #000080 2 1>
+  <Line 15 27 0 5 #000080 2 1>
+  <Line 10 5 0 10 #000080 2 1>
+  <Line 10 25 0 10 #000080 2 1>
+  <Line 10 45 0 10 #000080 2 1>
+  <Line 0 50 5 0 #000080 2 1>
+  <Line 5 10 0 40 #000080 2 1>
+  <Line 30 10 -20 0 #000080 2 1>
+  <Line 30 0 0 10 #000080 2 1>
+  <.PortSym 30 0 1 0 D>
+  <.PortSym 0 50 2 0 G>
+  <.PortSym 30 60 3 0 S>
+</Symbol>
+</Component>
+<Component pmos4>
+<Description>
+</Description>
+<Spice>
+.subckt LTspiceLIB_pmos4 gnd _net1 _net2 _net3 _net4 L=1u W=1u
+M1 _net1 _net2 _net3 _net4 PMOS L={L} W={W}
+.ends LTspiceLIB_pmos4
+</Spice>
+<Model>
+.Def:LTspiceLIB_pmos4 _net1 _net2 _net3 _net4 L=1u W=1u
+MOSFET:M1 _net2 _net1 _net3 _net4 PMOS L="L" W="W"
+.Def:End
+</Model>
+<Symbol>
+  <.ID 0 0 MP "1=L===" "1=W===">
+  <Line 30 50 0 10 #000080 2 1>
+  <Line 10 50 20 0 #000080 2 1>
+  <Line 10 30 5 0 #000080 2 1>
+  <Line 30 30 -15 -3 #000080 2 1>
+  <Line 30 30 -15 2 #000080 2 1>
+  <Line 15 27 0 5 #000080 2 1>
+  <Line 10 5 0 10 #000080 2 1>
+  <Line 10 25 0 10 #000080 2 1>
+  <Line 10 45 0 10 #000080 2 1>
+  <Line 0 50 5 0 #000080 2 1>
+  <Line 5 10 0 40 #000080 2 1>
+  <Line 30 10 -20 0 #000080 2 1>
+  <Line 30 0 0 10 #000080 2 1>
+  <.PortSym 30 0 1 0 D>
+  <.PortSym 0 50 2 0 G>
+  <.PortSym 30 60 3 0 S>
+  <.PortSym 30 30 4 0 B>
+</Symbol>
+</Component>
+<Component pnp>
+<Description>
+</Description>
+<Model>
+.Def:LTspiceLIB_pnp _net1 _net2 _net3 AREA=1
+BJT:Q1 _net2 _net1 _net3 PNP {AREA}
+.Def:End
+</Model>
+<Symbol>
+  <.ID 0 0 QP "1=AREA===">
+  <Line 10 40 17 7 #000080 2 1>
+  <Line 27 47 -5 5 #000080 2 1>
+  <Line 10 40 12 12 #000080 2 1>
+  <Line 25 50 15 10 #000080 2 1>
+  <Line 10 50 0 -40 #000080 2 1>
+  <Line 10 20 30 -20 #000080 2 1>
+  <Line 10 30 -10 0 #000080 2 1>
+  <.PortSym 40 0 1 0 C>
+  <.PortSym 0 30 2 0 B>
+  <.PortSym 40 60 3 0 E>
+</Symbol>
+</Component>
+<Component pnp2>
+<Description>
+</Description>
+<Model>
+.Def:LTspiceLIB_pnp2 _net1 _net2 _net3 AREA=1
+BJT:Q1 _net2 _net1 _net3 PNP {AREA}
+.Def:End
+</Model>
+<Symbol>
+  <.ID 0 0 QP "1=AREA===">
+  <Line 10 40 17 7 #000080 2 1>
+  <Line 27 47 -5 5 #000080 2 1>
+  <Line 10 40 12 12 #000080 2 1>
+  <Line 25 50 15 10 #000080 2 1>
+  <Line 10 20 30 -20 #000080 2 1>
+  <Line 7 30 -7 0 #000080 2 1>
+  <Line 10 45 -3 0 #000080 2 1>
+  <Line 7 45 0 -30 #000080 2 1>
+  <Line 7 15 3 0 #000080 2 1>
+  <Line 10 15 0 30 #000080 2 1>
+  <.PortSym 40 0 1 0 C>
+  <.PortSym 0 30 2 0 B>
+  <.PortSym 40 60 3 0 E>
+</Symbol>
+</Component>
+<Component pnp4>
+<Description>
+</Description>
+<Model>
+.Def:LTspiceLIB_pnp4 _net1 _net2 _net3 AREA=1
+BJT:Q1 _net2 _net1 _net3 PNP {AREA}
+.Def:End
+</Model>
+<Symbol>
+  <.ID 0 0 QP "1=AREA===">
+  <Line 10 40 17 7 #000080 2 1>
+  <Line 27 47 -5 5 #000080 2 1>
+  <Line 10 40 12 12 #000080 2 1>
+  <Line 25 50 15 10 #000080 2 1>
+  <Line 10 50 0 -40 #000080 2 1>
+  <Line 10 20 30 -20 #000080 2 1>
+  <Line 10 30 -10 0 #000080 2 1>
+  <Line 25 10 5 7 #000080 2 1>
+  <Line 40 30 -5 -5 #000080 2 1>
+  <Line 25 20 10 -8 #000080 2 1>
+  <Line 30 27 10 -7 #000080 2 1>
+  <Line 25 20 10 5 #000080 2 1>
+  <Line 35 12 0 13 #000080 2 1>
+  <.PortSym 40 0 1 0 C>
+  <.PortSym 0 30 2 0 B>
+  <.PortSym 40 60 3 0 E>
+  <.PortSym 40 30 4 0 S>
+</Symbol>
+</Component>
+<Component polcap>
+<Description>
+</Description>
+<Spice>
+.subckt LTspiceLIB_polcap gnd _net1 _net2 C={C}
+C1 _net1 _net2 {C}
+.ends LTspiceLIB_polcap
+</Spice>
+<Symbol>
+  <.ID 0 0 C "1=C===">
+  <Line 10 22 0 18 #000080 2 1>
+  <Line 10 0 0 17 #000080 2 1>
+  <Line 5 7 0 5 #000080 2 1>
+  <Line 2 10 5 0 #000080 2 1>
+  <Line 0 17 20 0 #000080 2 1>
+  <EArc -10 22 40 40 -1920 1008 #000000 0 1 #c0c0c0 1 0>
+  <.PortSym 10 0 1 0 A>
+  <.PortSym 10 40 2 0 B>
+</Symbol>
+</Component>
+<Component res>
+<Description>
+</Description>
+<Spice>
+.subckt LTspiceLIB_res gnd _net1 _net2 R={R}
+R1 _net1 _net2 {R}
+.ends LTspiceLIB_res
+</Spice>
+<Symbol>
+  <.ID 0 0 R "1=R===">
+  <Line 10 55 0 5 #000080 2 1>
+  <Line 0 50 10 5 #000080 2 1>
+  <Line 20 40 -20 10 #000080 2 1>
+  <Line 0 30 20 10 #000080 2 1>
+  <Line 20 20 -20 10 #000080 2 1>
+  <Line 10 10 0 5 #000080 2 1>
+  <Line 10 15 10 5 #000080 2 1>
+  <.PortSym 10 10 1 0 A>
+  <.PortSym 10 60 2 0 B>
+</Symbol>
+</Component>
+<Component res2>
+<Description>
+</Description>
+<Spice>
+.subckt LTspiceLIB_res2 gnd _net1 _net2 R={R}
+R1 _net1 _net2 {R}
+.ends LTspiceLIB_res2
+</Spice>
+<Symbol>
+  <.ID 0 0 R "1=R===">
+  <Line 10 0 10 2 #000080 2 1>
+  <Line 0 7 20 -5 #000080 2 1>
+  <Line 0 7 20 5 #000080 2 1>
+  <Line 0 17 20 -5 #000080 2 1>
+  <Line 0 17 20 5 #000080 2 1>
+  <Line 0 27 20 -5 #000080 2 1>
+  <Line 0 27 20 5 #000080 2 1>
+  <Line 0 37 20 -5 #000080 2 1>
+  <Line 0 37 10 3 #000080 2 1>
+  <.PortSym 10 0 1 0 A>
+  <.PortSym 10 40 2 0 B>
+</Symbol>
+</Component>
+<Component schottky>
+<Description>
+</Description>
+<Model>
+.Def:LTspiceLIB_schottky _net1 _net2 AREA=1
+Diode:D1 _net2 _net1 D {AREA}
+.Def:End
+</Model>
+<Symbol>
+  <.ID 0 0 D "1=AREA===">
+  <Line 0 22 2 0 #000080 2 1>
+  <Line 0 27 0 -5 #000080 2 1>
+  <Line 0 27 20 0 #000080 2 1>
+  <Line 20 27 0 5 #000080 2 1>
+  <Line 20 32 -3 0 #000080 2 1>
+  <Line 0 12 20 0 #000080 2 1>
+  <Line 20 12 -10 15 #000080 2 1>
+  <Line 0 12 10 15 #000080 2 1>
+  <Line 10 0 0 12 #000080 2 1>
+  <Line 10 27 0 13 #000080 2 1>
+  <.PortSym 10 0 1 0 +>
+  <.PortSym 10 40 2 0 ->
+</Symbol>
+</Component>
+<Component sw>
+<Description>
+</Description>
+<Spice>
+.subckt LTspiceLIB_sw gnd _net1 _net2 _net3 _net4
+SW _net1 _net2 _net3 _net4 SW
+.ends LTspiceLIB_sw
+</Spice>
+<Model>
+.Def:LTspiceLIB_sw _net1 _net2 _net3 _net4
+SW:S1 _net1 _net2 _net3 _net4 SW
+.Def:End
+</Model>
+<Symbol>
+  <.ID 0 0 S>
+  <Line -30 20 10 0 #000080 2 1>
+  <Line -20 20 5 2 #000080 2 1>
+  <Line -30 50 10 0 #000080 2 1>
+  <Line -20 50 5 -3 #000080 2 1>
+  <Line 0 60 0 -15 #000080 2 1>
+  <Line 0 10 0 12 #000080 2 1>
+  <Line 0 22 12 15 #000080 2 1>
+  <Line -30 45 5 0 #000080 2 1>
+  <Line -28 47 0 -5 #000080 2 1>
+  <Line -30 25 5 0 #000080 2 1>
+  <Ellipse -20 15 40 40 #000000 0 1 #c0c0c0 1 0>
+  <Ellipse -3 42 5 5 #000000 0 1 #c0c0c0 1 0>
+  <Ellipse 10 35 5 5 #000000 0 1 #c0c0c0 1 0>
+  <.PortSym 0 10 1 0 A>
+  <.PortSym 0 60 2 0 B>
+  <.PortSym -30 50 3 0 NC+>
+  <.PortSym -30 20 4 0 NC->
+</Symbol>
+</Component>
+<Component tline>
+<Description>
+</Description>
+<Symbol>
+  <.ID 0 0 T>
+  <Line -30 10 60 0 #000080 2 1>
+  <Line -20 5 40 0 #000080 2 1>
+  <Line -20 -5 40 0 #000080 2 1>
+  <Line -30 -10 60 0 #000080 2 1>
+  <Line -30 10 10 -5 #000080 2 1>
+  <Line -30 -10 10 5 #000080 2 1>
+  <Line 30 10 -10 -5 #000080 2 1>
+  <Line 30 -10 -10 5 #000080 2 1>
+  <.PortSym -30 -10 1 0 I1>
+  <.PortSym -30 10 2 0 R1>
+  <.PortSym 30 -10 3 0 I2>
+  <.PortSym 30 10 4 0 R2>
+</Symbol>
+</Component>
+<Component varactor>
+<Description>
+</Description>
+<Model>
+.Def:LTspiceLIB_varactor _net1 _net2 AREA=1
+Diode:D1 _net2 _net1 D {AREA}
+.Def:End
+</Model>
+<Symbol>
+  <.ID 0 0 D "1=AREA===">
+  <Line 0 22 20 0 #000080 2 1>
+  <Line 0 27 20 0 #000080 2 1>
+  <Line 0 10 20 0 #000080 2 1>
+  <Line 20 10 -10 12 #000080 2 1>
+  <Line 0 10 10 12 #000080 2 1>
+  <Line 10 0 0 10 #000080 2 1>
+  <Line 10 27 0 13 #000080 2 1>
+  <.PortSym 10 0 1 0 +>
+  <.PortSym 10 40 2 0 ->
+</Symbol>
+</Component>
+<Component voltage>
+<Description>
+</Description>
+<Spice>
+.subckt LTspiceLIB_voltage gnd _net1 _net2 U={U}
+V1 _net1 _net2 {U}
+.ends LTspiceLIB_voltage
+</Spice>
+<Model>
+.Def:LTspiceLIB_voltage _net1 _net2 U=1.0
+Vdc:V1 _net1 _net2 U={U}
+.Def:End
+</Model>
+<Symbol>
+  <.ID 0 0 V "1=U===">
+  <Line -5 22 10 0 #000080 2 1>
+  <Line -5 47 10 0 #000080 2 1>
+  <Line 0 17 0 10 #000080 2 1>
+  <Line 0 60 0 -5 #000080 2 1>
+  <Line 0 10 0 5 #000080 2 1>
+  <Ellipse -20 15 40 40 #000000 0 1 #c0c0c0 1 0>
+  <.PortSym 0 10 1 0 +>
+  <.PortSym 0 60 2 0 ->
+</Symbol>
+</Component>
+<Component vsin>
+<Description>
+</Description>
+<Spice>
+.subckt LTspiceLIB_vsin gnd _net1 _net2 sinedc=0 ampl={ampl} freq={freq} delay=0 damp=0 sinephase=0
+V1 _net1 _net2 SIN ({sinedc} {ampl} {freq} {delay} {damp} {sinephase})
+.ends LTspiceLIB_vsin
+</Spice>
+<Model>
+.Def:LTspiceLIB_vsin _net1 _net2 U=1.0
+Vdc:V1 _net1 _net2 U={U}
+.Def:End
+</Model>
+<Symbol>
+  <.ID 0 0 V "0=sinedc===" "1=ampl===" "1Khz=freq===" "0=delay===" "0=damp===" "0=sinephase===">
+  <Line -5 22 10 0 #000080 2 1>
+  <Line -5 47 10 0 #000080 2 1>
+  <Line 0 17 0 10 #000080 2 1>
+  <Line 0 60 0 -5 #000080 2 1>
+  <Line 0 10 0 5 #000080 2 1>
+  <Ellipse -20 15 40 40 #000000 0 1 #c0c0c0 1 0>
+  <.PortSym 0 10 1 0 +>
+  <.PortSym 0 60 2 0 ->
+</Symbol>
+</Component>
+<Component vac>
+<Description>
+</Description>
+<Spice>
+.subckt LTspiceLIB_vac gnd _net1 _net2 dc={dc} mag={mag}
+V1 _net1 _net2 {dc} AC {mag}
+.ends LTspiceLIB_vac
+</Spice>
+<Model>
+.Def:LTspiceLIB_vac _net1 _net2 U=1.0
+Vdc:V1 _net1 _net2 U={U}
+.Def:End
+</Model>
+<Symbol>
+  <.ID 0 0 V "0=dc===" "1=mag===">
+  <Line -5 22 10 0 #000080 2 1>
+  <Line -5 47 10 0 #000080 2 1>
+  <Line 0 17 0 10 #000080 2 1>
+  <Line 0 60 0 -5 #000080 2 1>
+  <Line 0 10 0 5 #000080 2 1>
+  <Ellipse -20 15 40 40 #000000 0 1 #c0c0c0 1 0>
+  <.PortSym 0 10 1 0 +>
+  <.PortSym 0 60 2 0 ->
+</Symbol>
+</Component>
+<Component vpulse>
+<Description>
+</Description>
+<Spice>
+.subckt LTspiceLIB_vpulse gnd _net1 _net2 val0={val0} val1={val1} delay=0 rise=0 fall=0 width=0 period=0
+V1 _net1 _net2 PULSE ({val0} {val1} {delay} {rise} {fall} {width} {period})
+.ends LTspiceLIB_vpulse
+</Spice>
+<Model>
+.Def:LTspiceLIB_vpulse _net1 _net2 U=1.0
+Vdc:V1 _net1 _net2 U={U}
+.Def:End
+</Model>
+<Symbol>
+  <.ID 0 0 V "0=val0===" "1=val1===" "0=delay===" "0=rise===" "0=fall===" "0=width===" "0=period===">
+  <Line -5 22 10 0 #000080 2 1>
+  <Line -5 47 10 0 #000080 2 1>
+  <Line 0 17 0 10 #000080 2 1>
+  <Line 0 60 0 -5 #000080 2 1>
+  <Line 0 10 0 5 #000080 2 1>
+  <Ellipse -20 15 40 40 #000000 0 1 #c0c0c0 1 0>
+  <.PortSym 0 10 1 0 +>
+  <.PortSym 0 60 2 0 ->
+</Symbol>
+</Component>
+<Component zener>
+<Description>
+</Description>
+<Model>
+.Def:LTspiceLIB_zener _net1 _net2 AREA=1
+Diode:D1 _net2 _net1 D {AREA}
+.Def:End
+</Model>
+<Symbol>
+  <.ID 0 0 D "1=AREA===">
+  <Line 0 27 -3 3 #000080 2 1>
+  <Line 20 27 2 -2 #000080 2 1>
+  <Line 0 27 20 0 #000080 2 1>
+  <Line 0 12 20 0 #000080 2 1>
+  <Line 20 12 -10 15 #000080 2 1>
+  <Line 0 12 10 15 #000080 2 1>
+  <Line 10 0 0 12 #000080 2 1>
+  <Line 10 27 0 13 #000080 2 1>
+  <.PortSym 10 0 1 0 +>
+  <.PortSym 10 40 2 0 ->
+</Symbol>
+</Component>
