@@ -1,3694 +1,3608 @@
-(kicad_symbol_lib 
-  (version 20231120)  
-  (generator "kicad_symbol_editor" )  
-  (generator_version "8.0" )  
-  (symbol "FerriteBead"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "L_Ferrite_Bead"  
-      (at 1.905 -0.0 0) )  
-    (symbol "FerriteBead_0_1"  
-      (polyline 
-        (pts 
-          (xy -1.27 -0.635)  
-          (xy -1.27 0.635) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 0.635)  
-          (xy 0.0 2.54) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -0.889)  
-          (xy 0.0 -2.54) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -0.635)  
-          (xy 1.27 0.635) ) )  
-      (arc 
-        (start -1.27 -0.254) )  
-      (circle 
-        (center 0.0 0.762)  
-        (radius 1.27) )  
-      (circle 
-        (center -0.0635 0.762)  
-        (radius 0.508) ) )  
-    (symbol "FerriteBead_1_1"  
-      (pin input line 
-        (at 0.0 2.54 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 0.0 -2.54 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) ) ) )  
-  (symbol "FerriteBead2"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "L_Ferrite_Bead"  
-      (at 1.651 -0.0 0) )  
-    (symbol "FerriteBead2_0_1"  
-      (polyline 
-        (pts 
-          (xy 0.0 0.762)  
-          (xy 0.0 2.54) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -0.635)  
-          (xy 0.0 -2.54) ) )  
-      (polyline 
-        (pts 
-          (xy -0.762 -0.635)  
-          (xy 0.635 -0.635) ) )  
-      (polyline 
-        (pts 
-          (xy -0.762 -0.508)  
-          (xy 0.635 -0.508) ) )  
-      (polyline 
-        (pts 
-          (xy -0.762 -0.381)  
-          (xy 0.635 -0.381) ) )  
-      (polyline 
-        (pts 
-          (xy -0.762 -0.381)  
-          (xy 0.635 -0.381) ) )  
-      (polyline 
-        (pts 
-          (xy -0.762 -0.381)  
-          (xy 0.635 -0.381) ) )  
-      (polyline 
-        (pts 
-          (xy -0.762 -0.254)  
-          (xy 0.635 -0.254) ) )  
-      (polyline 
-        (pts 
-          (xy -0.762 -0.127)  
-          (xy 0.635 -0.127) ) )  
-      (polyline 
-        (pts 
-          (xy -0.762 -0.127)  
-          (xy 0.635 -0.127) ) )  
-      (polyline 
-        (pts 
-          (xy -0.762 -0.127)  
-          (xy 0.635 -0.127) ) )  
-      (polyline 
-        (pts 
-          (xy -0.762 -0.0)  
-          (xy 0.635 -0.0) ) )  
-      (polyline 
-        (pts 
-          (xy -0.762 -0.0)  
-          (xy 0.635 -0.0) ) )  
-      (polyline 
-        (pts 
-          (xy -0.762 -0.0)  
-          (xy 0.635 -0.0) ) )  
-      (polyline 
-        (pts 
-          (xy -0.762 0.127)  
-          (xy 0.635 0.127) ) )  
-      (polyline 
-        (pts 
-          (xy -0.762 0.381)  
-          (xy 0.635 0.381) ) )  
-      (polyline 
-        (pts 
-          (xy -0.762 0.508)  
-          (xy 0.635 0.508) ) )  
-      (polyline 
-        (pts 
-          (xy -0.762 0.508)  
-          (xy 0.635 0.508) ) )  
-      (polyline 
-        (pts 
-          (xy -0.762 0.508)  
-          (xy 0.635 0.508) ) )  
-      (polyline 
-        (pts 
-          (xy -0.762 0.635)  
-          (xy 0.635 0.635) ) )  
-      (polyline 
-        (pts 
-          (xy -0.762 0.635)  
-          (xy 0.635 0.635) ) )  
-      (polyline 
-        (pts 
-          (xy -0.762 0.254)  
-          (xy 0.635 0.254) ) )  
-      (polyline 
-        (pts 
-          (xy -0.762 0.254)  
-          (xy 0.635 0.254) ) )  
-      (polyline 
-        (pts 
-          (xy 0.508 -0.635)  
-          (xy 0.508 0.762) ) )  
-      (polyline 
-        (pts 
-          (xy 0.635 -0.635)  
-          (xy 0.635 0.762) ) )  
-      (polyline 
-        (pts 
-          (xy 0.381 -0.635)  
-          (xy 0.381 0.762) ) )  
-      (polyline 
-        (pts 
-          (xy 0.381 -0.635)  
-          (xy 0.381 0.762) ) )  
-      (polyline 
-        (pts 
-          (xy 0.127 -0.635)  
-          (xy 0.127 0.762) ) )  
-      (polyline 
-        (pts 
-          (xy 0.254 -0.635)  
-          (xy 0.254 0.762) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -0.635)  
-          (xy 0.0 0.762) ) )  
-      (polyline 
-        (pts 
-          (xy 0.127 -0.635)  
-          (xy 0.127 0.762) ) )  
-      (polyline 
-        (pts 
-          (xy -0.127 -0.635)  
-          (xy -0.127 0.762) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -0.635)  
-          (xy 0.0 0.762) ) )  
-      (polyline 
-        (pts 
-          (xy -0.254 -0.635)  
-          (xy -0.254 0.762) ) )  
-      (polyline 
-        (pts 
-          (xy -0.254 -0.635)  
-          (xy -0.254 0.762) ) )  
-      (polyline 
-        (pts 
-          (xy -0.508 -0.635)  
-          (xy -0.508 0.762) ) )  
-      (polyline 
-        (pts 
-          (xy -0.381 -0.635)  
-          (xy -0.381 0.762) ) )  
-      (polyline 
-        (pts 
-          (xy -0.635 -0.635)  
-          (xy -0.635 0.762) ) )  
-      (polyline 
-        (pts 
-          (xy -0.508 -0.635)  
-          (xy -0.508 0.762) ) )  
-      (polyline 
-        (pts 
-          (xy -0.635 -0.635)  
-          (xy -0.635 0.762) ) )  
-      (polyline 
-        (pts 
-          (xy -0.762 0.762)  
-          (xy 0.635 0.762) ) )  
-      (polyline 
-        (pts 
-          (xy 0.635 0.762)  
-          (xy 0.635 -0.635) ) )  
-      (polyline 
-        (pts 
-          (xy 0.635 -0.635)  
-          (xy -0.762 -0.635) ) )  
-      (polyline 
-        (pts 
-          (xy -0.762 -0.635)  
-          (xy -0.762 0.762) ) ) )  
-    (symbol "FerriteBead2_1_1"  
-      (pin input line 
-        (at 0.0 2.54 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 0.0 -2.54 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) ) ) )  
-  (symbol "ISO16750-2"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "X"  
-      (at 3.81 -1.27 0) )  
-    (symbol "ISO16750-2_0_1"  
-      (polyline 
-        (pts 
-          (xy 0.0 -6.35)  
-          (xy 0.0 -5.715) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -0.0)  
-          (xy 0.0 -0.635) ) )  
-      (polyline 
-        (pts 
-          (xy -0.635 -4.318)  
-          (xy -0.635 -1.397) ) )  
-      (polyline 
-        (pts 
-          (xy -1.524 -4.318)  
-          (xy -0.635 -4.318) ) )  
-      (arc 
-        (start -0.635 1.524) )  
-      (circle 
-        (center 0.0 -3.175)  
-        (radius 2.54) ) )  
-    (symbol "ISO16750-2_1_1"  
-      (pin input line 
-        (at 0.0 -0.0 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 0.0 -6.35 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) ) ) )  
-  (symbol "ISO7637-2"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "X"  
-      (at 3.81 -1.27 0) )  
-    (symbol "ISO7637-2_0_1"  
-      (polyline 
-        (pts 
-          (xy 0.0 -6.35)  
-          (xy 0.0 -5.715) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -0.0)  
-          (xy 0.0 -0.635) ) )  
-      (polyline 
-        (pts 
-          (xy -0.635 -4.318)  
-          (xy -0.635 -1.397) ) )  
-      (polyline 
-        (pts 
-          (xy -1.524 -4.318)  
-          (xy -0.635 -4.318) ) )  
-      (arc 
-        (start -0.635 1.524) )  
-      (circle 
-        (center 0.0 -3.175)  
-        (radius 2.54) ) )  
-    (symbol "ISO7637-2_1_1"  
-      (pin input line 
-        (at 0.0 -0.0 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 0.0 -6.35 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) ) ) )  
-  (symbol "LED"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "D"  
-      (at 1.905 -0.0 0) )  
-    (symbol "LED_0_1"  
-      (polyline 
-        (pts 
-          (xy 0.0 -3.429)  
-          (xy 2.54 -3.429) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -1.524)  
-          (xy 2.54 -1.524) ) )  
-      (polyline 
-        (pts 
-          (xy 2.54 -1.524)  
-          (xy 1.27 -3.429) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -1.524)  
-          (xy 1.27 -3.429) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -0.0)  
-          (xy 1.27 -1.524) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -3.429)  
-          (xy 1.27 -5.08) ) )  
-      (polyline 
-        (pts 
-          (xy 5.715 -2.54)  
-          (xy 5.334 -3.175) ) )  
-      (polyline 
-        (pts 
-          (xy 5.715 -2.54)  
-          (xy 5.08 -2.54) ) )  
-      (polyline 
-        (pts 
-          (xy 5.715 -3.81)  
-          (xy 5.334 -4.445) ) )  
-      (polyline 
-        (pts 
-          (xy 5.715 -3.81)  
-          (xy 5.08 -3.81) ) )  
-      (arc 
-        (start 3.175 -1.524) )  
-      (arc 
-        (start 4.445 -1.524) )  
-      (arc 
-        (start 3.175 -2.794) )  
-      (arc 
-        (start 4.445 -2.794) ) )  
-    (symbol "LED_1_1"  
-      (pin input line 
-        (at 1.27 -0.0 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 1.27 -5.08 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) ) ) )  
-  (symbol "SOAtherm-HeatSink"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "X"  
-      (at 0.0 5.08 0) )  
-    (symbol "SOAtherm-HeatSink_0_1"  
-      (polyline 
-        (pts 
-          (xy 3.81 -5.08)  
-          (xy -3.81 -5.08) ) )  
-      (polyline 
-        (pts 
-          (xy 3.81 0.635)  
-          (xy 2.54 0.635) ) )  
-      (polyline 
-        (pts 
-          (xy 3.81 1.27)  
-          (xy 3.81 0.635) ) )  
-      (polyline 
-        (pts 
-          (xy 2.54 1.27)  
-          (xy 3.81 1.27) ) )  
-      (polyline 
-        (pts 
-          (xy 3.81 3.175)  
-          (xy 2.54 3.175) ) )  
-      (polyline 
-        (pts 
-          (xy 3.81 3.81)  
-          (xy 3.81 3.175) ) )  
-      (polyline 
-        (pts 
-          (xy 3.81 5.08)  
-          (xy -3.81 5.08) ) )  
-      (polyline 
-        (pts 
-          (xy 2.54 3.81)  
-          (xy 3.81 3.81) ) )  
-      (polyline 
-        (pts 
-          (xy 2.54 4.445)  
-          (xy 2.54 3.81) ) )  
-      (polyline 
-        (pts 
-          (xy 3.81 4.445)  
-          (xy 2.54 4.445) ) )  
-      (polyline 
-        (pts 
-          (xy 3.81 5.08)  
-          (xy 3.81 4.445) ) )  
-      (polyline 
-        (pts 
-          (xy -6.35 -5.08)  
-          (xy -3.81 -5.08) ) )  
-      (polyline 
-        (pts 
-          (xy -6.35 5.08)  
-          (xy -6.35 -5.08) ) )  
-      (polyline 
-        (pts 
-          (xy -3.81 5.08)  
-          (xy -6.35 5.08) ) )  
-      (polyline 
-        (pts 
-          (xy -3.81 -5.08)  
-          (xy -3.81 5.08) ) )  
-      (polyline 
-        (pts 
-          (xy 3.81 1.905)  
-          (xy 2.54 1.905) ) )  
-      (polyline 
-        (pts 
-          (xy 3.81 2.54)  
-          (xy 3.81 1.905) ) )  
-      (polyline 
-        (pts 
-          (xy 2.54 2.54)  
-          (xy 3.81 2.54) ) )  
-      (polyline 
-        (pts 
-          (xy 2.54 1.905)  
-          (xy 2.54 1.27) ) )  
-      (polyline 
-        (pts 
-          (xy 2.54 3.175)  
-          (xy 2.54 2.54) ) )  
-      (polyline 
-        (pts 
-          (xy 3.81 -4.318)  
-          (xy 3.81 -5.08) ) )  
-      (polyline 
-        (pts 
-          (xy 2.54 -4.318)  
-          (xy 3.81 -4.318) ) )  
-      (polyline 
-        (pts 
-          (xy 3.81 -2.413)  
-          (xy 2.54 -2.413) ) )  
-      (polyline 
-        (pts 
-          (xy 3.81 -1.778)  
-          (xy 3.81 -2.413) ) )  
-      (polyline 
-        (pts 
-          (xy 2.54 -1.778)  
-          (xy 3.81 -1.778) ) )  
-      (polyline 
-        (pts 
-          (xy 2.54 -1.143)  
-          (xy 2.54 -1.778) ) )  
-      (polyline 
-        (pts 
-          (xy 3.81 -1.143)  
-          (xy 2.54 -1.143) ) )  
-      (polyline 
-        (pts 
-          (xy 3.81 -0.508)  
-          (xy 3.81 -1.143) ) )  
-      (polyline 
-        (pts 
-          (xy 3.81 -3.683)  
-          (xy 2.54 -3.683) ) )  
-      (polyline 
-        (pts 
-          (xy 3.81 -3.048)  
-          (xy 3.81 -3.683) ) )  
-      (polyline 
-        (pts 
-          (xy 2.54 -3.048)  
-          (xy 3.81 -3.048) ) )  
-      (polyline 
-        (pts 
-          (xy 2.54 -3.683)  
-          (xy 2.54 -4.318) ) )  
-      (polyline 
-        (pts 
-          (xy 2.54 -2.413)  
-          (xy 2.54 -3.048) ) )  
-      (polyline 
-        (pts 
-          (xy 3.81 -0.508)  
-          (xy 2.54 -0.508) ) )  
-      (polyline 
-        (pts 
-          (xy 2.54 0.635)  
-          (xy 2.54 -0.508) ) )  
-      (polyline 
-        (pts 
-          (xy -3.81 7.62)  
-          (xy -6.35 5.08) ) )  
-      (polyline 
-        (pts 
-          (xy -1.27 7.62)  
-          (xy -3.81 7.62) ) )  
-      (polyline 
-        (pts 
-          (xy -3.81 5.08)  
-          (xy -1.27 7.62) ) )  
-      (polyline 
-        (pts 
-          (xy 6.35 7.62)  
-          (xy -1.27 7.62) ) )  
-      (polyline 
-        (pts 
-          (xy 3.81 5.08)  
-          (xy 6.35 7.62) ) )  
-      (polyline 
-        (pts 
-          (xy 6.35 6.985)  
-          (xy 3.81 4.445) ) )  
-      (polyline 
-        (pts 
-          (xy 6.35 6.35)  
-          (xy 3.81 3.81) ) )  
-      (polyline 
-        (pts 
-          (xy 6.35 5.715)  
-          (xy 3.81 3.175) ) )  
-      (polyline 
-        (pts 
-          (xy 6.35 5.08)  
-          (xy 3.81 2.54) ) )  
-      (polyline 
-        (pts 
-          (xy 6.35 4.445)  
-          (xy 3.81 1.905) ) )  
-      (polyline 
-        (pts 
-          (xy 6.35 3.81)  
-          (xy 3.81 1.27) ) )  
-      (polyline 
-        (pts 
-          (xy 6.35 3.175)  
-          (xy 3.81 0.635) ) )  
-      (polyline 
-        (pts 
-          (xy 6.35 2.032)  
-          (xy 3.81 -0.508) ) )  
-      (polyline 
-        (pts 
-          (xy 6.35 1.397)  
-          (xy 3.81 -1.143) ) )  
-      (polyline 
-        (pts 
-          (xy 6.35 0.762)  
-          (xy 3.81 -1.778) ) )  
-      (polyline 
-        (pts 
-          (xy 6.35 0.127)  
-          (xy 3.81 -2.413) ) )  
-      (polyline 
-        (pts 
-          (xy 6.35 -0.508)  
-          (xy 3.81 -3.048) ) )  
-      (polyline 
-        (pts 
-          (xy 6.35 -1.143)  
-          (xy 3.81 -3.683) ) )  
-      (polyline 
-        (pts 
-          (xy 6.35 -1.778)  
-          (xy 3.81 -4.318) ) )  
-      (polyline 
-        (pts 
-          (xy 6.35 -2.54)  
-          (xy 3.81 -5.08) ) )  
-      (polyline 
-        (pts 
-          (xy 6.35 6.985)  
-          (xy 6.35 7.62) ) )  
-      (polyline 
-        (pts 
-          (xy 6.35 5.715)  
-          (xy 6.35 6.35) ) )  
-      (polyline 
-        (pts 
-          (xy 6.35 4.445)  
-          (xy 6.35 5.08) ) )  
-      (polyline 
-        (pts 
-          (xy 6.35 3.175)  
-          (xy 6.35 3.81) ) )  
-      (polyline 
-        (pts 
-          (xy 6.35 1.397)  
-          (xy 6.35 2.032) ) )  
-      (polyline 
-        (pts 
-          (xy 6.35 0.127)  
-          (xy 6.35 0.762) ) )  
-      (polyline 
-        (pts 
-          (xy 6.35 -1.143)  
-          (xy 6.35 -0.508) ) )  
-      (polyline 
-        (pts 
-          (xy 6.35 -2.54)  
-          (xy 6.35 -1.778) ) )  
-      (polyline 
-        (pts 
-          (xy 3.175 4.445)  
-          (xy 2.54 3.81) ) )  
-      (polyline 
-        (pts 
-          (xy 3.175 3.175)  
-          (xy 2.54 2.54) ) )  
-      (polyline 
-        (pts 
-          (xy 3.175 1.905)  
-          (xy 2.54 1.27) ) )  
-      (polyline 
-        (pts 
-          (xy 3.556 0.635)  
-          (xy 2.54 -0.508) ) )  
-      (polyline 
-        (pts 
-          (xy 3.175 -1.143)  
-          (xy 2.54 -1.778) ) )  
-      (polyline 
-        (pts 
-          (xy 3.175 -2.413)  
-          (xy 2.54 -3.048) ) )  
-      (polyline 
-        (pts 
-          (xy 3.175 -3.683)  
-          (xy 2.54 -4.318) ) )  
-      (polyline 
-        (pts 
-          (xy 5.715 6.35)  
-          (xy 6.35 6.35) ) )  
-      (polyline 
-        (pts 
-          (xy 5.715 5.08)  
-          (xy 6.35 5.08) ) )  
-      (polyline 
-        (pts 
-          (xy 5.715 3.81)  
-          (xy 6.35 3.81) ) )  
-      (polyline 
-        (pts 
-          (xy 5.715 -1.778)  
-          (xy 6.35 -1.778) ) )  
-      (polyline 
-        (pts 
-          (xy 5.715 -0.508)  
-          (xy 6.35 -0.508) ) )  
-      (polyline 
-        (pts 
-          (xy 5.715 0.762)  
-          (xy 6.35 0.762) ) )  
-      (polyline 
-        (pts 
-          (xy 5.207 2.032)  
-          (xy 6.35 2.032) ) ) )  
-    (symbol "SOAtherm-HeatSink_1_1"  
-      (pin input line 
-        (at -6.35 -0.0 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at -3.81 -0.0 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) )  
-      (pin input line 
-        (at 3.81 -0.0 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "3" ) ) ) )  
-  (symbol "SOAtherm-NMOS"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "X"  
-      (at -0.635 10.16 0) )  
-    (symbol "SOAtherm-NMOS_0_1"  
-      (polyline 
-        (pts 
-          (xy 0.0 -0.0)  
-          (xy 0.0 -3.81) ) )  
-      (polyline 
-        (pts 
-          (xy -2.54 -2.54)  
-          (xy 0.0 -2.54) ) )  
-      (polyline 
-        (pts 
-          (xy -0.635 -0.0)  
-          (xy 0.0 -0.0) ) )  
-      (polyline 
-        (pts 
-          (xy -2.54 -0.0)  
-          (xy -0.635 0.381) ) )  
-      (polyline 
-        (pts 
-          (xy -2.54 -0.0)  
-          (xy -0.635 -0.254) ) )  
-      (polyline 
-        (pts 
-          (xy -0.635 0.381)  
-          (xy -0.635 -0.254) ) )  
-      (polyline 
-        (pts 
-          (xy -2.54 3.175)  
-          (xy -2.54 1.905) ) )  
-      (polyline 
-        (pts 
-          (xy -2.54 0.635)  
-          (xy -2.54 -0.635) ) )  
-      (polyline 
-        (pts 
-          (xy -2.54 -1.905)  
-          (xy -2.54 -3.175) ) )  
-      (polyline 
-        (pts 
-          (xy -3.81 -2.54)  
-          (xy -3.175 -2.54) ) )  
-      (polyline 
-        (pts 
-          (xy -3.175 2.54)  
-          (xy -3.175 -2.54) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 2.54)  
-          (xy -2.54 2.54) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 3.81)  
-          (xy 0.0 2.54) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -5.08)  
-          (xy -4.572 -5.08) ) )  
-      (polyline 
-        (pts 
-          (xy 5.08 8.255)  
-          (xy 5.08 4.572) ) )  
-      (polyline 
-        (pts 
-          (xy -4.572 8.89)  
-          (xy 4.445 8.89) ) )  
-      (polyline 
-        (pts 
-          (xy -5.08 -4.445)  
-          (xy -5.08 8.255) ) )  
-      (polyline 
-        (pts 
-          (xy 0.381 -4.445)  
-          (xy 0.381 3.175) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 3.81)  
-          (xy 4.445 3.81) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 5.08)  
-          (xy 0.0 3.81) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 8.89)  
-          (xy 0.0 7.62) ) )  
-      (polyline 
-        (pts 
-          (xy 0.762 6.35)  
-          (xy 0.0 6.35) ) )  
-      (polyline 
-        (pts 
-          (xy 0.762 5.969)  
-          (xy 0.762 6.858) ) )  
-      (polyline 
-        (pts 
-          (xy -0.889 6.35)  
-          (xy 0.0 6.35) ) )  
-      (polyline 
-        (pts 
-          (xy -0.889 6.858)  
-          (xy -0.889 5.969) ) )  
-      (polyline 
-        (pts 
-          (xy -5.08 -2.54)  
-          (xy -3.81 -2.54) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -5.08)  
-          (xy 0.0 -3.81) ) )  
-      (arc 
-        (start -5.08 -3.81) )  
-      (arc 
-        (start -0.635 -3.81) )  
-      (arc 
-        (start 0.381 3.81) )  
-      (arc 
-        (start 3.81 5.08) )  
-      (arc 
-        (start -5.08 8.89) )  
-      (arc 
-        (start 3.81 8.89) )  
-      (circle 
-        (center 0.0 6.35)  
-        (radius 1.27) ) )  
-    (symbol "SOAtherm-NMOS_1_1"  
-      (pin input line 
-        (at 0.0 8.89 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at -5.08 -2.54 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) )  
-      (pin input line 
-        (at 0.0 -5.08 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "3" ) )  
-      (pin input line 
-        (at 0.0 3.81 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "4" ) )  
-      (pin input line 
-        (at -3.81 -2.54 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "5" ) )  
-      (pin input line 
-        (at 0.0 -3.81 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "6" ) )  
-      (pin input line 
-        (at 5.08 5.08 90)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "7" ) )  
-      (pin input line 
-        (at 5.08 7.62 90)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "8" ) ) ) )  
-  (symbol "SOAtherm-PCB"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "X"  
-      (at 1.27 3.175 0) )  
-    (symbol "SOAtherm-PCB_0_1"  
-      (polyline 
-        (pts 
-          (xy -6.35 3.175)  
-          (xy -8.89 -3.175) ) )  
-      (polyline 
-        (pts 
-          (xy 8.89 3.175)  
-          (xy -6.35 3.175) ) )  
-      (polyline 
-        (pts 
-          (xy 6.35 -3.175)  
-          (xy 8.89 3.175) ) )  
-      (polyline 
-        (pts 
-          (xy -8.89 -3.175)  
-          (xy 6.35 -3.175) ) )  
-      (polyline 
-        (pts 
-          (xy -8.89 -3.81)  
-          (xy -8.89 -3.175) ) )  
-      (polyline 
-        (pts 
-          (xy 6.35 -3.81)  
-          (xy -8.89 -3.81) ) )  
-      (polyline 
-        (pts 
-          (xy 6.35 -3.81)  
-          (xy 6.35 -3.175) ) )  
-      (polyline 
-        (pts 
-          (xy 8.89 2.54)  
-          (xy 6.35 -3.81) ) )  
-      (polyline 
-        (pts 
-          (xy 8.89 3.175)  
-          (xy 8.89 2.54) ) ) )  
-    (symbol "SOAtherm-PCB_1_1"  
-      (pin input line 
-        (at 0.0 -0.0 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) ) ) )  
-  (symbol "TVSdiode"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "D"  
-      (at 1.905 0.254 0) )  
-    (symbol "TVSdiode_0_1"  
-      (polyline 
-        (pts 
-          (xy 0.0 -2.54)  
-          (xy -0.381 -2.794) ) )  
-      (polyline 
-        (pts 
-          (xy 2.54 -2.54)  
-          (xy 2.794 -2.159) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -2.54)  
-          (xy 2.54 -2.54) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -0.635)  
-          (xy 2.54 -0.635) ) )  
-      (polyline 
-        (pts 
-          (xy 2.54 -0.635)  
-          (xy 1.27 -2.54) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -0.635)  
-          (xy 1.27 -2.54) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -4.445)  
-          (xy 2.54 -4.445) ) )  
-      (polyline 
-        (pts 
-          (xy 2.54 -4.445)  
-          (xy 1.27 -2.54) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -4.445)  
-          (xy 1.27 -2.54) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -0.0)  
-          (xy 1.27 -0.635) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -4.445)  
-          (xy 1.27 -5.08) ) ) )  
-    (symbol "TVSdiode_1_1"  
-      (pin input line 
-        (at 1.27 -0.0 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 1.27 -5.08 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) ) ) )  
-  (symbol "bi"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "B"  
-      (at 1.905 -0.0 0) )  
-    (symbol "bi_0_1"  
-      (polyline 
-        (pts 
-          (xy 0.0 -4.445)  
-          (xy 0.254 -3.429) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -4.445)  
-          (xy -0.381 -3.429) ) )  
-      (polyline 
-        (pts 
-          (xy -0.381 -3.429)  
-          (xy 0.254 -3.429) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -1.905)  
-          (xy 0.0 -3.429) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -6.35)  
-          (xy 0.0 -5.715) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -0.0)  
-          (xy 0.0 -0.635) ) )  
-      (circle 
-        (center 0.0 -3.175)  
-        (radius 2.54) ) )  
-    (symbol "bi_1_1"  
-      (pin input line 
-        (at 0.0 -0.0 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 0.0 -6.35 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) ) ) )  
-  (symbol "bi2"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "B"  
-      (at 1.905 -0.0 0) )  
-    (symbol "bi2_0_1"  
-      (polyline 
-        (pts 
-          (xy 0.0 -1.905)  
-          (xy 0.254 -2.794) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -1.905)  
-          (xy -0.381 -2.794) ) )  
-      (polyline 
-        (pts 
-          (xy -0.381 -2.794)  
-          (xy 0.254 -2.794) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -2.794)  
-          (xy 0.0 -4.445) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -6.35)  
-          (xy 0.0 -5.715) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -0.0)  
-          (xy 0.0 -0.635) ) )  
-      (circle 
-        (center 0.0 -3.175)  
-        (radius 2.54) ) )  
-    (symbol "bi2_1_1"  
-      (pin input line 
-        (at 0.0 -6.35 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 0.0 -0.0 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) ) ) )  
-  (symbol "bv"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "B"  
-      (at 1.905 -1.27 0) )  
-    (symbol "bv_0_1"  
-      (polyline 
-        (pts 
-          (xy -0.635 -2.794)  
-          (xy 0.635 -2.794) ) )  
-      (polyline 
-        (pts 
-          (xy -0.635 -5.969)  
-          (xy 0.635 -5.969) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -2.159)  
-          (xy 0.0 -3.429) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -7.62)  
-          (xy 0.0 -6.985) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -1.27)  
-          (xy 0.0 -1.905) ) )  
-      (circle 
-        (center 0.0 -4.445)  
-        (radius 2.54) ) )  
-    (symbol "bv_1_1"  
-      (pin input line 
-        (at 0.0 -1.27 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 0.0 -7.62 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) ) ) )  
-  (symbol "cap"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "C"  
-      (at 1.905 -0.635 0) )  
-    (symbol "cap_0_1"  
-      (polyline 
-        (pts 
-          (xy 1.27 -2.794)  
-          (xy 1.27 -5.08) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -2.159)  
-          (xy 1.27 0.0) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -2.159)  
-          (xy 2.54 -2.159) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -2.794)  
-          (xy 2.54 -2.794) ) ) )  
-    (symbol "cap_1_1"  
-      (pin input line 
-        (at 1.27 -0.0 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 1.27 -5.08 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) ) ) )  
-  (symbol "csw"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "W"  
-      (at 1.905 -0.0 0) )  
-    (symbol "csw_0_1"  
-      (polyline 
-        (pts 
-          (xy 0.0 -6.35)  
-          (xy 0.0 -4.445) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -0.0)  
-          (xy 0.0 -1.524) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -1.524)  
-          (xy 1.524 -3.429) ) )  
-      (circle 
-        (center 0.0 -3.175)  
-        (radius 2.54) )  
-      (circle 
-        (center -0.0635 -4.318)  
-        (radius 0.254) )  
-      (circle 
-        (center 1.5875 -3.429)  
-        (radius 0.254) ) )  
-    (symbol "csw_1_1"  
-      (pin input line 
-        (at 0.0 -0.0 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 0.0 -6.35 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) ) ) )  
-  (symbol "current"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "I"  
-      (at 1.905 -0.0 0) )  
-    (symbol "current_0_1"  
-      (polyline 
-        (pts 
-          (xy 0.0 -4.445)  
-          (xy 0.254 -3.429) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -4.445)  
-          (xy -0.381 -3.429) ) )  
-      (polyline 
-        (pts 
-          (xy -0.381 -3.429)  
-          (xy 0.254 -3.429) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -1.905)  
-          (xy 0.0 -3.429) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -6.35)  
-          (xy 0.0 -5.715) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -0.0)  
-          (xy 0.0 -0.635) ) )  
-      (circle 
-        (center 0.0 -3.175)  
-        (radius 2.54) ) )  
-    (symbol "current_1_1"  
-      (pin input line 
-        (at 0.0 -0.0 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 0.0 -6.35 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) ) ) )  
-  (symbol "diode"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "D"  
-      (at 1.905 -0.0 0) )  
-    (symbol "diode_0_1"  
-      (polyline 
-        (pts 
-          (xy 0.0 -3.429)  
-          (xy 2.54 -3.429) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -1.524)  
-          (xy 2.54 -1.524) ) )  
-      (polyline 
-        (pts 
-          (xy 2.54 -1.524)  
-          (xy 1.27 -3.429) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -1.524)  
-          (xy 1.27 -3.429) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -0.0)  
-          (xy 1.27 -1.524) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -3.429)  
-          (xy 1.27 -5.08) ) ) )  
-    (symbol "diode_1_1"  
-      (pin input line 
-        (at 1.27 -0.0 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 1.27 -5.08 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) ) ) )  
-  (symbol "e"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "E"  
-      (at 1.905 -1.27 0) )  
-    (symbol "e_0_1"  
-      (polyline 
-        (pts 
-          (xy -3.81 -2.54)  
-          (xy -2.54 -2.54) ) )  
-      (polyline 
-        (pts 
-          (xy -2.54 -2.54)  
-          (xy -1.905 -2.794) ) )  
-      (polyline 
-        (pts 
-          (xy -3.81 -6.35)  
-          (xy -2.54 -6.35) ) )  
-      (polyline 
-        (pts 
-          (xy -2.54 -6.35)  
-          (xy -1.905 -5.969) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -1.27)  
-          (xy 0.0 -1.905) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -7.62)  
-          (xy 0.0 -6.985) ) )  
-      (polyline 
-        (pts 
-          (xy -3.81 -5.715)  
-          (xy -3.175 -5.715) ) )  
-      (polyline 
-        (pts 
-          (xy -3.81 -3.175)  
-          (xy -3.175 -3.175) ) )  
-      (polyline 
-        (pts 
-          (xy -3.556 -2.794)  
-          (xy -3.556 -3.429) ) )  
-      (polyline 
-        (pts 
-          (xy -0.381 -5.715)  
-          (xy 0.254 -5.715) ) )  
-      (polyline 
-        (pts 
-          (xy -0.381 -3.175)  
-          (xy 0.254 -3.175) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -2.794)  
-          (xy 0.0 -3.429) ) )  
-      (circle 
-        (center 0.0 -4.445)  
-        (radius 2.54) ) )  
-    (symbol "e_1_1"  
-      (pin input line 
-        (at 0.0 -1.27 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 0.0 -7.62 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) )  
-      (pin input line 
-        (at -3.81 -2.54 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "3" ) )  
-      (pin input line 
-        (at -3.81 -6.35 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "4" ) ) ) )  
-  (symbol "e2"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "E"  
-      (at 1.905 -1.27 0) )  
-    (symbol "e2_0_1"  
-      (polyline 
-        (pts 
-          (xy -3.81 -2.54)  
-          (xy -2.54 -2.54) ) )  
-      (polyline 
-        (pts 
-          (xy -2.54 -2.54)  
-          (xy -1.905 -2.794) ) )  
-      (polyline 
-        (pts 
-          (xy -3.81 -6.35)  
-          (xy -2.54 -6.35) ) )  
-      (polyline 
-        (pts 
-          (xy -2.54 -6.35)  
-          (xy -1.905 -5.969) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -1.27)  
-          (xy 0.0 -1.905) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -7.62)  
-          (xy 0.0 -6.985) ) )  
-      (polyline 
-        (pts 
-          (xy -3.81 -5.715)  
-          (xy -3.175 -5.715) ) )  
-      (polyline 
-        (pts 
-          (xy -3.556 -5.969)  
-          (xy -3.556 -5.334) ) )  
-      (polyline 
-        (pts 
-          (xy -3.81 -3.175)  
-          (xy -3.175 -3.175) ) )  
-      (polyline 
-        (pts 
-          (xy -0.381 -5.715)  
-          (xy 0.254 -5.715) ) )  
-      (polyline 
-        (pts 
-          (xy -0.381 -3.175)  
-          (xy 0.254 -3.175) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -2.794)  
-          (xy 0.0 -3.429) ) )  
-      (circle 
-        (center 0.0 -4.445)  
-        (radius 2.54) ) )  
-    (symbol "e2_1_1"  
-      (pin input line 
-        (at 0.0 -1.27 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 0.0 -7.62 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) )  
-      (pin input line 
-        (at -3.81 -6.35 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "3" ) )  
-      (pin input line 
-        (at -3.81 -2.54 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "4" ) ) ) )  
-  (symbol "f"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "F"  
-      (at 1.905 -0.0 0) )  
-    (symbol "f_0_1"  
-      (polyline 
-        (pts 
-          (xy 0.0 -4.445)  
-          (xy 0.254 -3.429) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -4.445)  
-          (xy -0.381 -3.429) ) )  
-      (polyline 
-        (pts 
-          (xy -0.381 -3.429)  
-          (xy 0.254 -3.429) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -1.905)  
-          (xy 0.0 -3.429) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -6.35)  
-          (xy 0.0 -5.715) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -0.0)  
-          (xy 0.0 -0.635) ) )  
-      (circle 
-        (center 0.0 -3.175)  
-        (radius 2.54) ) )  
-    (symbol "f_1_1"  
-      (pin input line 
-        (at 0.0 -0.0 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 0.0 -6.35 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) ) ) )  
-  (symbol "fra"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "@"  
-      (at 1.651 3.175 0) )  
-    (symbol "fra_0_1"  
-      (polyline 
-        (pts 
-          (xy 0.0 3.81)  
-          (xy 0.0 5.08) ) )  
-      (polyline 
-        (pts 
-          (xy -1.27 3.81)  
-          (xy -1.27 1.27) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 3.81)  
-          (xy -1.27 3.81) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 1.27)  
-          (xy 1.27 3.81) ) )  
-      (arc 
-        (start 0.0 1.27) )  
-      (arc 
-        (start -2.54 1.27) )  
-      (arc 
-        (start -0.381 3.429) )  
-      (arc 
-        (start -1.016 2.794) )  
-      (arc 
-        (start -0.635 3.175) )  
-      (arc 
-        (start 0.0 3.429) )  
-      (arc 
-        (start 0.635 2.794) )  
-      (arc 
-        (start 0.254 3.175) ) )  
-    (symbol "fra_1_1"  
-      (pin input line 
-        (at 0.0 5.08 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 0.0 -0.0 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) ) ) )  
-  (symbol "g"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "G"  
-      (at 1.905 -1.27 0) )  
-    (symbol "g_0_1"  
-      (polyline 
-        (pts 
-          (xy -3.81 -2.54)  
-          (xy -2.54 -2.54) ) )  
-      (polyline 
-        (pts 
-          (xy -2.54 -2.54)  
-          (xy -1.905 -2.794) ) )  
-      (polyline 
-        (pts 
-          (xy -3.81 -6.35)  
-          (xy -2.54 -6.35) ) )  
-      (polyline 
-        (pts 
-          (xy -2.54 -6.35)  
-          (xy -1.905 -5.969) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -1.27)  
-          (xy 0.0 -1.905) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -7.62)  
-          (xy 0.0 -6.985) ) )  
-      (polyline 
-        (pts 
-          (xy -3.81 -5.715)  
-          (xy -3.175 -5.715) ) )  
-      (polyline 
-        (pts 
-          (xy -3.81 -3.175)  
-          (xy -3.175 -3.175) ) )  
-      (polyline 
-        (pts 
-          (xy -3.556 -2.794)  
-          (xy -3.556 -3.429) ) )  
-      (polyline 
-        (pts 
-          (xy 0.254 -4.064)  
-          (xy 0.0 -3.175) ) )  
-      (polyline 
-        (pts 
-          (xy -0.381 -4.064)  
-          (xy 0.0 -3.175) ) )  
-      (polyline 
-        (pts 
-          (xy -0.381 -4.064)  
-          (xy 0.254 -4.064) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -4.064)  
-          (xy 0.0 -5.715) ) )  
-      (circle 
-        (center 0.0 -4.445)  
-        (radius 2.54) ) )  
-    (symbol "g_1_1"  
-      (pin input line 
-        (at 0.0 -7.62 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 0.0 -1.27 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) )  
-      (pin input line 
-        (at -3.81 -2.54 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "3" ) )  
-      (pin input line 
-        (at -3.81 -6.35 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "4" ) ) ) )  
-  (symbol "g2"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "G"  
-      (at 1.905 -1.27 0) )  
-    (symbol "g2_0_1"  
-      (polyline 
-        (pts 
-          (xy -3.81 -2.54)  
-          (xy -2.54 -2.54) ) )  
-      (polyline 
-        (pts 
-          (xy -2.54 -2.54)  
-          (xy -1.905 -2.794) ) )  
-      (polyline 
-        (pts 
-          (xy -3.81 -6.35)  
-          (xy -2.54 -6.35) ) )  
-      (polyline 
-        (pts 
-          (xy -2.54 -6.35)  
-          (xy -1.905 -5.969) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -1.27)  
-          (xy 0.0 -1.905) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -7.62)  
-          (xy 0.0 -6.985) ) )  
-      (polyline 
-        (pts 
-          (xy -3.81 -5.715)  
-          (xy -3.175 -5.715) ) )  
-      (polyline 
-        (pts 
-          (xy -3.81 -3.175)  
-          (xy -3.175 -3.175) ) )  
-      (polyline 
-        (pts 
-          (xy -3.556 -5.969)  
-          (xy -3.556 -5.334) ) )  
-      (polyline 
-        (pts 
-          (xy 0.254 -4.064)  
-          (xy 0.0 -3.175) ) )  
-      (polyline 
-        (pts 
-          (xy -0.381 -4.064)  
-          (xy 0.0 -3.175) ) )  
-      (polyline 
-        (pts 
-          (xy -0.381 -4.064)  
-          (xy 0.254 -4.064) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -4.064)  
-          (xy 0.0 -5.715) ) )  
-      (circle 
-        (center 0.0 -4.445)  
-        (radius 2.54) ) )  
-    (symbol "g2_1_1"  
-      (pin input line 
-        (at 0.0 -7.62 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 0.0 -1.27 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) )  
-      (pin input line 
-        (at -3.81 -6.35 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "3" ) )  
-      (pin input line 
-        (at -3.81 -2.54 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "4" ) ) ) )  
-  (symbol "h"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "H"  
-      (at 1.905 -1.27 0) )  
-    (symbol "h_0_1"  
-      (polyline 
-        (pts 
-          (xy -0.635 -2.794)  
-          (xy 0.635 -2.794) ) )  
-      (polyline 
-        (pts 
-          (xy -0.635 -5.969)  
-          (xy 0.635 -5.969) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -2.159)  
-          (xy 0.0 -3.429) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -7.62)  
-          (xy 0.0 -6.985) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -1.27)  
-          (xy 0.0 -1.905) ) )  
-      (circle 
-        (center 0.0 -4.445)  
-        (radius 2.54) ) )  
-    (symbol "h_1_1"  
-      (pin input line 
-        (at 0.0 -1.27 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 0.0 -7.62 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) ) ) )  
-  (symbol "ind"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "L"  
-      (at 2.794 -3.175 0) )  
-    (symbol "ind_0_1"  
-      (arc 
-        (start 0.0 -3.175) )  
-      (arc 
-        (start 0.0 -5.08) )  
-      (arc 
-        (start 0.0 -1.27) ) )  
-    (symbol "ind_1_1"  
-      (pin input line 
-        (at 1.27 -1.27 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 1.27 -7.62 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) ) ) )  
-  (symbol "ind2"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "L"  
-      (at 2.794 -3.175 0) )  
-    (symbol "ind2_0_1"  
-      (arc 
-        (start 0.0 -3.175) )  
-      (arc 
-        (start 0.0 -5.08) )  
-      (arc 
-        (start 0.0 -1.27) )  
-      (circle 
-        (center 0.5715 -6.604)  
-        (radius 0.254) ) )  
-    (symbol "ind2_1_1"  
-      (pin input line 
-        (at 1.27 -1.27 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 1.27 -7.62 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) ) ) )  
-  (symbol "load"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "I"  
-      (at 3.81 -0.635 0) )  
-    (symbol "load_0_1"  
-      (polyline 
-        (pts 
-          (xy 0.0 -3.81)  
-          (xy 3.175 -0.635) ) )  
-      (polyline 
-        (pts 
-          (xy 3.175 -0.635)  
-          (xy 2.159 -0.889) ) )  
-      (polyline 
-        (pts 
-          (xy 3.175 -0.635)  
-          (xy 2.794 -1.524) ) )  
-      (polyline 
-        (pts 
-          (xy 0.635 -0.635)  
-          (xy 0.635 -4.445) ) )  
-      (polyline 
-        (pts 
-          (xy 0.635 -4.445)  
-          (xy 1.905 -4.445) ) )  
-      (polyline 
-        (pts 
-          (xy 1.905 -4.445)  
-          (xy 1.905 -0.635) ) )  
-      (polyline 
-        (pts 
-          (xy 1.905 -0.635)  
-          (xy 0.635 -0.635) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -0.0)  
-          (xy 1.27 -0.635) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -4.445)  
-          (xy 1.27 -5.08) ) ) )  
-    (symbol "load_1_1"  
-      (pin input line 
-        (at 1.27 -0.0 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 1.27 -5.08 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) ) ) )  
-  (symbol "load2"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "I"  
-      (at 1.27 1.27 0) )  
-    (symbol "load2_0_1"  
-      (polyline 
-        (pts 
-          (xy 2.794 -0.254)  
-          (xy 2.54 -1.27) ) )  
-      (polyline 
-        (pts 
-          (xy 2.794 -0.254)  
-          (xy 1.905 -0.635) ) )  
-      (polyline 
-        (pts 
-          (xy -2.54 -5.715)  
-          (xy 2.794 -0.254) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -4.445)  
-          (xy 0.254 -3.81) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -4.445)  
-          (xy -0.381 -3.81) ) )  
-      (polyline 
-        (pts 
-          (xy -0.381 -3.81)  
-          (xy 0.254 -3.81) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -1.905)  
-          (xy 0.0 -3.81) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -6.35)  
-          (xy 0.0 -5.715) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -0.0)  
-          (xy 0.0 -0.635) ) )  
-      (circle 
-        (center 0.0 -3.175)  
-        (radius 2.54) ) )  
-    (symbol "load2_1_1"  
-      (pin input line 
-        (at 0.0 -0.0 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 0.0 -6.35 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) ) ) )  
-  (symbol "lpnp"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "QP"  
-      (at 5.715 -2.54 0) )  
-    (symbol "lpnp_0_1"  
-      (polyline 
-        (pts 
-          (xy 1.27 -5.08)  
-          (xy 3.429 -5.969) ) )  
-      (polyline 
-        (pts 
-          (xy 3.429 -5.969)  
-          (xy 2.794 -6.604) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -5.08)  
-          (xy 2.794 -6.604) ) )  
-      (polyline 
-        (pts 
-          (xy 3.175 -6.35)  
-          (xy 5.08 -7.62) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -6.35)  
-          (xy 1.27 -1.27) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -2.54)  
-          (xy 5.08 0.0) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -3.81)  
-          (xy 0.0 -3.81) ) )  
-      (polyline 
-        (pts 
-          (xy 4.064 -3.81)  
-          (xy 5.08 -3.81) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -3.81)  
-          (xy 2.794 -3.81) ) )  
-      (polyline 
-        (pts 
-          (xy 2.794 -3.175)  
-          (xy 2.794 -4.445) ) )  
-      (polyline 
-        (pts 
-          (xy 4.064 -3.175)  
-          (xy 4.064 -4.445) ) )  
-      (polyline 
-        (pts 
-          (xy 4.064 -3.175)  
-          (xy 2.794 -3.81) ) )  
-      (polyline 
-        (pts 
-          (xy 4.064 -4.445)  
-          (xy 2.794 -3.81) ) ) )  
-    (symbol "lpnp_1_1"  
-      (pin input line 
-        (at 5.08 -0.0 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 0.0 -3.81 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) )  
-      (pin input line 
-        (at 5.08 -7.62 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "3" ) )  
-      (pin input line 
-        (at 5.08 -3.81 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "4" ) ) ) )  
-  (symbol "ltline"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "O"  
-      (at 0.0 1.27 0) )  
-    (symbol "ltline_0_1"  
-      (polyline 
-        (pts 
-          (xy -3.81 -1.27)  
-          (xy 3.81 -1.27) ) )  
-      (polyline 
-        (pts 
-          (xy -2.921 -0.889)  
-          (xy 2.794 -0.889) ) )  
-      (polyline 
-        (pts 
-          (xy -2.921 1.016)  
-          (xy 2.794 1.016) ) )  
-      (polyline 
-        (pts 
-          (xy -3.81 1.27)  
-          (xy 3.81 1.27) ) )  
-      (polyline 
-        (pts 
-          (xy -3.81 -1.27)  
-          (xy -2.921 -0.889) ) )  
-      (polyline 
-        (pts 
-          (xy -3.81 1.27)  
-          (xy -2.921 1.016) ) )  
-      (polyline 
-        (pts 
-          (xy 3.81 -1.27)  
-          (xy 2.794 -0.889) ) )  
-      (polyline 
-        (pts 
-          (xy 3.81 1.27)  
-          (xy 2.794 1.016) ) )  
-      (polyline 
-        (pts 
-          (xy -3.175 -0.0)  
-          (xy -2.54 -0.0) ) )  
-      (polyline 
-        (pts 
-          (xy -2.54 -0.0)  
-          (xy -1.905 -0.635) ) )  
-      (polyline 
-        (pts 
-          (xy -1.905 -0.635)  
-          (xy -0.635 0.635) ) )  
-      (polyline 
-        (pts 
-          (xy -0.635 0.635)  
-          (xy 0.635 -0.635) ) )  
-      (polyline 
-        (pts 
-          (xy 0.635 -0.635)  
-          (xy 1.905 0.635) ) )  
-      (polyline 
-        (pts 
-          (xy 1.905 0.635)  
-          (xy 2.54 0.0) ) )  
-      (polyline 
-        (pts 
-          (xy 2.54 -0.0)  
-          (xy 3.175 -0.0) ) ) )  
-    (symbol "ltline_1_1"  
-      (pin input line 
-        (at -3.81 1.27 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at -3.81 -1.27 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) )  
-      (pin input line 
-        (at 3.81 1.27 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "3" ) )  
-      (pin input line 
-        (at 3.81 -1.27 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "4" ) ) ) )  
-  (symbol "mesfet"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "Z"  
-      (at 4.445 -2.54 0) )  
-    (symbol "mesfet_0_1"  
-      (polyline 
-        (pts 
-          (xy 1.27 -0.889)  
-          (xy 1.27 -6.604) ) )  
-      (polyline 
-        (pts 
-          (xy 3.81 -6.35)  
-          (xy 3.81 -7.62) ) )  
-      (polyline 
-        (pts 
-          (xy 3.81 -1.27)  
-          (xy 3.81 0.0) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -1.27)  
-          (xy 3.81 -1.27) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -6.35)  
-          (xy 1.27 -6.35) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -6.35)  
-          (xy 3.81 -6.35) ) ) )  
-    (symbol "mesfet_1_1"  
-      (pin input line 
-        (at 3.81 -0.0 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 0.0 -6.35 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) )  
-      (pin input line 
-        (at 3.81 -7.62 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "3" ) ) ) )  
-  (symbol "njf"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "JN"  
-      (at 4.445 -2.54 0) )  
-    (symbol "njf_0_1"  
-      (polyline 
-        (pts 
-          (xy 1.27 -1.27)  
-          (xy 1.27 -6.35) ) )  
-      (polyline 
-        (pts 
-          (xy 3.81 -5.715)  
-          (xy 3.81 -7.62) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -5.715)  
-          (xy 3.81 -5.715) ) )  
-      (polyline 
-        (pts 
-          (xy 3.81 -1.905)  
-          (xy 3.81 0.0) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -1.905)  
-          (xy 3.81 -1.905) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -5.08)  
-          (xy 0.254 -5.08) ) )  
-      (polyline 
-        (pts 
-          (xy 0.254 -5.334)  
-          (xy 1.27 -5.08) ) )  
-      (polyline 
-        (pts 
-          (xy 0.254 -4.699)  
-          (xy 1.27 -5.08) ) )  
-      (polyline 
-        (pts 
-          (xy 0.254 -4.699)  
-          (xy 0.254 -5.334) ) ) )  
-    (symbol "njf_1_1"  
-      (pin input line 
-        (at 3.81 -0.0 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 0.0 -5.08 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) )  
-      (pin input line 
-        (at 3.81 -7.62 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "3" ) ) ) )  
-  (symbol "nmos"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "MN"  
-      (at 4.445 -2.54 0) )  
-    (symbol "nmos_0_1"  
-      (polyline 
-        (pts 
-          (xy 3.81 -3.81)  
-          (xy 3.81 -7.62) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -6.35)  
-          (xy 3.81 -6.35) ) )  
-      (polyline 
-        (pts 
-          (xy 3.175 -3.81)  
-          (xy 3.81 -3.81) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -3.81)  
-          (xy 3.175 -3.429) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -3.81)  
-          (xy 3.175 -4.064) ) )  
-      (polyline 
-        (pts 
-          (xy 3.175 -3.429)  
-          (xy 3.175 -4.064) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -0.635)  
-          (xy 1.27 -1.905) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -3.175)  
-          (xy 1.27 -4.445) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -5.715)  
-          (xy 1.27 -6.985) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -6.35)  
-          (xy 0.635 -6.35) ) )  
-      (polyline 
-        (pts 
-          (xy 0.635 -1.27)  
-          (xy 0.635 -6.35) ) )  
-      (polyline 
-        (pts 
-          (xy 3.81 -1.27)  
-          (xy 1.27 -1.27) ) )  
-      (polyline 
-        (pts 
-          (xy 3.81 -0.0)  
-          (xy 3.81 -1.27) ) ) )  
-    (symbol "nmos_1_1"  
-      (pin input line 
-        (at 3.81 -0.0 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 0.0 -6.35 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) )  
-      (pin input line 
-        (at 3.81 -7.62 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "3" ) ) ) )  
-  (symbol "nmos4"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "MN"  
-      (at 4.445 -2.54 0) )  
-    (symbol "nmos4_0_1"  
-      (polyline 
-        (pts 
-          (xy 3.81 -6.35)  
-          (xy 3.81 -7.62) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -6.35)  
-          (xy 3.81 -6.35) ) )  
-      (polyline 
-        (pts 
-          (xy 3.175 -3.81)  
-          (xy 3.81 -3.81) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -3.81)  
-          (xy 3.175 -3.429) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -3.81)  
-          (xy 3.175 -4.064) ) )  
-      (polyline 
-        (pts 
-          (xy 3.175 -3.429)  
-          (xy 3.175 -4.064) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -0.635)  
-          (xy 1.27 -1.905) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -3.175)  
-          (xy 1.27 -4.445) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -5.715)  
-          (xy 1.27 -6.985) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -6.35)  
-          (xy 0.635 -6.35) ) )  
-      (polyline 
-        (pts 
-          (xy 0.635 -1.27)  
-          (xy 0.635 -6.35) ) )  
-      (polyline 
-        (pts 
-          (xy 3.81 -1.27)  
-          (xy 1.27 -1.27) ) )  
-      (polyline 
-        (pts 
-          (xy 3.81 -0.0)  
-          (xy 3.81 -1.27) ) ) )  
-    (symbol "nmos4_1_1"  
-      (pin input line 
-        (at 3.81 -0.0 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 0.0 -6.35 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) )  
-      (pin input line 
-        (at 3.81 -7.62 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "3" ) )  
-      (pin input line 
-        (at 3.81 -3.81 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "4" ) ) ) )  
-  (symbol "npn"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "QN"  
-      (at 4.445 -2.54 0) )  
-    (symbol "npn_0_1"  
-      (polyline 
-        (pts 
-          (xy 3.429 -5.969)  
-          (xy 2.794 -6.604) ) )  
-      (polyline 
-        (pts 
-          (xy 5.08 -7.62)  
-          (xy 3.429 -5.969) ) )  
-      (polyline 
-        (pts 
-          (xy 5.08 -7.62)  
-          (xy 2.794 -6.604) ) )  
-      (polyline 
-        (pts 
-          (xy 3.175 -6.35)  
-          (xy 1.27 -5.08) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -6.35)  
-          (xy 1.27 -1.27) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -2.54)  
-          (xy 5.08 0.0) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -3.81)  
-          (xy 0.0 -3.81) ) ) )  
-    (symbol "npn_1_1"  
-      (pin input line 
-        (at 5.08 -0.0 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 0.0 -3.81 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) )  
-      (pin input line 
-        (at 5.08 -7.62 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "3" ) ) ) )  
-  (symbol "npn2"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "QN"  
-      (at 4.445 -2.54 0) )  
-    (symbol "npn2_0_1"  
-      (polyline 
-        (pts 
-          (xy 3.429 -5.969)  
-          (xy 2.794 -6.604) ) )  
-      (polyline 
-        (pts 
-          (xy 5.08 -7.62)  
-          (xy 3.429 -5.969) ) )  
-      (polyline 
-        (pts 
-          (xy 5.08 -7.62)  
-          (xy 2.794 -6.604) ) )  
-      (polyline 
-        (pts 
-          (xy 3.175 -6.35)  
-          (xy 1.27 -5.08) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -2.54)  
-          (xy 5.08 0.0) ) )  
-      (polyline 
-        (pts 
-          (xy 0.889 -3.81)  
-          (xy 0.0 -3.81) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -5.715)  
-          (xy 0.889 -5.715) ) )  
-      (polyline 
-        (pts 
-          (xy 0.889 -5.715)  
-          (xy 0.889 -1.905) ) )  
-      (polyline 
-        (pts 
-          (xy 0.889 -1.905)  
-          (xy 1.27 -1.905) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -1.905)  
-          (xy 1.27 -5.715) ) ) )  
-    (symbol "npn2_1_1"  
-      (pin input line 
-        (at 5.08 -0.0 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 0.0 -3.81 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) )  
-      (pin input line 
-        (at 5.08 -7.62 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "3" ) ) ) )  
-  (symbol "npn3"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "QN"  
-      (at 4.445 -2.54 0) )  
-    (symbol "npn3_0_1"  
-      (polyline 
-        (pts 
-          (xy 3.429 -5.969)  
-          (xy 2.794 -6.604) ) )  
-      (polyline 
-        (pts 
-          (xy 5.08 -7.62)  
-          (xy 3.429 -5.969) ) )  
-      (polyline 
-        (pts 
-          (xy 5.08 -7.62)  
-          (xy 2.794 -6.604) ) )  
-      (polyline 
-        (pts 
-          (xy 3.175 -6.35)  
-          (xy 1.524 -5.08) ) )  
-      (polyline 
-        (pts 
-          (xy 1.524 -5.715)  
-          (xy 1.524 -1.905) ) )  
-      (polyline 
-        (pts 
-          (xy 0.889 -5.715)  
-          (xy 0.889 -1.905) ) )  
-      (polyline 
-        (pts 
-          (xy 1.524 -5.715)  
-          (xy 0.889 -5.715) ) )  
-      (polyline 
-        (pts 
-          (xy 1.524 -1.905)  
-          (xy 0.889 -1.905) ) )  
-      (polyline 
-        (pts 
-          (xy 1.524 -2.54)  
-          (xy 5.08 0.0) ) )  
-      (polyline 
-        (pts 
-          (xy 0.889 -3.81)  
-          (xy 0.0 -3.81) ) ) )  
-    (symbol "npn3_1_1"  
-      (pin input line 
-        (at 5.08 -0.0 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 0.0 -3.81 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) )  
-      (pin input line 
-        (at 5.08 -7.62 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "3" ) ) ) )  
-  (symbol "npn4"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "QN"  
-      (at 5.715 -2.54 0) )  
-    (symbol "npn4_0_1"  
-      (polyline 
-        (pts 
-          (xy 1.27 -3.81)  
-          (xy 0.0 -3.81) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -2.54)  
-          (xy 5.08 0.0) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -6.35)  
-          (xy 1.27 -1.27) ) )  
-      (polyline 
-        (pts 
-          (xy 3.175 -6.35)  
-          (xy 1.27 -5.08) ) )  
-      (polyline 
-        (pts 
-          (xy 5.08 -7.62)  
-          (xy 2.794 -6.604) ) )  
-      (polyline 
-        (pts 
-          (xy 5.08 -7.62)  
-          (xy 3.429 -5.969) ) )  
-      (polyline 
-        (pts 
-          (xy 3.429 -5.969)  
-          (xy 2.794 -6.604) ) )  
-      (polyline 
-        (pts 
-          (xy 3.175 -1.27)  
-          (xy 3.81 -2.159) ) )  
-      (polyline 
-        (pts 
-          (xy 5.08 -3.81)  
-          (xy 4.445 -3.175) ) )  
-      (polyline 
-        (pts 
-          (xy 3.175 -2.54)  
-          (xy 4.445 -1.524) ) )  
-      (polyline 
-        (pts 
-          (xy 3.81 -3.429)  
-          (xy 5.08 -2.54) ) )  
-      (polyline 
-        (pts 
-          (xy 3.81 -3.429)  
-          (xy 3.81 -2.159) ) )  
-      (polyline 
-        (pts 
-          (xy 5.08 -2.54)  
-          (xy 3.81 -2.159) ) ) )  
-    (symbol "npn4_1_1"  
-      (pin input line 
-        (at 5.08 -0.0 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 0.0 -3.81 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) )  
-      (pin input line 
-        (at 5.08 -7.62 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "3" ) )  
-      (pin input line 
-        (at 5.08 -3.81 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "4" ) ) ) )  
-  (symbol "pjf"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "JP"  
-      (at 4.445 -2.54 0) )  
-    (symbol "pjf_0_1"  
-      (polyline 
-        (pts 
-          (xy 1.27 -1.27)  
-          (xy 1.27 -6.35) ) )  
-      (polyline 
-        (pts 
-          (xy 3.81 -5.715)  
-          (xy 3.81 -7.62) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -5.715)  
-          (xy 3.81 -5.715) ) )  
-      (polyline 
-        (pts 
-          (xy 3.81 -1.905)  
-          (xy 3.81 0.0) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -1.905)  
-          (xy 3.81 -1.905) ) )  
-      (polyline 
-        (pts 
-          (xy 0.889 -5.08)  
-          (xy 1.27 -5.08) ) )  
-      (polyline 
-        (pts 
-          (xy 0.889 -5.334)  
-          (xy 0.0 -5.08) ) )  
-      (polyline 
-        (pts 
-          (xy 0.889 -4.699)  
-          (xy 0.0 -5.08) ) )  
-      (polyline 
-        (pts 
-          (xy 0.889 -4.699)  
-          (xy 0.889 -5.334) ) ) )  
-    (symbol "pjf_1_1"  
-      (pin input line 
-        (at 3.81 -0.0 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 0.0 -5.08 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) )  
-      (pin input line 
-        (at 3.81 -7.62 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "3" ) ) ) )  
-  (symbol "pmos"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "MP"  
-      (at 4.445 -2.54 0) )  
-    (symbol "pmos_0_1"  
-      (polyline 
-        (pts 
-          (xy 3.81 -3.81)  
-          (xy 3.81 -7.62) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -6.35)  
-          (xy 3.81 -6.35) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -3.81)  
-          (xy 1.905 -3.81) ) )  
-      (polyline 
-        (pts 
-          (xy 3.81 -3.81)  
-          (xy 1.905 -3.429) ) )  
-      (polyline 
-        (pts 
-          (xy 3.81 -3.81)  
-          (xy 1.905 -4.064) ) )  
-      (polyline 
-        (pts 
-          (xy 1.905 -3.429)  
-          (xy 1.905 -4.064) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -0.635)  
-          (xy 1.27 -1.905) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -3.175)  
-          (xy 1.27 -4.445) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -5.715)  
-          (xy 1.27 -6.985) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -6.35)  
-          (xy 0.635 -6.35) ) )  
-      (polyline 
-        (pts 
-          (xy 0.635 -1.27)  
-          (xy 0.635 -6.35) ) )  
-      (polyline 
-        (pts 
-          (xy 3.81 -1.27)  
-          (xy 1.27 -1.27) ) )  
-      (polyline 
-        (pts 
-          (xy 3.81 -0.0)  
-          (xy 3.81 -1.27) ) ) )  
-    (symbol "pmos_1_1"  
-      (pin input line 
-        (at 3.81 -0.0 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 0.0 -6.35 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) )  
-      (pin input line 
-        (at 3.81 -7.62 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "3" ) ) ) )  
-  (symbol "pmos4"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "MP"  
-      (at 4.445 -2.54 0) )  
-    (symbol "pmos4_0_1"  
-      (polyline 
-        (pts 
-          (xy 3.81 -6.35)  
-          (xy 3.81 -7.62) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -6.35)  
-          (xy 3.81 -6.35) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -3.81)  
-          (xy 1.905 -3.81) ) )  
-      (polyline 
-        (pts 
-          (xy 3.81 -3.81)  
-          (xy 1.905 -3.429) ) )  
-      (polyline 
-        (pts 
-          (xy 3.81 -3.81)  
-          (xy 1.905 -4.064) ) )  
-      (polyline 
-        (pts 
-          (xy 1.905 -3.429)  
-          (xy 1.905 -4.064) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -0.635)  
-          (xy 1.27 -1.905) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -3.175)  
-          (xy 1.27 -4.445) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -5.715)  
-          (xy 1.27 -6.985) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -6.35)  
-          (xy 0.635 -6.35) ) )  
-      (polyline 
-        (pts 
-          (xy 0.635 -1.27)  
-          (xy 0.635 -6.35) ) )  
-      (polyline 
-        (pts 
-          (xy 3.81 -1.27)  
-          (xy 1.27 -1.27) ) )  
-      (polyline 
-        (pts 
-          (xy 3.81 -0.0)  
-          (xy 3.81 -1.27) ) ) )  
-    (symbol "pmos4_1_1"  
-      (pin input line 
-        (at 3.81 -0.0 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 0.0 -6.35 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) )  
-      (pin input line 
-        (at 3.81 -7.62 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "3" ) )  
-      (pin input line 
-        (at 3.81 -3.81 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "4" ) ) ) )  
-  (symbol "pnp"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "QP"  
-      (at 6.604 -2.54 0) )  
-    (symbol "pnp_0_1"  
-      (polyline 
-        (pts 
-          (xy 1.27 -5.08)  
-          (xy 3.429 -5.969) ) )  
-      (polyline 
-        (pts 
-          (xy 3.429 -5.969)  
-          (xy 2.794 -6.604) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -5.08)  
-          (xy 2.794 -6.604) ) )  
-      (polyline 
-        (pts 
-          (xy 3.175 -6.35)  
-          (xy 5.08 -7.62) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -6.35)  
-          (xy 1.27 -1.27) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -2.54)  
-          (xy 5.08 0.0) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -3.81)  
-          (xy 0.0 -3.81) ) ) )  
-    (symbol "pnp_1_1"  
-      (pin input line 
-        (at 5.08 -0.0 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 0.0 -3.81 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) )  
-      (pin input line 
-        (at 5.08 -7.62 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "3" ) ) ) )  
-  (symbol "pnp2"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "QP"  
-      (at 6.604 -2.54 0) )  
-    (symbol "pnp2_0_1"  
-      (polyline 
-        (pts 
-          (xy 1.27 -5.08)  
-          (xy 3.429 -5.969) ) )  
-      (polyline 
-        (pts 
-          (xy 3.429 -5.969)  
-          (xy 2.794 -6.604) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -5.08)  
-          (xy 2.794 -6.604) ) )  
-      (polyline 
-        (pts 
-          (xy 3.175 -6.35)  
-          (xy 5.08 -7.62) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -2.54)  
-          (xy 5.08 0.0) ) )  
-      (polyline 
-        (pts 
-          (xy 0.889 -3.81)  
-          (xy 0.0 -3.81) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -5.715)  
-          (xy 0.889 -5.715) ) )  
-      (polyline 
-        (pts 
-          (xy 0.889 -5.715)  
-          (xy 0.889 -1.905) ) )  
-      (polyline 
-        (pts 
-          (xy 0.889 -1.905)  
-          (xy 1.27 -1.905) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -1.905)  
-          (xy 1.27 -5.715) ) ) )  
-    (symbol "pnp2_1_1"  
-      (pin input line 
-        (at 5.08 -0.0 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 0.0 -3.81 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) )  
-      (pin input line 
-        (at 5.08 -7.62 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "3" ) ) ) )  
-  (symbol "pnp4"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "QP"  
-      (at 5.715 -2.54 0) )  
-    (symbol "pnp4_0_1"  
-      (polyline 
-        (pts 
-          (xy 1.27 -5.08)  
-          (xy 3.429 -5.969) ) )  
-      (polyline 
-        (pts 
-          (xy 3.429 -5.969)  
-          (xy 2.794 -6.604) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -5.08)  
-          (xy 2.794 -6.604) ) )  
-      (polyline 
-        (pts 
-          (xy 3.175 -6.35)  
-          (xy 5.08 -7.62) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -6.35)  
-          (xy 1.27 -1.27) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -2.54)  
-          (xy 5.08 0.0) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -3.81)  
-          (xy 0.0 -3.81) ) )  
-      (polyline 
-        (pts 
-          (xy 3.175 -1.27)  
-          (xy 3.81 -2.159) ) )  
-      (polyline 
-        (pts 
-          (xy 5.08 -3.81)  
-          (xy 4.445 -3.175) ) )  
-      (polyline 
-        (pts 
-          (xy 3.175 -2.54)  
-          (xy 4.445 -1.524) ) )  
-      (polyline 
-        (pts 
-          (xy 3.81 -3.429)  
-          (xy 5.08 -2.54) ) )  
-      (polyline 
-        (pts 
-          (xy 3.175 -2.54)  
-          (xy 4.445 -3.175) ) )  
-      (polyline 
-        (pts 
-          (xy 4.445 -1.524)  
-          (xy 4.445 -3.175) ) ) )  
-    (symbol "pnp4_1_1"  
-      (pin input line 
-        (at 5.08 -0.0 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 0.0 -3.81 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) )  
-      (pin input line 
-        (at 5.08 -7.62 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "3" ) )  
-      (pin input line 
-        (at 5.08 -3.81 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "4" ) ) ) )  
-  (symbol "polcap"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "C"  
-      (at 1.905 -0.635 0) )  
-    (symbol "polcap_0_1"  
-      (polyline 
-        (pts 
-          (xy 1.27 -2.794)  
-          (xy 1.27 -5.08) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -0.0)  
-          (xy 1.27 -2.159) ) )  
-      (polyline 
-        (pts 
-          (xy 0.635 -0.889)  
-          (xy 0.635 -1.524) ) )  
-      (polyline 
-        (pts 
-          (xy 0.254 -1.27)  
-          (xy 0.889 -1.27) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -2.159)  
-          (xy 2.54 -2.159) ) )  
-      (arc 
-        (start -1.27 -2.794) ) )  
-    (symbol "polcap_1_1"  
-      (pin input line 
-        (at 1.27 -0.0 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 1.27 -5.08 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) ) ) )  
-  (symbol "res"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "R"  
-      (at 2.794 -3.175 0) )  
-    (symbol "res_0_1"  
-      (polyline 
-        (pts 
-          (xy 1.27 -6.985)  
-          (xy 1.27 -7.62) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -6.35)  
-          (xy 1.27 -6.985) ) )  
-      (polyline 
-        (pts 
-          (xy 2.54 -5.08)  
-          (xy 0.0 -6.35) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -3.81)  
-          (xy 2.54 -5.08) ) )  
-      (polyline 
-        (pts 
-          (xy 2.54 -2.54)  
-          (xy 0.0 -3.81) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -1.27)  
-          (xy 1.27 -1.905) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -1.905)  
-          (xy 2.54 -2.54) ) ) )  
-    (symbol "res_1_1"  
-      (pin input line 
-        (at 1.27 -1.27 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 1.27 -7.62 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) ) ) )  
-  (symbol "res2"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "R"  
-      (at 2.794 -1.27 0) )  
-    (symbol "res2_0_1"  
-      (polyline 
-        (pts 
-          (xy 1.27 -0.0)  
-          (xy 2.54 -0.254) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -0.889)  
-          (xy 2.54 -0.254) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -0.889)  
-          (xy 2.54 -1.524) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -2.159)  
-          (xy 2.54 -1.524) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -2.159)  
-          (xy 2.54 -2.794) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -3.429)  
-          (xy 2.54 -2.794) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -3.429)  
-          (xy 2.54 -4.064) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -4.699)  
-          (xy 2.54 -4.064) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -4.699)  
-          (xy 1.27 -5.08) ) ) )  
-    (symbol "res2_1_1"  
-      (pin input line 
-        (at 1.27 -0.0 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 1.27 -5.08 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) ) ) )  
-  (symbol "schottky"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "D"  
-      (at 1.905 -0.0 0) )  
-    (symbol "schottky_0_1"  
-      (polyline 
-        (pts 
-          (xy 0.0 -2.794)  
-          (xy 0.254 -2.794) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -3.429)  
-          (xy 0.0 -2.794) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -3.429)  
-          (xy 2.54 -3.429) ) )  
-      (polyline 
-        (pts 
-          (xy 2.54 -3.429)  
-          (xy 2.54 -4.064) ) )  
-      (polyline 
-        (pts 
-          (xy 2.54 -4.064)  
-          (xy 2.159 -4.064) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -1.524)  
-          (xy 2.54 -1.524) ) )  
-      (polyline 
-        (pts 
-          (xy 2.54 -1.524)  
-          (xy 1.27 -3.429) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -1.524)  
-          (xy 1.27 -3.429) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -0.0)  
-          (xy 1.27 -1.524) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -3.429)  
-          (xy 1.27 -5.08) ) ) )  
-    (symbol "schottky_1_1"  
-      (pin input line 
-        (at 1.27 -0.0 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 1.27 -5.08 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) ) ) )  
-  (symbol "sw"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "S"  
-      (at 1.905 -1.27 0) )  
-    (symbol "sw_0_1"  
-      (polyline 
-        (pts 
-          (xy -3.81 -2.54)  
-          (xy -2.54 -2.54) ) )  
-      (polyline 
-        (pts 
-          (xy -2.54 -2.54)  
-          (xy -1.905 -2.794) ) )  
-      (polyline 
-        (pts 
-          (xy -3.81 -6.35)  
-          (xy -2.54 -6.35) ) )  
-      (polyline 
-        (pts 
-          (xy -2.54 -6.35)  
-          (xy -1.905 -5.969) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -7.62)  
-          (xy 0.0 -5.715) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -1.27)  
-          (xy 0.0 -2.794) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -2.794)  
-          (xy 1.524 -4.699) ) )  
-      (polyline 
-        (pts 
-          (xy -3.81 -5.715)  
-          (xy -3.175 -5.715) ) )  
-      (polyline 
-        (pts 
-          (xy -3.556 -5.969)  
-          (xy -3.556 -5.334) ) )  
-      (polyline 
-        (pts 
-          (xy -3.81 -3.175)  
-          (xy -3.175 -3.175) ) )  
-      (circle 
-        (center 0.0 -4.445)  
-        (radius 2.54) )  
-      (circle 
-        (center -0.0635 -5.588)  
-        (radius 0.254) )  
-      (circle 
-        (center 1.5875 -4.699)  
-        (radius 0.254) ) )  
-    (symbol "sw_1_1"  
-      (pin input line 
-        (at 0.0 -1.27 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 0.0 -7.62 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) )  
-      (pin input line 
-        (at -3.81 -6.35 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "3" ) )  
-      (pin input line 
-        (at -3.81 -2.54 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "4" ) ) ) )  
-  (symbol "tline"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "T"  
-      (at 0.0 1.27 0) )  
-    (symbol "tline_0_1"  
-      (polyline 
-        (pts 
-          (xy -3.81 -1.27)  
-          (xy 3.81 -1.27) ) )  
-      (polyline 
-        (pts 
-          (xy -2.54 -0.635)  
-          (xy 2.54 -0.635) ) )  
-      (polyline 
-        (pts 
-          (xy -2.54 0.635)  
-          (xy 2.54 0.635) ) )  
-      (polyline 
-        (pts 
-          (xy -3.81 1.27)  
-          (xy 3.81 1.27) ) )  
-      (polyline 
-        (pts 
-          (xy -3.81 -1.27)  
-          (xy -2.54 -0.635) ) )  
-      (polyline 
-        (pts 
-          (xy -3.81 1.27)  
-          (xy -2.54 0.635) ) )  
-      (polyline 
-        (pts 
-          (xy 3.81 -1.27)  
-          (xy 2.54 -0.635) ) )  
-      (polyline 
-        (pts 
-          (xy 3.81 1.27)  
-          (xy 2.54 0.635) ) ) )  
-    (symbol "tline_1_1"  
-      (pin input line 
-        (at -3.81 1.27 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at -3.81 -1.27 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) )  
-      (pin input line 
-        (at 3.81 1.27 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "3" ) )  
-      (pin input line 
-        (at 3.81 -1.27 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "4" ) ) ) )  
-  (symbol "varactor"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "D"  
-      (at 1.905 -0.0 0) )  
-    (symbol "varactor_0_1"  
-      (polyline 
-        (pts 
-          (xy 0.0 -2.794)  
-          (xy 2.54 -2.794) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -3.429)  
-          (xy 2.54 -3.429) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -1.27)  
-          (xy 2.54 -1.27) ) )  
-      (polyline 
-        (pts 
-          (xy 2.54 -1.27)  
-          (xy 1.27 -2.794) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -1.27)  
-          (xy 1.27 -2.794) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -0.0)  
-          (xy 1.27 -1.27) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -3.429)  
-          (xy 1.27 -5.08) ) ) )  
-    (symbol "varactor_1_1"  
-      (pin input line 
-        (at 1.27 -0.0 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 1.27 -5.08 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) ) ) )  
-  (symbol "voltage"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "V"  
-      (at 1.905 -1.27 0) )  
-    (symbol "voltage_0_1"  
-      (polyline 
-        (pts 
-          (xy -0.635 -2.794)  
-          (xy 0.635 -2.794) ) )  
-      (polyline 
-        (pts 
-          (xy -0.635 -5.969)  
-          (xy 0.635 -5.969) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -2.159)  
-          (xy 0.0 -3.429) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -7.62)  
-          (xy 0.0 -6.985) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -1.27)  
-          (xy 0.0 -1.905) ) )  
-      (circle 
-        (center 0.0 -4.445)  
-        (radius 2.54) ) )  
-    (symbol "voltage_1_1"  
-      (pin input line 
-        (at 0.0 -1.27 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 0.0 -7.62 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) ) ) )  
-  (symbol "vsin"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "V"  
-      (at 1.905 -1.27 0) )  
-    (symbol "vsin_0_1"  
-      (polyline 
-        (pts 
-          (xy -0.635 -2.794)  
-          (xy 0.635 -2.794) ) )  
-      (polyline 
-        (pts 
-          (xy -0.635 -5.969)  
-          (xy 0.635 -5.969) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -2.159)  
-          (xy 0.0 -3.429) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -7.62)  
-          (xy 0.0 -6.985) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -1.27)  
-          (xy 0.0 -1.905) ) )  
-      (circle 
-        (center 0.0 -4.445)  
-        (radius 2.54) ) )  
-    (symbol "vsin_1_1"  
-      (pin input line 
-        (at 0.0 -1.27 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 0.0 -7.62 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) ) ) )  
-  (symbol "vac"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "V"  
-      (at 1.905 -1.27 0) )  
-    (symbol "vac_0_1"  
-      (polyline 
-        (pts 
-          (xy -0.635 -2.794)  
-          (xy 0.635 -2.794) ) )  
-      (polyline 
-        (pts 
-          (xy -0.635 -5.969)  
-          (xy 0.635 -5.969) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -2.159)  
-          (xy 0.0 -3.429) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -7.62)  
-          (xy 0.0 -6.985) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -1.27)  
-          (xy 0.0 -1.905) ) )  
-      (circle 
-        (center 0.0 -4.445)  
-        (radius 2.54) ) )  
-    (symbol "vac_1_1"  
-      (pin input line 
-        (at 0.0 -1.27 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 0.0 -7.62 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) ) ) )  
-  (symbol "vpulse"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "V"  
-      (at 1.905 -1.27 0) )  
-    (symbol "vpulse_0_1"  
-      (polyline 
-        (pts 
-          (xy -0.635 -2.794)  
-          (xy 0.635 -2.794) ) )  
-      (polyline 
-        (pts 
-          (xy -0.635 -5.969)  
-          (xy 0.635 -5.969) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -2.159)  
-          (xy 0.0 -3.429) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -7.62)  
-          (xy 0.0 -6.985) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -1.27)  
-          (xy 0.0 -1.905) ) )  
-      (circle 
-        (center 0.0 -4.445)  
-        (radius 2.54) ) )  
-    (symbol "vpulse_1_1"  
-      (pin input line 
-        (at 0.0 -1.27 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 0.0 -7.62 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) ) ) )  
-  (symbol "zener"  
-    (pin_numbers 
-      (hide yes) )  
-    (property "Reference"  "D"  
-      (at 1.905 -0.0 0) )  
-    (symbol "zener_0_1"  
-      (polyline 
-        (pts 
-          (xy 0.0 -3.429)  
-          (xy -0.381 -3.81) ) )  
-      (polyline 
-        (pts 
-          (xy 2.54 -3.429)  
-          (xy 2.794 -3.175) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -3.429)  
-          (xy 2.54 -3.429) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -1.524)  
-          (xy 2.54 -1.524) ) )  
-      (polyline 
-        (pts 
-          (xy 2.54 -1.524)  
-          (xy 1.27 -3.429) ) )  
-      (polyline 
-        (pts 
-          (xy 0.0 -1.524)  
-          (xy 1.27 -3.429) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -0.0)  
-          (xy 1.27 -1.524) ) )  
-      (polyline 
-        (pts 
-          (xy 1.27 -3.429)  
-          (xy 1.27 -5.08) ) ) )  
-    (symbol "zener_1_1"  
-      (pin input line 
-        (at 1.27 -0.0 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "1" ) )  
-      (pin input line 
-        (at 1.27 -5.08 0)  
-        (length 0.635)  
-        (hide yes)  
-        (name "~" )  
-        (number "2" ) ) ) ) )
+(kicad_symbol_lib
+	(version 20231120)
+	(generator "kicad_symbol_editor")
+	(generator_version "8.0")
+	(symbol "FerriteBead"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "L_Ferrite_Bead"
+			(at 1.905 -0.0 0)
+		)
+		(symbol "FerriteBead_0_1"
+			(polyline
+				(pts (xy -1.27 -0.635) (xy -1.27 0.635))
+			)
+			(polyline
+				(pts (xy 0.0 0.635) (xy 0.0 2.54))
+			)
+			(polyline
+				(pts (xy 0.0 -0.889) (xy 0.0 -2.54))
+			)
+			(polyline
+				(pts (xy 1.27 -0.635) (xy 1.27 0.635))
+			)
+			(arc
+				(start -1.27 -0.254)
+			)
+			(circle
+				(center 0.0 0.762)
+				(radius 1.27)
+			)
+			(circle
+				(center -0.0635 0.762)
+				(radius 0.508)
+			)
+		)
+		(symbol "FerriteBead_1_1"
+			(pin input line
+				(at 0.0 2.54 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 0.0 -2.54 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+		)
+	)
+	(symbol "FerriteBead2"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "L_Ferrite_Bead"
+			(at 1.651 -0.0 0)
+		)
+		(symbol "FerriteBead2_0_1"
+			(polyline
+				(pts (xy 0.0 0.762) (xy 0.0 2.54))
+			)
+			(polyline
+				(pts (xy 0.0 -0.635) (xy 0.0 -2.54))
+			)
+			(polyline
+				(pts (xy -0.762 -0.635) (xy 0.635 -0.635))
+			)
+			(polyline
+				(pts (xy -0.762 -0.508) (xy 0.635 -0.508))
+			)
+			(polyline
+				(pts (xy -0.762 -0.381) (xy 0.635 -0.381))
+			)
+			(polyline
+				(pts (xy -0.762 -0.381) (xy 0.635 -0.381))
+			)
+			(polyline
+				(pts (xy -0.762 -0.381) (xy 0.635 -0.381))
+			)
+			(polyline
+				(pts (xy -0.762 -0.254) (xy 0.635 -0.254))
+			)
+			(polyline
+				(pts (xy -0.762 -0.127) (xy 0.635 -0.127))
+			)
+			(polyline
+				(pts (xy -0.762 -0.127) (xy 0.635 -0.127))
+			)
+			(polyline
+				(pts (xy -0.762 -0.127) (xy 0.635 -0.127))
+			)
+			(polyline
+				(pts (xy -0.762 -0.0) (xy 0.635 -0.0))
+			)
+			(polyline
+				(pts (xy -0.762 -0.0) (xy 0.635 -0.0))
+			)
+			(polyline
+				(pts (xy -0.762 -0.0) (xy 0.635 -0.0))
+			)
+			(polyline
+				(pts (xy -0.762 0.127) (xy 0.635 0.127))
+			)
+			(polyline
+				(pts (xy -0.762 0.381) (xy 0.635 0.381))
+			)
+			(polyline
+				(pts (xy -0.762 0.508) (xy 0.635 0.508))
+			)
+			(polyline
+				(pts (xy -0.762 0.508) (xy 0.635 0.508))
+			)
+			(polyline
+				(pts (xy -0.762 0.508) (xy 0.635 0.508))
+			)
+			(polyline
+				(pts (xy -0.762 0.635) (xy 0.635 0.635))
+			)
+			(polyline
+				(pts (xy -0.762 0.635) (xy 0.635 0.635))
+			)
+			(polyline
+				(pts (xy -0.762 0.254) (xy 0.635 0.254))
+			)
+			(polyline
+				(pts (xy -0.762 0.254) (xy 0.635 0.254))
+			)
+			(polyline
+				(pts (xy 0.508 -0.635) (xy 0.508 0.762))
+			)
+			(polyline
+				(pts (xy 0.635 -0.635) (xy 0.635 0.762))
+			)
+			(polyline
+				(pts (xy 0.381 -0.635) (xy 0.381 0.762))
+			)
+			(polyline
+				(pts (xy 0.381 -0.635) (xy 0.381 0.762))
+			)
+			(polyline
+				(pts (xy 0.127 -0.635) (xy 0.127 0.762))
+			)
+			(polyline
+				(pts (xy 0.254 -0.635) (xy 0.254 0.762))
+			)
+			(polyline
+				(pts (xy 0.0 -0.635) (xy 0.0 0.762))
+			)
+			(polyline
+				(pts (xy 0.127 -0.635) (xy 0.127 0.762))
+			)
+			(polyline
+				(pts (xy -0.127 -0.635) (xy -0.127 0.762))
+			)
+			(polyline
+				(pts (xy 0.0 -0.635) (xy 0.0 0.762))
+			)
+			(polyline
+				(pts (xy -0.254 -0.635) (xy -0.254 0.762))
+			)
+			(polyline
+				(pts (xy -0.254 -0.635) (xy -0.254 0.762))
+			)
+			(polyline
+				(pts (xy -0.508 -0.635) (xy -0.508 0.762))
+			)
+			(polyline
+				(pts (xy -0.381 -0.635) (xy -0.381 0.762))
+			)
+			(polyline
+				(pts (xy -0.635 -0.635) (xy -0.635 0.762))
+			)
+			(polyline
+				(pts (xy -0.508 -0.635) (xy -0.508 0.762))
+			)
+			(polyline
+				(pts (xy -0.635 -0.635) (xy -0.635 0.762))
+			)
+			(polyline
+				(pts (xy -0.762 0.762) (xy 0.635 0.762))
+			)
+			(polyline
+				(pts (xy 0.635 0.762) (xy 0.635 -0.635))
+			)
+			(polyline
+				(pts (xy 0.635 -0.635) (xy -0.762 -0.635))
+			)
+			(polyline
+				(pts (xy -0.762 -0.635) (xy -0.762 0.762))
+			)
+		)
+		(symbol "FerriteBead2_1_1"
+			(pin input line
+				(at 0.0 2.54 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 0.0 -2.54 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+		)
+	)
+	(symbol "ISO16750-2"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "X"
+			(at 3.81 -1.27 0)
+		)
+		(symbol "ISO16750-2_0_1"
+			(polyline
+				(pts (xy 0.0 -6.35) (xy 0.0 -5.715))
+			)
+			(polyline
+				(pts (xy 0.0 -0.0) (xy 0.0 -0.635))
+			)
+			(polyline
+				(pts (xy -0.635 -4.318) (xy -0.635 -1.397))
+			)
+			(polyline
+				(pts (xy -1.524 -4.318) (xy -0.635 -4.318))
+			)
+			(arc
+				(start -0.635 1.524)
+			)
+			(circle
+				(center 0.0 -3.175)
+				(radius 2.54)
+			)
+		)
+		(symbol "ISO16750-2_1_1"
+			(pin input line
+				(at 0.0 -0.0 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 0.0 -6.35 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+		)
+	)
+	(symbol "ISO7637-2"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "X"
+			(at 3.81 -1.27 0)
+		)
+		(symbol "ISO7637-2_0_1"
+			(polyline
+				(pts (xy 0.0 -6.35) (xy 0.0 -5.715))
+			)
+			(polyline
+				(pts (xy 0.0 -0.0) (xy 0.0 -0.635))
+			)
+			(polyline
+				(pts (xy -0.635 -4.318) (xy -0.635 -1.397))
+			)
+			(polyline
+				(pts (xy -1.524 -4.318) (xy -0.635 -4.318))
+			)
+			(arc
+				(start -0.635 1.524)
+			)
+			(circle
+				(center 0.0 -3.175)
+				(radius 2.54)
+			)
+		)
+		(symbol "ISO7637-2_1_1"
+			(pin input line
+				(at 0.0 -0.0 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 0.0 -6.35 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+		)
+	)
+	(symbol "LED"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "D"
+			(at 1.905 -0.0 0)
+		)
+		(symbol "LED_0_1"
+			(polyline
+				(pts (xy 0.0 -3.429) (xy 2.54 -3.429))
+			)
+			(polyline
+				(pts (xy 0.0 -1.524) (xy 2.54 -1.524))
+			)
+			(polyline
+				(pts (xy 2.54 -1.524) (xy 1.27 -3.429))
+			)
+			(polyline
+				(pts (xy 0.0 -1.524) (xy 1.27 -3.429))
+			)
+			(polyline
+				(pts (xy 1.27 -0.0) (xy 1.27 -1.524))
+			)
+			(polyline
+				(pts (xy 1.27 -3.429) (xy 1.27 -5.08))
+			)
+			(polyline
+				(pts (xy 5.715 -2.54) (xy 5.334 -3.175))
+			)
+			(polyline
+				(pts (xy 5.715 -2.54) (xy 5.08 -2.54))
+			)
+			(polyline
+				(pts (xy 5.715 -3.81) (xy 5.334 -4.445))
+			)
+			(polyline
+				(pts (xy 5.715 -3.81) (xy 5.08 -3.81))
+			)
+			(arc
+				(start 3.175 -1.524)
+			)
+			(arc
+				(start 4.445 -1.524)
+			)
+			(arc
+				(start 3.175 -2.794)
+			)
+			(arc
+				(start 4.445 -2.794)
+			)
+		)
+		(symbol "LED_1_1"
+			(pin input line
+				(at 1.27 -0.0 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 1.27 -5.08 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+		)
+	)
+	(symbol "SOAtherm-HeatSink"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "X"
+			(at 0.0 5.08 0)
+		)
+		(symbol "SOAtherm-HeatSink_0_1"
+			(polyline
+				(pts (xy 3.81 -5.08) (xy -3.81 -5.08))
+			)
+			(polyline
+				(pts (xy 3.81 0.635) (xy 2.54 0.635))
+			)
+			(polyline
+				(pts (xy 3.81 1.27) (xy 3.81 0.635))
+			)
+			(polyline
+				(pts (xy 2.54 1.27) (xy 3.81 1.27))
+			)
+			(polyline
+				(pts (xy 3.81 3.175) (xy 2.54 3.175))
+			)
+			(polyline
+				(pts (xy 3.81 3.81) (xy 3.81 3.175))
+			)
+			(polyline
+				(pts (xy 3.81 5.08) (xy -3.81 5.08))
+			)
+			(polyline
+				(pts (xy 2.54 3.81) (xy 3.81 3.81))
+			)
+			(polyline
+				(pts (xy 2.54 4.445) (xy 2.54 3.81))
+			)
+			(polyline
+				(pts (xy 3.81 4.445) (xy 2.54 4.445))
+			)
+			(polyline
+				(pts (xy 3.81 5.08) (xy 3.81 4.445))
+			)
+			(polyline
+				(pts (xy -6.35 -5.08) (xy -3.81 -5.08))
+			)
+			(polyline
+				(pts (xy -6.35 5.08) (xy -6.35 -5.08))
+			)
+			(polyline
+				(pts (xy -3.81 5.08) (xy -6.35 5.08))
+			)
+			(polyline
+				(pts (xy -3.81 -5.08) (xy -3.81 5.08))
+			)
+			(polyline
+				(pts (xy 3.81 1.905) (xy 2.54 1.905))
+			)
+			(polyline
+				(pts (xy 3.81 2.54) (xy 3.81 1.905))
+			)
+			(polyline
+				(pts (xy 2.54 2.54) (xy 3.81 2.54))
+			)
+			(polyline
+				(pts (xy 2.54 1.905) (xy 2.54 1.27))
+			)
+			(polyline
+				(pts (xy 2.54 3.175) (xy 2.54 2.54))
+			)
+			(polyline
+				(pts (xy 3.81 -4.318) (xy 3.81 -5.08))
+			)
+			(polyline
+				(pts (xy 2.54 -4.318) (xy 3.81 -4.318))
+			)
+			(polyline
+				(pts (xy 3.81 -2.413) (xy 2.54 -2.413))
+			)
+			(polyline
+				(pts (xy 3.81 -1.778) (xy 3.81 -2.413))
+			)
+			(polyline
+				(pts (xy 2.54 -1.778) (xy 3.81 -1.778))
+			)
+			(polyline
+				(pts (xy 2.54 -1.143) (xy 2.54 -1.778))
+			)
+			(polyline
+				(pts (xy 3.81 -1.143) (xy 2.54 -1.143))
+			)
+			(polyline
+				(pts (xy 3.81 -0.508) (xy 3.81 -1.143))
+			)
+			(polyline
+				(pts (xy 3.81 -3.683) (xy 2.54 -3.683))
+			)
+			(polyline
+				(pts (xy 3.81 -3.048) (xy 3.81 -3.683))
+			)
+			(polyline
+				(pts (xy 2.54 -3.048) (xy 3.81 -3.048))
+			)
+			(polyline
+				(pts (xy 2.54 -3.683) (xy 2.54 -4.318))
+			)
+			(polyline
+				(pts (xy 2.54 -2.413) (xy 2.54 -3.048))
+			)
+			(polyline
+				(pts (xy 3.81 -0.508) (xy 2.54 -0.508))
+			)
+			(polyline
+				(pts (xy 2.54 0.635) (xy 2.54 -0.508))
+			)
+			(polyline
+				(pts (xy -3.81 7.62) (xy -6.35 5.08))
+			)
+			(polyline
+				(pts (xy -1.27 7.62) (xy -3.81 7.62))
+			)
+			(polyline
+				(pts (xy -3.81 5.08) (xy -1.27 7.62))
+			)
+			(polyline
+				(pts (xy 6.35 7.62) (xy -1.27 7.62))
+			)
+			(polyline
+				(pts (xy 3.81 5.08) (xy 6.35 7.62))
+			)
+			(polyline
+				(pts (xy 6.35 6.985) (xy 3.81 4.445))
+			)
+			(polyline
+				(pts (xy 6.35 6.35) (xy 3.81 3.81))
+			)
+			(polyline
+				(pts (xy 6.35 5.715) (xy 3.81 3.175))
+			)
+			(polyline
+				(pts (xy 6.35 5.08) (xy 3.81 2.54))
+			)
+			(polyline
+				(pts (xy 6.35 4.445) (xy 3.81 1.905))
+			)
+			(polyline
+				(pts (xy 6.35 3.81) (xy 3.81 1.27))
+			)
+			(polyline
+				(pts (xy 6.35 3.175) (xy 3.81 0.635))
+			)
+			(polyline
+				(pts (xy 6.35 2.032) (xy 3.81 -0.508))
+			)
+			(polyline
+				(pts (xy 6.35 1.397) (xy 3.81 -1.143))
+			)
+			(polyline
+				(pts (xy 6.35 0.762) (xy 3.81 -1.778))
+			)
+			(polyline
+				(pts (xy 6.35 0.127) (xy 3.81 -2.413))
+			)
+			(polyline
+				(pts (xy 6.35 -0.508) (xy 3.81 -3.048))
+			)
+			(polyline
+				(pts (xy 6.35 -1.143) (xy 3.81 -3.683))
+			)
+			(polyline
+				(pts (xy 6.35 -1.778) (xy 3.81 -4.318))
+			)
+			(polyline
+				(pts (xy 6.35 -2.54) (xy 3.81 -5.08))
+			)
+			(polyline
+				(pts (xy 6.35 6.985) (xy 6.35 7.62))
+			)
+			(polyline
+				(pts (xy 6.35 5.715) (xy 6.35 6.35))
+			)
+			(polyline
+				(pts (xy 6.35 4.445) (xy 6.35 5.08))
+			)
+			(polyline
+				(pts (xy 6.35 3.175) (xy 6.35 3.81))
+			)
+			(polyline
+				(pts (xy 6.35 1.397) (xy 6.35 2.032))
+			)
+			(polyline
+				(pts (xy 6.35 0.127) (xy 6.35 0.762))
+			)
+			(polyline
+				(pts (xy 6.35 -1.143) (xy 6.35 -0.508))
+			)
+			(polyline
+				(pts (xy 6.35 -2.54) (xy 6.35 -1.778))
+			)
+			(polyline
+				(pts (xy 3.175 4.445) (xy 2.54 3.81))
+			)
+			(polyline
+				(pts (xy 3.175 3.175) (xy 2.54 2.54))
+			)
+			(polyline
+				(pts (xy 3.175 1.905) (xy 2.54 1.27))
+			)
+			(polyline
+				(pts (xy 3.556 0.635) (xy 2.54 -0.508))
+			)
+			(polyline
+				(pts (xy 3.175 -1.143) (xy 2.54 -1.778))
+			)
+			(polyline
+				(pts (xy 3.175 -2.413) (xy 2.54 -3.048))
+			)
+			(polyline
+				(pts (xy 3.175 -3.683) (xy 2.54 -4.318))
+			)
+			(polyline
+				(pts (xy 5.715 6.35) (xy 6.35 6.35))
+			)
+			(polyline
+				(pts (xy 5.715 5.08) (xy 6.35 5.08))
+			)
+			(polyline
+				(pts (xy 5.715 3.81) (xy 6.35 3.81))
+			)
+			(polyline
+				(pts (xy 5.715 -1.778) (xy 6.35 -1.778))
+			)
+			(polyline
+				(pts (xy 5.715 -0.508) (xy 6.35 -0.508))
+			)
+			(polyline
+				(pts (xy 5.715 0.762) (xy 6.35 0.762))
+			)
+			(polyline
+				(pts (xy 5.207 2.032) (xy 6.35 2.032))
+			)
+		)
+		(symbol "SOAtherm-HeatSink_1_1"
+			(pin input line
+				(at -6.35 -0.0 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at -3.81 -0.0 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+			(pin input line
+				(at 3.81 -0.0 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "3")
+			)
+		)
+	)
+	(symbol "SOAtherm-NMOS"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "X"
+			(at -0.635 10.16 0)
+		)
+		(symbol "SOAtherm-NMOS_0_1"
+			(polyline
+				(pts (xy 0.0 -0.0) (xy 0.0 -3.81))
+			)
+			(polyline
+				(pts (xy -2.54 -2.54) (xy 0.0 -2.54))
+			)
+			(polyline
+				(pts (xy -0.635 -0.0) (xy 0.0 -0.0))
+			)
+			(polyline
+				(pts (xy -2.54 -0.0) (xy -0.635 0.381))
+			)
+			(polyline
+				(pts (xy -2.54 -0.0) (xy -0.635 -0.254))
+			)
+			(polyline
+				(pts (xy -0.635 0.381) (xy -0.635 -0.254))
+			)
+			(polyline
+				(pts (xy -2.54 3.175) (xy -2.54 1.905))
+			)
+			(polyline
+				(pts (xy -2.54 0.635) (xy -2.54 -0.635))
+			)
+			(polyline
+				(pts (xy -2.54 -1.905) (xy -2.54 -3.175))
+			)
+			(polyline
+				(pts (xy -3.81 -2.54) (xy -3.175 -2.54))
+			)
+			(polyline
+				(pts (xy -3.175 2.54) (xy -3.175 -2.54))
+			)
+			(polyline
+				(pts (xy 0.0 2.54) (xy -2.54 2.54))
+			)
+			(polyline
+				(pts (xy 0.0 3.81) (xy 0.0 2.54))
+			)
+			(polyline
+				(pts (xy 0.0 -5.08) (xy -4.572 -5.08))
+			)
+			(polyline
+				(pts (xy 5.08 8.255) (xy 5.08 4.572))
+			)
+			(polyline
+				(pts (xy -4.572 8.89) (xy 4.445 8.89))
+			)
+			(polyline
+				(pts (xy -5.08 -4.445) (xy -5.08 8.255))
+			)
+			(polyline
+				(pts (xy 0.381 -4.445) (xy 0.381 3.175))
+			)
+			(polyline
+				(pts (xy 1.27 3.81) (xy 4.445 3.81))
+			)
+			(polyline
+				(pts (xy 0.0 5.08) (xy 0.0 3.81))
+			)
+			(polyline
+				(pts (xy 0.0 8.89) (xy 0.0 7.62))
+			)
+			(polyline
+				(pts (xy 0.762 6.35) (xy 0.0 6.35))
+			)
+			(polyline
+				(pts (xy 0.762 5.969) (xy 0.762 6.858))
+			)
+			(polyline
+				(pts (xy -0.889 6.35) (xy 0.0 6.35))
+			)
+			(polyline
+				(pts (xy -0.889 6.858) (xy -0.889 5.969))
+			)
+			(polyline
+				(pts (xy -5.08 -2.54) (xy -3.81 -2.54))
+			)
+			(polyline
+				(pts (xy 0.0 -5.08) (xy 0.0 -3.81))
+			)
+			(arc
+				(start -5.08 -3.81)
+			)
+			(arc
+				(start -0.635 -3.81)
+			)
+			(arc
+				(start 0.381 3.81)
+			)
+			(arc
+				(start 3.81 5.08)
+			)
+			(arc
+				(start -5.08 8.89)
+			)
+			(arc
+				(start 3.81 8.89)
+			)
+			(circle
+				(center 0.0 6.35)
+				(radius 1.27)
+			)
+		)
+		(symbol "SOAtherm-NMOS_1_1"
+			(pin input line
+				(at 0.0 8.89 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at -5.08 -2.54 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+			(pin input line
+				(at 0.0 -5.08 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "3")
+			)
+			(pin input line
+				(at 0.0 3.81 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "4")
+			)
+			(pin input line
+				(at -3.81 -2.54 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "5")
+			)
+			(pin input line
+				(at 0.0 -3.81 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "6")
+			)
+			(pin input line
+				(at 5.08 5.08 90)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "7")
+			)
+			(pin input line
+				(at 5.08 7.62 90)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "8")
+			)
+		)
+	)
+	(symbol "SOAtherm-PCB"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "X"
+			(at 1.27 3.175 0)
+		)
+		(symbol "SOAtherm-PCB_0_1"
+			(polyline
+				(pts (xy -6.35 3.175) (xy -8.89 -3.175))
+			)
+			(polyline
+				(pts (xy 8.89 3.175) (xy -6.35 3.175))
+			)
+			(polyline
+				(pts (xy 6.35 -3.175) (xy 8.89 3.175))
+			)
+			(polyline
+				(pts (xy -8.89 -3.175) (xy 6.35 -3.175))
+			)
+			(polyline
+				(pts (xy -8.89 -3.81) (xy -8.89 -3.175))
+			)
+			(polyline
+				(pts (xy 6.35 -3.81) (xy -8.89 -3.81))
+			)
+			(polyline
+				(pts (xy 6.35 -3.81) (xy 6.35 -3.175))
+			)
+			(polyline
+				(pts (xy 8.89 2.54) (xy 6.35 -3.81))
+			)
+			(polyline
+				(pts (xy 8.89 3.175) (xy 8.89 2.54))
+			)
+		)
+		(symbol "SOAtherm-PCB_1_1"
+			(pin input line
+				(at 0.0 -0.0 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+		)
+	)
+	(symbol "TVSdiode"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "D"
+			(at 1.905 0.254 0)
+		)
+		(symbol "TVSdiode_0_1"
+			(polyline
+				(pts (xy 0.0 -2.54) (xy -0.381 -2.794))
+			)
+			(polyline
+				(pts (xy 2.54 -2.54) (xy 2.794 -2.159))
+			)
+			(polyline
+				(pts (xy 0.0 -2.54) (xy 2.54 -2.54))
+			)
+			(polyline
+				(pts (xy 0.0 -0.635) (xy 2.54 -0.635))
+			)
+			(polyline
+				(pts (xy 2.54 -0.635) (xy 1.27 -2.54))
+			)
+			(polyline
+				(pts (xy 0.0 -0.635) (xy 1.27 -2.54))
+			)
+			(polyline
+				(pts (xy 0.0 -4.445) (xy 2.54 -4.445))
+			)
+			(polyline
+				(pts (xy 2.54 -4.445) (xy 1.27 -2.54))
+			)
+			(polyline
+				(pts (xy 0.0 -4.445) (xy 1.27 -2.54))
+			)
+			(polyline
+				(pts (xy 1.27 -0.0) (xy 1.27 -0.635))
+			)
+			(polyline
+				(pts (xy 1.27 -4.445) (xy 1.27 -5.08))
+			)
+		)
+		(symbol "TVSdiode_1_1"
+			(pin input line
+				(at 1.27 -0.0 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 1.27 -5.08 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+		)
+	)
+	(symbol "bi"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "B"
+			(at 1.905 -0.0 0)
+		)
+		(symbol "bi_0_1"
+			(polyline
+				(pts (xy 0.0 -4.445) (xy 0.254 -3.429))
+			)
+			(polyline
+				(pts (xy 0.0 -4.445) (xy -0.381 -3.429))
+			)
+			(polyline
+				(pts (xy -0.381 -3.429) (xy 0.254 -3.429))
+			)
+			(polyline
+				(pts (xy 0.0 -1.905) (xy 0.0 -3.429))
+			)
+			(polyline
+				(pts (xy 0.0 -6.35) (xy 0.0 -5.715))
+			)
+			(polyline
+				(pts (xy 0.0 -0.0) (xy 0.0 -0.635))
+			)
+			(circle
+				(center 0.0 -3.175)
+				(radius 2.54)
+			)
+		)
+		(symbol "bi_1_1"
+			(pin input line
+				(at 0.0 -0.0 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 0.0 -6.35 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+		)
+	)
+	(symbol "bi2"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "B"
+			(at 1.905 -0.0 0)
+		)
+		(symbol "bi2_0_1"
+			(polyline
+				(pts (xy 0.0 -1.905) (xy 0.254 -2.794))
+			)
+			(polyline
+				(pts (xy 0.0 -1.905) (xy -0.381 -2.794))
+			)
+			(polyline
+				(pts (xy -0.381 -2.794) (xy 0.254 -2.794))
+			)
+			(polyline
+				(pts (xy 0.0 -2.794) (xy 0.0 -4.445))
+			)
+			(polyline
+				(pts (xy 0.0 -6.35) (xy 0.0 -5.715))
+			)
+			(polyline
+				(pts (xy 0.0 -0.0) (xy 0.0 -0.635))
+			)
+			(circle
+				(center 0.0 -3.175)
+				(radius 2.54)
+			)
+		)
+		(symbol "bi2_1_1"
+			(pin input line
+				(at 0.0 -6.35 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 0.0 -0.0 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+		)
+	)
+	(symbol "bv"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "B"
+			(at 1.905 -1.27 0)
+		)
+		(symbol "bv_0_1"
+			(polyline
+				(pts (xy -0.635 -2.794) (xy 0.635 -2.794))
+			)
+			(polyline
+				(pts (xy -0.635 -5.969) (xy 0.635 -5.969))
+			)
+			(polyline
+				(pts (xy 0.0 -2.159) (xy 0.0 -3.429))
+			)
+			(polyline
+				(pts (xy 0.0 -7.62) (xy 0.0 -6.985))
+			)
+			(polyline
+				(pts (xy 0.0 -1.27) (xy 0.0 -1.905))
+			)
+			(circle
+				(center 0.0 -4.445)
+				(radius 2.54)
+			)
+		)
+		(symbol "bv_1_1"
+			(pin input line
+				(at 0.0 -1.27 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 0.0 -7.62 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+		)
+	)
+	(symbol "cap"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "C"
+			(at 1.905 -0.635 0)
+		)
+		(symbol "cap_0_1"
+			(polyline
+				(pts (xy 1.27 -2.794) (xy 1.27 -5.08))
+			)
+			(polyline
+				(pts (xy 1.27 -2.159) (xy 1.27 0.0))
+			)
+			(polyline
+				(pts (xy 0.0 -2.159) (xy 2.54 -2.159))
+			)
+			(polyline
+				(pts (xy 0.0 -2.794) (xy 2.54 -2.794))
+			)
+		)
+		(symbol "cap_1_1"
+			(pin input line
+				(at 1.27 -0.0 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 1.27 -5.08 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+		)
+	)
+	(symbol "csw"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "W"
+			(at 1.905 -0.0 0)
+		)
+		(symbol "csw_0_1"
+			(polyline
+				(pts (xy 0.0 -6.35) (xy 0.0 -4.445))
+			)
+			(polyline
+				(pts (xy 0.0 -0.0) (xy 0.0 -1.524))
+			)
+			(polyline
+				(pts (xy 0.0 -1.524) (xy 1.524 -3.429))
+			)
+			(circle
+				(center 0.0 -3.175)
+				(radius 2.54)
+			)
+			(circle
+				(center -0.0635 -4.318)
+				(radius 0.254)
+			)
+			(circle
+				(center 1.5875 -3.429)
+				(radius 0.254)
+			)
+		)
+		(symbol "csw_1_1"
+			(pin input line
+				(at 0.0 -0.0 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 0.0 -6.35 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+		)
+	)
+	(symbol "current"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "I"
+			(at 1.905 -0.0 0)
+		)
+		(symbol "current_0_1"
+			(polyline
+				(pts (xy 0.0 -4.445) (xy 0.254 -3.429))
+			)
+			(polyline
+				(pts (xy 0.0 -4.445) (xy -0.381 -3.429))
+			)
+			(polyline
+				(pts (xy -0.381 -3.429) (xy 0.254 -3.429))
+			)
+			(polyline
+				(pts (xy 0.0 -1.905) (xy 0.0 -3.429))
+			)
+			(polyline
+				(pts (xy 0.0 -6.35) (xy 0.0 -5.715))
+			)
+			(polyline
+				(pts (xy 0.0 -0.0) (xy 0.0 -0.635))
+			)
+			(circle
+				(center 0.0 -3.175)
+				(radius 2.54)
+			)
+		)
+		(symbol "current_1_1"
+			(pin input line
+				(at 0.0 -0.0 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 0.0 -6.35 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+		)
+	)
+	(symbol "diode"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "D"
+			(at 1.905 -0.0 0)
+		)
+		(symbol "diode_0_1"
+			(polyline
+				(pts (xy 0.0 -3.429) (xy 2.54 -3.429))
+			)
+			(polyline
+				(pts (xy 0.0 -1.524) (xy 2.54 -1.524))
+			)
+			(polyline
+				(pts (xy 2.54 -1.524) (xy 1.27 -3.429))
+			)
+			(polyline
+				(pts (xy 0.0 -1.524) (xy 1.27 -3.429))
+			)
+			(polyline
+				(pts (xy 1.27 -0.0) (xy 1.27 -1.524))
+			)
+			(polyline
+				(pts (xy 1.27 -3.429) (xy 1.27 -5.08))
+			)
+		)
+		(symbol "diode_1_1"
+			(pin input line
+				(at 1.27 -0.0 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 1.27 -5.08 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+		)
+	)
+	(symbol "e"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "E"
+			(at 1.905 -1.27 0)
+		)
+		(symbol "e_0_1"
+			(polyline
+				(pts (xy -3.81 -2.54) (xy -2.54 -2.54))
+			)
+			(polyline
+				(pts (xy -2.54 -2.54) (xy -1.905 -2.794))
+			)
+			(polyline
+				(pts (xy -3.81 -6.35) (xy -2.54 -6.35))
+			)
+			(polyline
+				(pts (xy -2.54 -6.35) (xy -1.905 -5.969))
+			)
+			(polyline
+				(pts (xy 0.0 -1.27) (xy 0.0 -1.905))
+			)
+			(polyline
+				(pts (xy 0.0 -7.62) (xy 0.0 -6.985))
+			)
+			(polyline
+				(pts (xy -3.81 -5.715) (xy -3.175 -5.715))
+			)
+			(polyline
+				(pts (xy -3.81 -3.175) (xy -3.175 -3.175))
+			)
+			(polyline
+				(pts (xy -3.556 -2.794) (xy -3.556 -3.429))
+			)
+			(polyline
+				(pts (xy -0.381 -5.715) (xy 0.254 -5.715))
+			)
+			(polyline
+				(pts (xy -0.381 -3.175) (xy 0.254 -3.175))
+			)
+			(polyline
+				(pts (xy 0.0 -2.794) (xy 0.0 -3.429))
+			)
+			(circle
+				(center 0.0 -4.445)
+				(radius 2.54)
+			)
+		)
+		(symbol "e_1_1"
+			(pin input line
+				(at 0.0 -1.27 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 0.0 -7.62 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+			(pin input line
+				(at -3.81 -2.54 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "3")
+			)
+			(pin input line
+				(at -3.81 -6.35 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "4")
+			)
+		)
+	)
+	(symbol "e2"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "E"
+			(at 1.905 -1.27 0)
+		)
+		(symbol "e2_0_1"
+			(polyline
+				(pts (xy -3.81 -2.54) (xy -2.54 -2.54))
+			)
+			(polyline
+				(pts (xy -2.54 -2.54) (xy -1.905 -2.794))
+			)
+			(polyline
+				(pts (xy -3.81 -6.35) (xy -2.54 -6.35))
+			)
+			(polyline
+				(pts (xy -2.54 -6.35) (xy -1.905 -5.969))
+			)
+			(polyline
+				(pts (xy 0.0 -1.27) (xy 0.0 -1.905))
+			)
+			(polyline
+				(pts (xy 0.0 -7.62) (xy 0.0 -6.985))
+			)
+			(polyline
+				(pts (xy -3.81 -5.715) (xy -3.175 -5.715))
+			)
+			(polyline
+				(pts (xy -3.556 -5.969) (xy -3.556 -5.334))
+			)
+			(polyline
+				(pts (xy -3.81 -3.175) (xy -3.175 -3.175))
+			)
+			(polyline
+				(pts (xy -0.381 -5.715) (xy 0.254 -5.715))
+			)
+			(polyline
+				(pts (xy -0.381 -3.175) (xy 0.254 -3.175))
+			)
+			(polyline
+				(pts (xy 0.0 -2.794) (xy 0.0 -3.429))
+			)
+			(circle
+				(center 0.0 -4.445)
+				(radius 2.54)
+			)
+		)
+		(symbol "e2_1_1"
+			(pin input line
+				(at 0.0 -1.27 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 0.0 -7.62 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+			(pin input line
+				(at -3.81 -6.35 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "3")
+			)
+			(pin input line
+				(at -3.81 -2.54 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "4")
+			)
+		)
+	)
+	(symbol "f"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "F"
+			(at 1.905 -0.0 0)
+		)
+		(symbol "f_0_1"
+			(polyline
+				(pts (xy 0.0 -4.445) (xy 0.254 -3.429))
+			)
+			(polyline
+				(pts (xy 0.0 -4.445) (xy -0.381 -3.429))
+			)
+			(polyline
+				(pts (xy -0.381 -3.429) (xy 0.254 -3.429))
+			)
+			(polyline
+				(pts (xy 0.0 -1.905) (xy 0.0 -3.429))
+			)
+			(polyline
+				(pts (xy 0.0 -6.35) (xy 0.0 -5.715))
+			)
+			(polyline
+				(pts (xy 0.0 -0.0) (xy 0.0 -0.635))
+			)
+			(circle
+				(center 0.0 -3.175)
+				(radius 2.54)
+			)
+		)
+		(symbol "f_1_1"
+			(pin input line
+				(at 0.0 -0.0 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 0.0 -6.35 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+		)
+	)
+	(symbol "fra"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "@"
+			(at 1.651 3.175 0)
+		)
+		(symbol "fra_0_1"
+			(polyline
+				(pts (xy 0.0 3.81) (xy 0.0 5.08))
+			)
+			(polyline
+				(pts (xy -1.27 3.81) (xy -1.27 1.27))
+			)
+			(polyline
+				(pts (xy 1.27 3.81) (xy -1.27 3.81))
+			)
+			(polyline
+				(pts (xy 1.27 1.27) (xy 1.27 3.81))
+			)
+			(arc
+				(start 0.0 1.27)
+			)
+			(arc
+				(start -2.54 1.27)
+			)
+			(arc
+				(start -0.381 3.429)
+			)
+			(arc
+				(start -1.016 2.794)
+			)
+			(arc
+				(start -0.635 3.175)
+			)
+			(arc
+				(start 0.0 3.429)
+			)
+			(arc
+				(start 0.635 2.794)
+			)
+			(arc
+				(start 0.254 3.175)
+			)
+		)
+		(symbol "fra_1_1"
+			(pin input line
+				(at 0.0 5.08 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 0.0 -0.0 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+		)
+	)
+	(symbol "g"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "G"
+			(at 1.905 -1.27 0)
+		)
+		(symbol "g_0_1"
+			(polyline
+				(pts (xy -3.81 -2.54) (xy -2.54 -2.54))
+			)
+			(polyline
+				(pts (xy -2.54 -2.54) (xy -1.905 -2.794))
+			)
+			(polyline
+				(pts (xy -3.81 -6.35) (xy -2.54 -6.35))
+			)
+			(polyline
+				(pts (xy -2.54 -6.35) (xy -1.905 -5.969))
+			)
+			(polyline
+				(pts (xy 0.0 -1.27) (xy 0.0 -1.905))
+			)
+			(polyline
+				(pts (xy 0.0 -7.62) (xy 0.0 -6.985))
+			)
+			(polyline
+				(pts (xy -3.81 -5.715) (xy -3.175 -5.715))
+			)
+			(polyline
+				(pts (xy -3.81 -3.175) (xy -3.175 -3.175))
+			)
+			(polyline
+				(pts (xy -3.556 -2.794) (xy -3.556 -3.429))
+			)
+			(polyline
+				(pts (xy 0.254 -4.064) (xy 0.0 -3.175))
+			)
+			(polyline
+				(pts (xy -0.381 -4.064) (xy 0.0 -3.175))
+			)
+			(polyline
+				(pts (xy -0.381 -4.064) (xy 0.254 -4.064))
+			)
+			(polyline
+				(pts (xy 0.0 -4.064) (xy 0.0 -5.715))
+			)
+			(circle
+				(center 0.0 -4.445)
+				(radius 2.54)
+			)
+		)
+		(symbol "g_1_1"
+			(pin input line
+				(at 0.0 -7.62 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 0.0 -1.27 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+			(pin input line
+				(at -3.81 -2.54 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "3")
+			)
+			(pin input line
+				(at -3.81 -6.35 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "4")
+			)
+		)
+	)
+	(symbol "g2"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "G"
+			(at 1.905 -1.27 0)
+		)
+		(symbol "g2_0_1"
+			(polyline
+				(pts (xy -3.81 -2.54) (xy -2.54 -2.54))
+			)
+			(polyline
+				(pts (xy -2.54 -2.54) (xy -1.905 -2.794))
+			)
+			(polyline
+				(pts (xy -3.81 -6.35) (xy -2.54 -6.35))
+			)
+			(polyline
+				(pts (xy -2.54 -6.35) (xy -1.905 -5.969))
+			)
+			(polyline
+				(pts (xy 0.0 -1.27) (xy 0.0 -1.905))
+			)
+			(polyline
+				(pts (xy 0.0 -7.62) (xy 0.0 -6.985))
+			)
+			(polyline
+				(pts (xy -3.81 -5.715) (xy -3.175 -5.715))
+			)
+			(polyline
+				(pts (xy -3.81 -3.175) (xy -3.175 -3.175))
+			)
+			(polyline
+				(pts (xy -3.556 -5.969) (xy -3.556 -5.334))
+			)
+			(polyline
+				(pts (xy 0.254 -4.064) (xy 0.0 -3.175))
+			)
+			(polyline
+				(pts (xy -0.381 -4.064) (xy 0.0 -3.175))
+			)
+			(polyline
+				(pts (xy -0.381 -4.064) (xy 0.254 -4.064))
+			)
+			(polyline
+				(pts (xy 0.0 -4.064) (xy 0.0 -5.715))
+			)
+			(circle
+				(center 0.0 -4.445)
+				(radius 2.54)
+			)
+		)
+		(symbol "g2_1_1"
+			(pin input line
+				(at 0.0 -7.62 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 0.0 -1.27 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+			(pin input line
+				(at -3.81 -6.35 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "3")
+			)
+			(pin input line
+				(at -3.81 -2.54 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "4")
+			)
+		)
+	)
+	(symbol "h"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "H"
+			(at 1.905 -1.27 0)
+		)
+		(symbol "h_0_1"
+			(polyline
+				(pts (xy -0.635 -2.794) (xy 0.635 -2.794))
+			)
+			(polyline
+				(pts (xy -0.635 -5.969) (xy 0.635 -5.969))
+			)
+			(polyline
+				(pts (xy 0.0 -2.159) (xy 0.0 -3.429))
+			)
+			(polyline
+				(pts (xy 0.0 -7.62) (xy 0.0 -6.985))
+			)
+			(polyline
+				(pts (xy 0.0 -1.27) (xy 0.0 -1.905))
+			)
+			(circle
+				(center 0.0 -4.445)
+				(radius 2.54)
+			)
+		)
+		(symbol "h_1_1"
+			(pin input line
+				(at 0.0 -1.27 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 0.0 -7.62 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+		)
+	)
+	(symbol "ind"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "L"
+			(at 2.794 -3.175 0)
+		)
+		(symbol "ind_0_1"
+			(arc
+				(start 0.0 -3.175)
+			)
+			(arc
+				(start 0.0 -5.08)
+			)
+			(arc
+				(start 0.0 -1.27)
+			)
+		)
+		(symbol "ind_1_1"
+			(pin input line
+				(at 1.27 -1.27 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 1.27 -7.62 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+		)
+	)
+	(symbol "ind2"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "L"
+			(at 2.794 -3.175 0)
+		)
+		(symbol "ind2_0_1"
+			(arc
+				(start 0.0 -3.175)
+			)
+			(arc
+				(start 0.0 -5.08)
+			)
+			(arc
+				(start 0.0 -1.27)
+			)
+			(circle
+				(center 0.5715 -6.604)
+				(radius 0.254)
+			)
+		)
+		(symbol "ind2_1_1"
+			(pin input line
+				(at 1.27 -1.27 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 1.27 -7.62 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+		)
+	)
+	(symbol "load"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "I"
+			(at 3.81 -0.635 0)
+		)
+		(symbol "load_0_1"
+			(polyline
+				(pts (xy 0.0 -3.81) (xy 3.175 -0.635))
+			)
+			(polyline
+				(pts (xy 3.175 -0.635) (xy 2.159 -0.889))
+			)
+			(polyline
+				(pts (xy 3.175 -0.635) (xy 2.794 -1.524))
+			)
+			(polyline
+				(pts (xy 0.635 -0.635) (xy 0.635 -4.445))
+			)
+			(polyline
+				(pts (xy 0.635 -4.445) (xy 1.905 -4.445))
+			)
+			(polyline
+				(pts (xy 1.905 -4.445) (xy 1.905 -0.635))
+			)
+			(polyline
+				(pts (xy 1.905 -0.635) (xy 0.635 -0.635))
+			)
+			(polyline
+				(pts (xy 1.27 -0.0) (xy 1.27 -0.635))
+			)
+			(polyline
+				(pts (xy 1.27 -4.445) (xy 1.27 -5.08))
+			)
+		)
+		(symbol "load_1_1"
+			(pin input line
+				(at 1.27 -0.0 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 1.27 -5.08 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+		)
+	)
+	(symbol "load2"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "I"
+			(at 1.27 1.27 0)
+		)
+		(symbol "load2_0_1"
+			(polyline
+				(pts (xy 2.794 -0.254) (xy 2.54 -1.27))
+			)
+			(polyline
+				(pts (xy 2.794 -0.254) (xy 1.905 -0.635))
+			)
+			(polyline
+				(pts (xy -2.54 -5.715) (xy 2.794 -0.254))
+			)
+			(polyline
+				(pts (xy 0.0 -4.445) (xy 0.254 -3.81))
+			)
+			(polyline
+				(pts (xy 0.0 -4.445) (xy -0.381 -3.81))
+			)
+			(polyline
+				(pts (xy -0.381 -3.81) (xy 0.254 -3.81))
+			)
+			(polyline
+				(pts (xy 0.0 -1.905) (xy 0.0 -3.81))
+			)
+			(polyline
+				(pts (xy 0.0 -6.35) (xy 0.0 -5.715))
+			)
+			(polyline
+				(pts (xy 0.0 -0.0) (xy 0.0 -0.635))
+			)
+			(circle
+				(center 0.0 -3.175)
+				(radius 2.54)
+			)
+		)
+		(symbol "load2_1_1"
+			(pin input line
+				(at 0.0 -0.0 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 0.0 -6.35 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+		)
+	)
+	(symbol "lpnp"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "QP"
+			(at 5.715 -2.54 0)
+		)
+		(symbol "lpnp_0_1"
+			(polyline
+				(pts (xy 1.27 -5.08) (xy 3.429 -5.969))
+			)
+			(polyline
+				(pts (xy 3.429 -5.969) (xy 2.794 -6.604))
+			)
+			(polyline
+				(pts (xy 1.27 -5.08) (xy 2.794 -6.604))
+			)
+			(polyline
+				(pts (xy 3.175 -6.35) (xy 5.08 -7.62))
+			)
+			(polyline
+				(pts (xy 1.27 -6.35) (xy 1.27 -1.27))
+			)
+			(polyline
+				(pts (xy 1.27 -2.54) (xy 5.08 0.0))
+			)
+			(polyline
+				(pts (xy 1.27 -3.81) (xy 0.0 -3.81))
+			)
+			(polyline
+				(pts (xy 4.064 -3.81) (xy 5.08 -3.81))
+			)
+			(polyline
+				(pts (xy 1.27 -3.81) (xy 2.794 -3.81))
+			)
+			(polyline
+				(pts (xy 2.794 -3.175) (xy 2.794 -4.445))
+			)
+			(polyline
+				(pts (xy 4.064 -3.175) (xy 4.064 -4.445))
+			)
+			(polyline
+				(pts (xy 4.064 -3.175) (xy 2.794 -3.81))
+			)
+			(polyline
+				(pts (xy 4.064 -4.445) (xy 2.794 -3.81))
+			)
+		)
+		(symbol "lpnp_1_1"
+			(pin input line
+				(at 5.08 -0.0 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 0.0 -3.81 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+			(pin input line
+				(at 5.08 -7.62 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "3")
+			)
+			(pin input line
+				(at 5.08 -3.81 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "4")
+			)
+		)
+	)
+	(symbol "ltline"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "O"
+			(at 0.0 1.27 0)
+		)
+		(symbol "ltline_0_1"
+			(polyline
+				(pts (xy -3.81 -1.27) (xy 3.81 -1.27))
+			)
+			(polyline
+				(pts (xy -2.921 -0.889) (xy 2.794 -0.889))
+			)
+			(polyline
+				(pts (xy -2.921 1.016) (xy 2.794 1.016))
+			)
+			(polyline
+				(pts (xy -3.81 1.27) (xy 3.81 1.27))
+			)
+			(polyline
+				(pts (xy -3.81 -1.27) (xy -2.921 -0.889))
+			)
+			(polyline
+				(pts (xy -3.81 1.27) (xy -2.921 1.016))
+			)
+			(polyline
+				(pts (xy 3.81 -1.27) (xy 2.794 -0.889))
+			)
+			(polyline
+				(pts (xy 3.81 1.27) (xy 2.794 1.016))
+			)
+			(polyline
+				(pts (xy -3.175 -0.0) (xy -2.54 -0.0))
+			)
+			(polyline
+				(pts (xy -2.54 -0.0) (xy -1.905 -0.635))
+			)
+			(polyline
+				(pts (xy -1.905 -0.635) (xy -0.635 0.635))
+			)
+			(polyline
+				(pts (xy -0.635 0.635) (xy 0.635 -0.635))
+			)
+			(polyline
+				(pts (xy 0.635 -0.635) (xy 1.905 0.635))
+			)
+			(polyline
+				(pts (xy 1.905 0.635) (xy 2.54 0.0))
+			)
+			(polyline
+				(pts (xy 2.54 -0.0) (xy 3.175 -0.0))
+			)
+		)
+		(symbol "ltline_1_1"
+			(pin input line
+				(at -3.81 1.27 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at -3.81 -1.27 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+			(pin input line
+				(at 3.81 1.27 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "3")
+			)
+			(pin input line
+				(at 3.81 -1.27 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "4")
+			)
+		)
+	)
+	(symbol "mesfet"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "Z"
+			(at 4.445 -2.54 0)
+		)
+		(symbol "mesfet_0_1"
+			(polyline
+				(pts (xy 1.27 -0.889) (xy 1.27 -6.604))
+			)
+			(polyline
+				(pts (xy 3.81 -6.35) (xy 3.81 -7.62))
+			)
+			(polyline
+				(pts (xy 3.81 -1.27) (xy 3.81 0.0))
+			)
+			(polyline
+				(pts (xy 1.27 -1.27) (xy 3.81 -1.27))
+			)
+			(polyline
+				(pts (xy 0.0 -6.35) (xy 1.27 -6.35))
+			)
+			(polyline
+				(pts (xy 1.27 -6.35) (xy 3.81 -6.35))
+			)
+		)
+		(symbol "mesfet_1_1"
+			(pin input line
+				(at 3.81 -0.0 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 0.0 -6.35 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+			(pin input line
+				(at 3.81 -7.62 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "3")
+			)
+		)
+	)
+	(symbol "njf"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "JN"
+			(at 4.445 -2.54 0)
+		)
+		(symbol "njf_0_1"
+			(polyline
+				(pts (xy 1.27 -1.27) (xy 1.27 -6.35))
+			)
+			(polyline
+				(pts (xy 3.81 -5.715) (xy 3.81 -7.62))
+			)
+			(polyline
+				(pts (xy 1.27 -5.715) (xy 3.81 -5.715))
+			)
+			(polyline
+				(pts (xy 3.81 -1.905) (xy 3.81 0.0))
+			)
+			(polyline
+				(pts (xy 1.27 -1.905) (xy 3.81 -1.905))
+			)
+			(polyline
+				(pts (xy 0.0 -5.08) (xy 0.254 -5.08))
+			)
+			(polyline
+				(pts (xy 0.254 -5.334) (xy 1.27 -5.08))
+			)
+			(polyline
+				(pts (xy 0.254 -4.699) (xy 1.27 -5.08))
+			)
+			(polyline
+				(pts (xy 0.254 -4.699) (xy 0.254 -5.334))
+			)
+		)
+		(symbol "njf_1_1"
+			(pin input line
+				(at 3.81 -0.0 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 0.0 -5.08 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+			(pin input line
+				(at 3.81 -7.62 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "3")
+			)
+		)
+	)
+	(symbol "nmos"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "MN"
+			(at 4.445 -2.54 0)
+		)
+		(symbol "nmos_0_1"
+			(polyline
+				(pts (xy 3.81 -3.81) (xy 3.81 -7.62))
+			)
+			(polyline
+				(pts (xy 1.27 -6.35) (xy 3.81 -6.35))
+			)
+			(polyline
+				(pts (xy 3.175 -3.81) (xy 3.81 -3.81))
+			)
+			(polyline
+				(pts (xy 1.27 -3.81) (xy 3.175 -3.429))
+			)
+			(polyline
+				(pts (xy 1.27 -3.81) (xy 3.175 -4.064))
+			)
+			(polyline
+				(pts (xy 3.175 -3.429) (xy 3.175 -4.064))
+			)
+			(polyline
+				(pts (xy 1.27 -0.635) (xy 1.27 -1.905))
+			)
+			(polyline
+				(pts (xy 1.27 -3.175) (xy 1.27 -4.445))
+			)
+			(polyline
+				(pts (xy 1.27 -5.715) (xy 1.27 -6.985))
+			)
+			(polyline
+				(pts (xy 0.0 -6.35) (xy 0.635 -6.35))
+			)
+			(polyline
+				(pts (xy 0.635 -1.27) (xy 0.635 -6.35))
+			)
+			(polyline
+				(pts (xy 3.81 -1.27) (xy 1.27 -1.27))
+			)
+			(polyline
+				(pts (xy 3.81 -0.0) (xy 3.81 -1.27))
+			)
+		)
+		(symbol "nmos_1_1"
+			(pin input line
+				(at 3.81 -0.0 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 0.0 -6.35 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+			(pin input line
+				(at 3.81 -7.62 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "3")
+			)
+		)
+	)
+	(symbol "nmos4"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "MN"
+			(at 4.445 -2.54 0)
+		)
+		(symbol "nmos4_0_1"
+			(polyline
+				(pts (xy 3.81 -6.35) (xy 3.81 -7.62))
+			)
+			(polyline
+				(pts (xy 1.27 -6.35) (xy 3.81 -6.35))
+			)
+			(polyline
+				(pts (xy 3.175 -3.81) (xy 3.81 -3.81))
+			)
+			(polyline
+				(pts (xy 1.27 -3.81) (xy 3.175 -3.429))
+			)
+			(polyline
+				(pts (xy 1.27 -3.81) (xy 3.175 -4.064))
+			)
+			(polyline
+				(pts (xy 3.175 -3.429) (xy 3.175 -4.064))
+			)
+			(polyline
+				(pts (xy 1.27 -0.635) (xy 1.27 -1.905))
+			)
+			(polyline
+				(pts (xy 1.27 -3.175) (xy 1.27 -4.445))
+			)
+			(polyline
+				(pts (xy 1.27 -5.715) (xy 1.27 -6.985))
+			)
+			(polyline
+				(pts (xy 0.0 -6.35) (xy 0.635 -6.35))
+			)
+			(polyline
+				(pts (xy 0.635 -1.27) (xy 0.635 -6.35))
+			)
+			(polyline
+				(pts (xy 3.81 -1.27) (xy 1.27 -1.27))
+			)
+			(polyline
+				(pts (xy 3.81 -0.0) (xy 3.81 -1.27))
+			)
+		)
+		(symbol "nmos4_1_1"
+			(pin input line
+				(at 3.81 -0.0 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 0.0 -6.35 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+			(pin input line
+				(at 3.81 -7.62 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "3")
+			)
+			(pin input line
+				(at 3.81 -3.81 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "4")
+			)
+		)
+	)
+	(symbol "npn"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "QN"
+			(at 4.445 -2.54 0)
+		)
+		(symbol "npn_0_1"
+			(polyline
+				(pts (xy 3.429 -5.969) (xy 2.794 -6.604))
+			)
+			(polyline
+				(pts (xy 5.08 -7.62) (xy 3.429 -5.969))
+			)
+			(polyline
+				(pts (xy 5.08 -7.62) (xy 2.794 -6.604))
+			)
+			(polyline
+				(pts (xy 3.175 -6.35) (xy 1.27 -5.08))
+			)
+			(polyline
+				(pts (xy 1.27 -6.35) (xy 1.27 -1.27))
+			)
+			(polyline
+				(pts (xy 1.27 -2.54) (xy 5.08 0.0))
+			)
+			(polyline
+				(pts (xy 1.27 -3.81) (xy 0.0 -3.81))
+			)
+		)
+		(symbol "npn_1_1"
+			(pin input line
+				(at 5.08 -0.0 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 0.0 -3.81 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+			(pin input line
+				(at 5.08 -7.62 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "3")
+			)
+		)
+	)
+	(symbol "npn2"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "QN"
+			(at 4.445 -2.54 0)
+		)
+		(symbol "npn2_0_1"
+			(polyline
+				(pts (xy 3.429 -5.969) (xy 2.794 -6.604))
+			)
+			(polyline
+				(pts (xy 5.08 -7.62) (xy 3.429 -5.969))
+			)
+			(polyline
+				(pts (xy 5.08 -7.62) (xy 2.794 -6.604))
+			)
+			(polyline
+				(pts (xy 3.175 -6.35) (xy 1.27 -5.08))
+			)
+			(polyline
+				(pts (xy 1.27 -2.54) (xy 5.08 0.0))
+			)
+			(polyline
+				(pts (xy 0.889 -3.81) (xy 0.0 -3.81))
+			)
+			(polyline
+				(pts (xy 1.27 -5.715) (xy 0.889 -5.715))
+			)
+			(polyline
+				(pts (xy 0.889 -5.715) (xy 0.889 -1.905))
+			)
+			(polyline
+				(pts (xy 0.889 -1.905) (xy 1.27 -1.905))
+			)
+			(polyline
+				(pts (xy 1.27 -1.905) (xy 1.27 -5.715))
+			)
+		)
+		(symbol "npn2_1_1"
+			(pin input line
+				(at 5.08 -0.0 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 0.0 -3.81 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+			(pin input line
+				(at 5.08 -7.62 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "3")
+			)
+		)
+	)
+	(symbol "npn3"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "QN"
+			(at 4.445 -2.54 0)
+		)
+		(symbol "npn3_0_1"
+			(polyline
+				(pts (xy 3.429 -5.969) (xy 2.794 -6.604))
+			)
+			(polyline
+				(pts (xy 5.08 -7.62) (xy 3.429 -5.969))
+			)
+			(polyline
+				(pts (xy 5.08 -7.62) (xy 2.794 -6.604))
+			)
+			(polyline
+				(pts (xy 3.175 -6.35) (xy 1.524 -5.08))
+			)
+			(polyline
+				(pts (xy 1.524 -5.715) (xy 1.524 -1.905))
+			)
+			(polyline
+				(pts (xy 0.889 -5.715) (xy 0.889 -1.905))
+			)
+			(polyline
+				(pts (xy 1.524 -5.715) (xy 0.889 -5.715))
+			)
+			(polyline
+				(pts (xy 1.524 -1.905) (xy 0.889 -1.905))
+			)
+			(polyline
+				(pts (xy 1.524 -2.54) (xy 5.08 0.0))
+			)
+			(polyline
+				(pts (xy 0.889 -3.81) (xy 0.0 -3.81))
+			)
+		)
+		(symbol "npn3_1_1"
+			(pin input line
+				(at 5.08 -0.0 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 0.0 -3.81 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+			(pin input line
+				(at 5.08 -7.62 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "3")
+			)
+		)
+	)
+	(symbol "npn4"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "QN"
+			(at 5.715 -2.54 0)
+		)
+		(symbol "npn4_0_1"
+			(polyline
+				(pts (xy 1.27 -3.81) (xy 0.0 -3.81))
+			)
+			(polyline
+				(pts (xy 1.27 -2.54) (xy 5.08 0.0))
+			)
+			(polyline
+				(pts (xy 1.27 -6.35) (xy 1.27 -1.27))
+			)
+			(polyline
+				(pts (xy 3.175 -6.35) (xy 1.27 -5.08))
+			)
+			(polyline
+				(pts (xy 5.08 -7.62) (xy 2.794 -6.604))
+			)
+			(polyline
+				(pts (xy 5.08 -7.62) (xy 3.429 -5.969))
+			)
+			(polyline
+				(pts (xy 3.429 -5.969) (xy 2.794 -6.604))
+			)
+			(polyline
+				(pts (xy 3.175 -1.27) (xy 3.81 -2.159))
+			)
+			(polyline
+				(pts (xy 5.08 -3.81) (xy 4.445 -3.175))
+			)
+			(polyline
+				(pts (xy 3.175 -2.54) (xy 4.445 -1.524))
+			)
+			(polyline
+				(pts (xy 3.81 -3.429) (xy 5.08 -2.54))
+			)
+			(polyline
+				(pts (xy 3.81 -3.429) (xy 3.81 -2.159))
+			)
+			(polyline
+				(pts (xy 5.08 -2.54) (xy 3.81 -2.159))
+			)
+		)
+		(symbol "npn4_1_1"
+			(pin input line
+				(at 5.08 -0.0 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 0.0 -3.81 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+			(pin input line
+				(at 5.08 -7.62 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "3")
+			)
+			(pin input line
+				(at 5.08 -3.81 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "4")
+			)
+		)
+	)
+	(symbol "pjf"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "JP"
+			(at 4.445 -2.54 0)
+		)
+		(symbol "pjf_0_1"
+			(polyline
+				(pts (xy 1.27 -1.27) (xy 1.27 -6.35))
+			)
+			(polyline
+				(pts (xy 3.81 -5.715) (xy 3.81 -7.62))
+			)
+			(polyline
+				(pts (xy 1.27 -5.715) (xy 3.81 -5.715))
+			)
+			(polyline
+				(pts (xy 3.81 -1.905) (xy 3.81 0.0))
+			)
+			(polyline
+				(pts (xy 1.27 -1.905) (xy 3.81 -1.905))
+			)
+			(polyline
+				(pts (xy 0.889 -5.08) (xy 1.27 -5.08))
+			)
+			(polyline
+				(pts (xy 0.889 -5.334) (xy 0.0 -5.08))
+			)
+			(polyline
+				(pts (xy 0.889 -4.699) (xy 0.0 -5.08))
+			)
+			(polyline
+				(pts (xy 0.889 -4.699) (xy 0.889 -5.334))
+			)
+		)
+		(symbol "pjf_1_1"
+			(pin input line
+				(at 3.81 -0.0 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 0.0 -5.08 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+			(pin input line
+				(at 3.81 -7.62 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "3")
+			)
+		)
+	)
+	(symbol "pmos"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "MP"
+			(at 4.445 -2.54 0)
+		)
+		(symbol "pmos_0_1"
+			(polyline
+				(pts (xy 3.81 -3.81) (xy 3.81 -7.62))
+			)
+			(polyline
+				(pts (xy 1.27 -6.35) (xy 3.81 -6.35))
+			)
+			(polyline
+				(pts (xy 1.27 -3.81) (xy 1.905 -3.81))
+			)
+			(polyline
+				(pts (xy 3.81 -3.81) (xy 1.905 -3.429))
+			)
+			(polyline
+				(pts (xy 3.81 -3.81) (xy 1.905 -4.064))
+			)
+			(polyline
+				(pts (xy 1.905 -3.429) (xy 1.905 -4.064))
+			)
+			(polyline
+				(pts (xy 1.27 -0.635) (xy 1.27 -1.905))
+			)
+			(polyline
+				(pts (xy 1.27 -3.175) (xy 1.27 -4.445))
+			)
+			(polyline
+				(pts (xy 1.27 -5.715) (xy 1.27 -6.985))
+			)
+			(polyline
+				(pts (xy 0.0 -6.35) (xy 0.635 -6.35))
+			)
+			(polyline
+				(pts (xy 0.635 -1.27) (xy 0.635 -6.35))
+			)
+			(polyline
+				(pts (xy 3.81 -1.27) (xy 1.27 -1.27))
+			)
+			(polyline
+				(pts (xy 3.81 -0.0) (xy 3.81 -1.27))
+			)
+		)
+		(symbol "pmos_1_1"
+			(pin input line
+				(at 3.81 -0.0 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 0.0 -6.35 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+			(pin input line
+				(at 3.81 -7.62 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "3")
+			)
+		)
+	)
+	(symbol "pmos4"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "MP"
+			(at 4.445 -2.54 0)
+		)
+		(symbol "pmos4_0_1"
+			(polyline
+				(pts (xy 3.81 -6.35) (xy 3.81 -7.62))
+			)
+			(polyline
+				(pts (xy 1.27 -6.35) (xy 3.81 -6.35))
+			)
+			(polyline
+				(pts (xy 1.27 -3.81) (xy 1.905 -3.81))
+			)
+			(polyline
+				(pts (xy 3.81 -3.81) (xy 1.905 -3.429))
+			)
+			(polyline
+				(pts (xy 3.81 -3.81) (xy 1.905 -4.064))
+			)
+			(polyline
+				(pts (xy 1.905 -3.429) (xy 1.905 -4.064))
+			)
+			(polyline
+				(pts (xy 1.27 -0.635) (xy 1.27 -1.905))
+			)
+			(polyline
+				(pts (xy 1.27 -3.175) (xy 1.27 -4.445))
+			)
+			(polyline
+				(pts (xy 1.27 -5.715) (xy 1.27 -6.985))
+			)
+			(polyline
+				(pts (xy 0.0 -6.35) (xy 0.635 -6.35))
+			)
+			(polyline
+				(pts (xy 0.635 -1.27) (xy 0.635 -6.35))
+			)
+			(polyline
+				(pts (xy 3.81 -1.27) (xy 1.27 -1.27))
+			)
+			(polyline
+				(pts (xy 3.81 -0.0) (xy 3.81 -1.27))
+			)
+		)
+		(symbol "pmos4_1_1"
+			(pin input line
+				(at 3.81 -0.0 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 0.0 -6.35 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+			(pin input line
+				(at 3.81 -7.62 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "3")
+			)
+			(pin input line
+				(at 3.81 -3.81 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "4")
+			)
+		)
+	)
+	(symbol "pnp"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "QP"
+			(at 6.604 -2.54 0)
+		)
+		(symbol "pnp_0_1"
+			(polyline
+				(pts (xy 1.27 -5.08) (xy 3.429 -5.969))
+			)
+			(polyline
+				(pts (xy 3.429 -5.969) (xy 2.794 -6.604))
+			)
+			(polyline
+				(pts (xy 1.27 -5.08) (xy 2.794 -6.604))
+			)
+			(polyline
+				(pts (xy 3.175 -6.35) (xy 5.08 -7.62))
+			)
+			(polyline
+				(pts (xy 1.27 -6.35) (xy 1.27 -1.27))
+			)
+			(polyline
+				(pts (xy 1.27 -2.54) (xy 5.08 0.0))
+			)
+			(polyline
+				(pts (xy 1.27 -3.81) (xy 0.0 -3.81))
+			)
+		)
+		(symbol "pnp_1_1"
+			(pin input line
+				(at 5.08 -0.0 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 0.0 -3.81 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+			(pin input line
+				(at 5.08 -7.62 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "3")
+			)
+		)
+	)
+	(symbol "pnp2"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "QP"
+			(at 6.604 -2.54 0)
+		)
+		(symbol "pnp2_0_1"
+			(polyline
+				(pts (xy 1.27 -5.08) (xy 3.429 -5.969))
+			)
+			(polyline
+				(pts (xy 3.429 -5.969) (xy 2.794 -6.604))
+			)
+			(polyline
+				(pts (xy 1.27 -5.08) (xy 2.794 -6.604))
+			)
+			(polyline
+				(pts (xy 3.175 -6.35) (xy 5.08 -7.62))
+			)
+			(polyline
+				(pts (xy 1.27 -2.54) (xy 5.08 0.0))
+			)
+			(polyline
+				(pts (xy 0.889 -3.81) (xy 0.0 -3.81))
+			)
+			(polyline
+				(pts (xy 1.27 -5.715) (xy 0.889 -5.715))
+			)
+			(polyline
+				(pts (xy 0.889 -5.715) (xy 0.889 -1.905))
+			)
+			(polyline
+				(pts (xy 0.889 -1.905) (xy 1.27 -1.905))
+			)
+			(polyline
+				(pts (xy 1.27 -1.905) (xy 1.27 -5.715))
+			)
+		)
+		(symbol "pnp2_1_1"
+			(pin input line
+				(at 5.08 -0.0 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 0.0 -3.81 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+			(pin input line
+				(at 5.08 -7.62 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "3")
+			)
+		)
+	)
+	(symbol "pnp4"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "QP"
+			(at 5.715 -2.54 0)
+		)
+		(symbol "pnp4_0_1"
+			(polyline
+				(pts (xy 1.27 -5.08) (xy 3.429 -5.969))
+			)
+			(polyline
+				(pts (xy 3.429 -5.969) (xy 2.794 -6.604))
+			)
+			(polyline
+				(pts (xy 1.27 -5.08) (xy 2.794 -6.604))
+			)
+			(polyline
+				(pts (xy 3.175 -6.35) (xy 5.08 -7.62))
+			)
+			(polyline
+				(pts (xy 1.27 -6.35) (xy 1.27 -1.27))
+			)
+			(polyline
+				(pts (xy 1.27 -2.54) (xy 5.08 0.0))
+			)
+			(polyline
+				(pts (xy 1.27 -3.81) (xy 0.0 -3.81))
+			)
+			(polyline
+				(pts (xy 3.175 -1.27) (xy 3.81 -2.159))
+			)
+			(polyline
+				(pts (xy 5.08 -3.81) (xy 4.445 -3.175))
+			)
+			(polyline
+				(pts (xy 3.175 -2.54) (xy 4.445 -1.524))
+			)
+			(polyline
+				(pts (xy 3.81 -3.429) (xy 5.08 -2.54))
+			)
+			(polyline
+				(pts (xy 3.175 -2.54) (xy 4.445 -3.175))
+			)
+			(polyline
+				(pts (xy 4.445 -1.524) (xy 4.445 -3.175))
+			)
+		)
+		(symbol "pnp4_1_1"
+			(pin input line
+				(at 5.08 -0.0 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 0.0 -3.81 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+			(pin input line
+				(at 5.08 -7.62 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "3")
+			)
+			(pin input line
+				(at 5.08 -3.81 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "4")
+			)
+		)
+	)
+	(symbol "polcap"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "C"
+			(at 1.905 -0.635 0)
+		)
+		(symbol "polcap_0_1"
+			(polyline
+				(pts (xy 1.27 -2.794) (xy 1.27 -5.08))
+			)
+			(polyline
+				(pts (xy 1.27 -0.0) (xy 1.27 -2.159))
+			)
+			(polyline
+				(pts (xy 0.635 -0.889) (xy 0.635 -1.524))
+			)
+			(polyline
+				(pts (xy 0.254 -1.27) (xy 0.889 -1.27))
+			)
+			(polyline
+				(pts (xy 0.0 -2.159) (xy 2.54 -2.159))
+			)
+			(arc
+				(start -1.27 -2.794)
+			)
+		)
+		(symbol "polcap_1_1"
+			(pin input line
+				(at 1.27 -0.0 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 1.27 -5.08 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+		)
+	)
+	(symbol "res"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "R"
+			(at 2.794 -3.175 0)
+		)
+		(symbol "res_0_1"
+			(polyline
+				(pts (xy 1.27 -6.985) (xy 1.27 -7.62))
+			)
+			(polyline
+				(pts (xy 0.0 -6.35) (xy 1.27 -6.985))
+			)
+			(polyline
+				(pts (xy 2.54 -5.08) (xy 0.0 -6.35))
+			)
+			(polyline
+				(pts (xy 0.0 -3.81) (xy 2.54 -5.08))
+			)
+			(polyline
+				(pts (xy 2.54 -2.54) (xy 0.0 -3.81))
+			)
+			(polyline
+				(pts (xy 1.27 -1.27) (xy 1.27 -1.905))
+			)
+			(polyline
+				(pts (xy 1.27 -1.905) (xy 2.54 -2.54))
+			)
+		)
+		(symbol "res_1_1"
+			(pin input line
+				(at 1.27 -1.27 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 1.27 -7.62 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+		)
+	)
+	(symbol "res2"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "R"
+			(at 2.794 -1.27 0)
+		)
+		(symbol "res2_0_1"
+			(polyline
+				(pts (xy 1.27 -0.0) (xy 2.54 -0.254))
+			)
+			(polyline
+				(pts (xy 0.0 -0.889) (xy 2.54 -0.254))
+			)
+			(polyline
+				(pts (xy 0.0 -0.889) (xy 2.54 -1.524))
+			)
+			(polyline
+				(pts (xy 0.0 -2.159) (xy 2.54 -1.524))
+			)
+			(polyline
+				(pts (xy 0.0 -2.159) (xy 2.54 -2.794))
+			)
+			(polyline
+				(pts (xy 0.0 -3.429) (xy 2.54 -2.794))
+			)
+			(polyline
+				(pts (xy 0.0 -3.429) (xy 2.54 -4.064))
+			)
+			(polyline
+				(pts (xy 0.0 -4.699) (xy 2.54 -4.064))
+			)
+			(polyline
+				(pts (xy 0.0 -4.699) (xy 1.27 -5.08))
+			)
+		)
+		(symbol "res2_1_1"
+			(pin input line
+				(at 1.27 -0.0 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 1.27 -5.08 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+		)
+	)
+	(symbol "schottky"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "D"
+			(at 1.905 -0.0 0)
+		)
+		(symbol "schottky_0_1"
+			(polyline
+				(pts (xy 0.0 -2.794) (xy 0.254 -2.794))
+			)
+			(polyline
+				(pts (xy 0.0 -3.429) (xy 0.0 -2.794))
+			)
+			(polyline
+				(pts (xy 0.0 -3.429) (xy 2.54 -3.429))
+			)
+			(polyline
+				(pts (xy 2.54 -3.429) (xy 2.54 -4.064))
+			)
+			(polyline
+				(pts (xy 2.54 -4.064) (xy 2.159 -4.064))
+			)
+			(polyline
+				(pts (xy 0.0 -1.524) (xy 2.54 -1.524))
+			)
+			(polyline
+				(pts (xy 2.54 -1.524) (xy 1.27 -3.429))
+			)
+			(polyline
+				(pts (xy 0.0 -1.524) (xy 1.27 -3.429))
+			)
+			(polyline
+				(pts (xy 1.27 -0.0) (xy 1.27 -1.524))
+			)
+			(polyline
+				(pts (xy 1.27 -3.429) (xy 1.27 -5.08))
+			)
+		)
+		(symbol "schottky_1_1"
+			(pin input line
+				(at 1.27 -0.0 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 1.27 -5.08 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+		)
+	)
+	(symbol "sw"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "S"
+			(at 1.905 -1.27 0)
+		)
+		(symbol "sw_0_1"
+			(polyline
+				(pts (xy -3.81 -2.54) (xy -2.54 -2.54))
+			)
+			(polyline
+				(pts (xy -2.54 -2.54) (xy -1.905 -2.794))
+			)
+			(polyline
+				(pts (xy -3.81 -6.35) (xy -2.54 -6.35))
+			)
+			(polyline
+				(pts (xy -2.54 -6.35) (xy -1.905 -5.969))
+			)
+			(polyline
+				(pts (xy 0.0 -7.62) (xy 0.0 -5.715))
+			)
+			(polyline
+				(pts (xy 0.0 -1.27) (xy 0.0 -2.794))
+			)
+			(polyline
+				(pts (xy 0.0 -2.794) (xy 1.524 -4.699))
+			)
+			(polyline
+				(pts (xy -3.81 -5.715) (xy -3.175 -5.715))
+			)
+			(polyline
+				(pts (xy -3.556 -5.969) (xy -3.556 -5.334))
+			)
+			(polyline
+				(pts (xy -3.81 -3.175) (xy -3.175 -3.175))
+			)
+			(circle
+				(center 0.0 -4.445)
+				(radius 2.54)
+			)
+			(circle
+				(center -0.0635 -5.588)
+				(radius 0.254)
+			)
+			(circle
+				(center 1.5875 -4.699)
+				(radius 0.254)
+			)
+		)
+		(symbol "sw_1_1"
+			(pin input line
+				(at 0.0 -1.27 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 0.0 -7.62 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+			(pin input line
+				(at -3.81 -6.35 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "3")
+			)
+			(pin input line
+				(at -3.81 -2.54 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "4")
+			)
+		)
+	)
+	(symbol "tline"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "T"
+			(at 0.0 1.27 0)
+		)
+		(symbol "tline_0_1"
+			(polyline
+				(pts (xy -3.81 -1.27) (xy 3.81 -1.27))
+			)
+			(polyline
+				(pts (xy -2.54 -0.635) (xy 2.54 -0.635))
+			)
+			(polyline
+				(pts (xy -2.54 0.635) (xy 2.54 0.635))
+			)
+			(polyline
+				(pts (xy -3.81 1.27) (xy 3.81 1.27))
+			)
+			(polyline
+				(pts (xy -3.81 -1.27) (xy -2.54 -0.635))
+			)
+			(polyline
+				(pts (xy -3.81 1.27) (xy -2.54 0.635))
+			)
+			(polyline
+				(pts (xy 3.81 -1.27) (xy 2.54 -0.635))
+			)
+			(polyline
+				(pts (xy 3.81 1.27) (xy 2.54 0.635))
+			)
+		)
+		(symbol "tline_1_1"
+			(pin input line
+				(at -3.81 1.27 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at -3.81 -1.27 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+			(pin input line
+				(at 3.81 1.27 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "3")
+			)
+			(pin input line
+				(at 3.81 -1.27 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "4")
+			)
+		)
+	)
+	(symbol "varactor"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "D"
+			(at 1.905 -0.0 0)
+		)
+		(symbol "varactor_0_1"
+			(polyline
+				(pts (xy 0.0 -2.794) (xy 2.54 -2.794))
+			)
+			(polyline
+				(pts (xy 0.0 -3.429) (xy 2.54 -3.429))
+			)
+			(polyline
+				(pts (xy 0.0 -1.27) (xy 2.54 -1.27))
+			)
+			(polyline
+				(pts (xy 2.54 -1.27) (xy 1.27 -2.794))
+			)
+			(polyline
+				(pts (xy 0.0 -1.27) (xy 1.27 -2.794))
+			)
+			(polyline
+				(pts (xy 1.27 -0.0) (xy 1.27 -1.27))
+			)
+			(polyline
+				(pts (xy 1.27 -3.429) (xy 1.27 -5.08))
+			)
+		)
+		(symbol "varactor_1_1"
+			(pin input line
+				(at 1.27 -0.0 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 1.27 -5.08 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+		)
+	)
+	(symbol "voltage"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "V"
+			(at 1.905 -1.27 0)
+		)
+		(symbol "voltage_0_1"
+			(polyline
+				(pts (xy -0.635 -2.794) (xy 0.635 -2.794))
+			)
+			(polyline
+				(pts (xy -0.635 -5.969) (xy 0.635 -5.969))
+			)
+			(polyline
+				(pts (xy 0.0 -2.159) (xy 0.0 -3.429))
+			)
+			(polyline
+				(pts (xy 0.0 -7.62) (xy 0.0 -6.985))
+			)
+			(polyline
+				(pts (xy 0.0 -1.27) (xy 0.0 -1.905))
+			)
+			(circle
+				(center 0.0 -4.445)
+				(radius 2.54)
+			)
+		)
+		(symbol "voltage_1_1"
+			(pin input line
+				(at 0.0 -1.27 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 0.0 -7.62 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+		)
+	)
+	(symbol "vsin"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "V"
+			(at 1.905 -1.27 0)
+		)
+		(symbol "vsin_0_1"
+			(polyline
+				(pts (xy -0.635 -2.794) (xy 0.635 -2.794))
+			)
+			(polyline
+				(pts (xy -0.635 -5.969) (xy 0.635 -5.969))
+			)
+			(polyline
+				(pts (xy 0.0 -2.159) (xy 0.0 -3.429))
+			)
+			(polyline
+				(pts (xy 0.0 -7.62) (xy 0.0 -6.985))
+			)
+			(polyline
+				(pts (xy 0.0 -1.27) (xy 0.0 -1.905))
+			)
+			(circle
+				(center 0.0 -4.445)
+				(radius 2.54)
+			)
+		)
+		(symbol "vsin_1_1"
+			(pin input line
+				(at 0.0 -1.27 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 0.0 -7.62 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+		)
+	)
+	(symbol "vac"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "V"
+			(at 1.905 -1.27 0)
+		)
+		(symbol "vac_0_1"
+			(polyline
+				(pts (xy -0.635 -2.794) (xy 0.635 -2.794))
+			)
+			(polyline
+				(pts (xy -0.635 -5.969) (xy 0.635 -5.969))
+			)
+			(polyline
+				(pts (xy 0.0 -2.159) (xy 0.0 -3.429))
+			)
+			(polyline
+				(pts (xy 0.0 -7.62) (xy 0.0 -6.985))
+			)
+			(polyline
+				(pts (xy 0.0 -1.27) (xy 0.0 -1.905))
+			)
+			(circle
+				(center 0.0 -4.445)
+				(radius 2.54)
+			)
+		)
+		(symbol "vac_1_1"
+			(pin input line
+				(at 0.0 -1.27 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 0.0 -7.62 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+		)
+	)
+	(symbol "vpulse"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "V"
+			(at 1.905 -1.27 0)
+		)
+		(symbol "vpulse_0_1"
+			(polyline
+				(pts (xy -0.635 -2.794) (xy 0.635 -2.794))
+			)
+			(polyline
+				(pts (xy -0.635 -5.969) (xy 0.635 -5.969))
+			)
+			(polyline
+				(pts (xy 0.0 -2.159) (xy 0.0 -3.429))
+			)
+			(polyline
+				(pts (xy 0.0 -7.62) (xy 0.0 -6.985))
+			)
+			(polyline
+				(pts (xy 0.0 -1.27) (xy 0.0 -1.905))
+			)
+			(circle
+				(center 0.0 -4.445)
+				(radius 2.54)
+			)
+		)
+		(symbol "vpulse_1_1"
+			(pin input line
+				(at 0.0 -1.27 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 0.0 -7.62 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+		)
+	)
+	(symbol "zener"
+		(pin_numbers
+			(hide yes)
+		)
+		(property "Reference" "D"
+			(at 1.905 -0.0 0)
+		)
+		(symbol "zener_0_1"
+			(polyline
+				(pts (xy 0.0 -3.429) (xy -0.381 -3.81))
+			)
+			(polyline
+				(pts (xy 2.54 -3.429) (xy 2.794 -3.175))
+			)
+			(polyline
+				(pts (xy 0.0 -3.429) (xy 2.54 -3.429))
+			)
+			(polyline
+				(pts (xy 0.0 -1.524) (xy 2.54 -1.524))
+			)
+			(polyline
+				(pts (xy 2.54 -1.524) (xy 1.27 -3.429))
+			)
+			(polyline
+				(pts (xy 0.0 -1.524) (xy 1.27 -3.429))
+			)
+			(polyline
+				(pts (xy 1.27 -0.0) (xy 1.27 -1.524))
+			)
+			(polyline
+				(pts (xy 1.27 -3.429) (xy 1.27 -5.08))
+			)
+		)
+		(symbol "zener_1_1"
+			(pin input line
+				(at 1.27 -0.0 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "1")
+			)
+			(pin input line
+				(at 1.27 -5.08 0)
+				(length 0.635)
+				(hide yes)
+				(name "~")
+				(number "2")
+			)
+		)
+	)
+)

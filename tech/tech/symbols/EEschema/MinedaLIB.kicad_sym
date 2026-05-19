@@ -1,20 +1,14 @@
 (kicad_symbol_lib
-	(version 20251024)
+	(version 20231120)
 	(generator "kicad_symbol_editor")
-	(generator_version "10.0")
+	(generator_version "8.0")
 	(symbol "CAP_MIN"
-		(pin_numbers
-			(hide yes)
-		)
+		(pin_numbers hide)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
-		(duplicate_pin_numbers_are_jumpers no)
 		(property "Reference" "C"
 			(at 2.54 0 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -23,8 +17,6 @@
 		)
 		(property "Value" ""
 			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -33,41 +25,33 @@
 		)
 		(property "Footprint" ""
 			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Sim.Params" "1pF"
 			(at 2.794 -4.826 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -76,9 +60,7 @@
 		)
 		(symbol "CAP_MIN_0_1"
 			(polyline
-				(pts
-					(xy -1.778 -3.81) (xy -1.778 -3.175)
-				)
+				(pts (xy -1.778 -3.81) (xy -1.778 -3.175))
 				(stroke
 					(width 0)
 					(type default)
@@ -88,9 +70,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 0 0) (xy 0 -2.667)
-				)
+				(pts (xy 0 0) (xy 0 -2.667))
 				(stroke
 					(width 0)
 					(type default)
@@ -100,9 +80,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 0 -3.81) (xy 0 -7.62)
-				)
+				(pts (xy 0 -3.81) (xy 0 -7.62))
 				(stroke
 					(width 0)
 					(type default)
@@ -112,9 +90,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 1.27 -2.667) (xy -1.27 -2.667)
-				)
+				(pts (xy 1.27 -2.667) (xy -1.27 -2.667))
 				(stroke
 					(width 0)
 					(type default)
@@ -124,9 +100,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 1.651 -3.175) (xy 1.651 -3.175)
-				)
+				(pts (xy 1.651 -3.175) (xy 1.651 -3.175))
 				(stroke
 					(width 0)
 					(type default)
@@ -136,9 +110,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 1.651 -3.175) (xy 1.651 -3.81)
-				)
+				(pts (xy 1.651 -3.175) (xy 1.651 -3.81))
 				(stroke
 					(width 0)
 					(type default)
@@ -148,9 +120,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 1.651 -3.81) (xy -1.778 -3.81)
-				)
+				(pts (xy 1.651 -3.81) (xy -1.778 -3.81))
 				(stroke
 					(width 0)
 					(type default)
@@ -164,57 +134,42 @@
 			(pin input line
 				(at 0 0 0)
 				(length 0.635)
-				(hide yes)
-				(name ""
-					(effects
+				hide
+				(name "~" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
-				(number "1"
-					(effects
+					))
+				(number "1" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
+					))
 			)
 			(pin input line
 				(at 0 -7.62 0)
 				(length 0.635)
-				(hide yes)
-				(name ""
-					(effects
+				hide
+				(name "~" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
-				(number "2"
-					(effects
+					))
+				(number "2" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
+					))
 			)
 		)
-		(embedded_fonts no)
 	)
 	(symbol "HR_POLY_MIN"
-		(pin_numbers
-			(hide yes)
-		)
+		(pin_numbers hide)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
-		(duplicate_pin_numbers_are_jumpers no)
 		(property "Reference" "R"
 			(at 2.54 0 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -223,8 +178,6 @@
 		)
 		(property "Value" ""
 			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -233,41 +186,33 @@
 		)
 		(property "Footprint" ""
 			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Sim.Params" "1 K"
 			(at 3.81 -4.064 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -276,9 +221,7 @@
 		)
 		(symbol "HR_POLY_MIN_0_1"
 			(polyline
-				(pts
-					(xy -1.27 -2.667) (xy 1.27 -1.905)
-				)
+				(pts (xy -1.27 -2.667) (xy 1.27 -1.905))
 				(stroke
 					(width 0)
 					(type default)
@@ -288,9 +231,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy -1.27 -4.191) (xy 1.27 -3.302)
-				)
+				(pts (xy -1.27 -4.191) (xy 1.27 -3.302))
 				(stroke
 					(width 0)
 					(type default)
@@ -300,9 +241,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy -1.27 -5.715) (xy 1.27 -4.826)
-				)
+				(pts (xy -1.27 -5.715) (xy 1.27 -4.826))
 				(stroke
 					(width 0)
 					(type default)
@@ -312,9 +251,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 0 -1.397) (xy 0 0)
-				)
+				(pts (xy 0 -1.397) (xy 0 0))
 				(stroke
 					(width 0)
 					(type default)
@@ -324,9 +261,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 0 -5.207) (xy 0 -2.286)
-				)
+				(pts (xy 0 -5.207) (xy 0 -2.286))
 				(stroke
 					(width 0)
 					(type default)
@@ -336,9 +271,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 0 -6.096) (xy -1.27 -5.715)
-				)
+				(pts (xy 0 -6.096) (xy -1.27 -5.715))
 				(stroke
 					(width 0)
 					(type default)
@@ -348,9 +281,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 0 -7.62) (xy 0 -6.096)
-				)
+				(pts (xy 0 -7.62) (xy 0 -6.096))
 				(stroke
 					(width 0)
 					(type default)
@@ -360,9 +291,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 1.27 -1.905) (xy 0 -1.397)
-				)
+				(pts (xy 1.27 -1.905) (xy 0 -1.397))
 				(stroke
 					(width 0)
 					(type default)
@@ -372,9 +301,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 1.27 -3.302) (xy -1.27 -2.667)
-				)
+				(pts (xy 1.27 -3.302) (xy -1.27 -2.667))
 				(stroke
 					(width 0)
 					(type default)
@@ -384,9 +311,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 1.27 -4.826) (xy -1.27 -4.191)
-				)
+				(pts (xy 1.27 -4.826) (xy -1.27 -4.191))
 				(stroke
 					(width 0)
 					(type default)
@@ -400,57 +325,42 @@
 			(pin input line
 				(at 0 0 0)
 				(length 0.635)
-				(hide yes)
-				(name ""
-					(effects
+				hide
+				(name "~" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
-				(number "1"
-					(effects
+					))
+				(number "1" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
+					))
 			)
 			(pin input line
 				(at 0 -7.62 0)
 				(length 0.635)
-				(hide yes)
-				(name ""
-					(effects
+				hide
+				(name "~" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
-				(number "2"
-					(effects
+					))
+				(number "2" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
+					))
 			)
 		)
-		(embedded_fonts no)
 	)
 	(symbol "NDIO_MIN"
-		(pin_numbers
-			(hide yes)
-		)
+		(pin_numbers hide)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
-		(duplicate_pin_numbers_are_jumpers no)
 		(property "Reference" "D"
 			(at 3.81 -2.54 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -459,8 +369,6 @@
 		)
 		(property "Value" ""
 			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -469,42 +377,34 @@
 		)
 		(property "Footprint" ""
 			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(symbol "NDIO_MIN_0_1"
 			(polyline
-				(pts
-					(xy -1.27 -2.54) (xy 1.27 -2.54)
-				)
+				(pts (xy -1.27 -2.54) (xy 1.27 -2.54))
 				(stroke
 					(width 0)
 					(type default)
@@ -514,9 +414,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy -1.27 -4.445) (xy 1.27 -4.445)
-				)
+				(pts (xy -1.27 -4.445) (xy 1.27 -4.445))
 				(stroke
 					(width 0)
 					(type default)
@@ -526,9 +424,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 0 -2.54) (xy 0 0)
-				)
+				(pts (xy 0 -2.54) (xy 0 0))
 				(stroke
 					(width 0)
 					(type default)
@@ -538,9 +434,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 0 -4.445) (xy -1.27 -2.54)
-				)
+				(pts (xy 0 -4.445) (xy -1.27 -2.54))
 				(stroke
 					(width 0)
 					(type default)
@@ -550,9 +444,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 0 -7.62) (xy 0 -4.445)
-				)
+				(pts (xy 0 -7.62) (xy 0 -4.445))
 				(stroke
 					(width 0)
 					(type default)
@@ -562,9 +454,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 1.27 -2.54) (xy 0 -4.445)
-				)
+				(pts (xy 1.27 -2.54) (xy 0 -4.445))
 				(stroke
 					(width 0)
 					(type default)
@@ -578,57 +468,42 @@
 			(pin input line
 				(at 0 0 0)
 				(length 0.635)
-				(hide yes)
-				(name ""
-					(effects
+				hide
+				(name "~" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
-				(number "1"
-					(effects
+					))
+				(number "1" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
+					))
 			)
 			(pin input line
 				(at 0 -7.62 0)
 				(length 0.635)
-				(hide yes)
-				(name ""
-					(effects
+				hide
+				(name "~" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
-				(number "2"
-					(effects
+					))
+				(number "2" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
+					))
 			)
 		)
-		(embedded_fonts no)
 	)
 	(symbol "NMOS_ESD_MIN"
-		(pin_numbers
-			(hide yes)
-		)
+		(pin_numbers hide)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
-		(duplicate_pin_numbers_are_jumpers no)
 		(property "Reference" "X"
 			(at 3.81 -2.54 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -637,8 +512,6 @@
 		)
 		(property "Value" ""
 			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -647,42 +520,34 @@
 		)
 		(property "Footprint" ""
 			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(symbol "NMOS_ESD_MIN_0_1"
 			(polyline
-				(pts
-					(xy 0 0) (xy 10.16 0)
-				)
+				(pts (xy 0 0) (xy 10.16 0))
 				(stroke
 					(width 0)
 					(type default)
@@ -692,9 +557,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 0 -15.24) (xy 0 0)
-				)
+				(pts (xy 0 -15.24) (xy 0 0))
 				(stroke
 					(width 0)
 					(type default)
@@ -704,9 +567,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 2.54 -5.08) (xy 7.62 -5.08)
-				)
+				(pts (xy 2.54 -5.08) (xy 7.62 -5.08))
 				(stroke
 					(width 0)
 					(type default)
@@ -716,9 +577,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 2.54 -10.16) (xy 7.62 -10.16)
-				)
+				(pts (xy 2.54 -10.16) (xy 7.62 -10.16))
 				(stroke
 					(width 0)
 					(type default)
@@ -728,9 +587,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 5.08 0) (xy 5.08 -5.08)
-				)
+				(pts (xy 5.08 0) (xy 5.08 -5.08))
 				(stroke
 					(width 0)
 					(type default)
@@ -740,9 +597,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 5.08 -5.08) (xy 2.54 -10.16)
-				)
+				(pts (xy 5.08 -5.08) (xy 2.54 -10.16))
 				(stroke
 					(width 0)
 					(type default)
@@ -752,9 +607,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 5.08 -15.24) (xy 5.08 -10.16)
-				)
+				(pts (xy 5.08 -15.24) (xy 5.08 -10.16))
 				(stroke
 					(width 0)
 					(type default)
@@ -764,9 +617,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 7.62 -10.16) (xy 5.08 -5.08)
-				)
+				(pts (xy 7.62 -10.16) (xy 5.08 -5.08))
 				(stroke
 					(width 0)
 					(type default)
@@ -776,9 +627,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 10.16 0) (xy 10.16 -15.24)
-				)
+				(pts (xy 10.16 0) (xy 10.16 -15.24))
 				(stroke
 					(width 0)
 					(type default)
@@ -788,9 +637,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 10.16 -15.24) (xy 0 -15.24)
-				)
+				(pts (xy 10.16 -15.24) (xy 0 -15.24))
 				(stroke
 					(width 0)
 					(type default)
@@ -804,57 +651,42 @@
 			(pin input line
 				(at 5.08 0 180)
 				(length 0.635)
-				(hide yes)
-				(name ""
-					(effects
+				hide
+				(name "~" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
-				(number "1"
-					(effects
+					))
+				(number "1" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
+					))
 			)
 			(pin input line
 				(at 5.08 -15.24 180)
 				(length 0.635)
-				(hide yes)
-				(name ""
-					(effects
+				hide
+				(name "~" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
-				(number "2"
-					(effects
+					))
+				(number "2" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
+					))
 			)
 		)
-		(embedded_fonts no)
 	)
 	(symbol "NMOS_MIN"
-		(pin_numbers
-			(hide yes)
-		)
+		(pin_numbers hide)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
-		(duplicate_pin_numbers_are_jumpers no)
 		(property "Reference" "M"
 			(at 6.858 4.318 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -863,52 +695,42 @@
 		)
 		(property "Value" ""
 			(at 3.556 -4.572 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
 			(effects
 				(font
 					(size 0.635 0.635)
 				)
+				(hide yes)
 			)
 		)
 		(property "Footprint" ""
 			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Sim.Params" "nch l=1u w=2u"
 			(at 1.016 -5.08 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 0.635 0.635)
@@ -917,9 +739,7 @@
 		)
 		(symbol "NMOS_MIN_0_1"
 			(polyline
-				(pts
-					(xy 0 0) (xy 1.905 0)
-				)
+				(pts (xy 0 0) (xy 1.905 0))
 				(stroke
 					(width 0)
 					(type default)
@@ -929,9 +749,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 1.905 1.905) (xy 1.905 -1.905)
-				)
+				(pts (xy 1.905 1.905) (xy 1.905 -1.905))
 				(stroke
 					(width 0)
 					(type default)
@@ -941,9 +759,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 2.54 1.778) (xy 5.08 1.778)
-				)
+				(pts (xy 2.54 1.778) (xy 5.08 1.778))
 				(stroke
 					(width 0)
 					(type default)
@@ -953,9 +769,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 2.54 0) (xy 5.08 0)
-				)
+				(pts (xy 2.54 0) (xy 5.08 0))
 				(stroke
 					(width 0)
 					(type default)
@@ -965,9 +779,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 2.54 -1.651) (xy 3.937 -1.651)
-				)
+				(pts (xy 2.54 -1.651) (xy 3.937 -1.651))
 				(stroke
 					(width 0)
 					(type default)
@@ -977,9 +789,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 2.54 -2.54) (xy 2.54 2.54)
-				)
+				(pts (xy 2.54 -2.54) (xy 2.54 2.54))
 				(stroke
 					(width 0)
 					(type default)
@@ -989,9 +799,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 3.937 -1.27) (xy 5.08 -1.651)
-				)
+				(pts (xy 3.937 -1.27) (xy 5.08 -1.651))
 				(stroke
 					(width 0)
 					(type default)
@@ -1001,9 +809,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 3.937 -2.159) (xy 3.937 -1.27)
-				)
+				(pts (xy 3.937 -2.159) (xy 3.937 -1.27))
 				(stroke
 					(width 0)
 					(type default)
@@ -1013,9 +819,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 5.08 1.778) (xy 5.08 3.81)
-				)
+				(pts (xy 5.08 1.778) (xy 5.08 3.81))
 				(stroke
 					(width 0)
 					(type default)
@@ -1025,9 +829,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 5.08 -1.651) (xy 3.937 -2.159)
-				)
+				(pts (xy 5.08 -1.651) (xy 3.937 -2.159))
 				(stroke
 					(width 0)
 					(type default)
@@ -1037,9 +839,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 5.08 -1.651) (xy 5.08 -3.81)
-				)
+				(pts (xy 5.08 -1.651) (xy 5.08 -3.81))
 				(stroke
 					(width 0)
 					(type default)
@@ -1053,95 +853,72 @@
 			(pin input line
 				(at 5.08 3.81 0)
 				(length 0.635)
-				(hide yes)
-				(name ""
-					(effects
+				hide
+				(name "~" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
-				(number "1"
-					(effects
+					))
+				(number "1" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
+					))
 			)
 			(pin input line
 				(at 0 0 0)
 				(length 0.635)
-				(hide yes)
-				(name ""
-					(effects
+				hide
+				(name "~" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
-				(number "2"
-					(effects
+					))
+				(number "2" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
+					))
 			)
 			(pin input line
 				(at 5.08 -3.81 0)
 				(length 0.635)
-				(hide yes)
-				(name ""
-					(effects
+				hide
+				(name "~" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
-				(number "3"
-					(effects
+					))
+				(number "3" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
+					))
 			)
 			(pin input line
 				(at 5.08 0 0)
 				(length 0.635)
-				(hide yes)
-				(name ""
-					(effects
+				hide
+				(name "~" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
-				(number "4"
-					(effects
+					))
+				(number "4" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
+					))
 			)
 		)
-		(embedded_fonts no)
 	)
 	(symbol "PDIO_MIN"
-		(pin_numbers
-			(hide yes)
-		)
+		(pin_numbers hide)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
-		(duplicate_pin_numbers_are_jumpers no)
 		(property "Reference" "D"
 			(at 3.81 -2.54 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1150,8 +927,6 @@
 		)
 		(property "Value" ""
 			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1160,42 +935,34 @@
 		)
 		(property "Footprint" ""
 			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(symbol "PDIO_MIN_0_1"
 			(polyline
-				(pts
-					(xy -1.27 -2.54) (xy 1.27 -2.54)
-				)
+				(pts (xy -1.27 -2.54) (xy 1.27 -2.54))
 				(stroke
 					(width 0)
 					(type default)
@@ -1205,9 +972,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy -1.27 -4.445) (xy 1.27 -4.445)
-				)
+				(pts (xy -1.27 -4.445) (xy 1.27 -4.445))
 				(stroke
 					(width 0)
 					(type default)
@@ -1217,9 +982,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 0 -2.54) (xy 0 0)
-				)
+				(pts (xy 0 -2.54) (xy 0 0))
 				(stroke
 					(width 0)
 					(type default)
@@ -1229,9 +992,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 0 -4.445) (xy -1.27 -2.54)
-				)
+				(pts (xy 0 -4.445) (xy -1.27 -2.54))
 				(stroke
 					(width 0)
 					(type default)
@@ -1241,9 +1002,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 0 -7.62) (xy 0 -4.445)
-				)
+				(pts (xy 0 -7.62) (xy 0 -4.445))
 				(stroke
 					(width 0)
 					(type default)
@@ -1253,9 +1012,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 1.27 -2.54) (xy 0 -4.445)
-				)
+				(pts (xy 1.27 -2.54) (xy 0 -4.445))
 				(stroke
 					(width 0)
 					(type default)
@@ -1269,57 +1026,42 @@
 			(pin input line
 				(at 0 0 0)
 				(length 0.635)
-				(hide yes)
-				(name ""
-					(effects
+				hide
+				(name "~" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
-				(number "1"
-					(effects
+					))
+				(number "1" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
+					))
 			)
 			(pin input line
 				(at 0 -7.62 0)
 				(length 0.635)
-				(hide yes)
-				(name ""
-					(effects
+				hide
+				(name "~" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
-				(number "2"
-					(effects
+					))
+				(number "2" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
+					))
 			)
 		)
-		(embedded_fonts no)
 	)
 	(symbol "PMOS_ESD_MIN"
-		(pin_numbers
-			(hide yes)
-		)
+		(pin_numbers hide)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
-		(duplicate_pin_numbers_are_jumpers no)
 		(property "Reference" "X"
 			(at 3.81 -2.54 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1328,8 +1070,6 @@
 		)
 		(property "Value" ""
 			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1338,42 +1078,34 @@
 		)
 		(property "Footprint" ""
 			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(symbol "PMOS_ESD_MIN_0_1"
 			(polyline
-				(pts
-					(xy 0 0) (xy 10.16 0)
-				)
+				(pts (xy 0 0) (xy 10.16 0))
 				(stroke
 					(width 0)
 					(type default)
@@ -1383,9 +1115,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 0 -15.24) (xy 0 0)
-				)
+				(pts (xy 0 -15.24) (xy 0 0))
 				(stroke
 					(width 0)
 					(type default)
@@ -1395,9 +1125,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 2.54 -5.08) (xy 7.62 -5.08)
-				)
+				(pts (xy 2.54 -5.08) (xy 7.62 -5.08))
 				(stroke
 					(width 0)
 					(type default)
@@ -1407,9 +1135,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 2.54 -10.16) (xy 7.62 -10.16)
-				)
+				(pts (xy 2.54 -10.16) (xy 7.62 -10.16))
 				(stroke
 					(width 0)
 					(type default)
@@ -1419,9 +1145,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 5.08 0) (xy 5.08 -5.08)
-				)
+				(pts (xy 5.08 0) (xy 5.08 -5.08))
 				(stroke
 					(width 0)
 					(type default)
@@ -1431,9 +1155,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 5.08 -5.08) (xy 2.54 -10.16)
-				)
+				(pts (xy 5.08 -5.08) (xy 2.54 -10.16))
 				(stroke
 					(width 0)
 					(type default)
@@ -1443,9 +1165,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 5.08 -15.24) (xy 5.08 -10.16)
-				)
+				(pts (xy 5.08 -15.24) (xy 5.08 -10.16))
 				(stroke
 					(width 0)
 					(type default)
@@ -1455,9 +1175,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 7.62 -10.16) (xy 5.08 -5.08)
-				)
+				(pts (xy 7.62 -10.16) (xy 5.08 -5.08))
 				(stroke
 					(width 0)
 					(type default)
@@ -1467,9 +1185,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 10.16 0) (xy 10.16 -15.24)
-				)
+				(pts (xy 10.16 0) (xy 10.16 -15.24))
 				(stroke
 					(width 0)
 					(type default)
@@ -1479,9 +1195,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 10.16 -15.24) (xy 0 -15.24)
-				)
+				(pts (xy 10.16 -15.24) (xy 0 -15.24))
 				(stroke
 					(width 0)
 					(type default)
@@ -1495,57 +1209,42 @@
 			(pin input line
 				(at 5.08 0 180)
 				(length 0.635)
-				(hide yes)
-				(name ""
-					(effects
+				hide
+				(name "~" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
-				(number "1"
-					(effects
+					))
+				(number "1" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
+					))
 			)
 			(pin input line
 				(at 5.08 -15.24 180)
 				(length 0.635)
-				(hide yes)
-				(name ""
-					(effects
+				hide
+				(name "~" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
-				(number "2"
-					(effects
+					))
+				(number "2" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
+					))
 			)
 		)
-		(embedded_fonts no)
 	)
 	(symbol "PMOS_MIN"
-		(pin_numbers
-			(hide yes)
-		)
+		(pin_numbers hide)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
-		(duplicate_pin_numbers_are_jumpers no)
 		(property "Reference" "M"
 			(at 6.604 4.318 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1554,8 +1253,6 @@
 		)
 		(property "Value" ""
 			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1564,41 +1261,33 @@
 		)
 		(property "Footprint" ""
 			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Sim.Params" "pch l=1um w=6um"
 			(at 1.016 -5.08 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 0.635 0.635)
@@ -1607,9 +1296,7 @@
 		)
 		(symbol "PMOS_MIN_0_1"
 			(polyline
-				(pts
-					(xy 0 0) (xy 1.905 0)
-				)
+				(pts (xy 0 0) (xy 1.905 0))
 				(stroke
 					(width 0)
 					(type default)
@@ -1619,9 +1306,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 1.905 1.905) (xy 1.905 -1.905)
-				)
+				(pts (xy 1.905 1.905) (xy 1.905 -1.905))
 				(stroke
 					(width 0)
 					(type default)
@@ -1631,9 +1316,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 2.54 1.778) (xy 3.683 2.286)
-				)
+				(pts (xy 2.54 1.778) (xy 3.683 2.286))
 				(stroke
 					(width 0)
 					(type default)
@@ -1643,9 +1326,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 2.54 0) (xy 5.08 0)
-				)
+				(pts (xy 2.54 0) (xy 5.08 0))
 				(stroke
 					(width 0)
 					(type default)
@@ -1655,9 +1336,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 2.54 -1.651) (xy 5.08 -1.651)
-				)
+				(pts (xy 2.54 -1.651) (xy 5.08 -1.651))
 				(stroke
 					(width 0)
 					(type default)
@@ -1667,9 +1346,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 2.54 -2.54) (xy 2.54 2.54)
-				)
+				(pts (xy 2.54 -2.54) (xy 2.54 2.54))
 				(stroke
 					(width 0)
 					(type default)
@@ -1679,9 +1356,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 3.683 1.778) (xy 5.08 1.778)
-				)
+				(pts (xy 3.683 1.778) (xy 5.08 1.778))
 				(stroke
 					(width 0)
 					(type default)
@@ -1691,9 +1366,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 3.683 1.397) (xy 2.54 1.778)
-				)
+				(pts (xy 3.683 1.397) (xy 2.54 1.778))
 				(stroke
 					(width 0)
 					(type default)
@@ -1703,9 +1376,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 3.683 1.397) (xy 3.683 2.286)
-				)
+				(pts (xy 3.683 1.397) (xy 3.683 2.286))
 				(stroke
 					(width 0)
 					(type default)
@@ -1715,9 +1386,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 5.08 1.778) (xy 5.08 3.81)
-				)
+				(pts (xy 5.08 1.778) (xy 5.08 3.81))
 				(stroke
 					(width 0)
 					(type default)
@@ -1727,9 +1396,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 5.08 -1.651) (xy 5.08 -3.81)
-				)
+				(pts (xy 5.08 -1.651) (xy 5.08 -3.81))
 				(stroke
 					(width 0)
 					(type default)
@@ -1743,95 +1410,72 @@
 			(pin input line
 				(at 5.08 -3.81 0)
 				(length 0.635)
-				(hide yes)
-				(name ""
-					(effects
+				hide
+				(name "~" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
-				(number "1"
-					(effects
+					))
+				(number "1" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
+					))
 			)
 			(pin input line
 				(at 0 0 0)
 				(length 0.635)
-				(hide yes)
-				(name ""
-					(effects
+				hide
+				(name "~" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
-				(number "2"
-					(effects
+					))
+				(number "2" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
+					))
 			)
 			(pin input line
 				(at 5.08 3.81 0)
 				(length 0.635)
-				(hide yes)
-				(name ""
-					(effects
+				hide
+				(name "~" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
-				(number "3"
-					(effects
+					))
+				(number "3" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
+					))
 			)
 			(pin input line
 				(at 5.08 0 0)
 				(length 0.635)
-				(hide yes)
-				(name ""
-					(effects
+				hide
+				(name "~" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
-				(number "4"
-					(effects
+					))
+				(number "4" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
+					))
 			)
 		)
-		(embedded_fonts no)
 	)
 	(symbol "RES_MIN"
-		(pin_numbers
-			(hide yes)
-		)
+		(pin_numbers hide)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
-		(duplicate_pin_numbers_are_jumpers no)
 		(property "Reference" "R"
 			(at 2.54 0 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1840,8 +1484,6 @@
 		)
 		(property "Value" ""
 			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1850,41 +1492,33 @@
 		)
 		(property "Footprint" ""
 			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Sim.Params" "1 K"
 			(at 3.302 -4.064 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1893,9 +1527,7 @@
 		)
 		(symbol "RES_MIN_0_1"
 			(polyline
-				(pts
-					(xy -1.27 -2.667) (xy 1.27 -1.905)
-				)
+				(pts (xy -1.27 -2.667) (xy 1.27 -1.905))
 				(stroke
 					(width 0)
 					(type default)
@@ -1905,9 +1537,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy -1.27 -4.191) (xy 1.27 -3.302)
-				)
+				(pts (xy -1.27 -4.191) (xy 1.27 -3.302))
 				(stroke
 					(width 0)
 					(type default)
@@ -1917,9 +1547,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy -1.27 -5.715) (xy 1.27 -4.826)
-				)
+				(pts (xy -1.27 -5.715) (xy 1.27 -4.826))
 				(stroke
 					(width 0)
 					(type default)
@@ -1929,9 +1557,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 0 -1.397) (xy 0 0)
-				)
+				(pts (xy 0 -1.397) (xy 0 0))
 				(stroke
 					(width 0)
 					(type default)
@@ -1941,9 +1567,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 0 -6.096) (xy -1.27 -5.715)
-				)
+				(pts (xy 0 -6.096) (xy -1.27 -5.715))
 				(stroke
 					(width 0)
 					(type default)
@@ -1953,9 +1577,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 0 -7.62) (xy 0 -6.096)
-				)
+				(pts (xy 0 -7.62) (xy 0 -6.096))
 				(stroke
 					(width 0)
 					(type default)
@@ -1965,9 +1587,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 1.27 -1.905) (xy 0 -1.397)
-				)
+				(pts (xy 1.27 -1.905) (xy 0 -1.397))
 				(stroke
 					(width 0)
 					(type default)
@@ -1977,9 +1597,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 1.27 -3.302) (xy -1.27 -2.667)
-				)
+				(pts (xy 1.27 -3.302) (xy -1.27 -2.667))
 				(stroke
 					(width 0)
 					(type default)
@@ -1989,9 +1607,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 1.27 -4.826) (xy -1.27 -4.191)
-				)
+				(pts (xy 1.27 -4.826) (xy -1.27 -4.191))
 				(stroke
 					(width 0)
 					(type default)
@@ -2005,57 +1621,42 @@
 			(pin input line
 				(at 0 0 0)
 				(length 0.635)
-				(hide yes)
-				(name ""
-					(effects
+				hide
+				(name "~" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
-				(number "1"
-					(effects
+					))
+				(number "1" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
+					))
 			)
 			(pin input line
 				(at 0 -7.62 0)
 				(length 0.635)
-				(hide yes)
-				(name ""
-					(effects
+				hide
+				(name "~" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
-				(number "2"
-					(effects
+					))
+				(number "2" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
+					))
 			)
 		)
-		(embedded_fonts no)
 	)
 	(symbol "R_POLY_MIN"
-		(pin_numbers
-			(hide yes)
-		)
+		(pin_numbers hide)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(in_pos_files yes)
-		(duplicate_pin_numbers_are_jumpers no)
 		(property "Reference" "R"
 			(at 2.54 0 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2064,8 +1665,6 @@
 		)
 		(property "Value" ""
 			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2074,41 +1673,33 @@
 		)
 		(property "Footprint" ""
 			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Datasheet" ""
 			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Description" ""
 			(at 0 0 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(hide yes)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(hide yes)
 			)
 		)
 		(property "Sim.Params" "1 K"
 			(at 4.064 -4.318 0)
-			(show_name no)
-			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2117,9 +1708,7 @@
 		)
 		(symbol "R_POLY_MIN_0_1"
 			(polyline
-				(pts
-					(xy -1.27 -2.667) (xy 1.27 -1.905)
-				)
+				(pts (xy -1.27 -2.667) (xy 1.27 -1.905))
 				(stroke
 					(width 0)
 					(type default)
@@ -2129,9 +1718,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy -1.27 -4.191) (xy 1.27 -3.302)
-				)
+				(pts (xy -1.27 -4.191) (xy 1.27 -3.302))
 				(stroke
 					(width 0)
 					(type default)
@@ -2141,9 +1728,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy -1.27 -5.715) (xy 1.27 -4.826)
-				)
+				(pts (xy -1.27 -5.715) (xy 1.27 -4.826))
 				(stroke
 					(width 0)
 					(type default)
@@ -2153,9 +1738,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 0 -1.397) (xy 0 0)
-				)
+				(pts (xy 0 -1.397) (xy 0 0))
 				(stroke
 					(width 0)
 					(type default)
@@ -2165,9 +1748,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 0 -2.286) (xy 0 -1.397)
-				)
+				(pts (xy 0 -2.286) (xy 0 -1.397))
 				(stroke
 					(width 0)
 					(type default)
@@ -2177,9 +1758,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 0 -5.207) (xy 0 -6.096)
-				)
+				(pts (xy 0 -5.207) (xy 0 -6.096))
 				(stroke
 					(width 0)
 					(type default)
@@ -2189,9 +1768,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 0 -6.096) (xy -1.27 -5.715)
-				)
+				(pts (xy 0 -6.096) (xy -1.27 -5.715))
 				(stroke
 					(width 0)
 					(type default)
@@ -2201,9 +1778,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 0 -7.62) (xy 0 -6.096)
-				)
+				(pts (xy 0 -7.62) (xy 0 -6.096))
 				(stroke
 					(width 0)
 					(type default)
@@ -2213,9 +1788,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 1.27 -1.905) (xy 0 -1.397)
-				)
+				(pts (xy 1.27 -1.905) (xy 0 -1.397))
 				(stroke
 					(width 0)
 					(type default)
@@ -2225,9 +1798,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 1.27 -3.302) (xy -1.27 -2.667)
-				)
+				(pts (xy 1.27 -3.302) (xy -1.27 -2.667))
 				(stroke
 					(width 0)
 					(type default)
@@ -2237,9 +1808,7 @@
 				)
 			)
 			(polyline
-				(pts
-					(xy 1.27 -4.826) (xy -1.27 -4.191)
-				)
+				(pts (xy 1.27 -4.826) (xy -1.27 -4.191))
 				(stroke
 					(width 0)
 					(type default)
@@ -2253,42 +1822,33 @@
 			(pin input line
 				(at 0 0 0)
 				(length 0.635)
-				(hide yes)
-				(name ""
-					(effects
+				hide
+				(name "~" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
-				(number "1"
-					(effects
+					))
+				(number "1" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
+					))
 			)
 			(pin input line
 				(at 0 -7.62 0)
 				(length 0.635)
-				(hide yes)
-				(name ""
-					(effects
+				hide
+				(name "~" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
-				(number "2"
-					(effects
+					))
+				(number "2" (effects
 						(font
 							(size 1.27 1.27)
 						)
-					)
-				)
+					))
 			)
 		)
-		(embedded_fonts no)
 	)
 )
