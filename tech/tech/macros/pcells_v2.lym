@@ -16,7 +16,7 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: cp932
-# OpenRule1um_v2 PCells v2.98 Feb. 9th, 2026 copy right by S. Moriyama (Anagix Corporation)
+# OpenRule1um_v2 PCells v2.99 Aug. 31st, 2026 copy right by S. Moriyama (Anagix Corporation)
 #   based on OpenRule1um v1.97 Sep. 20, 2021 copy left by S. Moriyama (Anagix Corporation)
 #
 # Naming convention
@@ -777,19 +777,27 @@ module OpenRule1um_v2
 
   class Nsub_filler &lt; MinedaFillBox
     def produce_impl
+      @kicad = ''
+      vs = (4.0.um/layout.dbu).to_i
       nsubcont_index = library_cell('nsubcont', 'OpenRule1um_Basic', layout) 
       area = [0, 0, (l/layout.dbu).to_i, (w/layout.dbu).to_i]
       fill_area(area,  (4.0/layout.dbu).to_i, nil){|x, y|
         insert_cell nsubcont_index, x, y
+        @kicad &amp;&amp; fill_none_kicad_layer('B.CrtYd', Box.new(vs).move(x, y))
       }
+      @kicad &amp;&amp; fill_none_kicad_layer('F.CrtYd', Box.new(0, 0, (l/layout.dbu).to_i, (w/layout.dbu).to_i))
+      generate_kicad_device l, w, 0
     end
   end
 
   class Fill_box &lt;  MinedaFillBox
     def produce_impl
+      @kicad = ''
       narea_index = get_layer_index 'Narea'
       area = [0, 0, l/layout.dbu, w/layout.dbu]
       fill_area(area, 0, narea_index)
+      @kicad &amp;&amp; fill_none_kicad_layer('F.CrtYd', Box.new(0, 0, (l/layout.dbu).to_i, (w/layout.dbu).to_i))
+      generate_kicad_device l, w, 0
     end
   end
   
