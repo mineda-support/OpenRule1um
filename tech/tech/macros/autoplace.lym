@@ -20,7 +20,12 @@
   include RBA
   layout = MinedaAutoPlace.new(pcell_lib: 'PCells', res: $res ||'HR_poly', cap: $cap || 'Pdiff_cap',
                                             grid: $grid || 1, xscale: $xscale || 200, yscale: $yscale || 200,
-                                            wmax: $wmax || 40 )
+                                            wmax: $wmax || 40, 
+                                            params: $params  || {'C1' =&gt; {l: 19, w: 18.5}, 
+                                            'R1' =&gt; {l: 20, w: 8},
+                                            'R2' =&gt; {l: 40, w: 8},
+                                            'R3' =&gt; {l: 20, w: 8}}
+                                            )
   layout.autoplace 
 
 end
