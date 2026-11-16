@@ -16,7 +16,7 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: cp932
-# OpenRule1um_v2 PCells v2.99 Aug. 31st, 2026 copy right by S. Moriyama (Anagix Corporation)
+# OpenRule1um_v2 PCells v3.0 Nov. 16, 2026 copy right by S. Moriyama (Anagix Corporation)
 #   based on OpenRule1um v1.97 Sep. 20, 2021 copy left by S. Moriyama (Anagix Corporation)
 #
 # Naming convention
@@ -258,6 +258,7 @@ module OpenRule1um_v2
     end
     
     def produce_impl_core hpol_layer=nil
+      @kicad = ''
       rw = (w/layout.dbu).to_i
       rl = (l/layout.dbu).to_i
       s = 2.0.um # via size (fixed)
@@ -300,8 +301,9 @@ module OpenRule1um_v2
           points = [Point::new(offset, vs), Point::new(offset, vs/2+r)]
           cell.shapes(pol_index).insert(Path::new(points, rw, vs, vs))
           cell.shapes(res_index).insert(Path::new(points, rw, vs/4, vs/4))
-          [[offset, vs/2], [offset, r+vs]].each{|x, y|
-            insert_via_pcont via_index, pcont_index, x-juts/2, y, rw, vs
+          @kicad &amp;&amp; passive_shape_to_kicad(Box.new(*path2box(points, rw)))
+          [[offset, vs/2, 1], [offset, r+vs, 2]].each{|x, y, kicad_pad|
+            insert_via_pcont via_index, pcont_index, x-juts/2, y, rw, vs, kicad_pad
             cell.shapes(m1_index).insert(Box::new(x-rw/2, y-vs/2, x+rw/2, y+vs/2))
             cell.shapes(m2_index).insert(Box::new(x-rw/2, y-vs/2, x+rw/2, y+vs/2))
           }
@@ -313,8 +315,9 @@ module OpenRule1um_v2
           points = [Point::new(offset, vs+(sl-r)), Point::new(offset, vs/2+sl)]
           cell.shapes(pol_index).insert(Path::new(points, rw, vs, vs))
           cell.shapes(res_index).insert(Path::new(points, rw, vs/4, vs/4))
+          @kicad &amp;&amp; passive_shape_to_kicad(Box.new(points, rw, vs/4, vs/4))
           [[offset, vs/2+(sl-r)], [offset, sl+vs]].each{|x, y|
-            insert_via_pcont via_index, pcont_index, x+juts/2, y, rw, vs
+            insert_via_pcont via_index, pcont_index, x+juts/2, y, rw, vs, kicad_pad
             cell.shapes(m1_index).insert(Box::new(x-rw/2, y-vs/2, x+rw/2, y+vs/2))
             cell.shapes(m2_index).insert(Box::new(x-rw/2, y-vs/2, x+rw/2, y+vs/2))
           }
@@ -329,8 +332,10 @@ module OpenRule1um_v2
         hpol_index =  get_layer_index 'HPOL'
         u5 = (5.0.um/layout.dbu).to_i
         cell.shapes(hpol_index).insert(Box.new(vs/2-rw/2 -u5 -juts, -u5, prev_x+rw/2 + u5 +juts, sl+u5+vs+vs/2))
+        @kicad &amp;&amp; fill_none_kicad_layer('B.CrtYd', Box.new(vs/2-rw/2 -u5 -juts, -u5, prev_x+rw/2 + u5 +juts, sl+u5+vs+vs/2))
         puts "u5=#{u5}, juts=#{juts}"
       end
+      generate_kicad_device l, w, n
     end
     
     def library_cell name, libname, layout
@@ -343,7 +348,7 @@ module OpenRule1um_v2
       end
     end
     
-    def insert_via_pcont via_index, pcont_index, x, y, rw, vs
+    def insert_via_pcont via_index, pcont_index, x, y, rw, vs, kicad_pad=nil
       nv = (rw/vs).to_i
       #if nv*vs != rw
       #  nv = nv + 1
@@ -354,6 +359,9 @@ module OpenRule1um_v2
         if with_via
           via = instantiate via_index, x, y, cell
           inst = cell.insert(via)
+          @kicad &amp;&amp; via1_to_kicad_TH(kicad_pad, Box.new(vs).move(x, y))
+        else
+          @kicad &amp;&amp; ml1_to_kicad_Fcu(kicad_pad, Box.new(vs).move(x, y))
         end
         pcont = instantiate pcont_index, x, y, cell
         inst = cell.insert(pcont)
@@ -392,6 +400,7 @@ module OpenRule1um_v2
       set_rval(sheet_resistance * l / w)
     end
     def produce_impl
+      @kicad = ''
       rw = (w/layout.dbu).to_i
       rl = (l/layout.dbu).to_i
       s = 2.0.um # via size (fixed)
@@ -438,8 +447,8 @@ module OpenRule1um_v2
           cell.shapes(pol_index).insert(Path::new(points, rw, vs, vs))
           cell.shapes(res_index).insert(Path::new(points, rw, (vs-cs)/2, (vs-cs)/2))
           # [[offset, vs/2], [offset, r+vs]].each{|x, y|
-          [[offset, vs/2], [offset, r+cs+vs/2]].each{|x, y|
-            insert_via_pcont via_index, pcont_index, x-juts/2, y, rw, vs
+          [[offset, vs/2, 1], [offset, r+cs+vs/2, 2]].each{|x, y, kicad_pad|
+            insert_via_pcont via_index, pcont_index, x-juts/2, y, rw, vs, kicad_pad
             cell.shapes(m1_index).insert(Box::new(x-rw/2, y-vs/2, x+rw/2, y+vs/2))
             cell.shapes(m2_index).insert(Box::new(x-rw/2, y-vs/2, x+rw/2, y+vs/2))
           }
@@ -452,8 +461,8 @@ module OpenRule1um_v2
           cell.shapes(pol_index).insert(Path::new(points, rw, vs, vs))
           cell.shapes(res_index).insert(Path::new(points, rw, (vs-cs)/2, (vs-cs)/2))
           # [[offset, vs/2+(sl-r)], [offset, sl+vs]].each{|x, y|
-          [[offset, cs+sl+vs/2], [offset, sl-r+vs/2]].each{|x, y|
-            insert_via_pcont via_index, pcont_index, x+juts/2, y, rw, vs
+          [[offset, cs+sl+vs/2, 1], [offset, sl-r+vs/2, 2]].each{|x, y, kicad_pad|
+            insert_via_pcont via_index, pcont_index, x+juts/2, y, rw, vs, kicad_pad
             cell.shapes(m1_index).insert(Box::new(x-rw/2, y-vs/2, x+rw/2, y+vs/2))
             cell.shapes(m2_index).insert(Box::new(x-rw/2, y-vs/2, x+rw/2, y+vs/2))
           }
@@ -464,6 +473,7 @@ module OpenRule1um_v2
         end
         prev_x = offset  
       end
+      generate_kicad_device l, w, n
     end
   end
   class HR_poly &lt; Resistor
@@ -494,6 +504,7 @@ module OpenRule1um_v2
     end 
 
     def produce_impl
+      @kicad = ''
       rw = (w/layout.dbu).to_i
       rl = (l/layout.dbu).to_i
       s = 2.0.um # via size (fixed)
@@ -542,8 +553,8 @@ module OpenRule1um_v2
           cell.shapes(pol_index).insert(Path::new(points, rw, vs+u1, vs+u1))
           cell.shapes(res_index).insert(Path::new(points, rw, 0, 0))
           # [[offset, vs/2], [offset, r+vs]].each{|x, y|
-          [[offset, vs/2], [offset, vs+u1+r+u1+vs/2]].each{|x, y|
-            insert_via_pcont via_index, pcont_index, x-juts/2, y, rw, vs
+          [[offset, vs/2, 1], [offset, vs+u1+r+u1+vs/2, 2]].each{|x, y, kicad_pad|
+            insert_via_pcont via_index, pcont_index, x-juts/2, y, rw, vs, kicad_pad
             cell.shapes(m1_index).insert(Box::new(x-rw/2, y-vs/2, x+rw/2, y+vs/2))
             cell.shapes(m2_index).insert(Box::new(x-rw/2, y-vs/2, x+rw/2, y+vs/2)) if with_via
             # ell.shapes(phd2_index).insert(Box::new(x-rw/2-u1, y-vs/2-u1, x+rw/2+u1, y+vs/2+u1))
@@ -558,8 +569,8 @@ module OpenRule1um_v2
           cell.shapes(pol_index).insert(Path::new(points, rw, vs+u1, vs+u1))
           cell.shapes(res_index).insert(Path::new(points, rw, 0, 0))
           # [[offset, vs/2+(sl-r)], [offset, sl+vs]].each{|x, y|
-          [[offset, vs+u1+sl+u1+vs/2], [offset, vs/2+sl-r]].each{|x, y|
-            insert_via_pcont via_index, pcont_index, x+juts/2, y, rw, vs
+          [[offset, vs+u1+sl+u1+vs/2, 1], [offset, vs/2+sl-r, 2]].each{|x, y, kicad_pad|
+            insert_via_pcont via_index, pcont_index, x+juts/2, y, rw, vs, kicad_pad
             cell.shapes(m1_index).insert(Box::new(x-rw/2, y-vs/2, x+rw/2, y+vs/2))
             cell.shapes(m2_index).insert(Box::new(x-rw/2, y-vs/2, x+rw/2, y+vs/2)) if with_via
             # cell.shapes(phd2_index).insert(Box::new(x-rw/2-u1, y-vs/2-u1, x+rw/2+u1, y+vs/2+u1))
@@ -575,6 +586,7 @@ module OpenRule1um_v2
       u5 = (5.0.um/layout.dbu).to_i
       cell.shapes(hpol_index).insert(Box.new(vs/2-rw/2 -u5 -juts, -u5, prev_x+rw/2 + u5 +juts, sl+u5+vs+vs/2+u1+u1+u1))
       puts "u5=#{u5}, juts=#{juts}"
+      generate_kicad_device l, w, n
     end
   end
   
