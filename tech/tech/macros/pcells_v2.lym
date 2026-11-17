@@ -16,7 +16,7 @@
  <interpreter>ruby</interpreter>
  <dsl-interpreter-name/>
  <text># coding: cp932
-# OpenRule1um_v2 PCells v3.0 Nov. 16, 2026 copy right by S. Moriyama (Anagix Corporation)
+# OpenRule1um_v2 PCells v3.01 Nov. 17, 2026 copy right by S. Moriyama (Anagix Corporation)
 #   based on OpenRule1um v1.97 Sep. 20, 2021 copy left by S. Moriyama (Anagix Corporation)
 #
 # Naming convention
@@ -257,7 +257,7 @@ module OpenRule1um_v2
       produce_impl_core layer=nil
     end
     
-    def produce_impl_core hpol_layer=nil
+    def produce_impl_core hpol_layer=nil # not used!
       @kicad = ''
       rw = (w/layout.dbu).to_i
       rl = (l/layout.dbu).to_i
@@ -552,6 +552,7 @@ module OpenRule1um_v2
           points = [Point::new(offset, vs+u1), Point::new(offset, vs+u1+r)]
           cell.shapes(pol_index).insert(Path::new(points, rw, vs+u1, vs+u1))
           cell.shapes(res_index).insert(Path::new(points, rw, 0, 0))
+          @kicad &amp;&amp; passive_shape_to_kicad(Box.new(*path2box(points, rw)))
           # [[offset, vs/2], [offset, r+vs]].each{|x, y|
           [[offset, vs/2, 1], [offset, vs+u1+r+u1+vs/2, 2]].each{|x, y, kicad_pad|
             insert_via_pcont via_index, pcont_index, x-juts/2, y, rw, vs, kicad_pad
@@ -568,6 +569,7 @@ module OpenRule1um_v2
           points = [Point::new(offset, vs+u1+sl), Point::new(offset, vs+u1+sl-r)]
           cell.shapes(pol_index).insert(Path::new(points, rw, vs+u1, vs+u1))
           cell.shapes(res_index).insert(Path::new(points, rw, 0, 0))
+          @kicad &amp;&amp; passive_shape_to_kicad(Box.new(*path2box(points, rw)))
           # [[offset, vs/2+(sl-r)], [offset, sl+vs]].each{|x, y|
           [[offset, vs+u1+sl+u1+vs/2, 1], [offset, vs/2+sl-r, 2]].each{|x, y, kicad_pad|
             insert_via_pcont via_index, pcont_index, x+juts/2, y, rw, vs, kicad_pad
@@ -585,6 +587,7 @@ module OpenRule1um_v2
       end
       u5 = (5.0.um/layout.dbu).to_i
       cell.shapes(hpol_index).insert(Box.new(vs/2-rw/2 -u5 -juts, -u5, prev_x+rw/2 + u5 +juts, sl+u5+vs+vs/2+u1+u1+u1))
+      @kicad &amp;&amp; fill_none_kicad_layer('F.CrtYd', Box.new(vs/2-rw/2 -u5 -juts, -u5, prev_x+rw/2 + u5 +juts, sl+u5+vs+vs/2+u1+u1+u1))
       puts "u5=#{u5}, juts=#{juts}"
       generate_kicad_device l, w, n
     end
