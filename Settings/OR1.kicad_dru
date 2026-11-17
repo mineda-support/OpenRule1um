@@ -1,0 +1,19 @@
+(version 1)
+
+(rule "ML1_Constraints"
+    (layer "F.Cu")
+    (constraint track_width (min 1.0mm) (opt 1.0mm) (max 1.0mm))
+    (constraint clearance (min 1.0mm))
+    (constraint zone_connection solid))
+
+(rule "ML2_Constraints"
+    (layer "B.Cu")
+    (constraint track_width (min1.0mm) (opt 1.0mm) (max 1.0mm))
+    (constraint clearance (min 1.0mm))
+    (constraint zone_connection solid))
+
+(rule "Via1_Constraints"
+    (condition "A.Type == 'Via'")
+    (constraint via_diameter (min 1.0mm) (opt 1.0mm) (max 1.0mm))
+    (constraint hole_size (min 0.5mm) (opt 0.5mm) (max 0.5mm))
+    (constraint clearance (min 1.5mm)))
