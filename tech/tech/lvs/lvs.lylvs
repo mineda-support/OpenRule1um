@@ -15,9 +15,10 @@
  <menu-path>tools_menu.lvs.end</menu-path>
  <interpreter>dsl</interpreter>
  <dsl-interpreter-name>lvs-dsl-xml</dsl-interpreter-name>
- <text># LVS for OpenRule1um v1.43 Aug. 16th, 2024 copy left by S. Moriyama (Anagix Corporation) and C.Takahashhi
+ <text># LVS for OpenRule1um v1.44 Nov. 19th, 2026 copy left by S. Moriyama (Anagix Corporation) and C.Takahashhi
 #        previous version: v1.3 July 16th, 2022
-#  v1.43: 2024/08/16  Mpoly_cap adds
+#  v1.43: 2024/08/16  Mpoly_cap added
+#  v1.44: 2026/11/19  Pdiff_cap extraction
 deep
 report_lvs
 
@@ -164,6 +165,7 @@ connect(pol_not_res, cnt)
 connect(hpol_not_res, cnt)
 connect(pol_overlapping_cap, pol_not_res)
 connect(diff_overlapping_cap, diff)
+connect(diff_overlapping_cap, cnt)
 #connect(cap, cnt)
 connect(cap_ml1, ml1)
 connect(cap_ml2, ml2)
@@ -198,6 +200,18 @@ mi.lvs(reference, output, lvs_data, l2n_data, is_deep?) {
     lvs_settings
   end
   compare
+=begin
+  go = MinedaCommon::ConvertPCells.new 'IP62'
+  go.do_convert_library_cells({
+    routing_scale_factor: $rsf || 1.7, pcell_scale_factor: $psf || 1,
+    path: {'ML1' =&gt; {path_width_scale: $ml1_pws || 1.0, path_width_min: $ml1_pwm || 1.8, path_width_max: $ml1_pwx},
+            'ML2' =&gt; {path_width_scale: $ml2_pws || 1.0 , path_width_min: $ml2_pwm || 2.4, path_width_max: $ml2_pwx},
+            'POL' =&gt; {path_width_scale: $pol_pws || 1.0, path_width_min: $pol_pwm || 1.0, path_width_max: $pol_pwx}},
+    force_defaults: [:dg, :use_nwel, :dlwlmn, :dlwlmp, :with_via] #, :with_nsubcont, :with_psubcont]
+  })
+  mi.gds_to_pcb(lvs_data, ml1, ml2, go.rsf, go.cv.name.sub('.GDS', '_pads.yaml'))
+=end
+#mi.gds_to_pcb(lvs_ata, ml1, ml2, 1.0)
 }
 mi.make_symlink output
 </text>
