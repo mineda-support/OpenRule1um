@@ -1,0 +1,5 @@
+(sym_lib_table
+  (lib (name LTspiceLIB)(type KiCad)(uri ${KIPRJMOD}/LTspiceLIB.kicad_sym)(options "")(descr ""))
+  (lib (name MinedaLIB)(type KiCad)(uri ${KIPRJMOD}/MinedaLIB.kicad_sym)(options "")(descr ""))
+  (lib (name symbols)(type KiCad)(uri ${KIPRJMOD}/symbols.kicad_sym)(options "")(descr ""))
+)

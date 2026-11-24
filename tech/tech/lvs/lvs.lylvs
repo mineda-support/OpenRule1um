@@ -211,7 +211,9 @@ mi.lvs(reference, output, lvs_data, l2n_data, is_deep?) {
   })
   mi.gds_to_pcb(lvs_data, ml1, ml2, go.rsf, go.cv.name.sub('.GDS', '_pads.yaml'))
 =end
-#mi.gds_to_pcb(lvs_ata, ml1, ml2, 1.0)
+  if File.extname(File.dirname(source.path)) == '.pretty'
+    mi.gds_to_pcb(lvs_data, ml1, ml2, 1.0)
+  end
 }
 mi.make_symlink output
 </text>

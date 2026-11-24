@@ -1,0 +1,537 @@
+(kicad_sch 
+  (version 20260306)  
+  (generator "eeschema" )  
+  (generator_version "10.0" )  
+  (uuid "7dce6212-358f-41d3-b0d0-3df568f896a0" )  
+  (paper "A4" )  
+  (lib_symbols 
+    (symbol "symbols:PMOS"  
+      (pin_numbers 
+        (hide yes) )  
+      (property "Reference"  "M"  
+        (at 3.81 -2.54 0) )  
+      (symbol "PMOS_0_1"  
+        (polyline 
+          (pts 
+            (xy 1.905 1.905)  
+            (xy 1.905 -1.905) ) )  
+        (polyline 
+          (pts 
+            (xy 2.54 -1.905)  
+            (xy 5.08 -1.905) ) )  
+        (polyline 
+          (pts 
+            (xy 5.08 -1.905)  
+            (xy 5.08 -3.81) ) )  
+        (polyline 
+          (pts 
+            (xy 2.54 1.905)  
+            (xy 5.08 1.905) ) )  
+        (polyline 
+          (pts 
+            (xy 5.08 1.905)  
+            (xy 5.08 3.81) ) )  
+        (polyline 
+          (pts 
+            (xy 0.0 -0.0)  
+            (xy 1.905 -0.0) ) )  
+        (polyline 
+          (pts 
+            (xy 4.572 2.54)  
+            (xy 3.302 1.905) ) )  
+        (polyline 
+          (pts 
+            (xy 3.302 1.905)  
+            (xy 4.572 1.27) ) )  
+        (polyline 
+          (pts 
+            (xy 2.54 -0.0)  
+            (xy 5.08 -0.0) ) )  
+        (polyline 
+          (pts 
+            (xy 2.54 -1.905)  
+            (xy 2.54 1.905) ) ) )  
+      (symbol "PMOS_1_1"  
+        (pin input line 
+          (at 5.08 3.81 0)  
+          (length 0.635)  
+          (name "S" )  
+          (number "3" ) )  
+        (pin input line 
+          (at 0.0 -0.0 0)  
+          (length 0.635)  
+          (name "G" )  
+          (number "2" ) )  
+        (pin input line 
+          (at 5.08 -0.0 0)  
+          (length 0.635)  
+          (name "B" )  
+          (number "4" ) )  
+        (pin input line 
+          (at 5.08 -3.81 0)  
+          (length 0.635)  
+          (name "D" )  
+          (number "1" ) ) ) )  
+    (symbol "symbols:NMOS"  
+      (pin_numbers 
+        (hide yes) )  
+      (property "Reference"  "M"  
+        (at 3.81 -2.54 0) )  
+      (symbol "NMOS_0_1"  
+        (polyline 
+          (pts 
+            (xy 2.54 1.905)  
+            (xy 5.08 1.905) ) )  
+        (polyline 
+          (pts 
+            (xy 5.08 1.905)  
+            (xy 5.08 3.81) ) )  
+        (polyline 
+          (pts 
+            (xy 2.54 -1.905)  
+            (xy 2.54 1.905) ) )  
+        (polyline 
+          (pts 
+            (xy 3.81 -1.27)  
+            (xy 5.08 -1.905) ) )  
+        (polyline 
+          (pts 
+            (xy 5.08 -1.905)  
+            (xy 3.81 -2.54) ) )  
+        (polyline 
+          (pts 
+            (xy 0.0 -0.0)  
+            (xy 1.905 -0.0) ) )  
+        (polyline 
+          (pts 
+            (xy 1.905 1.905)  
+            (xy 1.905 -1.905) ) )  
+        (polyline 
+          (pts 
+            (xy 2.54 -0.0)  
+            (xy 5.08 -0.0) ) )  
+        (polyline 
+          (pts 
+            (xy 2.54 -1.905)  
+            (xy 5.08 -1.905) ) )  
+        (polyline 
+          (pts 
+            (xy 5.08 -1.905)  
+            (xy 5.08 -3.81) ) ) )  
+      (symbol "NMOS_1_1"  
+        (pin input line 
+          (at 5.08 -3.81 0)  
+          (length 0.635)  
+          (name "S" )  
+          (number "3" ) )  
+        (pin input line 
+          (at 0.0 -0.0 0)  
+          (length 0.635)  
+          (name "G" )  
+          (number "2" ) )  
+        (pin input line 
+          (at 5.08 -0.0 0)  
+          (length 0.635)  
+          (name "B" )  
+          (number "4" ) )  
+        (pin input line 
+          (at 5.08 3.81 0)  
+          (length 0.635)  
+          (name "D" )  
+          (number "1" ) ) ) ) )  
+  (wire 
+    (pts 
+      (xy 172.72 96.52)  
+      (xy 185.42 96.52) ) )  
+  (wire 
+    (pts 
+      (xy 172.72 96.52)  
+      (xy 172.72 88.9) ) )  
+  (wire 
+    (pts 
+      (xy 172.72 104.14)  
+      (xy 172.72 96.52) ) )  
+  (wire 
+    (pts 
+      (xy 109.22 72.39)  
+      (xy 144.78 72.39) ) )  
+  (wire 
+    (pts 
+      (xy 109.22 105.41)  
+      (xy 109.22 72.39) ) )  
+  (wire 
+    (pts 
+      (xy 109.22 105.41)  
+      (xy 124.46 105.41) ) )  
+  (wire 
+    (pts 
+      (xy 101.6 105.41)  
+      (xy 109.22 105.41) ) )  
+  (wire 
+    (pts 
+      (xy 165.1 107.95)  
+      (xy 167.64 107.95) ) )  
+  (wire 
+    (pts 
+      (xy 165.1 107.95)  
+      (xy 165.1 96.52) ) )  
+  (wire 
+    (pts 
+      (xy 165.1 85.09)  
+      (xy 167.64 85.09) ) )  
+  (wire 
+    (pts 
+      (xy 165.1 96.52)  
+      (xy 165.1 85.09) ) )  
+  (wire 
+    (pts 
+      (xy 149.86 96.52)  
+      (xy 165.1 96.52) ) )  
+  (wire 
+    (pts 
+      (xy 149.86 96.52)  
+      (xy 149.86 88.9) ) )  
+  (wire 
+    (pts 
+      (xy 149.86 99.06)  
+      (xy 149.86 96.52) ) )  
+  (wire 
+    (pts 
+      (xy 149.86 114.3)  
+      (xy 149.86 99.06) ) )  
+  (wire 
+    (pts 
+      (xy 129.54 99.06)  
+      (xy 149.86 99.06) ) )  
+  (wire 
+    (pts 
+      (xy 129.54 101.6)  
+      (xy 129.54 99.06) ) )  
+  (wire 
+    (pts 
+      (xy 149.86 81.28)  
+      (xy 149.86 76.2) ) )  
+  (wire 
+    (pts 
+      (xy 172.72 107.95)  
+      (xy 175.26 107.95) ) )  
+  (wire 
+    (pts 
+      (xy 172.72 114.3)  
+      (xy 175.26 114.3) ) )  
+  (wire 
+    (pts 
+      (xy 172.72 119.38)  
+      (xy 172.72 114.3) ) )  
+  (wire 
+    (pts 
+      (xy 172.72 114.3)  
+      (xy 172.72 111.76) ) )  
+  (wire 
+    (pts 
+      (xy 175.26 114.3)  
+      (xy 175.26 107.95) ) )  
+  (wire 
+    (pts 
+      (xy 129.54 111.76)  
+      (xy 132.08 111.76) ) )  
+  (wire 
+    (pts 
+      (xy 129.54 111.76)  
+      (xy 129.54 109.22) ) )  
+  (wire 
+    (pts 
+      (xy 132.08 111.76)  
+      (xy 132.08 105.41) ) )  
+  (wire 
+    (pts 
+      (xy 129.54 105.41)  
+      (xy 132.08 105.41) ) )  
+  (wire 
+    (pts 
+      (xy 149.86 118.11)  
+      (xy 152.4 118.11) ) )  
+  (wire 
+    (pts 
+      (xy 152.4 124.46)  
+      (xy 152.4 118.11) ) )  
+  (wire 
+    (pts 
+      (xy 149.86 124.46)  
+      (xy 152.4 124.46) ) )  
+  (wire 
+    (pts 
+      (xy 149.86 124.46)  
+      (xy 149.86 121.92) ) )  
+  (wire 
+    (pts 
+      (xy 129.54 127.0)  
+      (xy 149.86 127.0) ) )  
+  (wire 
+    (pts 
+      (xy 149.86 127.0)  
+      (xy 149.86 124.46) ) )  
+  (wire 
+    (pts 
+      (xy 129.54 127.0)  
+      (xy 129.54 111.76) ) )  
+  (wire 
+    (pts 
+      (xy 149.86 132.08)  
+      (xy 149.86 127.0) ) )  
+  (wire 
+    (pts 
+      (xy 175.26 85.09)  
+      (xy 175.26 78.74) ) )  
+  (wire 
+    (pts 
+      (xy 172.72 85.09)  
+      (xy 175.26 85.09) ) )  
+  (wire 
+    (pts 
+      (xy 172.72 78.74)  
+      (xy 175.26 78.74) ) )  
+  (wire 
+    (pts 
+      (xy 149.86 72.39)  
+      (xy 152.4 72.39) ) )  
+  (wire 
+    (pts 
+      (xy 152.4 72.39)  
+      (xy 152.4 66.04) ) )  
+  (wire 
+    (pts 
+      (xy 149.86 66.04)  
+      (xy 152.4 66.04) ) )  
+  (wire 
+    (pts 
+      (xy 149.86 66.04)  
+      (xy 149.86 63.5) ) )  
+  (wire 
+    (pts 
+      (xy 152.4 85.09)  
+      (xy 152.4 72.39) ) )  
+  (wire 
+    (pts 
+      (xy 149.86 85.09)  
+      (xy 152.4 85.09) ) )  
+  (wire 
+    (pts 
+      (xy 149.86 68.58)  
+      (xy 149.86 66.04) ) )  
+  (wire 
+    (pts 
+      (xy 172.72 81.28)  
+      (xy 172.72 78.74) ) )  
+  (wire 
+    (pts 
+      (xy 172.72 73.66)  
+      (xy 172.72 78.74) ) )  
+  (wire 
+    (pts 
+      (xy 114.3 85.09)  
+      (xy 144.78 85.09) ) )  
+  (wire 
+    (pts 
+      (xy 114.3 118.11)  
+      (xy 114.3 85.09) ) )  
+  (wire 
+    (pts 
+      (xy 114.3 118.11)  
+      (xy 144.78 118.11) ) )  
+  (wire 
+    (pts 
+      (xy 101.6 118.11)  
+      (xy 114.3 118.11) ) )  
+  (junction 
+    (at 172.72 96.52) )  
+  (junction 
+    (at 109.22 72.39) )  
+  (junction 
+    (at 109.22 105.41) )  
+  (junction 
+    (at 165.1 107.95) )  
+  (junction 
+    (at 165.1 96.52) )  
+  (junction 
+    (at 165.1 85.09) )  
+  (junction 
+    (at 149.86 96.52) )  
+  (junction 
+    (at 149.86 99.06) )  
+  (junction 
+    (at 129.54 99.06) )  
+  (junction 
+    (at 175.26 107.95) )  
+  (junction 
+    (at 172.72 114.3) )  
+  (junction 
+    (at 175.26 114.3) )  
+  (junction 
+    (at 129.54 111.76) )  
+  (junction 
+    (at 132.08 111.76) )  
+  (junction 
+    (at 132.08 105.41) )  
+  (junction 
+    (at 152.4 118.11) )  
+  (junction 
+    (at 152.4 124.46) )  
+  (junction 
+    (at 149.86 124.46) )  
+  (junction 
+    (at 149.86 127.0) )  
+  (junction 
+    (at 129.54 127.0) )  
+  (junction 
+    (at 175.26 85.09) )  
+  (junction 
+    (at 175.26 78.74) )  
+  (junction 
+    (at 172.72 78.74) )  
+  (junction 
+    (at 152.4 72.39) )  
+  (junction 
+    (at 152.4 66.04) )  
+  (junction 
+    (at 149.86 66.04) )  
+  (junction 
+    (at 152.4 85.09) )  
+  (junction 
+    (at 114.3 85.09) )  
+  (junction 
+    (at 114.3 118.11) )  
+  (symbol 
+    (lib_id "symbols:PMOS" )  
+    (at 167.64 85.09 0)  
+    (uuid "cd9f00ce-2693-4db9-9fbe-423cdee5d864" )  
+    (property "Reference"  "M4"  
+      (at 171.45 87.63000000000001 0) )  
+    (property "Sim.Params"  "pch w=6u l=1u"  
+      (at 171.45 91.44 0)  
+      (effects 
+        (font 
+          (size 0.635 0.635) ) ) )  
+    (instances 
+      (project "or21"  
+        (path "/7dce6212-358f-41d3-b0d0-3df568f896a0"  
+          (reference "M4" )  
+          (unit 1) ) ) ) )  
+  (symbol 
+    (lib_id "symbols:PMOS" )  
+    (at 144.78 72.39 0)  
+    (uuid "dd7e6df8-e6a4-4ca9-9167-891313edb9fa" )  
+    (property "Reference"  "M3"  
+      (at 148.59 74.93 0) )  
+    (property "Sim.Params"  "pch w=6u l=1u"  
+      (at 148.59 78.74 0)  
+      (effects 
+        (font 
+          (size 0.635 0.635) ) ) )  
+    (instances 
+      (project "or21"  
+        (path "/7dce6212-358f-41d3-b0d0-3df568f896a0"  
+          (reference "M3" )  
+          (unit 1) ) ) ) )  
+  (symbol 
+    (lib_id "symbols:PMOS" )  
+    (at 144.78 85.09 0)  
+    (uuid "809f8e46-b974-45b0-9d97-1043b6b9006f" )  
+    (property "Reference"  "M2"  
+      (at 148.59 87.63000000000001 0) )  
+    (property "Sim.Params"  "pch w=6u l=1u"  
+      (at 148.59 91.44 0)  
+      (effects 
+        (font 
+          (size 0.635 0.635) ) ) )  
+    (instances 
+      (project "or21"  
+        (path "/7dce6212-358f-41d3-b0d0-3df568f896a0"  
+          (reference "M2" )  
+          (unit 1) ) ) ) )  
+  (symbol 
+    (lib_id "symbols:NMOS" )  
+    (at 167.64 107.95 0)  
+    (uuid "d7deae1e-1f76-4adc-bad5-e19906dba30e" )  
+    (property "Reference"  "M5"  
+      (at 171.45 110.49000000000001 0) )  
+    (property "Sim.Params"  "nch w=2u l=1u"  
+      (at 171.45 114.3 0)  
+      (effects 
+        (font 
+          (size 0.635 0.635) ) ) )  
+    (instances 
+      (project "or21"  
+        (path "/7dce6212-358f-41d3-b0d0-3df568f896a0"  
+          (reference "M5" )  
+          (unit 1) ) ) ) )  
+  (symbol 
+    (lib_id "symbols:NMOS" )  
+    (at 144.78 118.11 0)  
+    (uuid "dc8ab36f-8071-479b-8dab-6b7a22e247b7" )  
+    (property "Reference"  "M1"  
+      (at 148.59 120.65 0) )  
+    (property "Sim.Params"  "nch w=2u l=1u"  
+      (at 148.59 124.46 0)  
+      (effects 
+        (font 
+          (size 0.635 0.635) ) ) )  
+    (instances 
+      (project "or21"  
+        (path "/7dce6212-358f-41d3-b0d0-3df568f896a0"  
+          (reference "M1" )  
+          (unit 1) ) ) ) )  
+  (symbol 
+    (lib_id "symbols:NMOS" )  
+    (at 124.46000000000001 105.41 0)  
+    (uuid "5800444f-e59d-4061-b4c7-f297dcc1d070" )  
+    (property "Reference"  "M0"  
+      (at 128.27 107.95 0) )  
+    (property "Sim.Params"  "nch w=2u l=1u"  
+      (at 128.27 111.75999999999999 0)  
+      (effects 
+        (font 
+          (size 0.635 0.635) ) ) )  
+    (instances 
+      (project "or21"  
+        (path "/7dce6212-358f-41d3-b0d0-3df568f896a0"  
+          (reference "M0" )  
+          (unit 1) ) ) ) )  
+  (hierarchical_label "Y"  
+    (shape output)  
+    (at 185.42 96.52 180)  
+    (effects 
+      (justify left) ) )  
+  (hierarchical_label "VSS"  
+    (shape bidirectional)  
+    (at 172.72 119.38 90)  
+    (effects 
+      (justify left) ) )  
+  (hierarchical_label "VDD"  
+    (shape bidirectional)  
+    (at 172.72 73.66 270)  
+    (effects 
+      (justify left) ) )  
+  (hierarchical_label "VSS"  
+    (shape bidirectional)  
+    (at 149.86 132.08 90)  
+    (effects 
+      (justify left) ) )  
+  (hierarchical_label "VDD"  
+    (shape bidirectional)  
+    (at 149.86 63.5 270)  
+    (effects 
+      (justify left) ) )  
+  (hierarchical_label "B"  
+    (shape input)  
+    (at 101.6 118.11 0)  
+    (effects 
+      (justify right) ) )  
+  (hierarchical_label "A"  
+    (shape input)  
+    (at 101.6 105.41 0)  
+    (effects 
+      (justify right) ) )  
+  (label "net068"  
+    (at 165.1 107.95 0)  
+    (uuid "332c9de8-062e-4afd-b709-df6bb61062d2" ) ) )
